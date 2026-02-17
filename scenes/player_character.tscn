@@ -6,7 +6,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o0kji"]
 size = Vector2(80, 80)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_6r27q"]
+
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=745586083]
+collision_mask = 2
 script = ExtResource("1_1t15j")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1015337729]
@@ -14,3 +17,12 @@ texture = ExtResource("1_1r7in")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1105964065]
 shape = SubResource("RectangleShape2D_o0kji")
+
+[node name="SpellArea" type="Area2D" parent="." unique_id=1849101770]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpellArea" unique_id=683556967]
+scale = Vector2(11, 11)
+shape = SubResource("CircleShape2D_6r27q")

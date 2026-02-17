@@ -1,8 +1,31 @@
 [gd_scene format=3 uid="uid://csuv4ggkgli0a"]
 
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="1_o0kji"]
+[ext_resource type="Script" uid="uid://bnc43ast6xynm" path="res://scenes/game_scene/levels/room_0.gd" id="1_osjax"]
+[ext_resource type="PackedScene" uid="uid://bm6whwfcqfswl" path="res://scenes/box.tscn" id="2_kftw1"]
 
 [node name="Room0" type="Node" unique_id=1049756891]
+script = ExtResource("1_osjax")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("1_o0kji")]
-position = Vector2(639, 338)
+unique_name_in_owner = true
+position = Vector2(641, 469)
+
+[node name="Boxes" type="Node" parent="." unique_id=1511247701]
+unique_name_in_owner = true
+
+[node name="Box1" parent="Boxes" unique_id=1157890300 instance=ExtResource("2_kftw1")]
+position = Vector2(552, 469)
+sync_to_physics = false
+
+[node name="Box2" parent="Boxes" unique_id=582044693 instance=ExtResource("2_kftw1")]
+position = Vector2(642, 377)
+sync_to_physics = false
+
+[node name="Box3" parent="Boxes" unique_id=865122217 instance=ExtResource("2_kftw1")]
+position = Vector2(731, 469)
+sync_to_physics = false
+
+[node name="Box4" parent="Boxes" unique_id=247174486 instance=ExtResource("2_kftw1")]
+position = Vector2(641, 559)
+sync_to_physics = false
