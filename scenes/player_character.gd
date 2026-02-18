@@ -6,6 +6,9 @@ const SPEED = 100.0
 
 
 @onready var spell_area: Area2D = %SpellArea
+@onready var spell_area_sprite = %SpellAreaSprite
+@onready var hurtbox_collision_shape: CollisionShape2D = %HurtBoxCollisionShape
+@onready var invincibility_timer: Timer = %InvincibilityTimer
 
 
 func _ready() -> void:
@@ -24,15 +27,55 @@ func _input(event: InputEvent) -> void:
 		SpellSystem.append_to_spell_sequence(&"cast_down")
 
 
-func get_spell_receivers() -> Array[Node2D]:
+func take_damage() -> void:
+	print("taking damage!")
+	hurtbox_collision_shape.set_deferred("disabled", true)
+	invincibility_timer.start()
+
+
+func _get_spell_receivers() -> Array[Node2D]:
 	return spell_area.get_overlapping_bodies()
 
 
 func _on_push_casted() -> void:
-	for spell_receiver: Node2D in get_spell_receivers():
+	var spell_area_sprite_scale = spell_area_sprite.scale
+	spell_area_sprite.scale = Vector2.ZERO
+
+	var tween = create_tween()
+
+	tween \
+		.tween_property(
+			spell_area_sprite,
+			"scale",
+			spell_area_sprite_scale,
+			0.1
+		).from_current()
+
+	tween \
+		.parallel() \
+		.tween_property(
+			spell_area_sprite, 
+			"modulate",
+			Color(1, 1, 1, 0.19), 
+			0.1
+		).from_current()
+
+	tween \
+		.tween_property(
+			spell_area_sprite, 
+			"modulate",
+			Color.TRANSPARENT, 
+			0.25
+		).from(Color(1, 1, 1, 0.19))
+
+	for spell_receiver: Node2D in _get_spell_receivers():
 		if spell_receiver.has_method(&"receive_push"):
 			spell_receiver.receive_push( \
 				global_position. \
 				direction_to(spell_receiver.global_position). \
 				normalized() \
 			)
+
+
+func _on_invincibility_timer_timeout() -> void:
+		hurtbox_collision_shape.set_deferred("disabled", false)

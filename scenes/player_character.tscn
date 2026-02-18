@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://c3h1iry5g8kun" path="res://scenes/player_character.gd" id="1_1t15j"]
 [ext_resource type="Texture2D" uid="uid://dfwc1mnvi8oj2" path="res://assets/textures/tile_0084.png" id="2_6r27q"]
+[ext_resource type="Texture2D" uid="uid://cdi8hdp1gnfcx" path="res://assets/textures/circle.svg" id="3_kww55"]
+[ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="4_4h0vy"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o0kji"]
-size = Vector2(16, 16)
+[sub_resource type="CircleShape2D" id="CircleShape2D_kww55"]
+radius = 7.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6r27q"]
 radius = 2.8240407
@@ -17,13 +19,39 @@ script = ExtResource("1_1t15j")
 texture = ExtResource("2_6r27q")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1105964065]
-shape = SubResource("RectangleShape2D_o0kji")
+shape = SubResource("CircleShape2D_kww55")
 
 [node name="SpellArea" type="Area2D" parent="." unique_id=1849101770]
 unique_name_in_owner = true
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpellArea" unique_id=683556967]
 scale = Vector2(11, 11)
 shape = SubResource("CircleShape2D_6r27q")
+
+[node name="SpellAreaSprite" type="Sprite2D" parent="SpellArea" unique_id=1079399476]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_kww55")
+
+[node name="Sprite2D" type="Sprite2D" parent="SpellArea" unique_id=1431324103]
+modulate = Color(1, 1, 1, 0.19607843)
+position = Vector2(-9.536743e-07, -9.536743e-07)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_4h0vy")
+
+[node name="HurtBoxArea" type="Area2D" parent="." unique_id=1029853410]
+collision_layer = 16
+collision_mask = 0
+
+[node name="HurtBoxCollisionShape" type="CollisionShape2D" parent="HurtBoxArea" unique_id=1685140459]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_kww55")
+
+[node name="InvincibilityTimer" type="Timer" parent="." unique_id=415396756]
+unique_name_in_owner = true
+one_shot = true
+
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

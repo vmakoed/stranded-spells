@@ -4,6 +4,9 @@ extends Node
 signal level_won(level_path : String)
 
 
+const NEXT_LEVEL_PATH = "res://scenes/game_scene/levels/room_1.tscn"
+
+
 @onready var boxes: Node = %Boxes
 @onready var door: Door = %Door
 
@@ -27,4 +30,4 @@ func _on_box_destroyed() -> void:
 
 func _on_win_area_body_entered(body: Node2D) -> void:
 	if body is Player:
-		level_won.emit()
+		level_won.emit(NEXT_LEVEL_PATH)

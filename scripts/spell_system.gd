@@ -4,10 +4,14 @@ extends Node
 signal push_casted
 
 
-var spell_sequence = []
-var spell_starter_actions = [&"cast_down"]
+var spell_sequence := []
+var spell_starter_actions: Array
 var push_spell: Array[StringName] = [&"cast_down", &"cast_down"]
-var spells: Array[Array] = [push_spell]
+var spells = [push_spell]
+
+
+func _ready() -> void:
+	spell_starter_actions = spells.map(func(element: Array): return element.front())
 
 
 func append_to_spell_sequence(action: StringName) -> void:
@@ -28,7 +32,7 @@ func _continue_casting(spell: Array[StringName]) -> void:
 
 
 func _restart_casting(action) -> void:
-	if spell_starter_actions.has(action):
+	if action in spell_starter_actions:
 		spell_sequence.clear()
 		append_to_spell_sequence(action)
 
