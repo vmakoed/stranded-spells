@@ -25,3 +25,6 @@ Exports/
 
 # Plugin specific
 addons/script-ide/*
+
+# Builds
+builds/
