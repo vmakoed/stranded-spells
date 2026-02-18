@@ -26,6 +26,7 @@ ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloa
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
@@ -108,6 +109,7 @@ locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/t
 
 2d_physics/layer_1="player"
 2d_physics/layer_2="box"
+2d_physics/layer_3="world"
 
 [maaacks_game_template]
 

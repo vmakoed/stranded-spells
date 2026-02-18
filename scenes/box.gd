@@ -2,12 +2,17 @@ class_name Box
 extends AnimatableBody2D
 
 
+signal destroyed
+
+
+const PUSH_DISTANCE = 10.0
+
+
 @onready var sprite: Sprite2D = %Sprite2D
 
 
 func receive_push(direction: Vector2) -> void:
-	var push_distance = 75.0
-	var position_vector = direction * push_distance
+	var position_vector = direction * PUSH_DISTANCE
 	var tween = create_tween()
 
 	tween \
@@ -32,4 +37,5 @@ func receive_push(direction: Vector2) -> void:
 		.set_trans(Tween.TRANS_CUBIC) \
 		.set_ease(Tween.EASE_IN)
 		
+	destroyed.emit()
 	tween.tween_callback(queue_free)

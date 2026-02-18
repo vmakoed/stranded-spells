@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bm6whwfcqfswl"]
 
-[ext_resource type="Texture2D" uid="uid://07xquv7cydw5" path="res://assets/textures/tile_grey.png" id="1_3inec"]
 [ext_resource type="Script" uid="uid://d6a7kj7jt5i3" path="res://scenes/box.gd" id="1_ks2v0"]
+[ext_resource type="Texture2D" uid="uid://c7f7o5oervpke" path="res://assets/textures/tile_0072.png" id="2_ks2v0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ks2v0"]
-size = Vector2(80, 80)
+size = Vector2(16, 16)
 
 [node name="Box" type="AnimatableBody2D" unique_id=582044693]
 collision_layer = 2
@@ -12,7 +12,7 @@ script = ExtResource("1_ks2v0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=263838718]
 unique_name_in_owner = true
-texture = ExtResource("1_3inec")
+texture = ExtResource("2_ks2v0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=485971513]
 shape = SubResource("RectangleShape2D_ks2v0")
