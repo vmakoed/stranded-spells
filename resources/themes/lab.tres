@@ -45,6 +45,12 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_034sy"]
+bg_color = Color(0.08235294, 0.11764706, 0.14117648, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wep1q"]
+bg_color = Color(0.99272305, 0.34547332, 0.34209558, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywrjj"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 3
@@ -168,6 +174,9 @@ default_font = SubResource("FontVariation_i860b")
 Button/styles/hover = SubResource("StyleBoxFlat_4b4gg")
 Button/styles/normal = SubResource("StyleBoxFlat_l51yu")
 Button/styles/pressed = SubResource("StyleBoxFlat_e7ejt")
+HealthBar/base_type = &"ProgressBar"
+HealthBar/styles/background = SubResource("StyleBoxFlat_034sy")
+HealthBar/styles/fill = SubResource("StyleBoxFlat_wep1q")
 LeftStaminaBar/base_type = &"ProgressBar"
 LeftStaminaBar/styles/background = SubResource("StyleBoxFlat_ywrjj")
 LeftStaminaBar/styles/fill = SubResource("StyleBoxFlat_tyerd")

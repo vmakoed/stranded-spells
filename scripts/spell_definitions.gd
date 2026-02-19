@@ -30,11 +30,11 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
         SPELL_ACTIONS[SpellDirection.DOWN], 
     ],
     Spell.FIRE: [
+        SPELL_ACTIONS[SpellDirection.RIGHT],
+        SPELL_ACTIONS[SpellDirection.DOWN],
         SPELL_ACTIONS[SpellDirection.UP],
-        SPELL_ACTIONS[SpellDirection.RIGHT],
-        SPELL_ACTIONS[SpellDirection.LEFT],
-        SPELL_ACTIONS[SpellDirection.RIGHT],
-        SPELL_ACTIONS[SpellDirection.DOWN], 
+        SPELL_ACTIONS[SpellDirection.DOWN],
+        SPELL_ACTIONS[SpellDirection.LEFT], 
     ]
 }
 
@@ -61,3 +61,7 @@ const SPELL_ENEMY_COLORS: Dictionary[Spell, Color] = {
     Spell.SHOCK: Color.YELLOW,
     Spell.FIRE: Color.RED
 }
+
+
+static func get_spell_sequence(spell: Spell) -> Array:
+    return SPELL_SEQUENCES[spell]

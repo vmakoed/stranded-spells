@@ -9,20 +9,26 @@ const MAX_HEALTH = 300.0
 const SPEED = 100.0
 const CAST_DURATION = 0.1
 const CAST_FADEOUT_DURATION = 0.25
+const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 
 
 @onready var spell_area: Area2D = %SpellArea
 @onready var spell_area_sprite = %SpellAreaSprite
 @onready var hurtbox_collision_shape: CollisionShape2D = %HurtBoxCollisionShape
 @onready var invincibility_timer: Timer = %InvincibilityTimer
+@onready var character_sprite: Sprite2D = %CharacterSprite
 
 
-var health: float
+var health: float: set = _set_health
+var invincible := false
+var invincibility_tween: Tween 
+var initial_sprite_modulate: Color
 
 
 func _ready() -> void:
 	health = MAX_HEALTH
 	SpellSystem.spell_casted.connect(_on_spell_casted)
+	initial_sprite_modulate = character_sprite.modulate
 
 
 func _physics_process(_delta: float) -> void:
@@ -39,14 +45,34 @@ func _input(event: InputEvent) -> void:
 
 
 func take_damage(damage: float) -> void:
-	health -= damage
+	if not invincible: 
+		health -= damage
+		_blink_sprite()
+		
 
 	if health <= 0:
 		destroyed.emit()
 		queue_free()
 	else:
+		invincible = true
 		hurtbox_collision_shape.set_deferred("disabled", true)
 		invincibility_timer.start()
+
+
+func _set_health(new_value: float) -> void:
+	health = new_value
+	GameUIBridge.health_changed.emit(health, MAX_HEALTH)
+
+
+func _blink_sprite() -> void:
+	invincibility_tween = create_tween()
+	invincibility_tween.set_loops()
+	invincibility_tween.tween_property(
+		character_sprite,
+		"modulate",
+		Color(initial_sprite_modulate - Color(0, 0, 0, 1)),
+		INVINCIBILITY_BLINK_FREQUENCY
+	).from(initial_sprite_modulate)
 
 
 func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
@@ -115,4 +141,7 @@ func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:
 
 
 func _on_invincibility_timer_timeout() -> void:
-		hurtbox_collision_shape.set_deferred("disabled", false)
+	if invincibility_tween: invincibility_tween.stop()
+	character_sprite.modulate = initial_sprite_modulate
+	hurtbox_collision_shape.set_deferred("disabled", false)
+	invincible = false

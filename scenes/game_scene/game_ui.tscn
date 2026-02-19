@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://clxs5gwisal5m"]
 
+[ext_resource type="Script" uid="uid://sinj4pmcnuuy" path="res://scenes/game_scene/game_ui.gd" id="1_7aihr"]
 [ext_resource type="Script" uid="uid://cyh0d64pfygbl" path="res://addons/maaacks_game_template/base/nodes/utilities/pause_menu_controller.gd" id="1_bmy5n"]
 [ext_resource type="PackedScene" uid="uid://wm2nmhcpk5qp" path="res://scenes/windows/pause_menu_layer.tscn" id="2_7aihr"]
 [ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_game_template/base/nodes/music_players/background_music_player.tscn" id="3_3re04"]
@@ -12,6 +13,10 @@
 [ext_resource type="PackedScene" uid="uid://c2c3f1ywjlrff" path="res://scenes/loading_screen/level_loading_screen.tscn" id="10_0v86b"]
 [ext_resource type="Script" uid="uid://bnhmjy582mlax" path="res://scenes/game_scene/configurable_sub_viewport.gd" id="11_ulq3g"]
 [ext_resource type="Script" uid="uid://bmcttnpvsi36l" path="res://scenes/game_scene/game_timer.gd" id="12_gpor5"]
+[ext_resource type="Texture2D" uid="uid://co6dms25h23so" path="res://resources/input_down_texture.tres" id="14_3re04"]
+[ext_resource type="Texture2D" uid="uid://dri6xxl20aw3v" path="res://resources/input_left_texture.tres" id="15_ukb12"]
+[ext_resource type="Texture2D" uid="uid://b3sm4xxywgc1u" path="res://resources/input_up_texture.tres" id="16_i7m4m"]
+[ext_resource type="Texture2D" uid="uid://bscptfvidja4n" path="res://resources/input_right_texture.tres" id="17_rkfhe"]
 
 [node name="GameUI" type="Control" unique_id=672765824]
 layout_mode = 3
@@ -20,6 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7aihr")
 
 [node name="PauseMenuController" type="Node" parent="." unique_id=952321244 node_paths=PackedStringArray("focused_viewport")]
 script = ExtResource("1_bmy5n")
@@ -70,3 +76,182 @@ script = ExtResource("11_ulq3g")
 
 [node name="GameTimer" type="Node" parent="." unique_id=885493004]
 script = ExtResource("12_gpor5")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1433462905]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer" unique_id=2118804925]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/PanelContainer2" unique_id=1683256926]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"HealthBar"
+show_percentage = false
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="GridContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer" unique_id=550799427]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/PanelContainer/GridContainer" unique_id=181528453]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer" unique_id=158832340]
+layout_mode = 2
+
+[node name="PushLabel" type="Label" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer/HBoxContainer" unique_id=1100364248]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "PUSH"
+
+[node name="PushPromptsContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer/HBoxContainer" unique_id=890173215]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer/HBoxContainer/PushPromptsContainer" unique_id=1756834117]
+layout_mode = 2
+texture = ExtResource("14_3re04")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer/HBoxContainer/PushPromptsContainer" unique_id=1044494417]
+layout_mode = 2
+texture = ExtResource("14_3re04")
+expand_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/PanelContainer/GridContainer" unique_id=1780096254]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer2" unique_id=1039923341]
+layout_mode = 2
+
+[node name="FrostLabel" type="Label" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer2/HBoxContainer" unique_id=626423182]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "FROST"
+
+[node name="FrostPromptsContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer2/HBoxContainer" unique_id=1563058637]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=728593527]
+layout_mode = 2
+texture = ExtResource("15_ukb12")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=1682972040]
+layout_mode = 2
+texture = ExtResource("16_i7m4m")
+expand_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=2024322960]
+layout_mode = 2
+texture = ExtResource("17_rkfhe")
+expand_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=1474936601]
+layout_mode = 2
+texture = ExtResource("14_3re04")
+expand_mode = 2
+
+[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/PanelContainer/GridContainer" unique_id=538953800]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer3" unique_id=1093786843]
+layout_mode = 2
+
+[node name="ShockLabel" type="Label" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer3/HBoxContainer" unique_id=1453897208]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "SHOCK"
+
+[node name="ShockPromptsContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer3/HBoxContainer" unique_id=1343203918]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=383740465]
+layout_mode = 2
+texture = ExtResource("16_i7m4m")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=721786875]
+layout_mode = 2
+texture = ExtResource("15_ukb12")
+expand_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=150022550]
+layout_mode = 2
+texture = ExtResource("17_rkfhe")
+expand_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=633031807]
+layout_mode = 2
+texture = ExtResource("14_3re04")
+expand_mode = 2
+
+[node name="PanelContainer4" type="PanelContainer" parent="MarginContainer/PanelContainer/GridContainer" unique_id=1940308992]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4" unique_id=732131166]
+layout_mode = 2
+
+[node name="FireLabel" type="Label" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4/HBoxContainer" unique_id=1928122359]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "FIRE"
+
+[node name="FirePromptsContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4/HBoxContainer" unique_id=1379222336]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=1730930645]
+layout_mode = 2
+texture = ExtResource("17_rkfhe")
+expand_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=383904674]
+layout_mode = 2
+texture = ExtResource("14_3re04")
+expand_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=1381526919]
+layout_mode = 2
+texture = ExtResource("16_i7m4m")
+expand_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=282701892]
+layout_mode = 2
+texture = ExtResource("14_3re04")
+expand_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=1113485341]
+layout_mode = 2
+texture = ExtResource("15_ukb12")
+expand_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/PanelContainer/GridContainer" unique_id=1781401629]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/GridContainer" unique_id=223667814]
+layout_mode = 2

@@ -5,13 +5,13 @@ extends CharacterBody2D
 signal destroyed
 
 
-const MAX_HEALTH = 100.0
-const FREEZE_PUSH_DAMAGE = 50.0
-const SHOCK_DAMAGE = 25.0
+const MAX_HEALTH = 50.0
+const FREEZE_PUSH_DAMAGE = 25.0
+const SHOCK_DAMAGE = 20.0
 const FIRE_DAMAGE = 30.0
 const PLAYER_DAMAGE_PER_HIT = 50.0
 
-const SPEED = 50.0
+const SPEED = 30.0
 const MINIMUM_DISTANCE = 10.0
 const MAX_PUSH_SPEED = 50.0
 const PUSH_SPEED_THRESHOLD = 1.0
@@ -54,7 +54,6 @@ func _physics_process(delta: float) -> void:
 
 
 func take_damage(damage: float) -> void:
-	print("enemy taking ", damage, " damage!")
 	health -= damage
 
 	if health <= 0:
@@ -148,6 +147,9 @@ func _decay_push_velocity(delta) -> void:
 
 
 func _on_attack_area_area_entered(area: Area2D) -> void:
+	if frozen:
+		return
+
 	var hurtbox_owner = area.get_parent()
 
 	if hurtbox_owner.has_method("take_damage"):
