@@ -1,8 +1,7 @@
 extends Node
 
 
-signal push_casted
-signal frost_casted
+signal spell_casted
 
 
 var spell_sequence := []
@@ -11,7 +10,7 @@ var spell_starter_actions: Array
 
 
 func _ready() -> void:
-	spells = SpellDefinitions.SPELLS.values()
+	spells = SpellDefinitions.SPELL_SEQUENCES.values()
 	spell_starter_actions = \
 		spells.map(
 			func(element: Array): return element.front()
@@ -46,6 +45,4 @@ func _is_spell_matching(spell: Array) -> bool:
 
 
 func _on_spell_casted(spell) -> void:
-	match spell:
-		SpellDefinitions.SPELLS[SpellDefinitions.Spell.PUSH]: push_casted.emit()
-		SpellDefinitions.SPELLS[SpellDefinitions.Spell.FROST]: frost_casted.emit()
+	spell_casted.emit(SpellDefinitions.SPELL_SEQUENCES.find_key(spell))

@@ -32,7 +32,7 @@ shape = SubResource("CircleShape2D_6r27q")
 
 [node name="SpellAreaSprite" type="Sprite2D" parent="SpellArea" unique_id=1079399476]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0)
+modulate = Color(0, 0, 1, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_kww55")
 

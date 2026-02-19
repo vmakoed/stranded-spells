@@ -14,11 +14,10 @@ const CAST_FADEOUT_DURATION = 0.25
 
 
 func _ready() -> void:
-	SpellSystem.push_casted.connect(_on_push_casted)
-	SpellSystem.frost_casted.connect(_on_frost_casted)
+	SpellSystem.spell_casted.connect(_on_spell_casted)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * SPEED
 
@@ -37,26 +36,26 @@ func take_damage() -> void:
 	invincibility_timer.start()
 
 
-func _push_spell_receivers() -> void:
+func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
+	var receiving_method := SpellDefinitions.SPELL_RECEIVING_METHODS[spell]
+
 	for spell_receiver: Node2D in _get_spell_receivers():
-			if spell_receiver.has_method(&"receive_push"):
-				spell_receiver.receive_push( \
-					global_position. \
-					direction_to(spell_receiver.global_position). \
-					normalized() \
-				)
+		if spell_receiver.has_method(receiving_method):
+			spell_receiver.call( 
+				receiving_method, \
+				global_position. \
+				direction_to(spell_receiver.global_position). \
+				normalized() \
+			)
 
 
 func _get_spell_receivers() -> Array[Node2D]:
 	return spell_area.get_overlapping_bodies()
 
 
-func _on_push_casted() -> void:
+func _reveal_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
 	var spell_area_sprite_scale = spell_area_sprite.scale
 	spell_area_sprite.scale = Vector2.ZERO
-
-	var tween = create_tween()
-
 	tween \
 		.tween_property(
 			spell_area_sprite,
@@ -70,23 +69,27 @@ func _on_push_casted() -> void:
 		.tween_property(
 			spell_area_sprite, 
 			"modulate",
-			Color(1, 1, 1, 0.19), 
+			SpellDefinitions.SPELL_COLORS[spell], 
 			CAST_DURATION
 		).from_current()
 
-	tween.tween_callback(_push_spell_receivers)
 
+func _hide_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
 	tween \
 		.tween_property(
 			spell_area_sprite, 
 			"modulate",
 			Color.TRANSPARENT, 
 			CAST_FADEOUT_DURATION
-		).from(Color(1, 1, 1, 0.19))
+		).from(SpellDefinitions.SPELL_COLORS[spell])
 
 
-func _on_frost_casted() -> void:
-	print("frost casted")
+func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:
+	var tween = create_tween()
+	_reveal_spell_area(tween, spell)
+	tween.tween_callback(_resolve_spell_effects.bind(spell))
+	_hide_spell_area(tween, spell)
+
 
 func _on_invincibility_timer_timeout() -> void:
 		hurtbox_collision_shape.set_deferred("disabled", false)
