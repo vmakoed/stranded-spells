@@ -2,12 +2,14 @@ extends Node
 
 
 signal level_won(level_path : String)
+signal level_lost
 
 
 @onready var door_up: Door = %DoorUp
 @onready var door_down: Door = %DoorDown
 @onready var enemy_trigger_area: Area2D = %EnemyTriggerArea
 @onready var enemies: Node = %Enemies
+@onready var player_character: Player = %PlayerCharacter
 
 
 var enemies_count : int
@@ -15,6 +17,7 @@ var enemies_count : int
 
 func _ready() -> void:
 	door_down.open() 
+	player_character.destroyed.connect(func(): level_lost.emit())
 	enemies_count = enemies.get_child_count()
 
 	for enemy: Enemy in enemies.get_children():

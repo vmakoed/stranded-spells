@@ -2,6 +2,10 @@ class_name Player
 extends CharacterBody2D
 
 
+signal destroyed
+
+
+const MAX_HEALTH = 300.0
 const SPEED = 100.0
 const CAST_DURATION = 0.1
 const CAST_FADEOUT_DURATION = 0.25
@@ -13,7 +17,11 @@ const CAST_FADEOUT_DURATION = 0.25
 @onready var invincibility_timer: Timer = %InvincibilityTimer
 
 
+var health: float
+
+
 func _ready() -> void:
+	health = MAX_HEALTH
 	SpellSystem.spell_casted.connect(_on_spell_casted)
 
 
@@ -30,10 +38,15 @@ func _input(event: InputEvent) -> void:
 			SpellSystem.append_to_spell_sequence(action)
 
 
-func take_damage() -> void:
-	print("player taking damage!")
-	hurtbox_collision_shape.set_deferred("disabled", true)
-	invincibility_timer.start()
+func take_damage(damage: float) -> void:
+	health -= damage
+
+	if health <= 0:
+		destroyed.emit()
+		queue_free()
+	else:
+		hurtbox_collision_shape.set_deferred("disabled", true)
+		invincibility_timer.start()
 
 
 func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
