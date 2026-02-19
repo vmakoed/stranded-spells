@@ -27,21 +27,26 @@ var initial_modulate: Color
 @onready var freeze_timer: Timer = %FreezeTimer
 
 
+var tween: Tween
+
+
 func _ready() -> void:
 	initial_modulate = modulate
 
 
 func _physics_process(delta: float) -> void:
-	if not player: return
-	
-	_apply_chase_velocity(delta)
 	_apply_push_velocity()
 	_decay_push_velocity(delta)
+	
+	if player: 
+		_apply_chase_velocity(delta)
+	
 	move_and_slide()
 
 
 func take_damage() -> void:
 	print("enemy taking damage!")
+	tween.stop()
 	destroyed.emit()
 	queue_free()
 
@@ -61,7 +66,7 @@ func receive_frost(_direction: Vector2) -> void:
 
 
 func receive_shock(_direction: Vector2) -> void:
-	var tween = create_tween()
+	tween = create_tween()
 	tween \
 		.tween_property(
 			self, 
@@ -78,6 +83,19 @@ func receive_shock(_direction: Vector2) -> void:
 			initial_modulate, 
 			0.05
 		).from(SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.SHOCK])
+
+func receive_fire(_direction: Vector2) -> void:
+	modulate = SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.FIRE]
+	tween = create_tween()
+	tween.set_loops(3)
+	tween.tween_callback(take_damage)
+	tween \
+		.tween_property(
+			self, 
+			"modulate",
+			initial_modulate, 
+			1.0
+		).from(SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.FIRE])
 
 
 func _unfreeze() -> void:

@@ -22,7 +22,6 @@ region_enabled = true
 region_rect = Rect2(0, 170, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1620642035]
-visible = false
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_5uy6h")
 
@@ -31,7 +30,6 @@ collision_layer = 8
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1621170768]
-visible = false
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_md0e3")
 
