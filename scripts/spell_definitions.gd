@@ -25,9 +25,11 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	]
 }
 
+
+const SPELL_COLOR_TRANSPARENCY =  0.19
 const SPELL_COLORS: Dictionary[Spell, Color] = {
-    Spell.PUSH: Color(1, 1, 1, 0.19),
-    Spell.FROST: Color(0, 0.80784315, 0.81960785, 0.19)
+    Spell.PUSH: Color(1, 1, 1, SPELL_COLOR_TRANSPARENCY),
+    Spell.FROST: Color(0, 1, 1, SPELL_COLOR_TRANSPARENCY)
 }
 
 

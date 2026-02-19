@@ -31,7 +31,7 @@ func _input(event: InputEvent) -> void:
 
 
 func take_damage() -> void:
-	print("taking damage!")
+	print("player taking damage!")
 	hurtbox_collision_shape.set_deferred("disabled", true)
 	invincibility_timer.start()
 
@@ -79,7 +79,7 @@ func _hide_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
 		.tween_property(
 			spell_area_sprite, 
 			"modulate",
-			Color.TRANSPARENT, 
+			SpellDefinitions.SPELL_COLORS[spell] - Color(0, 0, 0, SpellDefinitions.SPELL_COLOR_TRANSPARENCY), 
 			CAST_FADEOUT_DURATION
 		).from(SpellDefinitions.SPELL_COLORS[spell])
 

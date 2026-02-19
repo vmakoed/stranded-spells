@@ -26,6 +26,7 @@ func _on_enemy_destroyed() -> void:
 
 	if enemies_count == 0:
 		door_up.open()
+		door_down.open()
 
 
 func _on_win_area_body_entered(body: Node2D) -> void:
@@ -34,7 +35,7 @@ func _on_win_area_body_entered(body: Node2D) -> void:
 
 
 func _on_enemy_trigger_area_body_entered(body: Node2D) -> void:
-	if body is Player:
+	if enemies_count > 0 and body is Player:
 		door_down.close()
 		_follow_player(body)
 
