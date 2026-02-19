@@ -11,9 +11,9 @@ const SHOCK_DAMAGE = 20.0
 const FIRE_DAMAGE = 10.0
 const PLAYER_DAMAGE_PER_HIT = 50.0
 
-const SPEED = 30.0
+const SPEED = 20.0
 const MINIMUM_DISTANCE = 10.0
-const MAX_PUSH_SPEED = 50.0
+const MAX_PUSH_SPEED = 25.0
 const PUSH_SPEED_THRESHOLD = 1.0
 const CHASE_ACCELERATION = 40.0
 const CHASE_SLOWDOWN = 5.0
@@ -128,6 +128,8 @@ func _apply_chase_velocity(delta) -> void:
 		return
 
 	if _is_chasing_player():
+		var chase_direction := global_position.direction_to(player.global_position)
+		if chase_direction.is_zero_approx(): return
 		chase_velocity = global_position.direction_to(player.global_position) * SPEED
 		velocity = lerp(velocity, chase_velocity, delta * CHASE_ACCELERATION)
 	else:

@@ -10,6 +10,8 @@ const SPEED = 100.0
 const CAST_DURATION = 0.1
 const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
+const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
+const CAST_FRAME_FREEZE_DURATION = 0.15
 
 
 @onready var spell_area: Area2D = %SpellArea
@@ -139,7 +141,17 @@ func _hide_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
 func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:
 	var tween = create_tween()
 	_reveal_spell_area(tween, spell)
-	tween.tween_callback(_resolve_spell_effects.bind(spell))
+	tween.tween_callback(func():
+		_resolve_spell_effects(spell)
+		Engine.time_scale = CAST_FRAME_FREEZE_TIME_SCALE
+		get_tree() \
+			.create_timer(
+				CAST_FRAME_FREEZE_DURATION, true, false, true
+			).timeout \
+			.connect(
+				func(): Engine.time_scale = 1.0
+			)
+	)
 	_hide_spell_area(tween, spell)
 
 

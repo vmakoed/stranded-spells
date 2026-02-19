@@ -68,6 +68,7 @@ stretch_shrink = 4
 
 [node name="ConfigurableSubViewport" type="SubViewport" parent="ViewportContainer" unique_id=463877145]
 handle_input_locally = false
+snap_2d_transforms_to_pixel = true
 audio_listener_enable_2d = true
 audio_listener_enable_3d = true
 size = Vector2i(320, 180)
@@ -249,9 +250,3 @@ expand_mode = 2
 layout_mode = 2
 texture = ExtResource("15_ukb12")
 expand_mode = 2
-
-[node name="Control" type="Control" parent="MarginContainer/PanelContainer/GridContainer" unique_id=1781401629]
-layout_mode = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/GridContainer" unique_id=223667814]
-layout_mode = 2

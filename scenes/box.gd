@@ -5,7 +5,7 @@ extends AnimatableBody2D
 signal destroyed
 
 
-const PUSH_DISTANCE = 10.0
+const PUSH_DISTANCE = 20.0
 
 
 @onready var sprite: Sprite2D = %Sprite2D

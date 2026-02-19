@@ -12,7 +12,8 @@ signal level_lost
 @onready var player_character: Player = %PlayerCharacter
 
 
-var enemies_count : int
+var enemies_count: int
+var combat_started := false
 
 
 func _ready() -> void:
@@ -38,11 +39,12 @@ func _on_win_area_body_entered(body: Node2D) -> void:
 
 
 func _on_enemy_trigger_area_body_entered(body: Node2D) -> void:
-	if enemies_count > 0 and body is Player:
+	if enemies_count > 0 and body is Player and !combat_started:
 		door_down.close()
 		_follow_player(body)
 
 
 func _follow_player(player: Player) -> void:
+	combat_started = true
 	for enemy: Enemy in enemies.get_children():
 		enemy.player = player

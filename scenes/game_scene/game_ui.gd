@@ -25,6 +25,7 @@ func _ready() -> void:
 
 
 func _reset_prompts() -> void:
+	if tween: tween.stop()
 	for prompt_container in spell_prompt_containers.values():
 		for prompt in prompt_container.get_children():
 			prompt.modulate = INITIAL_PROMPT_MODULATE
