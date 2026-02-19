@@ -190,5 +190,8 @@ position = Vector2(128, 66)
 [node name="Enemy2" parent="Enemies" unique_id=2058921711 instance=ExtResource("5_iphhf")]
 position = Vector2(192, 66)
 
+[node name="Enemy3" parent="Enemies" unique_id=70675394 instance=ExtResource("5_iphhf")]
+position = Vector2(160, 114)
+
 [connection signal="body_entered" from="WinArea" to="." method="_on_win_area_body_entered"]
 [connection signal="body_entered" from="EnemyTriggerArea" to="." method="_on_enemy_trigger_area_body_entered"]

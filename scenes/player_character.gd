@@ -39,7 +39,7 @@ func take_damage() -> void:
 func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
 	var receiving_method := SpellDefinitions.SPELL_RECEIVING_METHODS[spell]
 
-	for spell_receiver: Node2D in _get_spell_receivers():
+	for spell_receiver: Node2D in _get_spell_receivers(spell):
 		if spell_receiver.has_method(receiving_method):
 			spell_receiver.call( 
 				receiving_method, \
@@ -49,8 +49,16 @@ func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
 			)
 
 
-func _get_spell_receivers() -> Array[Node2D]:
-	return spell_area.get_overlapping_bodies()
+func _get_spell_receivers(spell: SpellDefinitions.Spell) -> Array:
+	var bodies_in_spell_area := spell_area.get_overlapping_bodies()
+
+	if bodies_in_spell_area.is_empty():
+		return []
+
+	if spell in SpellDefinitions.ROOM_WIDE_SPELLS:
+		return get_tree().get_nodes_in_group("enemies")
+	else:
+		return bodies_in_spell_area
 
 
 func _reveal_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
@@ -69,19 +77,21 @@ func _reveal_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
 		.tween_property(
 			spell_area_sprite, 
 			"modulate",
-			SpellDefinitions.SPELL_COLORS[spell], 
+			SpellDefinitions.SPELL_AREA_COLORS[spell], 
 			CAST_DURATION
 		).from_current()
 
 
 func _hide_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
+	var transparency_difference: Color = Color(0, 0, 0, SpellDefinitions.SPELL_COLOR_TRANSPARENCY)
+	
 	tween \
 		.tween_property(
 			spell_area_sprite, 
 			"modulate",
-			SpellDefinitions.SPELL_COLORS[spell] - Color(0, 0, 0, SpellDefinitions.SPELL_COLOR_TRANSPARENCY), 
+			SpellDefinitions.SPELL_AREA_COLORS[spell] - transparency_difference, 
 			CAST_FADEOUT_DURATION
-		).from(SpellDefinitions.SPELL_COLORS[spell])
+		).from(SpellDefinitions.SPELL_AREA_COLORS[spell])
 
 
 func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:

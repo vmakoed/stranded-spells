@@ -13,6 +13,7 @@ const CHASE_ACCELERATION = 40.0
 const CHASE_SLOWDOWN = 5.0
 const FREEZE_SLOWDOWN = 50.0
 const PUSH_DECAY = 10.0
+const SHOCK_MODULATION_DURATION = 0.75
 
 
 var player: Player
@@ -55,8 +56,28 @@ func receive_push(direction: Vector2) -> void:
 
 func receive_frost(_direction: Vector2) -> void:
 	frozen = true
-	modulate = Color.CYAN
+	modulate = SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.FROST]
 	freeze_timer.start()
+
+
+func receive_shock(_direction: Vector2) -> void:
+	var tween = create_tween()
+	tween \
+		.tween_property(
+			self, 
+			"modulate",
+			SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.SHOCK], 
+			0.05
+		).from_current()
+	tween.tween_callback(take_damage)
+	tween.tween_interval(SHOCK_MODULATION_DURATION)
+	tween \
+		.tween_property(
+			self, 
+			"modulate",
+			initial_modulate, 
+			0.05
+		).from(SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.SHOCK])
 
 
 func _unfreeze() -> void:
