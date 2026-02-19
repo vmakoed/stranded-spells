@@ -8,7 +8,7 @@ signal destroyed
 const MAX_HEALTH = 50.0
 const FREEZE_PUSH_DAMAGE = 25.0
 const SHOCK_DAMAGE = 20.0
-const FIRE_DAMAGE = 30.0
+const FIRE_DAMAGE = 10.0
 const PLAYER_DAMAGE_PER_HIT = 50.0
 
 const SPEED = 30.0
@@ -20,22 +20,26 @@ const CHASE_SLOWDOWN = 5.0
 const FREEZE_SLOWDOWN = 50.0
 const PUSH_DECAY = 10.0
 
-const SHOCK_MODULATION_DURATION = 0.75
-const BURN_MODULATION_DURATION = 1.0
-const BURN_LOOPS = 3
-
+const SHOCK_MODULATION_DURATION = 0.25
+const PUSH_MODULATION_DURATION = 0.25
+const BURN_LOOP_DURATION = 1.0
+const BURNS_ASSIGNED_BY_FIRE = 3
+const DAMAGE_BLINKS = 3
 
 var health: float
+var dead := false
 var player: Player
 var chase_velocity = Vector2.ZERO
 var push_velocity = Vector2.ZERO
 var frozen := false
+var burns_left := 0
 var initial_modulate: Color
 var tween: Tween
 
 
 @onready var attack_cooldown_timer: Timer = %AttackCooldownTimer
 @onready var freeze_timer: Timer = %FreezeTimer
+@onready var burn_timer: Timer = %BurnTimer
 
 
 func _ready() -> void:
@@ -54,10 +58,13 @@ func _physics_process(delta: float) -> void:
 
 
 func take_damage(damage: float) -> void:
+	if dead: return
+
 	health -= damage
 
 	if health <= 0:
 		if tween: tween.stop()
+		dead = true
 		destroyed.emit()
 		queue_free()
 	else:
@@ -67,6 +74,7 @@ func take_damage(damage: float) -> void:
 func receive_push(direction: Vector2) -> void:
 	if frozen:
 		take_damage(FREEZE_PUSH_DAMAGE)
+		_blink_damage(SpellDefinitions.Spell.PUSH)
 
 	push_velocity = direction * MAX_PUSH_SPEED
 
@@ -80,40 +88,33 @@ func receive_frost(_direction: Vector2) -> void:
 
 
 func receive_shock(_direction: Vector2) -> void:
-	if tween: tween.stop()
+	take_damage(SHOCK_DAMAGE)
+	_blink_damage(SpellDefinitions.Spell.SHOCK)
 
-	tween = create_tween()
-	tween \
-		.tween_property(
-			self, 
-			"modulate",
-			SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.SHOCK], 
-			0.05
-		).from_current()
-	tween.tween_callback(take_damage.bind(SHOCK_DAMAGE))
-	tween.tween_interval(SHOCK_MODULATION_DURATION)
-	tween \
-		.tween_property(
-			self, 
-			"modulate",
-			initial_modulate, 
-			0.05
-		).from(SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.SHOCK])
 
 func receive_fire(_direction: Vector2) -> void:
-	if tween: tween.stop()
+	take_damage(FIRE_DAMAGE)
+	burns_left = BURNS_ASSIGNED_BY_FIRE
+	burn_timer.start()
+	_blink_damage(SpellDefinitions.Spell.FIRE, BURNS_ASSIGNED_BY_FIRE, burn_timer.wait_time)
 
-	modulate = SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.FIRE]
+
+func _blink_damage(
+	spell: SpellDefinitions.Spell, 
+	damage_blinks = DAMAGE_BLINKS, 
+	blink_duration = PUSH_MODULATION_DURATION
+) -> void:
+	if tween: tween.stop()
+	modulate = SpellDefinitions.SPELL_ENEMY_COLORS[spell]
 	tween = create_tween()
-	tween.set_loops(BURN_LOOPS)
-	tween.tween_callback(take_damage.bind(FIRE_DAMAGE))
-	tween \
-		.tween_property(
-			self, 
-			"modulate",
-			initial_modulate, 
-			BURN_MODULATION_DURATION
-		).from(SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.FIRE])
+	tween.set_loops(damage_blinks)
+	tween.tween_property(
+		self,
+		"modulate",
+		Color(modulate - Color.BLACK),
+		blink_duration
+	).from(modulate)
+	tween.finished.connect(func(): modulate = initial_modulate)
 
 
 func _unfreeze() -> void:
@@ -160,3 +161,12 @@ func _on_freeze_timer_timeout() -> void:
 	if health <= 0.0:
 		return
 	_unfreeze()
+
+
+func _on_burn_timer_timeout() -> void:
+	burns_left -= 1
+
+	if burns_left == 0:
+		burn_timer.stop()
+	else:
+		take_damage(FIRE_DAMAGE)

@@ -73,7 +73,7 @@ func _blink_sprite() -> void:
 	invincibility_tween.tween_property(
 		character_sprite,
 		"modulate",
-		Color(initial_sprite_modulate - Color(0, 0, 0, 1)),
+		Color(initial_sprite_modulate - Color.BLACK),
 		INVINCIBILITY_BLINK_FREQUENCY
 	).from(initial_sprite_modulate)
 
