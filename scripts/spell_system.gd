@@ -2,16 +2,20 @@ extends Node
 
 
 signal push_casted
+signal frost_casted
 
 
 var spell_sequence := []
+var spells: Array
 var spell_starter_actions: Array
-var push_spell: Array[StringName] = [&"cast_down", &"cast_down"]
-var spells = [push_spell]
 
 
 func _ready() -> void:
-	spell_starter_actions = spells.map(func(element: Array): return element.front())
+	spells = SpellDefinitions.SPELLS.values()
+	spell_starter_actions = \
+		spells.map(
+			func(element: Array): return element.front()
+		)
 
 
 func append_to_spell_sequence(action: StringName) -> void:
@@ -25,7 +29,7 @@ func append_to_spell_sequence(action: StringName) -> void:
 		_restart_casting(action)
 
 
-func _continue_casting(spell: Array[StringName]) -> void:
+func _continue_casting(spell: Array) -> void:
 	if spell.size() == spell_sequence.size():
 		_on_spell_casted(spell)
 		spell_sequence.clear()
@@ -37,14 +41,11 @@ func _restart_casting(action) -> void:
 		append_to_spell_sequence(action)
 
 
-func _is_spell_matching(spell: Array[StringName]) -> bool:
+func _is_spell_matching(spell: Array) -> bool:
 	return spell.slice(0, spell_sequence.size()) == spell_sequence
 
 
 func _on_spell_casted(spell) -> void:
 	match spell:
-		push_spell: _on_push_casted()
-
-
-func _on_push_casted() -> void:
-	push_casted.emit()
+		SpellDefinitions.SPELLS[SpellDefinitions.Spell.PUSH]: push_casted.emit()
+		SpellDefinitions.SPELLS[SpellDefinitions.Spell.FROST]: frost_casted.emit()
