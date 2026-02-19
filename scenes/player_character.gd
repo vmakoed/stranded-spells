@@ -21,6 +21,7 @@ const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 
 var health: float: set = _set_health
 var invincible := false
+var dead := false
 var invincibility_tween: Tween 
 var initial_sprite_modulate: Color
 
@@ -45,12 +46,14 @@ func _input(event: InputEvent) -> void:
 
 
 func take_damage(damage: float) -> void:
+	if dead: return
+
 	if not invincible: 
 		health -= damage
 		_blink_sprite()
 		
-
 	if health <= 0:
+		dead = true
 		destroyed.emit()
 		queue_free()
 	else:
