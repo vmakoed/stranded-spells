@@ -18,7 +18,6 @@ func _ready_cleared_level() -> void:
 
 func _ready_active_level() -> void:
 	super()
-	player_character.destroyed.connect(func(): level_lost.emit())
 	enemies_count = enemies.get_child_count()
 
 	for enemy: Enemy in enemies.get_children():
