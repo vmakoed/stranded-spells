@@ -5,8 +5,12 @@ signal level_won(level_path: String)
 signal level_lost
 
 
+@export_file("*.tscn") var exit_down_path: String
+
+
 @onready var door_up: Door = %DoorUp
 @onready var door_down: Door = %DoorDown
+
 @onready var player_spawn_down_marker: Marker2D = %PlayerSpawnDownMarker
 @onready var player_character: Player = %PlayerCharacter
 
@@ -85,6 +89,6 @@ func _on_exit_up_area_body_entered(body: Node2D) -> void:
 
 
 func _on_exit_down_area_body_entered(body: Node2D) -> void:
-	if body is Player:
+	if (body is Player) and exit_down_path:
 		GameState.set_checkpoint_level_entry_direction(GameState.EntryDirection.UP)
-		level_won.emit("res://scenes/game_scene/levels/room_0.tscn")
+		level_won.emit(exit_down_path)
