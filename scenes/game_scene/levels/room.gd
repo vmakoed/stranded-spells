@@ -28,6 +28,7 @@ var door_right: Door
 
 
 func _ready() -> void:
+	GameUIBridge.room_changed.emit()
 	_initialize_doors()
 	_initialize_markers()
 	level_state = GameState.get_level_state(scene_file_path)

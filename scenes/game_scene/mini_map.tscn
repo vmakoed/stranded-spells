@@ -1,0 +1,503 @@
+[gd_scene format=3 uid="uid://bs08x0l7bps6t"]
+
+[ext_resource type="Script" uid="uid://bwvsqtuor0qt4" path="res://scenes/game_scene/mini_map.gd" id="1_ro1au"]
+[ext_resource type="Texture2D" uid="uid://bamodhuf2uefi" path="res://assets/textures/tile_0013.png" id="2_ro1au"]
+
+[node name="MiniMap" type="GridContainer" unique_id=151508479]
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+script = ExtResource("1_ro1au")
+
+[node name="PanelContainer" type="Control" parent="." unique_id=991092084]
+layout_mode = 2
+
+[node name="PanelContainer2" type="Control" parent="." unique_id=989647819]
+layout_mode = 2
+
+[node name="PanelContainer26" type="PanelContainer" parent="." unique_id=957015592]
+layout_mode = 2
+
+[node name="GridContainer24" type="GridContainer" parent="PanelContainer26" unique_id=1344289450]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer26/GridContainer24" unique_id=7655565]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer26/GridContainer24" unique_id=571365717]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer26/GridContainer24" unique_id=1533531564]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer26/GridContainer24" unique_id=1937756882]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer4" type="Control" parent="." unique_id=1528139800]
+layout_mode = 2
+
+[node name="PanelContainer5" type="Control" parent="." unique_id=1566737177]
+layout_mode = 2
+
+[node name="PanelContainer6" type="Control" parent="." unique_id=779380214]
+layout_mode = 2
+
+[node name="PanelContainer7" type="PanelContainer" parent="." unique_id=2125073670]
+layout_mode = 2
+
+[node name="GridContainer13" type="GridContainer" parent="PanelContainer7" unique_id=2034874789]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer7/GridContainer13" unique_id=516084163]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer7/GridContainer13" unique_id=705058332]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer7/GridContainer13" unique_id=1090053083]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer7/GridContainer13" unique_id=1470400349]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer8" type="PanelContainer" parent="." unique_id=1052177696]
+layout_mode = 2
+
+[node name="GridContainer23" type="GridContainer" parent="PanelContainer8" unique_id=905155985]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer8/GridContainer23" unique_id=1239220988]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer8/GridContainer23" unique_id=1778007476]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer8/GridContainer23" unique_id=1227310913]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer8/GridContainer23" unique_id=773504167]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer9" type="PanelContainer" parent="." unique_id=894221333]
+layout_mode = 2
+
+[node name="GridContainer33" type="GridContainer" parent="PanelContainer9" unique_id=708229245]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer9/GridContainer33" unique_id=1608847006]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer9/GridContainer33" unique_id=2017898488]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer9/GridContainer33" unique_id=508466939]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer9/GridContainer33" unique_id=1258877940]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer10" type="Control" parent="." unique_id=445061275]
+layout_mode = 2
+
+[node name="PanelContainer11" type="PanelContainer" parent="." unique_id=1914280042]
+layout_mode = 2
+
+[node name="GridContainer02" type="GridContainer" parent="PanelContainer11" unique_id=1662485317]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer11/GridContainer02" unique_id=291862754]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer11/GridContainer02" unique_id=1971005561]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer11/GridContainer02" unique_id=1730679133]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer11/GridContainer02" unique_id=1366255373]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer12" type="PanelContainer" parent="." unique_id=1979854660]
+layout_mode = 2
+
+[node name="GridContainer12" type="GridContainer" parent="PanelContainer12" unique_id=1103138034]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer12/GridContainer12" unique_id=122984889]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer12/GridContainer12" unique_id=333760048]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer12/GridContainer12" unique_id=501387298]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer12/GridContainer12" unique_id=214494784]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer13" type="PanelContainer" parent="." unique_id=1226147949]
+layout_mode = 2
+
+[node name="GridContainer22" type="GridContainer" parent="PanelContainer13" unique_id=1987946840]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer13/GridContainer22" unique_id=383888140]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer13/GridContainer22" unique_id=1376692004]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer13/GridContainer22" unique_id=2015752980]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer13/GridContainer22" unique_id=1210117972]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer14" type="PanelContainer" parent="." unique_id=1558324962]
+layout_mode = 2
+
+[node name="GridContainer32" type="GridContainer" parent="PanelContainer14" unique_id=356601891]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer14/GridContainer32" unique_id=1862387575]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer14/GridContainer32" unique_id=1634022173]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer14/GridContainer32" unique_id=990521064]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer14/GridContainer32" unique_id=421742596]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer15" type="PanelContainer" parent="." unique_id=1716161749]
+layout_mode = 2
+
+[node name="GridContainer42" type="GridContainer" parent="PanelContainer15" unique_id=1735177107]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer15/GridContainer42" unique_id=1448323587]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer15/GridContainer42" unique_id=1072159741]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer15/GridContainer42" unique_id=998158423]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer15/GridContainer42" unique_id=1085402901]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer16" type="Control" parent="." unique_id=1267781706]
+layout_mode = 2
+
+[node name="PanelContainer17" type="PanelContainer" parent="." unique_id=1387437822]
+layout_mode = 2
+
+[node name="GridContainer11" type="GridContainer" parent="PanelContainer17" unique_id=945012506]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer17/GridContainer11" unique_id=1923443448]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer17/GridContainer11" unique_id=258309732]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer17/GridContainer11" unique_id=755479444]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer17/GridContainer11" unique_id=1992923769]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer18" type="PanelContainer" parent="." unique_id=636210202]
+layout_mode = 2
+
+[node name="GridContainer21" type="GridContainer" parent="PanelContainer18" unique_id=1140178552]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer18/GridContainer21" unique_id=1301948815]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer18/GridContainer21" unique_id=1807530312]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer18/GridContainer21" unique_id=178414942]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer18/GridContainer21" unique_id=1865280105]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer19" type="PanelContainer" parent="." unique_id=930092455]
+layout_mode = 2
+
+[node name="GridContainer31" type="GridContainer" parent="PanelContainer19" unique_id=156992425]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer19/GridContainer31" unique_id=1012723326]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer19/GridContainer31" unique_id=1765387890]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer19/GridContainer31" unique_id=1487826469]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer19/GridContainer31" unique_id=1829812235]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer20" type="Control" parent="." unique_id=1260853631]
+layout_mode = 2
+
+[node name="PanelContainer21" type="Control" parent="." unique_id=2029160670]
+layout_mode = 2
+
+[node name="PanelContainer22" type="Control" parent="." unique_id=1987584004]
+layout_mode = 2
+
+[node name="PanelContainer23" type="PanelContainer" parent="." unique_id=1688824968]
+layout_mode = 2
+
+[node name="GridContainer20" type="GridContainer" parent="PanelContainer23" unique_id=700669848]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer23/GridContainer20" unique_id=1071343956]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer23/GridContainer20" unique_id=1212776775]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer23/GridContainer20" unique_id=1798667497]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer23/GridContainer20" unique_id=1122611785]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ro1au")
+
+[node name="PanelContainer24" type="Control" parent="." unique_id=387546823]
+layout_mode = 2
+
+[node name="PanelContainer25" type="Control" parent="." unique_id=2019129462]
+layout_mode = 2

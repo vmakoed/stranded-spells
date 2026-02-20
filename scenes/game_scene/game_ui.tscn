@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://dri6xxl20aw3v" path="res://resources/input_left_texture.tres" id="15_ukb12"]
 [ext_resource type="Texture2D" uid="uid://b3sm4xxywgc1u" path="res://resources/input_up_texture.tres" id="16_i7m4m"]
 [ext_resource type="Texture2D" uid="uid://bscptfvidja4n" path="res://resources/input_right_texture.tres" id="17_rkfhe"]
+[ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
 
 [node name="GameUI" type="Control" unique_id=672765824]
 layout_mode = 3
@@ -47,7 +48,7 @@ level_lost_scene = ExtResource("7_i7m4m")
 
 [node name="SceneLister" type="Node" parent="LevelManager" unique_id=492884432]
 script = ExtResource("9_g2ndc")
-files = Array[String](["res://scenes/game_scene/levels/level_1.tscn", "res://scenes/game_scene/levels/level_2.tscn", "res://scenes/game_scene/levels/level_3.tscn", "res://scenes/game_scene/levels/room_20.tscn", "res://scenes/game_scene/levels/room_21.tscn", "res://scenes/game_scene/levels/room_31.tscn", "res://scenes/game_scene/levels/room_template.tscn"])
+files = Array[String](["res://scenes/game_scene/levels/level_1.tscn", "res://scenes/game_scene/levels/level_2.tscn", "res://scenes/game_scene/levels/level_3.tscn", "res://scenes/game_scene/levels/room_02.tscn", "res://scenes/game_scene/levels/room_11.tscn", "res://scenes/game_scene/levels/room_12.tscn", "res://scenes/game_scene/levels/room_13.tscn", "res://scenes/game_scene/levels/room_20.tscn", "res://scenes/game_scene/levels/room_21.tscn", "res://scenes/game_scene/levels/room_22.tscn", "res://scenes/game_scene/levels/room_23.tscn", "res://scenes/game_scene/levels/room_24.tscn", "res://scenes/game_scene/levels/room_31.tscn", "res://scenes/game_scene/levels/room_32.tscn", "res://scenes/game_scene/levels/room_33.tscn", "res://scenes/game_scene/levels/room_42.tscn", "res://scenes/game_scene/levels/room_template.tscn"])
 directory = "res://scenes/game_scene/levels"
 
 [node name="LevelLoadingScreen" parent="." unique_id=1322915730 instance=ExtResource("10_0v86b")]
@@ -81,6 +82,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
@@ -248,3 +251,12 @@ expand_mode = 2
 layout_mode = 2
 texture = ExtResource("15_ukb12")
 expand_mode = 2
+
+[node name="MapPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=100305939]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="MiniMap" parent="MarginContainer/MapPanelContainer" unique_id=151508479 instance=ExtResource("17_ukb12")]
+unique_name_in_owner = true
+layout_mode = 2

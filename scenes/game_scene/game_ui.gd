@@ -10,6 +10,7 @@ var tween: Tween
 
 
 @onready var health_progress_bar: ProgressBar = %HealthProgressBar
+@onready var mini_map: MiniMap = %MiniMap
 @onready var spell_prompt_containers: Dictionary[SpellDefinitions.Spell, HBoxContainer] = {
 	SpellDefinitions.Spell.PUSH: %PushPromptsContainer,
 	SpellDefinitions.Spell.FROST: %FrostPromptsContainer,
@@ -20,6 +21,7 @@ var tween: Tween
 
 func _ready() -> void:
 	GameUIBridge.health_changed.connect(_on_health_changed)
+	GameUIBridge.room_changed.connect(_on_room_changed)
 	SpellSystem.spell_in_progress.connect(_on_spell_in_progress)
 	SpellSystem.spell_casted.connect(_on_spell_casted)
 
@@ -37,6 +39,10 @@ func _active_prompt_textures(spell: SpellDefinitions.Spell, sequence_size: int) 
 
 func _prompt_textures(spell: SpellDefinitions.Spell) -> Array[Node]:
 	return spell_prompt_containers[spell].get_children()
+
+
+func _on_room_changed() -> void:
+	mini_map.refresh()
 
 
 func _on_health_changed(value: float, max_value: float) -> void:
