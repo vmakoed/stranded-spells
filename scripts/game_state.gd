@@ -1,6 +1,8 @@
 class_name GameState
 extends Resource
 
+enum EntryDirection {UP, DOWN, LEFT, RIGHT, NONE}
+
 const STATE_NAME : String = "GameState"
 const FILE_PATH = "res://scripts/game_state.gd"
 
@@ -10,7 +12,9 @@ const FILE_PATH = "res://scripts/game_state.gd"
 @export var total_games_played : int
 @export var play_time : int
 @export var total_time : int
-@export var player_character_health : float
+
+@export var player_character_health : float = Player.MAX_HEALTH
+@export var checkpoint_level_entry_direction : EntryDirection = EntryDirection.NONE
 
 static func get_level_state(level_state_key : String) -> LevelState:
 	if not has_game_state(): 
@@ -49,6 +53,18 @@ static func get_levels_reached() -> int:
 	var game_state := get_or_create_state()
 	return game_state.level_states.size()
 
+static func get_checkpoint_level_entry_direction() -> EntryDirection:
+	if not has_game_state(): 
+		return EntryDirection.NONE
+	var game_state := get_or_create_state()
+	return game_state.checkpoint_level_entry_direction
+
+static func get_player_character_health() -> float:
+	if not has_game_state(): 
+		return Player.MAX_HEALTH
+	var game_state := get_or_create_state()
+	return game_state.player_character_health
+
 static func set_checkpoint_level_path(level_path : String) -> void:
 	var game_state := get_or_create_state()
 	game_state.checkpoint_level_path = level_path
@@ -58,6 +74,16 @@ static func set_checkpoint_level_path(level_path : String) -> void:
 static func set_current_level_path(level_path : String) -> void:
 	var game_state := get_or_create_state()
 	game_state.current_level_path = level_path
+	GlobalState.save()
+
+static func set_checkpoint_level_entry_direction(entry_direction: EntryDirection) -> void:
+	var game_state := get_or_create_state()
+	game_state.checkpoint_level_entry_direction = entry_direction
+	GlobalState.save()
+
+static func set_player_character_health(value: float) -> void:
+	var game_state := get_or_create_state()
+	game_state.player_character_health = value
 	GlobalState.save()
 
 static func start_game() -> void:
@@ -77,4 +103,6 @@ static func reset() -> void:
 	game_state.checkpoint_level_path = ""
 	game_state.play_time = 0
 	game_state.total_time = 0
+	game_state.player_character_health = Player.MAX_HEALTH
+	game_state.checkpoint_level_entry_direction = EntryDirection.NONE
 	GlobalState.save()

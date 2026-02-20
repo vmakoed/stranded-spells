@@ -29,7 +29,7 @@ var initial_sprite_modulate: Color
 
 
 func _ready() -> void:
-	health = MAX_HEALTH
+	health = GameState.get_player_character_health()
 	SpellSystem.spell_casted.connect(_on_spell_casted)
 	initial_sprite_modulate = character_sprite.modulate
 
@@ -62,6 +62,10 @@ func take_damage(damage: float) -> void:
 		invincible = true
 		hurtbox_collision_shape.set_deferred("disabled", true)
 		invincibility_timer.start()
+
+
+func save_health() -> void:
+	GameState.set_player_character_health(health)
 
 
 func _set_health(new_value: float) -> void:

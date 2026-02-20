@@ -139,13 +139,13 @@ physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_crmjo")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
-size = Vector2(32, 6.4000006)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xnwtj"]
-size = Vector2(128, 16)
+size = Vector2(32, 3.2000003)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xnwtj"]
+size = Vector2(128, 16)
 
 [node name="Room1" type="Node" unique_id=1049756891]
 script = ExtResource("1_xnwtj")
@@ -159,20 +159,27 @@ tile_set = SubResource("TileSet_1onhq")
 unique_name_in_owner = true
 position = Vector2(160, 18)
 
+[node name="ExitUpArea" type="Area2D" parent="." unique_id=1450526203]
+position = Vector2(160, -2)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitUpArea" unique_id=1081249739]
+scale = Vector2(1, 2.5)
+shape = SubResource("RectangleShape2D_1onhq")
+
 [node name="DoorDown" parent="." unique_id=1233921391 instance=ExtResource("4_lgrx5")]
 unique_name_in_owner = true
 position = Vector2(160, 162)
 initial_state = 1
 
-[node name="WinArea" type="Area2D" parent="." unique_id=1450526203]
-position = Vector2(160, 2)
+[node name="ExitDownArea" type="Area2D" parent="." unique_id=878638699]
+position = Vector2(160, 182)
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WinArea" unique_id=1081249739]
-scale = Vector2(1, 2.5)
-shape = SubResource("RectangleShape2D_1onhq")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitDownArea" unique_id=32477727]
+shape = SubResource("RectangleShape2D_iphhf")
 
-[node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("5_a8876")]
+[node name="PlayerSpawnDownMarker" type="Marker2D" parent="." unique_id=1077115703]
 unique_name_in_owner = true
 position = Vector2(160, 170)
 
@@ -183,6 +190,10 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTriggerArea" unique_id=1942440530]
 shape = SubResource("RectangleShape2D_xnwtj")
+
+[node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("5_a8876")]
+unique_name_in_owner = true
+position = Vector2(160, 170)
 
 [node name="Enemies" type="Node" parent="." unique_id=1519225934]
 unique_name_in_owner = true
@@ -196,15 +207,6 @@ position = Vector2(192, 66)
 [node name="Enemy3" parent="Enemies" unique_id=70675394 instance=ExtResource("5_iphhf")]
 position = Vector2(160, 114)
 
-[node name="ExitAreaDown" type="Area2D" parent="." unique_id=878638699]
-unique_name_in_owner = true
-position = Vector2(160, 178)
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitAreaDown" unique_id=32477727]
-position = Vector2(0, 4)
-shape = SubResource("RectangleShape2D_iphhf")
-
-[connection signal="body_entered" from="WinArea" to="." method="_on_win_area_body_entered"]
+[connection signal="body_entered" from="ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
+[connection signal="body_entered" from="ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="EnemyTriggerArea" to="." method="_on_enemy_trigger_area_body_entered"]
-[connection signal="body_entered" from="ExitAreaDown" to="." method="_on_exit_area_down_body_entered"]
