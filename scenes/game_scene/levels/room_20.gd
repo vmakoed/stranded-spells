@@ -1,5 +1,6 @@
 extends Room
 
+
 @onready var boxes: Node = %Boxes
 
 

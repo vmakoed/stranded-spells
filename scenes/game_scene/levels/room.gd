@@ -41,15 +41,19 @@ func _position_player() -> void:
 
 	if player_spawn_up_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.UP):
 		player_character.global_position = player_spawn_up_marker.global_position
+		door_up.open()
 
 	if player_spawn_right_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.RIGHT):
 		player_character.global_position = player_spawn_right_marker.global_position
+		door_right.open()
 
 	if player_spawn_down_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.DOWN):
 		player_character.global_position = player_spawn_down_marker.global_position
+		door_down.open()
 
 	if player_spawn_left_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.LEFT):
 		player_character.global_position = player_spawn_left_marker.global_position
+		door_left.open()
 
 
 func _initialize_doors() -> void:
@@ -93,6 +97,13 @@ func _open_doors() -> void:
 	if door_right: door_right.open()
 	if door_down: door_down.open()
 	if door_left: door_left.open()
+
+
+func _close_doors() -> void:
+	if door_up: door_up.close() 
+	if door_right: door_right.close()
+	if door_down: door_down.close()
+	if door_left: door_left.oclosepen()
 
 
 func _on_exit_up_area_body_entered(body: Node2D) -> void:
