@@ -133,7 +133,7 @@ physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_crmjo")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
-size = Vector2(32, 6.4000006)
+size = Vector2(32, 3.2000003)
 
 [node name="Room0" type="Node" unique_id=1049756891]
 script = ExtResource("1_osjax")
@@ -168,9 +168,10 @@ position = Vector2(160, 18)
 
 [node name="WinArea" type="Area2D" parent="." unique_id=1450526203]
 position = Vector2(160, 2)
-collision_layer = 4
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WinArea" unique_id=1081249739]
+position = Vector2(0, -4.0000005)
 scale = Vector2(1, 2.5)
 shape = SubResource("RectangleShape2D_1onhq")
 

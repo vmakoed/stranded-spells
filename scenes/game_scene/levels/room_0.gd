@@ -8,7 +8,7 @@ const NEXT_LEVEL_PATH = "res://scenes/game_scene/levels/room_1.tscn"
 
 
 @onready var boxes: Node = %Boxes
-@onready var door: Door = %Door
+@onready var door_up: Door = %Door
 
 
 var boxes_count : int
@@ -25,7 +25,7 @@ func _on_box_destroyed() -> void:
 	boxes_count -= 1
 
 	if boxes_count == 0:
-		door.open()
+		door_up.open()
 
 
 func _on_win_area_body_entered(body: Node2D) -> void:

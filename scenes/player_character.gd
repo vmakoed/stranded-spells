@@ -82,8 +82,19 @@ func _blink_sprite() -> void:
 
 func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
 	var receiving_method := SpellDefinitions.SPELL_RECEIVING_METHODS[spell]
+	var spell_receivers := _get_spell_receivers(spell)
+	if spell_receivers.is_empty(): return
 
-	for spell_receiver: Node2D in _get_spell_receivers(spell):
+	Engine.time_scale = CAST_FRAME_FREEZE_TIME_SCALE
+	get_tree() \
+		.create_timer(
+			CAST_FRAME_FREEZE_DURATION, true, false, true
+		).timeout \
+		.connect(
+			func(): Engine.time_scale = 1.0
+		)
+
+	for spell_receiver: Node2D in spell_receivers:
 		if spell_receiver.has_method(receiving_method):
 			spell_receiver.call( 
 				receiving_method, \
@@ -143,14 +154,6 @@ func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:
 	_reveal_spell_area(tween, spell)
 	tween.tween_callback(func():
 		_resolve_spell_effects(spell)
-		Engine.time_scale = CAST_FRAME_FREEZE_TIME_SCALE
-		get_tree() \
-			.create_timer(
-				CAST_FRAME_FREEZE_DURATION, true, false, true
-			).timeout \
-			.connect(
-				func(): Engine.time_scale = 1.0
-			)
 	)
 	_hide_spell_area(tween, spell)
 

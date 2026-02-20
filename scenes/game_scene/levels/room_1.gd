@@ -33,11 +33,6 @@ func _on_enemy_destroyed() -> void:
 		door_down.open()
 
 
-func _on_win_area_body_entered(body: Node2D) -> void:
-	if body is Player:
-		level_won.emit()
-
-
 func _on_enemy_trigger_area_body_entered(body: Node2D) -> void:
 	if enemies_count > 0 and body is Player and !combat_started:
 		door_down.close()
@@ -48,3 +43,13 @@ func _follow_player(player: Player) -> void:
 	combat_started = true
 	for enemy: Enemy in enemies.get_children():
 		enemy.player = player
+
+
+func _on_win_area_body_entered(body: Node2D) -> void:
+	if body is Player:
+		level_won.emit()
+
+
+func _on_exit_area_down_body_entered(body: Node2D) -> void:
+	if body is Player:
+		level_won.emit("res://scenes/game_scene/levels/room_0.tscn")
