@@ -129,7 +129,7 @@ locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/t
 [layer_names]
 
 2d_physics/layer_1="player"
-2d_physics/layer_2="box"
+2d_physics/layer_2="spell_object"
 2d_physics/layer_3="world"
 2d_physics/layer_4="enemy"
 2d_physics/layer_5="player_hurt_box"

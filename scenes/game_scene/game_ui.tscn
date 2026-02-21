@@ -82,14 +82,30 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_right = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
+
+[node name="LevelTitleContainer" type="PanelContainer" parent="MarginContainer" unique_id=1007728376]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="LevelTitleLabel" type="Label" parent="MarginContainer/LevelTitleContainer" unique_id=1910253873]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Optional level title"
+horizontal_alignment = 1
+autowrap_mode = 2
+uppercase = true
 
 [node name="HealthPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=2118804925]
 layout_mode = 2
@@ -113,141 +129,145 @@ size_flags_vertical = 8
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=181528453]
+[node name="PushContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=181528453]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer" unique_id=158832340]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer" unique_id=158832340]
 layout_mode = 2
 
-[node name="PushLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer/HBoxContainer" unique_id=1100364248]
+[node name="PushLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer" unique_id=1100364248]
 custom_minimum_size = Vector2(88, 0)
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "PUSH"
 
-[node name="PushPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer/HBoxContainer" unique_id=890173215]
+[node name="PushPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer" unique_id=890173215]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer/HBoxContainer/PushPromptsContainer" unique_id=1756834117]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer/PushPromptsContainer" unique_id=1756834117]
 layout_mode = 2
 texture = ExtResource("14_3re04")
 expand_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer/HBoxContainer/PushPromptsContainer" unique_id=1044494417]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer/PushPromptsContainer" unique_id=1044494417]
 layout_mode = 2
 texture = ExtResource("14_3re04")
 expand_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1780096254]
+[node name="FrostContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1780096254]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer2" unique_id=1039923341]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer" unique_id=1039923341]
 layout_mode = 2
 
-[node name="FrostLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer2/HBoxContainer" unique_id=626423182]
+[node name="FrostLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer" unique_id=626423182]
 custom_minimum_size = Vector2(88, 0)
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "FROST"
 
-[node name="FrostPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer2/HBoxContainer" unique_id=1563058637]
+[node name="FrostPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer" unique_id=1563058637]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=728593527]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=728593527]
 layout_mode = 2
 texture = ExtResource("15_ukb12")
 expand_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=1682972040]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=1682972040]
 layout_mode = 2
 texture = ExtResource("16_i7m4m")
 expand_mode = 2
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=2024322960]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=2024322960]
 layout_mode = 2
 texture = ExtResource("17_rkfhe")
 expand_mode = 2
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer2/HBoxContainer/FrostPromptsContainer" unique_id=1474936601]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=1474936601]
 layout_mode = 2
 texture = ExtResource("14_3re04")
 expand_mode = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=538953800]
+[node name="ShockContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=538953800]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer3" unique_id=1093786843]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer" unique_id=1093786843]
 layout_mode = 2
 
-[node name="ShockLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer3/HBoxContainer" unique_id=1453897208]
+[node name="ShockLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer" unique_id=1453897208]
 custom_minimum_size = Vector2(88, 0)
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "SHOCK"
 
-[node name="ShockPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer3/HBoxContainer" unique_id=1343203918]
+[node name="ShockPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer" unique_id=1343203918]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=383740465]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=383740465]
 layout_mode = 2
 texture = ExtResource("16_i7m4m")
 expand_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=721786875]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=721786875]
 layout_mode = 2
 texture = ExtResource("15_ukb12")
 expand_mode = 2
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=150022550]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=150022550]
 layout_mode = 2
 texture = ExtResource("17_rkfhe")
 expand_mode = 2
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer3/HBoxContainer/ShockPromptsContainer" unique_id=633031807]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=633031807]
 layout_mode = 2
 texture = ExtResource("14_3re04")
 expand_mode = 2
 
-[node name="PanelContainer4" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1940308992]
+[node name="FireContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1940308992]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4" unique_id=732131166]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer" unique_id=732131166]
 layout_mode = 2
 
-[node name="FireLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4/HBoxContainer" unique_id=1928122359]
+[node name="FireLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer" unique_id=1928122359]
 custom_minimum_size = Vector2(88, 0)
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "FIRE"
 
-[node name="FirePromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4/HBoxContainer" unique_id=1379222336]
+[node name="FirePromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer" unique_id=1379222336]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=1730930645]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=1730930645]
 layout_mode = 2
 texture = ExtResource("17_rkfhe")
 expand_mode = 2
 
-[node name="TextureRect5" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=383904674]
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=383904674]
 layout_mode = 2
 texture = ExtResource("14_3re04")
 expand_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=1381526919]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=1381526919]
 layout_mode = 2
 texture = ExtResource("16_i7m4m")
 expand_mode = 2
 
-[node name="TextureRect6" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=282701892]
+[node name="TextureRect6" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=282701892]
 layout_mode = 2
 texture = ExtResource("14_3re04")
 expand_mode = 2
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PanelContainer4/HBoxContainer/FirePromptsContainer" unique_id=1113485341]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=1113485341]
 layout_mode = 2
 texture = ExtResource("15_ukb12")
 expand_mode = 2

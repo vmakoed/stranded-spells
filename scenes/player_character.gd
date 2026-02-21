@@ -109,15 +109,22 @@ func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
 
 
 func _get_spell_receivers(spell: SpellDefinitions.Spell) -> Array:
-	var bodies_in_spell_area := spell_area.get_overlapping_bodies()
+	var targets := spell_area.get_overlapping_bodies()
 
-	if bodies_in_spell_area.is_empty():
+	if targets.is_empty():
 		return []
 
 	if spell in SpellDefinitions.ROOM_WIDE_SPELLS:
-		return get_tree().get_nodes_in_group("enemies")
+		targets.append_array(
+			get_tree() \
+				.get_nodes_in_group("enemies") \
+				.filter(
+					func(enemy): return not (enemy in targets)
+				)
+		)
+		return targets
 	else:
-		return bodies_in_spell_area
+		return targets
 
 
 func _reveal_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:

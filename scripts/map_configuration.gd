@@ -15,7 +15,7 @@ const ROOM_CONNECTIONS = {
     },
     "12": {
         Direction.UP: "13",
-        Direction.RIGHT: "11",
+        Direction.LEFT: "11",
         Direction.DOWN: "20"
     },
     "13": {
@@ -56,4 +56,10 @@ const ROOM_CONNECTIONS = {
     "42": {
         Direction.LEFT: "23"
     }
+}
+
+const ROOM_TITLES = {
+    "02" = "Icebreaker",
+    "42" = "Chain Reaction",
+    "24" = "Eternal Fire"
 }

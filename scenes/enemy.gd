@@ -26,6 +26,7 @@ const BURN_LOOP_DURATION = 1.0
 const BURNS_ASSIGNED_BY_FIRE = 3
 const DAMAGE_BLINKS = 3
 
+
 var health: float
 var dead := false
 var player: Player

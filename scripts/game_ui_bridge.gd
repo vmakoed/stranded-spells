@@ -4,3 +4,5 @@ extends Node
 signal health_changed
 @warning_ignore("unused_signal")
 signal room_changed
+@warning_ignore("unused_signal")
+signal spell_unlocked

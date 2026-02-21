@@ -26,11 +26,16 @@ var door_down: Door
 var door_left: Door
 var door_right: Door
 
+var enemies_node: Node
+var enemies_count := 0
+var challenge_started := false
+
 
 func _ready() -> void:
 	GameUIBridge.room_changed.emit()
 	_initialize_doors()
 	_initialize_markers()
+	_initialize_enemies()
 	level_state = GameState.get_level_state(scene_file_path)
 	_ready_level()
 	_position_player()
@@ -71,6 +76,10 @@ func _initialize_markers() -> void:
 	player_spawn_left_marker = get_node_or_null("%PlayerSpawnLeftMarker")
 
 
+func _initialize_enemies() -> void:
+	enemies_node = get_node_or_null("%Enemies")
+
+
 func _ready_level() -> void:
 	if level_state.cleared:
 		_ready_cleared_level()
@@ -80,10 +89,17 @@ func _ready_level() -> void:
 
 func _ready_cleared_level() -> void:
 	_open_doors()
+	for enemy: Enemy in _get_enemies(): enemy.queue_free()
 
 
 func _ready_active_level() -> void:
 	player_character.destroyed.connect(func(): level_lost.emit())
+
+	if enemies_node:
+		enemies_count = enemies_node.get_child_count()
+		for enemy: Enemy in _get_enemies(): _setup_enemy_signals(enemy)
+	else:
+		enemies_count = 0
 
 
 func _clear_level() -> void:
@@ -104,7 +120,30 @@ func _close_doors() -> void:
 	if door_up: door_up.close() 
 	if door_right: door_right.close()
 	if door_down: door_down.close()
-	if door_left: door_left.oclosepen()
+	if door_left: door_left.close()
+
+
+func _start_challenge() -> void:
+	for enemy: Enemy in _get_enemies(): 
+		enemy.player = player_character
+	challenge_started = true
+	_close_doors()
+
+
+func _get_enemies() -> Array[Node]:
+	if enemies_node: 
+		return enemies_node.get_children()
+	else:
+		return []
+
+
+func _setup_enemy_signals(enemy: Enemy) -> void:
+	enemy.destroyed.connect(_on_enemy_destroyed)
+
+
+func _on_enemy_destroyed() -> void:
+	enemies_count -= 1
+	if enemies_count == 0: _clear_level()
 
 
 func _on_exit_up_area_body_entered(body: Node2D) -> void:
@@ -129,3 +168,11 @@ func _on_exit_left_area_body_entered(body: Node2D) -> void:
 	if (body is Player) and exit_left_path:
 		GameState.set_checkpoint_level_entry_direction(GameState.EntryDirection.RIGHT)
 		level_won.emit(exit_left_path)
+
+
+func _on_start_challege_area_body_entered(body: Node2D) -> void:
+	if level_state.cleared == true: return
+	if challenge_started: return
+	if not body is Player: return
+
+	_start_challenge()

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bgqhcjd23ojmm"]
+
+[ext_resource type="Script" uid="uid://20baxw3a5x37" path="res://scenes/spell_pickup.gd" id="1_alpg3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_alpg3"]
+radius = 8.0
+
+[node name="SpellPickup" type="Area2D" unique_id=1280397350]
+collision_layer = 0
+script = ExtResource("1_alpg3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=146119292]
+shape = SubResource("CircleShape2D_alpg3")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

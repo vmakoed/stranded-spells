@@ -15,6 +15,7 @@ const FILE_PATH = "res://scripts/game_state.gd"
 
 @export var player_character_health : float = Player.MAX_HEALTH
 @export var checkpoint_level_entry_direction : EntryDirection = EntryDirection.NONE
+@export var spell_unlocks : Dictionary[SpellDefinitions.Spell, bool]
 
 static func get_level_state(level_state_key : String) -> LevelState:
 	if not has_game_state(): 
@@ -71,6 +72,12 @@ static func get_player_character_health() -> float:
 	var game_state := get_or_create_state()
 	return game_state.player_character_health
 
+static func get_spell_unlocks() -> Dictionary[SpellDefinitions.Spell, bool]:
+	if not has_game_state(): 
+		return SpellSystem.DEFAULT_UNLOCKS
+	var game_state := get_or_create_state()
+	return game_state.spell_unlocks
+
 static func set_checkpoint_level_path(level_path : String) -> void:
 	var game_state := get_or_create_state()
 	game_state.checkpoint_level_path = level_path
@@ -92,6 +99,11 @@ static func set_player_character_health(value: float) -> void:
 	game_state.player_character_health = value
 	GlobalState.save()
 
+static func set_spell_unlocks(value: Dictionary[SpellDefinitions.Spell, bool]) -> void:
+	var game_state := get_or_create_state()
+	game_state.spell_unlocks = value
+	GlobalState.save()
+
 static func get_current_room() -> String:
 	return level_path_to_room_number(
 		ResourceUID.ensure_path(get_current_level_path())
@@ -105,11 +117,18 @@ static func get_visited_rooms() -> Array:
 			)
 		)
 
-static func level_path_to_room_number(level_path: String)-> String:
+static func level_path_to_room_number(level_path: String) -> String:
 	return level_path \
 		.get_file() \
 		.trim_suffix(".tscn") \
 		.trim_prefix("room_")
+
+static func unlock_spell(spell: SpellDefinitions.Spell) -> void:
+	set_spell_unlocks(
+		get_spell_unlocks() \
+			.merged({spell: true}, true)
+	)
+
 
 static func start_game() -> void:
 	var game_state := get_or_create_state()
@@ -130,4 +149,5 @@ static func reset() -> void:
 	game_state.total_time = 0
 	game_state.player_character_health = Player.MAX_HEALTH
 	game_state.checkpoint_level_entry_direction = EntryDirection.NONE
+	game_state.spell_unlocks = SpellSystem.DEFAULT_UNLOCKS
 	GlobalState.save()

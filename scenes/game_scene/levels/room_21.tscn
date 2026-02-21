@@ -5,6 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_43wtt"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="4_d3jsu"]
 [ext_resource type="PackedScene" uid="uid://dj7hyyystrb57" path="res://scenes/door_left.tscn" id="4_fa7ps"]
+[ext_resource type="Texture2D" uid="uid://c271c5gnas2il" path="res://assets/textures/xtra icons 151.png" id="6_cajdr"]
+[ext_resource type="PackedScene" uid="uid://dd34ysx7glrsr" path="res://scenes/spell_switch.tscn" id="6_d3jsu"]
+[ext_resource type="Texture2D" uid="uid://bxndwtvgfgfsi" path="res://assets/textures/xtra icons 150.png" id="7_f8mbk"]
+[ext_resource type="Texture2D" uid="uid://dap58wv5aglt8" path="res://assets/textures/xtra icons 153.png" id="8_rsbe1"]
+[ext_resource type="Texture2D" uid="uid://q0px0t804ii6" path="res://assets/textures/xtra icons 154.png" id="9_amnxn"]
+[ext_resource type="Texture2D" uid="uid://b11lc8150ftml" path="res://assets/textures/xtra icons 152.png" id="10_aacfr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("2_cajdr")
@@ -144,6 +150,82 @@ size = Vector2(32, 3.2000003)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_fyifo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_f8mbk")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_cajdr")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q03mh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_f8mbk")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_rsbe1")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r8bxr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_f8mbk")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_amnxn")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lqfae"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_f8mbk")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_aacfr")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
 [node name="Room21" type="Node" unique_id=1049756891]
 script = ExtResource("1_fa7ps")
 exit_up_path = "uid://ck3pnscsejhkg"
@@ -205,8 +287,46 @@ position = Vector2(80, 90)
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("4_d3jsu")]
 unique_name_in_owner = true
-position = Vector2(160, 170)
+position = Vector2(160, 90)
+
+[node name="SpellSwitches" type="Node" parent="." unique_id=304276942]
+unique_name_in_owner = true
+
+[node name="PushSwitch" parent="SpellSwitches" unique_id=1116625829 instance=ExtResource("6_d3jsu")]
+position = Vector2(160, 114)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpellSwitches/PushSwitch" unique_id=1499331660]
+sprite_frames = SubResource("SpriteFrames_fyifo")
+animation = &"on"
+
+[node name="FrostSwitch" parent="SpellSwitches" unique_id=2008911275 instance=ExtResource("6_d3jsu")]
+position = Vector2(136, 90)
+spell = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpellSwitches/FrostSwitch" unique_id=588265430]
+sprite_frames = SubResource("SpriteFrames_q03mh")
+animation = &"on"
+
+[node name="ShockSwitch" parent="SpellSwitches" unique_id=864795445 instance=ExtResource("6_d3jsu")]
+position = Vector2(160, 66)
+spell = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpellSwitches/ShockSwitch" unique_id=1191134705]
+sprite_frames = SubResource("SpriteFrames_r8bxr")
+animation = &"on"
+
+[node name="FireSwitch" parent="SpellSwitches" unique_id=2129518222 instance=ExtResource("6_d3jsu")]
+position = Vector2(184, 90)
+spell = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpellSwitches/FireSwitch" unique_id=1382542297]
+sprite_frames = SubResource("SpriteFrames_lqfae")
+animation = &"on"
 
 [connection signal="body_entered" from="ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
+[connection signal="swithed_off" from="SpellSwitches/PushSwitch" to="." method="_on_spell_switch_swithed_off"]
+[connection signal="swithed_off" from="SpellSwitches/FrostSwitch" to="." method="_on_spell_switch_swithed_off"]
+[connection signal="swithed_off" from="SpellSwitches/ShockSwitch" to="." method="_on_spell_switch_swithed_off"]
+[connection signal="swithed_off" from="SpellSwitches/FireSwitch" to="." method="_on_spell_switch_swithed_off"]

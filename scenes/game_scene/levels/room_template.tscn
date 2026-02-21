@@ -145,6 +145,9 @@ size = Vector2(32, 3.2000003)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7q7uu"]
+size = Vector2(128, 16)
+
 [node name="RoomTemplate" type="Node" unique_id=1049756891]
 script = ExtResource("1_7q7uu")
 
@@ -216,6 +219,36 @@ position = Vector2(80, 90)
 unique_name_in_owner = true
 position = Vector2(240, 90)
 
+[node name="StartChallegeUpArea" type="Area2D" parent="." unique_id=78743932]
+position = Vector2(160, 50)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeUpArea" unique_id=140367421]
+shape = SubResource("RectangleShape2D_7q7uu")
+
+[node name="StartChallegeRightArea" type="Area2D" parent="." unique_id=1693765505]
+position = Vector2(200, 90)
+rotation = 1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeRightArea" unique_id=1794014580]
+shape = SubResource("RectangleShape2D_7q7uu")
+
+[node name="StartChallegeDownArea" type="Area2D" parent="." unique_id=875066596]
+position = Vector2(160, 130)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeDownArea" unique_id=305851262]
+shape = SubResource("RectangleShape2D_7q7uu")
+
+[node name="StartChallegeLeftArea" type="Area2D" parent="." unique_id=671707451]
+position = Vector2(120, 90)
+rotation = -1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeLeftArea" unique_id=2081436852]
+shape = SubResource("RectangleShape2D_7q7uu")
+
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("5_88usr")]
 unique_name_in_owner = true
 position = Vector2(160, 90)
@@ -224,3 +257,7 @@ position = Vector2(160, 90)
 [connection signal="body_entered" from="ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
 [connection signal="body_entered" from="ExitRightArea" to="." method="_on_exit_right_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeUpArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeRightArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeDownArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeLeftArea" to="." method="_on_start_challege_area_body_entered"]

@@ -1,9 +1,13 @@
 [gd_scene format=4 uid="uid://dnqgtlvughr0f"]
 
-[ext_resource type="Script" uid="uid://bkexq1h8ubs4e" path="res://scenes/game_scene/levels/room_24.gd" id="1_earx4"]
+[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/room.gd" id="1_jpi54"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_chy05"]
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_u737e"]
+[ext_resource type="PackedScene" uid="uid://bgqhcjd23ojmm" path="res://scenes/spell_pickup.tscn" id="5_i8eyp"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_2gsdr"]
+[ext_resource type="Texture2D" uid="uid://bdm6leowf7wjl" path="res://assets/textures/xtra icons 144.png" id="6_dxx6h"]
+[ext_resource type="TileSet" uid="uid://cqpxtj0a2etkf" path="res://resources/dungeon_tile_set.tres" id="7_dxx6h"]
+[ext_resource type="PackedScene" uid="uid://cbclie1d2agk7" path="res://scenes/enemy.tscn" id="8_jpi54"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("2_chy05")
@@ -140,8 +144,11 @@ sources/0 = SubResource("TileSetAtlasSource_crmjo")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jpi54"]
+size = Vector2(128, 16)
+
 [node name="Room24" type="Node" unique_id=1049756891]
-script = ExtResource("1_earx4")
+script = ExtResource("1_jpi54")
 exit_down_path = "uid://spnublb0b1hq"
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1494177456]
@@ -168,4 +175,30 @@ position = Vector2(160, 170)
 unique_name_in_owner = true
 position = Vector2(160, 90)
 
+[node name="SpellPickup" parent="." unique_id=1280397350 instance=ExtResource("5_i8eyp")]
+position = Vector2(116, 126)
+spell = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="SpellPickup" unique_id=489382808]
+texture = ExtResource("6_dxx6h")
+
+[node name="FenceLayer" type="TileMapLayer" parent="." unique_id=772089152]
+position = Vector2(160, 90)
+tile_map_data = PackedByteArray("AAD8//7/AQAFAAYAAAD9//7/AQAFAAYAAAD+//7/AQAFAAYAAAD///7/AQAFAAYAAAAAAP7/AQAFAAYAAAABAP7/AQAFAAYAAAACAP7/AQAFAAYAAAADAP7/AQAFAAYAAAA=")
+tile_set = ExtResource("7_dxx6h")
+
+[node name="Enemies" type="Node" parent="." unique_id=1284729914]
+unique_name_in_owner = true
+
+[node name="Enemy" parent="Enemies" unique_id=631843200 instance=ExtResource("8_jpi54")]
+position = Vector2(160, 42)
+
+[node name="StartChallegeDownArea" type="Area2D" parent="." unique_id=1965059321]
+position = Vector2(160, 130)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeDownArea" unique_id=905030796]
+shape = SubResource("RectangleShape2D_jpi54")
+
 [connection signal="body_entered" from="ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeDownArea" to="." method="_on_start_challege_area_body_entered"]

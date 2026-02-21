@@ -5,6 +5,14 @@ signal spell_in_progress
 signal spell_casted
 
 
+const DEFAULT_UNLOCKS: Dictionary[SpellDefinitions.Spell, bool] = {
+	SpellDefinitions.Spell.PUSH: true,
+	SpellDefinitions.Spell.FROST: false,
+	SpellDefinitions.Spell.SHOCK: false,
+	SpellDefinitions.Spell.FIRE: false,
+}
+
+
 var spell_sequence := []
 var spells: Array
 var spell_starter_actions: Array

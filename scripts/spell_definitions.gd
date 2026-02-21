@@ -46,17 +46,17 @@ const SPELL_RECEIVING_METHODS: Dictionary[Spell, StringName] = {
     Spell.FIRE: &"receive_fire"
 }
 
-const SPELL_COLOR_TRANSPARENCY =  0.19
+const SPELL_COLOR_TRANSPARENCY =  0.33
 
 const SPELL_AREA_COLORS: Dictionary[Spell, Color] = {
-    Spell.PUSH: Color(1, 1, 1, SPELL_COLOR_TRANSPARENCY),
+    Spell.PUSH: Color(0, 1, 0, SPELL_COLOR_TRANSPARENCY),
     Spell.FROST: Color(0, 1, 1, SPELL_COLOR_TRANSPARENCY),
     Spell.SHOCK: Color(1, 1, 0, SPELL_COLOR_TRANSPARENCY),
     Spell.FIRE: Color(1, 0, 0, SPELL_COLOR_TRANSPARENCY),
 }
 
 const SPELL_ENEMY_COLORS: Dictionary[Spell, Color] = {
-    Spell.PUSH: Color.WHITE,
+    Spell.PUSH: Color.GREEN,
     Spell.FROST: Color.CYAN,
     Spell.SHOCK: Color.YELLOW,
     Spell.FIRE: Color.RED

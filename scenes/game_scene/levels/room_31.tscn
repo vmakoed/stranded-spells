@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dpc5midne5vba"]
 
-[ext_resource type="Script" uid="uid://ct2wlvkmhghwu" path="res://scenes/game_scene/levels/room_31.gd" id="1_lgeat"]
+[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/room.gd" id="1_lgeat"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_e6w0r"]
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_qgmr6"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="4_fmcwq"]
@@ -141,7 +141,7 @@ sources/0 = SubResource("TileSetAtlasSource_crmjo")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
 size = Vector2(32, 3.2000003)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xnwtj"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lgeat"]
 size = Vector2(128, 16)
 
 [node name="Room31" type="Node" unique_id=1049756891]
@@ -166,13 +166,16 @@ collision_layer = 0
 scale = Vector2(1, 2.5)
 shape = SubResource("RectangleShape2D_1onhq")
 
-[node name="EnemyTriggerArea" type="Area2D" parent="." unique_id=2058068446]
+[node name="PlayerSpawnUpMarker" type="Marker2D" parent="." unique_id=517766265]
 unique_name_in_owner = true
-position = Vector2(160, 50)
+position = Vector2(160, 10)
+
+[node name="StartChallegeUpArea" type="Area2D" parent="." unique_id=1039503439]
+position = Vector2(160, 42)
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTriggerArea" unique_id=1942440530]
-shape = SubResource("RectangleShape2D_xnwtj")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeUpArea" unique_id=1440231669]
+shape = SubResource("RectangleShape2D_lgeat")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("4_fmcwq")]
 unique_name_in_owner = true
@@ -190,9 +193,5 @@ position = Vector2(192, 66)
 [node name="Enemy3" parent="Enemies" unique_id=70675394 instance=ExtResource("5_pnhm1")]
 position = Vector2(160, 114)
 
-[node name="PlayerSpawnUpMarker" type="Marker2D" parent="." unique_id=517766265]
-unique_name_in_owner = true
-position = Vector2(160, 10)
-
 [connection signal="body_entered" from="ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
-[connection signal="body_entered" from="EnemyTriggerArea" to="." method="_on_enemy_trigger_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeUpArea" to="." method="_on_start_challege_area_body_entered"]
