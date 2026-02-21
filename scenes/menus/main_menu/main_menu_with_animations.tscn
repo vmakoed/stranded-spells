@@ -1,10 +1,16 @@
 [gd_scene format=3 uid="uid://dhr7kwfkmlq7o"]
 
-[ext_resource type="PackedScene" uid="uid://c6k5nnpbypshi" path="res://addons/maaacks_game_template/base/nodes/menus/main_menu/main_menu.tscn" id="1_sr523"]
 [ext_resource type="Script" uid="uid://6kkgt00vvrar" path="res://scenes/menus/main_menu/main_menu_with_animations.gd" id="2_ixa71"]
 [ext_resource type="PackedScene" uid="uid://mhk7ai1jtttm" path="res://scenes/windows/main_menu_options_window.tscn" id="3_2k5l7"]
+[ext_resource type="Script" uid="uid://b5oej1q4h7jvh" path="res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/ui_sound_controller.gd" id="4_dhrx6"]
 [ext_resource type="PackedScene" uid="uid://dnaejbfe1nvn1" path="res://scenes/windows/main_menu_credits_window.tscn" id="4_vsp5b"]
 [ext_resource type="PackedScene" uid="uid://cwt4p3bufkke5" path="res://addons/maaacks_game_template/base/nodes/windows/confirmation_overlaid_window.tscn" id="5_6xh1d"]
+[ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_game_template/base/nodes/music_players/background_music_player.tscn" id="5_xkrf4"]
+[ext_resource type="Texture2D" uid="uid://tebmhm6nk8tp" path="res://assets/textures/stranded-spells-background.png" id="6_x5bcm"]
+[ext_resource type="Script" uid="uid://bkwlopi4qn32o" path="res://addons/maaacks_game_template/base/nodes/labels/config_name_label.gd" id="7_672y5"]
+[ext_resource type="Script" uid="uid://1nf36h0gms3q" path="res://addons/maaacks_game_template/base/nodes/utilities/capture_focus.gd" id="8_8dhfv"]
+[ext_resource type="Texture2D" uid="uid://cx82p5x3wwf8j" path="res://assets/textures/stranded-spells-logo.png" id="8_xkrf4"]
+[ext_resource type="Script" uid="uid://dmkubt2nsnsbn" path="res://addons/maaacks_game_template/base/nodes/labels/config_version_label.gd" id="9_j8onx"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "Intro"
@@ -82,6 +88,30 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BackgroundTextureRect:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.6333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("MenuContainer/TitleImageMargin/TitleTextureRect:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.8, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="6"]
@@ -170,6 +200,18 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("BackgroundTextureRect:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="4"]
@@ -274,6 +316,30 @@ tracks/6/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("BackgroundTextureRect:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("MenuContainer/TitleImageMargin/TitleTextureRect:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2kqig"]
 _data = {
@@ -312,57 +378,213 @@ states/OpenSubMenu/node = SubResource("13")
 states/OpenSubMenu/position = Vector2(734, 123)
 states/Start/position = Vector2(82, 123)
 transitions = ["Intro", "OpenMainMenu", SubResource("11"), "OpenMainMenu", "OpenSubMenu", SubResource("14"), "Start", "Intro", SubResource("AnimationNodeStateMachineTransition_j0orr"), "OpenSubMenu", "OpenMainMenu", SubResource("AnimationNodeStateMachineTransition_63dxc")]
-graph_offset = Vector2(-180.277, 49)
+graph_offset = Vector2(-231.30515, 49)
 
-[node name="MainMenu" unique_id=455022277 instance=ExtResource("1_sr523")]
+[node name="MainMenu" type="Control" unique_id=455022277]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("2_ixa71")
-level_select_packed_scene = null
-confirm_new_game = true
 options_packed_scene = ExtResource("3_2k5l7")
 credits_packed_scene = ExtResource("4_vsp5b")
 
-[node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=1505298015]
+[node name="UISoundController" type="Node" parent="." unique_id=1619985599]
+script = ExtResource("4_dhrx6")
+
+[node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1505298015]
 libraries/ = SubResource("AnimationLibrary_2kqig")
 
-[node name="MenuAnimationTree" type="AnimationTree" parent="." index="2" unique_id=1255363252]
+[node name="MenuAnimationTree" type="AnimationTree" parent="." unique_id=1255363252]
 tree_root = SubResource("AnimationNodeStateMachine_vikuh")
 anim_player = NodePath("../MenuAnimationPlayer")
 parameters/conditions/intro_done = false
 
-[node name="TitleContainer" parent="MenuContainer/TitleMargin" parent_id_path=PackedInt32Array(2112060331) index="0" unique_id=556427956]
-modulate = Color(1, 1, 1, 0)
+[node name="BackgroundMusicPlayer" parent="." unique_id=1141822549 instance=ExtResource("5_xkrf4")]
 
-[node name="TitleLabel" parent="MenuContainer/TitleMargin/TitleContainer" index="0" unique_id=359406872]
+[node name="BackgroundColorRect" type="ColorRect" parent="." unique_id=1837648110]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BackgroundTextureRect" type="TextureRect" parent="." unique_id=1940176448]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_x5bcm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MenuContainer" type="MarginContainer" parent="." unique_id=396616752]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleMargin" type="MarginContainer" parent="MenuContainer" unique_id=2112060331]
+layout_mode = 2
+theme_override_constants/margin_top = 24
+
+[node name="TitleContainer" type="Control" parent="MenuContainer/TitleMargin" unique_id=556427956]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TitleLabel" type="Label" parent="MenuContainer/TitleMargin/TitleContainer" unique_id=359406872]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 67.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
 text = "Stranded Spells"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_672y5")
 
-[node name="SubTitleContainer" parent="MenuContainer/SubTitleMargin" parent_id_path=PackedInt32Array(1510335937) index="0" unique_id=930520368]
+[node name="SubTitleMargin" type="MarginContainer" parent="MenuContainer" unique_id=1510335937]
+layout_mode = 2
+theme_override_constants/margin_top = 92
+
+[node name="SubTitleContainer" type="Control" parent="MenuContainer/SubTitleMargin" unique_id=930520368]
 modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
 
-[node name="SubTitleLabel" parent="MenuContainer/SubTitleMargin/SubTitleContainer" index="0" unique_id=1037003361]
+[node name="SubTitleLabel" type="Label" parent="MenuContainer/SubTitleMargin/SubTitleContainer" unique_id=1037003361]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
 text = "Brackeys Game Jam 2026.1"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="MenuButtonsContainer" parent="MenuContainer/MenuButtonsMargin" parent_id_path=PackedInt32Array(210553886) index="0" unique_id=116448484]
+[node name="MenuButtonsMargin" type="MarginContainer" parent="MenuContainer" unique_id=210553886]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_top = 136
+theme_override_constants/margin_right = 300
+theme_override_constants/margin_bottom = 200
+
+[node name="MenuButtonsContainer" type="Control" parent="MenuContainer/MenuButtonsMargin" unique_id=116448484]
 modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
 
-[node name="MenuButtonsBoxContainer" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer" index="0" unique_id=2017477786]
+[node name="MenuButtonsBoxContainer" type="BoxContainer" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer" unique_id=2017477786]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -288.0
+offset_right = 109.0
+offset_bottom = 288.0
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+alignment = 1
+vertical = true
+script = ExtResource("8_8dhfv")
 lock = true
 
-[node name="ContinueGameButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="1" unique_id=1061502845]
+[node name="NewGameButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=2044537792]
+unique_name_in_owner = true
+layout_mode = 2
+text = "New Game"
+
+[node name="ContinueGameButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1061502845]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Continue"
 
-[node name="LevelSelectButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="2" unique_id=1608098344]
+[node name="LevelSelectButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1608098344]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Level Select"
 
-[node name="VersionContainer" parent="VersionMargin" parent_id_path=PackedInt32Array(1732528471) index="0" unique_id=1603969262]
-modulate = Color(1, 1, 1, 0)
+[node name="OptionsButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1486236076]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Options"
 
-[node name="NewGameConfirmation" parent="." index="7" unique_id=291913255 instance=ExtResource("5_6xh1d")]
+[node name="CreditsButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=301223169]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Credits"
+
+[node name="ExitButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1750454379]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Exit"
+
+[node name="TitleImageMargin" type="MarginContainer" parent="MenuContainer" unique_id=391650362]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/margin_right = 150
+
+[node name="TitleTextureRect" type="TextureRect" parent="MenuContainer/TitleImageMargin" unique_id=1279754090]
+layout_mode = 2
+texture = ExtResource("8_xkrf4")
+expand_mode = 5
+
+[node name="VersionMargin" type="MarginContainer" parent="." unique_id=1732528471]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VersionContainer" type="Control" parent="VersionMargin" unique_id=1603969262]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VersionLabel" type="Label" parent="VersionMargin/VersionContainer" unique_id=793266470]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -26.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "v0.0.0"
+horizontal_alignment = 2
+script = ExtResource("9_j8onx")
+
+[node name="NewGameConfirmation" parent="." unique_id=291913255 instance=ExtResource("5_6xh1d")]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(420, 200)
@@ -376,7 +598,7 @@ text = "Are you sure you want to start a new game?
 All progress in the current game will be lost."
 title = "New Game"
 
-[node name="MouseFilter" type="Control" parent="." index="8" unique_id=1554668260]
+[node name="MouseFilter" type="Control" parent="." unique_id=1554668260]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -386,6 +608,24 @@ grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
+[node name="ExitConfirmation" parent="." unique_id=912502155 instance=ExtResource("5_6xh1d")]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(300, 160)
+layout_mode = 1
+offset_left = -150.0
+offset_top = -80.0
+offset_right = 150.0
+offset_bottom = 80.0
+ui_cancel_closes = false
+text = "Really exit the game?"
+title_visible = false
+
+[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/ContinueGameButton" to="." method="_on_continue_game_button_pressed"]
 [connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/LevelSelectButton" to="." method="_on_level_select_button_pressed"]
+[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="confirmed" from="NewGameConfirmation" to="." method="_on_new_game_confirmation_confirmed"]
+[connection signal="confirmed" from="ExitConfirmation" to="." method="_on_exit_confirmation_confirmed"]
