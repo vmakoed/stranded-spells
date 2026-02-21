@@ -3,14 +3,16 @@ extends GridContainer
 
 
 const CURRENT_COLOR = Color.DARK_VIOLET
-const ADJACENT_COLOR = Color.DARK_VIOLET
-const VISITED_COLOR = Color.LIGHT_GRAY
+const ADJACENT_COLOR = Color.PERU
+const VISITED_COLOR = Color.DIM_GRAY
 
 
 var visited_rooms = []
+var tween: Tween
 
 
 func refresh() -> void:
+	if tween: tween.stop()
 	visited_rooms = GameState.get_visited_rooms()
 	_clear_map()
 	_fill_map()
@@ -41,10 +43,25 @@ func _fill_visited_rooms() -> void:
 
 
 func _fill_current_room(room_number: String) -> void:
-	_fill_all_directions( 
-		_room_container(room_number), 
-		CURRENT_COLOR
-	)
+	tween = create_tween()
+	var grid_container = _room_container(room_number)
+	var rects_to_fill = grid_container.get_children()
+
+	for rect: TextureRect in rects_to_fill:
+		tween.set_loops(3)
+		tween.set_parallel()
+		tween.tween_property(
+			rect,
+			"modulate",
+			Color.LIGHT_GRAY,
+			1
+		).from(CURRENT_COLOR)
+		tween.tween_property(
+			rect,
+			"modulate",
+			CURRENT_COLOR,
+			1
+		).from(Color.LIGHT_GRAY)
 
 
 func _fill_adjacent_rooms(room_number: String) -> void:
@@ -65,16 +82,16 @@ func _fill_room_direction(grid_container: GridContainer, direction: MapConfigura
 	var rects_to_fill: Array[Node] = []
 	
 	match direction:			
-		MapConfiguration.Direction.DOWN:
+		MapConfiguration.Direction.UP:
 			rects_to_fill.append(texture_rects[0])
 			rects_to_fill.append(texture_rects[1])
-		MapConfiguration.Direction.LEFT:
+		MapConfiguration.Direction.RIGHT:
 			rects_to_fill.append(texture_rects[1])
 			rects_to_fill.append(texture_rects[3])
-		MapConfiguration.Direction.UP:
+		MapConfiguration.Direction.DOWN:
 			rects_to_fill.append(texture_rects[2])
 			rects_to_fill.append(texture_rects[3])
-		MapConfiguration.Direction.RIGHT:
+		MapConfiguration.Direction.LEFT:
 			rects_to_fill.append(texture_rects[0])
 			rects_to_fill.append(texture_rects[2])
 

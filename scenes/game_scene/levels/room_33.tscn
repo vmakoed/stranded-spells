@@ -1,9 +1,10 @@
 [gd_scene format=4 uid="uid://18ff3v2i6y0x"]
 
-[ext_resource type="Script" uid="uid://bxvb4vv5r0gjd" path="res://scenes/game_scene/levels/room_33.gd" id="1_31c5s"]
+[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/room.gd" id="1_4wsk6"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_sphrl"]
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_tj6c7"]
 [ext_resource type="PackedScene" uid="uid://dj7hyyystrb57" path="res://scenes/door_left.tscn" id="4_2c20b"]
+[ext_resource type="PackedScene" uid="uid://cbclie1d2agk7" path="res://scenes/enemy.tscn" id="6_4wsk6"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_m5cq8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
@@ -141,8 +142,11 @@ sources/0 = SubResource("TileSetAtlasSource_crmjo")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sphrl"]
+size = Vector2(128, 16)
+
 [node name="Room33" type="Node" unique_id=1049756891]
-script = ExtResource("1_31c5s")
+script = ExtResource("1_4wsk6")
 exit_left_path = "uid://baw366xq3cfgy"
 exit_down_path = "uid://csuv4ggkgli0a"
 
@@ -182,9 +186,32 @@ position = Vector2(160, 170)
 unique_name_in_owner = true
 position = Vector2(80, 90)
 
+[node name="StartChallegeDownArea" type="Area2D" parent="." unique_id=1751195075]
+position = Vector2(160, 130)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeDownArea" unique_id=1700779705]
+shape = SubResource("RectangleShape2D_sphrl")
+
+[node name="StartChallegeLeftArea" type="Area2D" parent="." unique_id=1729364361]
+position = Vector2(120, 90)
+rotation = -1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeLeftArea" unique_id=893003387]
+shape = SubResource("RectangleShape2D_sphrl")
+
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_m5cq8")]
 unique_name_in_owner = true
 position = Vector2(160, 90)
 
+[node name="Enemies" type="Node" parent="." unique_id=926149919]
+unique_name_in_owner = true
+
+[node name="Enemy" parent="Enemies" unique_id=631843200 instance=ExtResource("6_4wsk6")]
+position = Vector2(216, 94)
+
 [connection signal="body_entered" from="ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeDownArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeLeftArea" to="." method="_on_start_challege_area_body_entered"]

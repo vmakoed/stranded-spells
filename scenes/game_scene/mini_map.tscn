@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bs08x0l7bps6t"]
 
 [ext_resource type="Script" uid="uid://bwvsqtuor0qt4" path="res://scenes/game_scene/mini_map.gd" id="1_ro1au"]
-[ext_resource type="Texture2D" uid="uid://bamodhuf2uefi" path="res://assets/textures/tile_0013.png" id="2_ro1au"]
+[ext_resource type="Texture2D" uid="uid://tlvcu75du5jt" path="res://assets/textures/map_square.png" id="2_ro1au"]
 
 [node name="MiniMap" type="GridContainer" unique_id=151508479]
 size_flags_horizontal = 0
@@ -19,6 +19,7 @@ layout_mode = 2
 
 [node name="PanelContainer26" type="PanelContainer" parent="." unique_id=957015592]
 layout_mode = 2
+theme_type_variation = &"MapCellContainer"
 
 [node name="GridContainer24" type="GridContainer" parent="PanelContainer26" unique_id=1344289450]
 unique_name_in_owner = true

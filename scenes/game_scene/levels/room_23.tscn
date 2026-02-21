@@ -1,11 +1,12 @@
 [gd_scene format=4 uid="uid://c2s8lystybws8"]
 
-[ext_resource type="Script" uid="uid://ctxuhi05mchev" path="res://scenes/game_scene/levels/room_23.gd" id="1_ip5ne"]
+[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/room.gd" id="1_hif6i"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_hif6i"]
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_vi3kd"]
 [ext_resource type="PackedScene" uid="uid://dj7hyyystrb57" path="res://scenes/door_left.tscn" id="4_01p8w"]
 [ext_resource type="PackedScene" uid="uid://cst0s1ds2f44f" path="res://scenes/door_right.tscn" id="5_xmg0p"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_5etqf"]
+[ext_resource type="PackedScene" uid="uid://cbclie1d2agk7" path="res://scenes/enemy.tscn" id="7_hif6i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("2_hif6i")
@@ -145,8 +146,11 @@ size = Vector2(32, 3.2000003)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vi3kd"]
+size = Vector2(128, 16)
+
 [node name="Room23" type="Node" unique_id=1049756891]
-script = ExtResource("1_ip5ne")
+script = ExtResource("1_hif6i")
 exit_up_path = "uid://spnublb0b1hq"
 exit_left_path = "uid://drtv74hpsavml"
 exit_right_path = "uid://csyoay47kqvuj"
@@ -208,6 +212,41 @@ position = Vector2(240, 90)
 unique_name_in_owner = true
 position = Vector2(160, 90)
 
+[node name="Enemies" type="Node" parent="." unique_id=1452198003]
+unique_name_in_owner = true
+
+[node name="Enemy2" parent="Enemies" unique_id=502689949 instance=ExtResource("7_hif6i")]
+position = Vector2(136, 130)
+
+[node name="Enemy3" parent="Enemies" unique_id=1346748417 instance=ExtResource("7_hif6i")]
+position = Vector2(184, 130)
+
+[node name="StartChallegeUpArea" type="Area2D" parent="." unique_id=739430818]
+position = Vector2(160, 50)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeUpArea" unique_id=115622663]
+shape = SubResource("RectangleShape2D_vi3kd")
+
+[node name="StartChallegeRightArea" type="Area2D" parent="." unique_id=475096849]
+position = Vector2(200, 90)
+rotation = 1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeRightArea" unique_id=681097281]
+shape = SubResource("RectangleShape2D_vi3kd")
+
+[node name="StartChallegeLeftArea" type="Area2D" parent="." unique_id=1100052794]
+position = Vector2(120, 90)
+rotation = -1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeLeftArea" unique_id=630243849]
+shape = SubResource("RectangleShape2D_vi3kd")
+
 [connection signal="body_entered" from="ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
 [connection signal="body_entered" from="ExitRightArea" to="." method="_on_exit_right_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeUpArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeRightArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeLeftArea" to="." method="_on_start_challege_area_body_entered"]

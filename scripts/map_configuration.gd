@@ -59,6 +59,7 @@ const ROOM_CONNECTIONS = {
 }
 
 const ROOM_TITLES = {
+    "20" = "DOWN DOWN",
     "02" = "Icebreaker",
     "42" = "Chain Reaction",
     "24" = "Eternal Fire"

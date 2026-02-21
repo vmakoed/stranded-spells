@@ -5,8 +5,7 @@ signal swithed_off
 
 
 @export var spell: SpellDefinitions.Spell
-
-
+var on := true
 @onready var animated_sprite: AnimatedSprite2D = find_child("AnimatedSprite2D")
 
 
@@ -36,4 +35,4 @@ func receive_fire(_direction: Vector2) -> void:
 
 
 func _receive_spell(received_spell: SpellDefinitions.Spell) -> void:
-	if spell == received_spell: switch_off()
+	if spell == received_spell and on: switch_off()

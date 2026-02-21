@@ -1,5 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://2p6glpubmhup"]
 
+[ext_resource type="StyleBox" uid="uid://b5u3akm7l5gu5" path="res://resources/new_style_box_flat.tres" id="1_034sy"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4b4gg"]
 content_margin_left = 12.0
 content_margin_right = 12.0
@@ -67,22 +69,6 @@ border_width_bottom = 3
 border_color = Color(0.8, 0.8, 0.8, 0)
 corner_radius_top_left = 4
 corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ulcur"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.0784314, 0.121569, 0.145098, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.0431373, 0.0627451, 0.0862745, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aliwb"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -180,8 +166,10 @@ HealthBar/styles/fill = SubResource("StyleBoxFlat_wep1q")
 LeftStaminaBar/base_type = &"ProgressBar"
 LeftStaminaBar/styles/background = SubResource("StyleBoxFlat_ywrjj")
 LeftStaminaBar/styles/fill = SubResource("StyleBoxFlat_tyerd")
-Panel/styles/panel = SubResource("StyleBoxFlat_ulcur")
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_ulcur")
+MapCellContainer/base_type = &"PanelContainer"
+MapCellContainer/styles/panel = ExtResource("1_034sy")
+Panel/styles/panel = ExtResource("1_034sy")
+PanelContainer/styles/panel = ExtResource("1_034sy")
 RightStaminaBar/base_type = &"ProgressBar"
 RightStaminaBar/styles/background = SubResource("StyleBoxFlat_aliwb")
 RightStaminaBar/styles/fill = SubResource("StyleBoxFlat_tnl2j")

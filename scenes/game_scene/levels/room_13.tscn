@@ -1,10 +1,11 @@
 [gd_scene format=4 uid="uid://baw366xq3cfgy"]
 
-[ext_resource type="Script" uid="uid://fuum1f76f0yw" path="res://scenes/game_scene/levels/room_13.gd" id="1_betmx"]
+[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/room.gd" id="1_q5qm3"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_fkpyk"]
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_76w4w"]
 [ext_resource type="PackedScene" uid="uid://cst0s1ds2f44f" path="res://scenes/door_right.tscn" id="5_7qulb"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_learc"]
+[ext_resource type="PackedScene" uid="uid://cbclie1d2agk7" path="res://scenes/enemy.tscn" id="6_q5qm3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("2_fkpyk")
@@ -141,8 +142,11 @@ sources/0 = SubResource("TileSetAtlasSource_crmjo")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fkpyk"]
+size = Vector2(128, 16)
+
 [node name="Room13" type="Node" unique_id=1049756891]
-script = ExtResource("1_betmx")
+script = ExtResource("1_q5qm3")
 exit_down_path = "uid://dpc5midne5vba"
 exit_right_path = "uid://5hx7f4eo5soq"
 
@@ -182,9 +186,32 @@ position = Vector2(160, 170)
 unique_name_in_owner = true
 position = Vector2(240, 90)
 
+[node name="StartChallegeRightArea" type="Area2D" parent="." unique_id=276976160]
+position = Vector2(200, 90)
+rotation = 1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeRightArea" unique_id=1001983346]
+shape = SubResource("RectangleShape2D_fkpyk")
+
+[node name="StartChallegeDownArea" type="Area2D" parent="." unique_id=615010623]
+position = Vector2(160, 130)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeDownArea" unique_id=1051074901]
+shape = SubResource("RectangleShape2D_fkpyk")
+
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_learc")]
 unique_name_in_owner = true
 position = Vector2(160, 90)
 
+[node name="Enemies" type="Node" parent="." unique_id=218907731]
+unique_name_in_owner = true
+
+[node name="Enemy" parent="Enemies" unique_id=631843200 instance=ExtResource("6_q5qm3")]
+position = Vector2(112, 42)
+
 [connection signal="body_entered" from="ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="ExitRightArea" to="." method="_on_exit_right_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeRightArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeDownArea" to="." method="_on_start_challege_area_body_entered"]

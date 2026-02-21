@@ -171,7 +171,7 @@ unique_name_in_owner = true
 position = Vector2(160, 10)
 
 [node name="StartChallegeUpArea" type="Area2D" parent="." unique_id=1039503439]
-position = Vector2(160, 42)
+position = Vector2(160, 50)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeUpArea" unique_id=1440231669]
@@ -184,14 +184,11 @@ position = Vector2(160, 90)
 [node name="Enemies" type="Node" parent="." unique_id=1519225934]
 unique_name_in_owner = true
 
-[node name="Enemy1" parent="Enemies" unique_id=631843200 instance=ExtResource("5_pnhm1")]
-position = Vector2(128, 66)
+[node name="Enemy" parent="Enemies" unique_id=70675394 instance=ExtResource("5_pnhm1")]
+position = Vector2(120, 114)
 
-[node name="Enemy2" parent="Enemies" unique_id=2058921711 instance=ExtResource("5_pnhm1")]
-position = Vector2(192, 66)
-
-[node name="Enemy3" parent="Enemies" unique_id=70675394 instance=ExtResource("5_pnhm1")]
-position = Vector2(160, 114)
+[node name="Enemy2" parent="Enemies" unique_id=631843200 instance=ExtResource("5_pnhm1")]
+position = Vector2(200, 114)
 
 [connection signal="body_entered" from="ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="StartChallegeUpArea" to="." method="_on_start_challege_area_body_entered"]
