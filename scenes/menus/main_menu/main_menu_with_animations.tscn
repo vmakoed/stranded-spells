@@ -338,7 +338,7 @@ tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2kqig"]
@@ -378,7 +378,7 @@ states/OpenSubMenu/node = SubResource("13")
 states/OpenSubMenu/position = Vector2(734, 123)
 states/Start/position = Vector2(82, 123)
 transitions = ["Intro", "OpenMainMenu", SubResource("11"), "OpenMainMenu", "OpenSubMenu", SubResource("14"), "Start", "Intro", SubResource("AnimationNodeStateMachineTransition_j0orr"), "OpenSubMenu", "OpenMainMenu", SubResource("AnimationNodeStateMachineTransition_63dxc")]
-graph_offset = Vector2(-231.30515, 49)
+graph_offset = Vector2(-1789, 43)
 
 [node name="MainMenu" type="Control" unique_id=455022277]
 layout_mode = 3
@@ -547,6 +547,7 @@ size_flags_vertical = 4
 theme_override_constants/margin_right = 150
 
 [node name="TitleTextureRect" type="TextureRect" parent="MenuContainer/TitleImageMargin" unique_id=1279754090]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 texture = ExtResource("8_xkrf4")
 expand_mode = 5
