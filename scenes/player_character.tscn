@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://dpcbhpp6q87hi"]
 
 [ext_resource type="Script" uid="uid://c3h1iry5g8kun" path="res://scenes/player_character.gd" id="1_1t15j"]
+[ext_resource type="AudioStream" uid="uid://dhc5rsiibtf43" path="res://assets/audio/kick.wav" id="2_2vmgx"]
 [ext_resource type="Texture2D" uid="uid://dfwc1mnvi8oj2" path="res://assets/textures/tile_0084.png" id="2_6r27q"]
+[ext_resource type="AudioStream" uid="uid://b88koapwt2qb5" path="res://assets/audio/ice_in_water.wav" id="2_uj7mf"]
 [ext_resource type="Texture2D" uid="uid://cdi8hdp1gnfcx" path="res://assets/textures/circle.svg" id="3_kww55"]
 [ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="4_4h0vy"]
+[ext_resource type="AudioStream" uid="uid://38hk41achmfl" path="res://assets/audio/fire_lighting.wav" id="4_6unfe"]
+[ext_resource type="AudioStream" uid="uid://cunerluvsac8a" path="res://assets/audio/bone_snap.wav" id="4_pxja8"]
+[ext_resource type="AudioStream" uid="uid://bhbqbbblv5qrd" path="res://assets/audio/slap.wav" id="6_iadup"]
+[ext_resource type="AudioStream" uid="uid://cso5fxf8ydyi7" path="res://assets/audio/page_turn.wav" id="7_herhr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kww55"]
 radius = 7.0
@@ -14,6 +20,12 @@ radius = 2.8240407
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=745586083]
 collision_mask = 6
 script = ExtResource("1_1t15j")
+push_sound = ExtResource("2_2vmgx")
+frost_sound = ExtResource("2_uj7mf")
+shock_sound = ExtResource("4_pxja8")
+fire_sound = ExtResource("4_6unfe")
+hit_sound = ExtResource("6_iadup")
+pickup_sound = ExtResource("7_herhr")
 
 [node name="CharacterSprite" type="Sprite2D" parent="." unique_id=1015337729]
 unique_name_in_owner = true
@@ -54,5 +66,9 @@ shape = SubResource("CircleShape2D_kww55")
 [node name="InvincibilityTimer" type="Timer" parent="." unique_id=415396756]
 unique_name_in_owner = true
 one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1621103847]
+unique_name_in_owner = true
+bus = &"SFX"
 
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

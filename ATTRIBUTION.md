@@ -6,10 +6,6 @@
 [RubyBit](https://rubybit.itch.io/)
 
 
-### Game Logo Artist
-Bram Geenen
-
-
 ### Godot Game Template
 ![Maaack Plugin Icon](/assets/plugin_logo/logo.png)  
 Author: [Marek Belski and contributors](https://github.com/Maaack/Godot-Game-Template/graphs/contributors)
@@ -30,6 +26,9 @@ Author: [Chequered Ink](https://ci.itch.io/)
 ### Main Menu and Thumbnail Art
 Author: [Mio Eid](https://www.pexels.com/@mo-eid-1268975/)
 
+### Music
+Author: [JHawk](https://jhawk-studios.itch.io/)
+
 
 ## Tools
 #### Godot
@@ -48,3 +47,6 @@ License: [MIT License](https://github.com/microsoft/vscode/blob/main/LICENSE.txt
 Author: [Linus Torvalds](https://github.com/torvalds)  
 Source: [git-scm.com](https://git-scm.com/downloads)  
 License: [GNU General Public License version 2](https://opensource.org/licenses/GPL-2.0)
+
+#### Affinity
+[Website](https://www.affinity.studio/)

@@ -103,31 +103,31 @@ func _ready_active_level() -> void:
 
 
 func _clear_level() -> void:
-	_open_doors()
+	_open_doors(true)
 	player_character.save_health()
 	level_state.cleared = true
 	GlobalState.save()
 
 
-func _open_doors() -> void:
-	if door_up: door_up.open() 
-	if door_right: door_right.open()
-	if door_down: door_down.open()
-	if door_left: door_left.open()
+func _open_doors(with_sound = false) -> void:
+	if door_up: door_up.open(with_sound) 
+	if door_right: door_right.open(with_sound)
+	if door_down: door_down.open(with_sound)
+	if door_left: door_left.open(with_sound)
 
 
-func _close_doors() -> void:
-	if door_up: door_up.close() 
-	if door_right: door_right.close()
-	if door_down: door_down.close()
-	if door_left: door_left.close()
+func _close_doors(with_sound = false) -> void:
+	if door_up: door_up.close(with_sound) 
+	if door_right: door_right.close(with_sound)
+	if door_down: door_down.close(with_sound)
+	if door_left: door_left.close(with_sound)
 
 
 func _start_challenge() -> void:
 	for enemy: Enemy in _get_enemies(): 
 		enemy.player = player_character
 	challenge_started = true
-	_close_doors()
+	_close_doors(true)
 
 
 func _get_enemies() -> Array[Node]:

@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://spufl7r6c11f" path="res://scenes/door.gd" id="1_ji8ic"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_ehkvc"]
+[ext_resource type="AudioStream" uid="uid://dhodhf5q8vqhm" path="res://assets/audio/door_open.wav" id="2_g6d5q"]
+[ext_resource type="AudioStream" uid="uid://c7jrkdevxmgwr" path="res://assets/audio/door_close.wav" id="3_v1tcc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ji8ic"]
 atlas = ExtResource("2_ehkvc")
@@ -37,6 +39,8 @@ size = Vector2(31.980545, 8)
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_ji8ic")
+open_sound = ExtResource("2_g6d5q")
+close_sound = ExtResource("3_v1tcc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1889943854]
 unique_name_in_owner = true
@@ -48,3 +52,7 @@ unique_name_in_owner = true
 rotation = -1.5707964
 scale = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_1onhq")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1569110246]
+unique_name_in_owner = true
+bus = &"SFX"

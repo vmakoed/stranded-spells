@@ -14,6 +14,7 @@ func _ready() -> void:
 
 
 func switch_off() -> void:
+	on = false
 	animated_sprite.play("off")
 	swithed_off.emit()
 

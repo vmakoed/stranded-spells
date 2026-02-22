@@ -14,11 +14,12 @@ const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
 const CAST_FRAME_FREEZE_DURATION = 0.15
 
 
-@onready var spell_area: Area2D = %SpellArea
-@onready var spell_area_sprite = %SpellAreaSprite
-@onready var hurtbox_collision_shape: CollisionShape2D = %HurtBoxCollisionShape
-@onready var invincibility_timer: Timer = %InvincibilityTimer
-@onready var character_sprite: Sprite2D = %CharacterSprite
+@export var push_sound: AudioStream
+@export var frost_sound: AudioStream
+@export var shock_sound: AudioStream
+@export var fire_sound: AudioStream
+@export var hit_sound: AudioStream
+@export var pickup_sound: AudioStream
 
 
 var health: float: set = _set_health
@@ -26,6 +27,14 @@ var invincible := false
 var dead := false
 var invincibility_tween: Tween 
 var initial_sprite_modulate: Color
+
+
+@onready var spell_area: Area2D = %SpellArea
+@onready var spell_area_sprite = %SpellAreaSprite
+@onready var hurtbox_collision_shape: CollisionShape2D = %HurtBoxCollisionShape
+@onready var invincibility_timer: Timer = %InvincibilityTimer
+@onready var character_sprite: Sprite2D = %CharacterSprite
+@onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 
 func _ready() -> void:
@@ -52,6 +61,7 @@ func take_damage(damage: float) -> void:
 
 	if not invincible: 
 		health -= damage
+		_play_hit_sound()
 		_blink_sprite()
 		
 	if health <= 0:
@@ -66,6 +76,12 @@ func take_damage(damage: float) -> void:
 
 func save_health() -> void:
 	GameState.set_player_character_health(health)
+
+
+func play_pickup_sound() -> void:
+	if not pickup_sound: return
+	audio_stream_player.stream = pickup_sound
+	audio_stream_player.play()
 
 
 func _set_health(new_value: float) -> void:
@@ -87,6 +103,7 @@ func _blink_sprite() -> void:
 func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
 	var receiving_method := SpellDefinitions.SPELL_RECEIVING_METHODS[spell]
 	var spell_receivers := _get_spell_receivers(spell)
+	_play_spell_sound(spell)
 	if spell_receivers.is_empty(): return
 
 	Engine.time_scale = CAST_FRAME_FREEZE_TIME_SCALE
@@ -158,6 +175,35 @@ func _hide_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
 			SpellDefinitions.SPELL_AREA_COLORS[spell] - transparency_difference, 
 			CAST_FADEOUT_DURATION
 		).from(SpellDefinitions.SPELL_AREA_COLORS[spell])
+
+
+func _play_spell_sound(spell: SpellDefinitions.Spell) -> void:
+	var sound = _get_spell_stream(spell)
+	if not sound: return
+	audio_stream_player.stream = sound
+
+	match spell:
+		SpellDefinitions.Spell.SHOCK:
+			audio_stream_player.play(0.5)
+		_:
+			audio_stream_player.play()
+
+
+func _play_hit_sound() -> void:
+	var sound = hit_sound
+	if not sound: return
+	audio_stream_player.stream = sound
+	audio_stream_player.play()
+
+
+func _get_spell_stream(spell: SpellDefinitions.Spell) -> AudioStream:
+	match spell:
+		SpellDefinitions.Spell.PUSH: return push_sound
+		SpellDefinitions.Spell.FROST: return frost_sound
+		SpellDefinitions.Spell.SHOCK: return shock_sound
+		SpellDefinitions.Spell.FIRE: return fire_sound
+		_ : return push_sound
+
 
 
 func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:

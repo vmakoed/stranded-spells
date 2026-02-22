@@ -15,5 +15,55 @@ script = ExtResource("1_jnbjt")
 [node name="CreditsLabel" parent="." unique_id=899392894 instance=ExtResource("2_35kdw")]
 unique_name_in_owner = true
 layout_mode = 1
+text = "[font_size=48]Collaborators[/font_size]
+
+[font_size=32]A Game By[/font_size]
+[img=80]res:///assets/collaborator_logos/rubybit.jpeg[/img]
+[url=https://rubybit.itch.io/]RubyBit[/url]
+
+
+[font_size=32]Game Logo Artist[/font_size]
+Bram Geenen
+
+
+[font_size=32]Godot Game Template[/font_size]
+[img=80]res:///assets/plugin_logo/logo.png[/img]  
+Author: [url=https://github.com/Maaack/Godot-Game-Template/graphs/contributors]Marek Belski and contributors[/url]
+Source: [url=https://github.com/Maaack/Godot-Game-Template]github: Godot-Game-Template[/url]  
+License: [url=LICENSE.txt]MIT License[/url]  
+
+
+[font_size=48]Sourced[/font_size]
+[font_size=24]Dungeon Asset Pack[/font_size]
+Author: [url=https://pixel-poem.itch.io/]Pixel Poem[/url]
+
+[font_size=24]Multiple Asset Packs[/font_size]
+Author: [url=https://kenney.nl/]Kenney[/url]
+
+[font_size=24]10,000+ Game Assets[/font_size]
+Author: [url=https://ci.itch.io/]Chequered Ink[/url]
+
+[font_size=32]Main Menu and Thumbnail Art[/font_size]
+Author: [url=https://www.pexels.com/@mo-eid-1268975/]Mio Eid[/url]
+
+
+[font_size=48]Tools[/font_size]
+[font_size=24]Godot[/font_size]
+[img=80]res:///assets/godot_engine_logo/logo_vertical_color_dark.png[/img]  
+Author: [url=https://godotengine.org/contact]Juan Linietsky, Ariel Manzur, and contributors[/url]  
+Source: [url=https://godotengine.org/]godotengine.org[/url]  
+License: [url=https://github.com/godotengine/godot/blob/master/LICENSE.txt]MIT License[/url]  
+
+[font_size=24]Visual Studio Code[/font_size]
+Author: [url=https://opensource.microsoft.com/]Microsoft[/url]  
+Source: [url=https://github.com/microsoft/vscode]github: vscode[/url]  
+License: [url=https://github.com/microsoft/vscode/blob/main/LICENSE.txt]MIT License[/url]
+
+[font_size=24]Git[/font_size]
+[img=80]res:///assets/git_logo/Git-Logo-2Color.png[/img]  
+Author: [url=https://github.com/torvalds]Linus Torvalds[/url]  
+Source: [url=https://git-scm.com/downloads]git-scm.com[/url]  
+License: [url=https://opensource.org/licenses/GPL-2.0]GNU General Public License version 2[/url]
+"
 fit_content = false
 scroll_active = true
