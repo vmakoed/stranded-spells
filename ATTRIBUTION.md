@@ -1,22 +1,35 @@
 # Attribution
 ## Collaborators
 
+### A Game By
+![RubyBit Logo](/assets/collaborator_logos/rubybit.jpeg)
+[RubyBit](https://rubybit.itch.io/)
+
+
+### Game Logo Artist
+Bram Geenen
+
+
 ### Godot Game Template
 ![Maaack Plugin Icon](/assets/plugin_logo/logo.png)  
-Author: [Marek Belski and contributors](https://github.com/Maaack/Godot-Game-Template/graphs/contributors)  
+Author: [Marek Belski and contributors](https://github.com/Maaack/Godot-Game-Template/graphs/contributors)
 Source: [github: Godot-Game-Template](https://github.com/Maaack/Godot-Game-Template)  
 License: [MIT License](LICENSE.txt)  
 
-## Sourced
-#### Godot Engine Logo
-Author: Andrea Calabró  
-Source: [godotengine.org : press](https://godotengine.org/press/)  
-License: [CC BY 4.0 International](https://github.com/godotengine/godot/blob/master/LOGO_LICENSE.txt) 
 
-#### Git Logo
-Author: [Jason Long](https://bsky.app/profile/jasonlong.me)  
-Source: [git-scm.com : logos](https://git-scm.com/downloads/logos)  
-License: [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) 
+## Sourced
+#### Dungeon Asset Pack
+Author: [Pixel Poem](https://pixel-poem.itch.io/)
+
+#### Multiple Asset Packs
+Author: [Kenney](https://kenney.nl/)
+
+#### 10,000+ Game Assets
+Author: [Chequered Ink](https://ci.itch.io/)
+
+### Main Menu and Thumbnail Art
+Author: [Mio Eid](https://www.pexels.com/@mo-eid-1268975/)
+
 
 ## Tools
 #### Godot
