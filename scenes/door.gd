@@ -29,11 +29,12 @@ func _ready() -> void:
 
 
 func _set_state(new_value: State) -> void:
-	if state == new_value:
+	animated_sprite.play(ANIMATIONS[new_value])
+
+	if state == new_value: p
 		return
 
 	state = new_value
-	animated_sprite.play(ANIMATIONS[state])
 
 	match state:
 		State.CLOSED: collision_shape.set_deferred("disabled", false)

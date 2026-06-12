@@ -4,14 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_ehkvc"]
 [ext_resource type="AudioStream" uid="uid://dhodhf5q8vqhm" path="res://assets/audio/door_open.wav" id="2_g6d5q"]
 [ext_resource type="AudioStream" uid="uid://c7jrkdevxmgwr" path="res://assets/audio/door_close.wav" id="3_v1tcc"]
+[ext_resource type="Texture2D" uid="uid://daqh76qr2hanh" path="res://assets/textures/door_right_open.png" id="5_v1tcc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ji8ic"]
 atlas = ExtResource("2_ehkvc")
 region = Rect2(112, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ox2pn"]
-atlas = ExtResource("2_ehkvc")
-region = Rect2(112, 0, 16, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_la1wf"]
 animations = [{
@@ -25,7 +22,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ox2pn")
+"texture": ExtResource("5_v1tcc")
 }],
 "loop": true,
 "name": &"open",
@@ -45,7 +42,7 @@ close_sound = ExtResource("3_v1tcc")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1889943854]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_la1wf")
-animation = &"closed"
+animation = &"open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=867515275]
 unique_name_in_owner = true

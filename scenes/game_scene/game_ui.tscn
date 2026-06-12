@@ -12,11 +12,28 @@
 [ext_resource type="PackedScene" uid="uid://c2c3f1ywjlrff" path="res://scenes/loading_screen/level_loading_screen.tscn" id="10_0v86b"]
 [ext_resource type="Script" uid="uid://bnhmjy582mlax" path="res://scenes/game_scene/configurable_sub_viewport.gd" id="11_ulq3g"]
 [ext_resource type="Script" uid="uid://bmcttnpvsi36l" path="res://scenes/game_scene/game_timer.gd" id="12_gpor5"]
+[ext_resource type="Texture2D" uid="uid://dr3xk7rcnsiw4" path="res://assets/textures/keyboard-&-mouse_sheet_default.png" id="13_i7m4m"]
 [ext_resource type="Texture2D" uid="uid://co6dms25h23so" path="res://resources/input_down_texture.tres" id="14_3re04"]
 [ext_resource type="Texture2D" uid="uid://dri6xxl20aw3v" path="res://resources/input_left_texture.tres" id="15_ukb12"]
 [ext_resource type="Texture2D" uid="uid://b3sm4xxywgc1u" path="res://resources/input_up_texture.tres" id="16_i7m4m"]
 [ext_resource type="Texture2D" uid="uid://bscptfvidja4n" path="res://resources/input_right_texture.tres" id="17_rkfhe"]
 [ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkfhe"]
+atlas = ExtResource("13_i7m4m")
+region = Rect2(512, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2ndc"]
+atlas = ExtResource("13_i7m4m")
+region = Rect2(384, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0v86b"]
+atlas = ExtResource("13_i7m4m")
+region = Rect2(640, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ulq3g"]
+atlas = ExtResource("13_i7m4m")
+region = Rect2(448, 640, 64, 64)
 
 [node name="GameUI" type="Control" unique_id=672765824]
 layout_mode = 3
@@ -128,6 +145,41 @@ size_flags_vertical = 8
 [node name="GridContainer" type="VBoxContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=550799427]
 layout_mode = 2
 size_flags_horizontal = 8
+
+[node name="MoveContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=2081199480]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer" unique_id=1667371753]
+layout_mode = 2
+
+[node name="MoveLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer" unique_id=1008825554]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "MOVE"
+
+[node name="MovePromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer" unique_id=66034783]
+layout_mode = 2
+
+[node name="W" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1009755538]
+layout_mode = 2
+texture = SubResource("AtlasTexture_rkfhe")
+expand_mode = 2
+
+[node name="A" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1499250815]
+layout_mode = 2
+texture = SubResource("AtlasTexture_g2ndc")
+expand_mode = 2
+
+[node name="S" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=372337337]
+layout_mode = 2
+texture = SubResource("AtlasTexture_0v86b")
+expand_mode = 2
+
+[node name="D" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1319636339]
+layout_mode = 2
+texture = SubResource("AtlasTexture_ulq3g")
+expand_mode = 2
 
 [node name="PushContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=181528453]
 unique_name_in_owner = true

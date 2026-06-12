@@ -71,7 +71,7 @@ func _fill_adjacent_rooms(room_number: String) -> void:
 			_fill_room_direction(
 				_room_container(adjacent_room_number),
 				direction,
-				ADJACENT_COLOR\
+				ADJACENT_COLOR
 			)
 
 
