@@ -31,7 +31,7 @@ func _ready() -> void:
 func _set_state(new_value: State) -> void:
 	animated_sprite.play(ANIMATIONS[new_value])
 
-	if state == new_value: p
+	if state == new_value:
 		return
 
 	state = new_value
