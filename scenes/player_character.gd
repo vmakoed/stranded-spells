@@ -3,11 +3,16 @@ extends CharacterBody2D
 
 
 signal destroyed
+signal focus_on_target_requested
+signal blur_on_target_requested
+signal focus_on_self_requested
+signal blur_on_self_requested
+signal focus_on_next_target_requested
+signal focus_on_previous_target_requested
 
 
 const MAX_HEALTH = 300.0
 const SPEED = 100.0
-const CAST_DURATION = 0.1
 const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
@@ -30,7 +35,6 @@ var initial_sprite_modulate: Color
 
 
 @onready var spell_area: Area2D = %SpellArea
-@onready var spell_area_sprite = %SpellAreaSprite
 @onready var hurtbox_collision_shape: CollisionShape2D = %HurtBoxCollisionShape
 @onready var invincibility_timer: Timer = %InvincibilityTimer
 @onready var character_sprite: Sprite2D = %CharacterSprite
@@ -39,7 +43,7 @@ var initial_sprite_modulate: Color
 
 func _ready() -> void:
 	health = GameState.get_player_character_health()
-	SpellSystem.spell_casted.connect(_on_spell_casted)
+	# SpellSystem.spell_casted.connect(_on_spell_casted)
 	initial_sprite_modulate = character_sprite.modulate
 
 
@@ -53,13 +57,41 @@ func _physics_process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	for action in SpellDefinitions.SPELL_ACTIONS.values():
 		if event.is_action_pressed(action):
-			SpellSystem.append_to_spell_sequence(action)
+			return SpellSystem.append_to_spell_sequence(action)
+
+	if event.is_action_pressed(&"focus_self"):
+		focus_on_self_requested.emit()
+		return
+
+	if event.is_action_released(&"focus_self"):
+		blur_on_self_requested.emit()
+		return
+
+	if event.is_action_pressed(&"focus_target"):
+		focus_on_target_requested.emit()
+		return
+
+	if event.is_action_released(&"focus_target"):
+		blur_on_target_requested.emit()
+		return
+
+	if event.is_action_pressed(&"reset_cast"):
+		SpellSystem.clear_spell_sequence()
+		return
+
+	if event.is_action_pressed(&"focus_target_next"):
+		focus_on_next_target_requested.emit()
+		return
+
+	if event.is_action_pressed(&"focus_target_previous"):
+		focus_on_previous_target_requested.emit()
+		return
 
 
 func take_damage(damage: float) -> void:
 	if dead: return
 
-	if not invincible: 
+	if not invincible:
 		health -= damage
 		_play_hit_sound()
 		_blink_sprite()
@@ -84,6 +116,18 @@ func play_pickup_sound() -> void:
 	audio_stream_player.play()
 
 
+func receive_push(_vector: Vector2) -> void:
+	print("player received push")
+
+
+func focus() -> void:
+	$FocusSprite.show()
+
+
+func unfocus() -> void:
+	$FocusSprite.hide()
+
+
 func _set_health(new_value: float) -> void:
 	health = new_value
 	GameUIBridge.health_changed.emit(health, MAX_HEALTH)
@@ -102,9 +146,12 @@ func _blink_sprite() -> void:
 
 func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
 	var receiving_method := SpellDefinitions.SPELL_RECEIVING_METHODS[spell]
-	var spell_receivers := _get_spell_receivers(spell)
+	# var spell_receivers := _get_spell_receivers(spell)
+	var spell_receivers := get_spell_receivers_ordered_by_distance()
 	_play_spell_sound(spell)
 	if spell_receivers.is_empty(): return
+
+	spell_receivers.resize(1)
 
 	Engine.time_scale = CAST_FRAME_FREEZE_TIME_SCALE
 	get_tree() \
@@ -116,11 +163,12 @@ func _resolve_spell_effects(spell: SpellDefinitions.Spell) -> void:
 		)
 
 	for spell_receiver: Node2D in spell_receivers:
+		print(spell_receiver)
 		if spell_receiver.has_method(receiving_method):
-			spell_receiver.call( 
+			spell_receiver.call(
 				receiving_method, \
-				global_position. \
-				direction_to(spell_receiver.global_position). \
+				global_position.\
+				direction_to(spell_receiver.global_position).\
 				normalized() \
 			)
 
@@ -144,37 +192,21 @@ func _get_spell_receivers(spell: SpellDefinitions.Spell) -> Array:
 		return targets
 
 
-func _reveal_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
-	var spell_area_sprite_scale = spell_area_sprite.scale
-	spell_area_sprite.scale = Vector2.ZERO
-	tween \
-		.tween_property(
-			spell_area_sprite,
-			"scale",
-			spell_area_sprite_scale,
-			CAST_DURATION
-		).from_current()
+func get_spell_receivers_ordered_by_distance() -> Array[Node]:
+	var spell_receivers = get_tree().get_nodes_in_group("enemies")
 
-	tween \
-		.parallel() \
-		.tween_property(
-			spell_area_sprite, 
-			"modulate",
-			SpellDefinitions.SPELL_AREA_COLORS[spell], 
-			CAST_DURATION
-		).from_current()
+	for receiver in spell_receivers:
+		print(global_position.distance_to(receiver.global_position))
 
-
-func _hide_spell_area(tween: Tween, spell: SpellDefinitions.Spell) -> void:
-	var transparency_difference: Color = Color(0, 0, 0, SpellDefinitions.SPELL_COLOR_TRANSPARENCY)
-	
-	tween \
-		.tween_property(
-			spell_area_sprite, 
-			"modulate",
-			SpellDefinitions.SPELL_AREA_COLORS[spell] - transparency_difference, 
-			CAST_FADEOUT_DURATION
-		).from(SpellDefinitions.SPELL_AREA_COLORS[spell])
+	spell_receivers \
+		.sort_custom(
+			func(node_1, node_2): return \
+				global_position \
+					.distance_to(node_1.global_position) < \
+					global_position \
+						.distance_to(node_2.global_position)
+		)
+	return spell_receivers
 
 
 func _play_spell_sound(spell: SpellDefinitions.Spell) -> void:
@@ -202,17 +234,11 @@ func _get_spell_stream(spell: SpellDefinitions.Spell) -> AudioStream:
 		SpellDefinitions.Spell.FROST: return frost_sound
 		SpellDefinitions.Spell.SHOCK: return shock_sound
 		SpellDefinitions.Spell.FIRE: return fire_sound
-		_ : return push_sound
-
+		_: return push_sound
 
 
 func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:
-	var tween = create_tween()
-	_reveal_spell_area(tween, spell)
-	tween.tween_callback(func():
-		_resolve_spell_effects(spell)
-	)
-	_hide_spell_area(tween, spell)
+	spell_area.animate(spell, _resolve_spell_effects.bind(spell))
 
 
 func _on_invincibility_timer_timeout() -> void:

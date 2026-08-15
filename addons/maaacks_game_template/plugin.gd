@@ -14,7 +14,11 @@ const EXAMPLES_RELATIVE_PATH = "examples/"
 const MAIN_SCENE_RELATIVE_PATH = "scenes/opening/opening.tscn"
 const OVERRIDE_RELATIVE_PATH = "installer/override.cfg"
 const APP_CONFIG_RELATIVE_PATH = "base/nodes/autoloads/app_config/app_config.tscn"
+const MAIN_MENU_RELATIVE_PATH = "scenes/menus/main_menu/main_menu.tscn"
+const GAME_SCENE_RELATIVE_PATH = "scenes/game_scene/game_ui.tscn"
+const ENDING_SCENE_RELATIVE_PATH = "scenes/end_credits/end_credits.tscn"
 const SCENE_LOADER_RELATIVE_PATH = "base/nodes/autoloads/scene_loader/scene_loader.tscn"
+const LOADING_SCREEN_SCENE_RELATIVE_PATH = "scenes/loading_screen/loading_screen.tscn"
 const THEMES_DIRECTORY_RELATIVE_PATH = "resources/themes"
 const WINDOW_OPEN_DELAY : float = 0.5
 const RUNNING_CHECK_DELAY : float = 0.25
@@ -81,15 +85,18 @@ func open_setup_complete_dialog(_target_path : String) -> void:
 	setup_complete_instance.visibility_changed.connect(_on_visibility_changed_to_hidden.bind(setup_complete_instance))
 	add_child(setup_complete_instance)
 
-func _delayed_open_setup_complete_dialog(target_path : String) -> void:
+func _delayed_call_with_path(callable : Callable, target_path : String) -> void:
 	var timer: Timer = Timer.new()
-	var callable := func():
+	var timer_callable := func():
 		timer.stop()
-		open_setup_complete_dialog(target_path)
+		callable.call(target_path)
 		timer.queue_free()
-	timer.timeout.connect(callable)
+	timer.timeout.connect(timer_callable)
 	add_child(timer)
 	timer.start(WINDOW_OPEN_DELAY)
+
+func _delayed_open_setup_complete_dialog(target_path : String) -> void:
+	_delayed_call_with_path(open_setup_complete_dialog, target_path)
 
 func _update_main_scene(target_path : String, main_scene_path : String) -> void:
 	ProjectSettings.set_setting("application/run/main_scene", main_scene_path)
@@ -148,7 +155,7 @@ func _run_opening_scene(target_path : String) -> void:
 	var callable := func() -> void:
 		if EditorInterface.is_playing_scene(): return
 		timer.stop()
-		_open_delete_examples_confirmation_dialog(target_path)
+		_delayed_call_with_path(_open_delete_examples_confirmation_dialog, target_path)
 		timer.queue_free()
 	timer.timeout.connect(callable)
 	add_child(timer)
@@ -197,16 +204,17 @@ func _copy_override_file() -> void:
 func _update_app_config_paths(target_path : String) -> void:
 	var file_path : String = get_app_config_path()
 	var file_text : String = FileAccess.get_file_as_string(file_path)
-	var prefixes : Array[String] = [
-		"main_menu_scene_path",
-		"game_scene_path",
-		"ending_scene_path",
-		]
-	for prefix in prefixes:
-		prefix += " = \""
-		var target_string = prefix + get_plugin_examples_path()
-		var replacing_string = prefix + target_path
-		file_text = file_text.replace(target_string, replacing_string)
+	var scene_paths : Dictionary[String, String] = {
+		"main_menu_scene_path" = MAIN_MENU_RELATIVE_PATH,
+		"game_scene_path" = GAME_SCENE_RELATIVE_PATH,
+		"ending_scene_path" = ENDING_SCENE_RELATIVE_PATH
+		}
+	for key in scene_paths:
+		var relative_path = scene_paths[key]
+		var path_for_regex := relative_path.replace("/", "\\/").replace(".", "\\.")
+		var regex := RegEx.create_from_string("%s = \"(\\S*)%s\"" % [key, path_for_regex])
+		var replacement : String = "%s = \"%s%s\"" % [key, target_path, relative_path]
+		file_text = regex.sub(file_text, replacement)
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	file.store_string(file_text)
 	file.close()
@@ -214,10 +222,10 @@ func _update_app_config_paths(target_path : String) -> void:
 func _update_scene_loader_path(target_path : String) -> void:
 	var file_path : String = get_scene_loader_path()
 	var file_text : String = FileAccess.get_file_as_string(file_path)
-	var prefix : String = "loading_screen_path = \""
-	var target_string = prefix + get_plugin_examples_path()
-	var replacing_string = prefix + target_path
-	file_text = file_text.replace(target_string, replacing_string)
+	var path_for_regex := LOADING_SCREEN_SCENE_RELATIVE_PATH.replace("/", "\\/").replace(".", "\\.")
+	var regex := RegEx.create_from_string("loading_screen_path = \"(\\S*)%s\"" % path_for_regex)
+	var replacement : String = "loading_screen_path = \"%s%s\"" % [target_path, LOADING_SCREEN_SCENE_RELATIVE_PATH]
+	file_text = regex.sub(file_text, replacement)
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	file.store_string(file_text)
 	file.close()
@@ -257,6 +265,21 @@ func _on_completed_copy_to_directory(target_path : String) -> void:
 	_copy_override_file()
 	_open_play_opening_confirmation_dialog(target_path)
 
+func are_examples_deleted() -> bool:
+	var dir := DirAccess.open("res://")
+	return not dir.dir_exists(get_plugin_examples_path())
+
+func is_partially_installed() -> bool:
+	var copy_path : String = ProjectSettings.get_setting(PROJECT_SETTINGS_PATH + "copy_path")
+	if copy_path.is_empty():
+		# Installation not started
+		return false
+	if not are_examples_deleted():
+		return true
+	if not are_autoload_paths_updated():
+		return true
+	return false
+
 func open_input_icons_dialog() -> void:
 	var input_icons_scene : PackedScene = load(get_plugin_path() + "installer/kenney_input_prompts_installer.tscn")
 	var input_icons_instance = input_icons_scene.instantiate()
@@ -275,6 +298,13 @@ func _open_confirmation_dialog() -> void:
 	var confirmation_instance : ConfirmationDialog = confirmation_scene.instantiate()
 	confirmation_instance.confirmed.connect(open_copy_and_edit_dialog)
 	confirmation_instance.canceled.connect(_check_main_scene_needs_updating.bind(get_copy_path()))
+	confirmation_instance.visibility_changed.connect(_on_visibility_changed_to_hidden.bind(confirmation_instance))
+	add_child(confirmation_instance)
+
+func _open_continue_setup_dialog() -> void:
+	var confirmation_scene : PackedScene = load(get_plugin_path() + "installer/continue_setup_confirmation_dialog.tscn")
+	var confirmation_instance : ConfirmationDialog = confirmation_scene.instantiate()
+	confirmation_instance.confirmed.connect(open_setup_wizard)
 	confirmation_instance.visibility_changed.connect(_on_visibility_changed_to_hidden.bind(confirmation_instance))
 	add_child(confirmation_instance)
 
@@ -313,12 +343,14 @@ func _remove_update_plugin_tool_option() -> void:
 	update_plugin_tool_string = ""
 
 func _show_plugin_dialogues() -> void:
-	if ProjectSettings.has_setting(PROJECT_SETTINGS_PATH + "disable_install_wizard") :
-		if ProjectSettings.get_setting(PROJECT_SETTINGS_PATH + "disable_install_wizard") :
-			return
-	_open_confirmation_dialog()
-	ProjectSettings.set_setting(PROJECT_SETTINGS_PATH + "disable_install_wizard", true)
-	ProjectSettings.save()
+	if not ProjectSettings.get_setting(PROJECT_SETTINGS_PATH + "disable_install_wizard", false):
+		_open_confirmation_dialog()
+		ProjectSettings.set_setting(PROJECT_SETTINGS_PATH + "disable_install_wizard", true)
+		ProjectSettings.save()
+		return
+	if is_partially_installed():
+		_open_continue_setup_dialog()
+		return
 
 func _resave_if_recently_opened() -> void:
 	if Engine.get_physics_frames() < MAX_PHYSICS_FRAMES_FROM_START:
@@ -347,13 +379,11 @@ func _add_audio_bus(bus_name : String) -> void:
 	ProjectSettings.save()
 
 func _install_audio_busses() -> void:
-	if ProjectSettings.has_setting(PROJECT_SETTINGS_PATH + "disable_install_audio_busses"):
-		if ProjectSettings.get_setting(PROJECT_SETTINGS_PATH + "disable_install_audio_busses") :
-			return
-	_add_audio_bus("Music")
-	_add_audio_bus("SFX")
-	ProjectSettings.set_setting(PROJECT_SETTINGS_PATH + "disable_install_audio_busses", true)
-	ProjectSettings.save()
+	if not ProjectSettings.get_setting(PROJECT_SETTINGS_PATH + "disable_install_audio_busses", false):
+		_add_audio_bus("Music")
+		_add_audio_bus("SFX")
+		ProjectSettings.set_setting(PROJECT_SETTINGS_PATH + "disable_install_audio_busses", true)
+		ProjectSettings.save()
 
 func _add_tool_options() -> void:
 	add_tool_menu_item("Run " + get_plugin_name() + " Setup...", open_setup_wizard)

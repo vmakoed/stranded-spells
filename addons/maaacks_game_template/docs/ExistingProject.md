@@ -1,5 +1,8 @@
 # Existing Project
 
+> [!WARNING]  
+> This page is being deprecated in favor of [Basic Setup](/addons/maaacks_game_template/docs/BasicSetup.md).
+
 These instructions assume starting with just the contents of `addons/` and going through the installer to copy the examples content into your project. This will be the case when installing the *plugin* version in the Godot Asset Library.
 
 To revisit any part of the initial setup, find the `Setup Wizard` at `Project > Tools > Run Maaack's Game Template Setup...`. Example files can be re-copied from the `Setup Wizard`, assuming they have not been deleted.
@@ -7,7 +10,7 @@ To revisit any part of the initial setup, find the `Setup Wizard` at `Project > 
 1.  Update the project’s name in the main menu.
     
 
-    1.  Open `main_menu_with_animations.tscn`.
+    1.  Open `main_menu.tscn`.
     2.  Select the `TitleLabel` node.
     3.  The `Text` should match the project's name (in the project's settings).
         1. If `Text` is customized, set `Auto Update` to false.
@@ -18,7 +21,7 @@ To revisit any part of the initial setup, find the `Setup Wizard` at `Project > 
 2.  Link the main menu to a custom game scene (skip if using the example game scene).
     
 
-    1.  Open `main_menu_with_animations.tscn`.
+    1.  Open `main_menu.tscn`.
     2.  Select the `MainMenu` node.
     3.  Update `Game Scene Path` to the path of the project's game scene.
     4.  Save the scene.

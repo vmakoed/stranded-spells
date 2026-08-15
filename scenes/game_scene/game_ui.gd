@@ -4,8 +4,12 @@ extends Control
 const PROMPT_HIGHLIGHT_COLOR = Color(0.5, 0.72, 0.78, 1.0)
 const INITIAL_PROMPT_MODULATE = Color(1, 1, 1, 1)
 const PROMPT_MODULATE_DURATION = 2.0
-
-var tween: Tween
+const PROMPT_TEXTURE_MAP: Dictionary[SpellDefinitions.SpellDirection, AtlasTexture] = {
+	SpellDefinitions.SpellDirection.UP: preload("res://resources/input_up_texture.tres"),
+	SpellDefinitions.SpellDirection.DOWN: preload("res://resources/input_down_texture.tres"),
+	SpellDefinitions.SpellDirection.LEFT: preload("res://resources/input_left_texture.tres"),
+	SpellDefinitions.SpellDirection.RIGHT: preload("res://resources/input_right_texture.tres")
+}
 
 
 @onready var health_progress_bar: ProgressBar = %HealthProgressBar
@@ -13,19 +17,20 @@ var tween: Tween
 @onready var level_title_container = %LevelTitleContainer
 @onready var level_title_label = %LevelTitleLabel
 
-@onready var spell_containers: Dictionary[SpellDefinitions.Spell, PanelContainer] = {
+# TODO: dynamically generate prompts
+@onready var spell_prompt_containers: Dictionary[SpellDefinitions.Spell, PanelContainer] = {
 	SpellDefinitions.Spell.PUSH: %PushContainer,
 	SpellDefinitions.Spell.FROST: %FrostContainer,
 	SpellDefinitions.Spell.SHOCK: %ShockContainer,
 	SpellDefinitions.Spell.FIRE: %FireContainer
 }
 
-@onready var spell_prompt_containers: Dictionary[SpellDefinitions.Spell, HBoxContainer] = {
-	SpellDefinitions.Spell.PUSH: %PushPromptsContainer,
-	SpellDefinitions.Spell.FROST: %FrostPromptsContainer,
-	SpellDefinitions.Spell.SHOCK: %ShockPromptsContainer,
-	SpellDefinitions.Spell.FIRE: %FirePromptsContainer
-}
+# @onready var spell_prompt_containers: Dictionary[SpellDefinitions.Spell, HBoxContainer] = {
+# 	SpellDefinitions.Spell.PUSH: %PushPromptsContainer,
+# 	SpellDefinitions.Spell.FROST: %FrostPromptsContainer,
+# 	SpellDefinitions.Spell.SHOCK: %ShockPromptsContainer,
+# 	SpellDefinitions.Spell.FIRE: %FirePromptsContainer
+# }
 
 
 func _ready() -> void:
@@ -34,6 +39,7 @@ func _ready() -> void:
 	GameUIBridge.spell_unlocked.connect(_on_spell_unlocked)
 	SpellSystem.spell_in_progress.connect(_on_spell_in_progress)
 	SpellSystem.spell_casted.connect(_on_spell_casted)
+	SpellSystem.spell_sequence_cleared.connect(_on_spell_sequence_cleared)
 
 	_refresh_spell_prompts()
 
@@ -41,27 +47,18 @@ func _ready() -> void:
 func _refresh_spell_prompts() -> void:
 	var spell_unlocks = GameState.get_spell_unlocks()
 	for spell: SpellDefinitions.Spell in spell_unlocks:
-		spell_containers[spell].visible = spell_unlocks[spell]
+		spell_prompt_containers[spell].visible = spell_unlocks[spell]
 
 
 func _reset_prompt_highlights() -> void:
-	if tween: tween.stop()
 	for prompt_container in spell_prompt_containers.values():
-		for prompt in prompt_container.get_children():
-			prompt.modulate = INITIAL_PROMPT_MODULATE
-
-
-func _active_prompt_textures(spell: SpellDefinitions.Spell, sequence_size: int) -> Array[Node]:
-	return _prompt_textures(spell).slice(0, sequence_size)
-
-
-func _prompt_textures(spell: SpellDefinitions.Spell) -> Array[Node]:
-	return spell_prompt_containers[spell].get_children()
+		prompt_container.reset_highlight()
 
 
 func _on_room_changed() -> void:
-	mini_map.refresh()
-	_refresh_level_title()
+	pass
+	# mini_map.refresh()
+	# _refresh_level_title()
 
 
 func _refresh_level_title() -> void:
@@ -85,20 +82,12 @@ func _on_spell_unlocked() -> void:
 
 func _on_spell_in_progress(spell: SpellDefinitions.Spell, sequence_size: int) -> void:
 	_reset_prompt_highlights()
-	for prompt: TextureRect in _active_prompt_textures(spell, sequence_size):
-		prompt.modulate = PROMPT_HIGHLIGHT_COLOR
+	spell_prompt_containers[spell].highlight(sequence_size)
 
 
 func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:
+	spell_prompt_containers[spell].fadeout_highlight()
+
+
+func _on_spell_sequence_cleared() -> void:
 	_reset_prompt_highlights()
-	tween = create_tween()
-	for prompt: TextureRect in _prompt_textures(spell):
-		prompt.modulate = PROMPT_HIGHLIGHT_COLOR
-		tween \
-			.parallel() \
-			.tween_property(
-				prompt,
-				"modulate",
-				INITIAL_PROMPT_MODULATE,
-				PROMPT_MODULATE_DURATION
-			).from(PROMPT_HIGHLIGHT_COLOR)

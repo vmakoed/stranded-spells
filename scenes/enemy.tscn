@@ -17,6 +17,7 @@ collision_mask = 14
 script = ExtResource("1_md0e3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1760139773]
+unique_name_in_owner = true
 texture = ExtResource("2_4ra3w")
 region_enabled = true
 region_rect = Rect2(0, 170, 16, 16)

@@ -7,7 +7,7 @@ signal destroyed
 
 const MAX_HEALTH = 50.0
 const FREEZE_PUSH_DAMAGE = 25.0
-const SHOCK_DAMAGE = 20.0
+const SHOCK_DAMAGE = 200.0
 const FIRE_DAMAGE = 10.0
 const PLAYER_DAMAGE_PER_HIT = 50.0
 
@@ -84,7 +84,7 @@ func receive_frost(_direction: Vector2) -> void:
 	if tween: tween.stop()
 
 	frozen = true
-	modulate = SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.FROST]
+	%Sprite2D.modulate = SpellDefinitions.SPELL_ENEMY_COLORS[SpellDefinitions.Spell.FROST]
 	freeze_timer.start()
 
 
@@ -106,20 +106,20 @@ func _blink_damage(
 	blink_duration = PUSH_MODULATION_DURATION
 ) -> void:
 	if tween: tween.stop()
-	modulate = SpellDefinitions.SPELL_ENEMY_COLORS[spell]
+	%Sprite2D.modulate = SpellDefinitions.SPELL_ENEMY_COLORS[spell]
 	tween = create_tween()
 	tween.set_loops(damage_blinks)
 	tween.tween_property(
-		self,
+		%Sprite2D,
 		"modulate",
-		Color(modulate - Color.BLACK),
+		Color(%Sprite2D.modulate - Color.BLACK),
 		blink_duration
-	).from(modulate)
-	tween.finished.connect(func(): modulate = initial_modulate)
+	).from(%Sprite2D.modulate)
+	tween.finished.connect(func(): %Sprite2D.modulate = initial_modulate)
 
 
 func _unfreeze() -> void:
-	modulate = initial_modulate
+	%Sprite2D.modulate = initial_modulate
 	frozen = false
 		
 

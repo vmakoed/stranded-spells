@@ -11,7 +11,11 @@ signal level_lost
 @export_file("*.tscn") var exit_down_path: String
 @export_file("*.tscn") var exit_right_path: String
 
+
+@onready var focus_sprite_template: Sprite2D = %FocusSprite
 @onready var player_character: Player = %PlayerCharacter
+@onready var spell_area_template: Area2D = %SpellArea
+@onready var focus_controller: Node = %FocusController
 
 
 var level_state: LevelState
@@ -33,6 +37,7 @@ var challenge_started := false
 
 func _ready() -> void:
 	GameUIBridge.room_changed.emit()
+	SpellSystem.spell_casted.connect(_on_spell_casted)
 	_initialize_doors()
 	_initialize_markers()
 	_initialize_enemies()
@@ -141,6 +146,22 @@ func _setup_enemy_signals(enemy: Enemy) -> void:
 	enemy.destroyed.connect(_on_enemy_destroyed)
 
 
+func _resolve_spell_effects(spell: SpellDefinitions.Spell, node: Node) -> void:
+	var receiving_method := SpellDefinitions.SPELL_RECEIVING_METHODS[spell]
+
+	# Engine.time_scale = CAST_FRAME_FREEZE_TIME_SCALE
+	# get_tree() \
+	# 	.create_timer(
+	# 		CAST_FRAME_FREEZE_DURATION, true, false, true
+	# 	).timeout \
+	# 	.connect(
+	# 		func(): Engine.time_scale = 1.0
+	# 	)
+
+	if not node.has_method(receiving_method): return
+	node.call(receiving_method, Vector2.ZERO)
+
+
 func _on_enemy_destroyed() -> void:
 	enemies_count -= 1
 	if enemies_count == 0: _clear_level()
@@ -176,3 +197,13 @@ func _on_start_challege_area_body_entered(body: Node2D) -> void:
 	if not body is Player: return
 
 	_start_challenge()
+
+
+func _on_spell_casted(spell: SpellDefinitions.Spell) -> void:
+	var focus_node: Node = focus_controller.get_focus_node()
+	if not is_instance_valid(focus_node): return
+
+	var spell_area = spell_area_template.duplicate()
+	focus_node.add_child(spell_area)
+	spell_area.show()
+	spell_area.animate(spell, _resolve_spell_effects.bind(spell, focus_node))

@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://bmcttnpvsi36l" path="res://scenes/game_scene/game_timer.gd" id="12_gpor5"]
 [ext_resource type="Texture2D" uid="uid://dr3xk7rcnsiw4" path="res://assets/textures/keyboard-&-mouse_sheet_default.png" id="13_i7m4m"]
 [ext_resource type="Texture2D" uid="uid://co6dms25h23so" path="res://resources/input_down_texture.tres" id="14_3re04"]
+[ext_resource type="PackedScene" uid="uid://cdokmnrix3fw8" path="res://scenes/prompt_container.tscn" id="14_rkfhe"]
 [ext_resource type="Texture2D" uid="uid://dri6xxl20aw3v" path="res://resources/input_left_texture.tres" id="15_ukb12"]
 [ext_resource type="Texture2D" uid="uid://b3sm4xxywgc1u" path="res://resources/input_up_texture.tres" id="16_i7m4m"]
 [ext_resource type="Texture2D" uid="uid://bscptfvidja4n" path="res://resources/input_right_texture.tres" id="17_rkfhe"]
@@ -59,7 +60,7 @@ level_loading_screen = NodePath("../LevelLoadingScreen")
 [node name="LevelManager" type="Node" parent="." unique_id=459127899 node_paths=PackedStringArray("level_loader")]
 script = ExtResource("5_wr4n6")
 level_loader = NodePath("../LevelLoader")
-starting_level_path = "uid://csuv4ggkgli0a"
+starting_level_path = "uid://xqg3mn2c4186"
 game_won_scene = ExtResource("6_ukb12")
 level_lost_scene = ExtResource("7_i7m4m")
 
@@ -80,7 +81,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 4
+stretch_shrink = 6
 
 [node name="ConfigurableSubViewport" type="SubViewport" parent="ViewportContainer" unique_id=463877145]
 handle_input_locally = false
@@ -147,6 +148,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 
 [node name="MoveContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=2081199480]
+visible = false
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer" unique_id=1667371753]
@@ -181,148 +183,29 @@ layout_mode = 2
 texture = SubResource("AtlasTexture_ulq3g")
 expand_mode = 2
 
-[node name="PushContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=181528453]
+[node name="PushContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=729049574 instance=ExtResource("14_rkfhe")]
 unique_name_in_owner = true
 layout_mode = 2
+prompt_name = "Push"
+prompt_textures = Array[AtlasTexture]([ExtResource("14_3re04"), ExtResource("14_3re04")])
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer" unique_id=158832340]
-layout_mode = 2
-
-[node name="PushLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer" unique_id=1100364248]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-theme_type_variation = &"HeaderMedium"
-text = "PUSH"
-
-[node name="PushPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer" unique_id=890173215]
+[node name="FrostContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1656123766 instance=ExtResource("14_rkfhe")]
 unique_name_in_owner = true
 layout_mode = 2
+prompt_name = "Frost"
+prompt_textures = Array[AtlasTexture]([ExtResource("15_ukb12"), ExtResource("16_i7m4m"), ExtResource("17_rkfhe"), ExtResource("14_3re04")])
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer/PushPromptsContainer" unique_id=1756834117]
-layout_mode = 2
-texture = ExtResource("14_3re04")
-expand_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/PushContainer/HBoxContainer/PushPromptsContainer" unique_id=1044494417]
-layout_mode = 2
-texture = ExtResource("14_3re04")
-expand_mode = 2
-
-[node name="FrostContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1780096254]
+[node name="ShockContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=998469625 instance=ExtResource("14_rkfhe")]
 unique_name_in_owner = true
 layout_mode = 2
+prompt_name = "Shock"
+prompt_textures = Array[AtlasTexture]([ExtResource("16_i7m4m"), ExtResource("15_ukb12"), ExtResource("17_rkfhe"), ExtResource("14_3re04")])
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer" unique_id=1039923341]
-layout_mode = 2
-
-[node name="FrostLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer" unique_id=626423182]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-theme_type_variation = &"HeaderMedium"
-text = "FROST"
-
-[node name="FrostPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer" unique_id=1563058637]
+[node name="FireContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1035381326 instance=ExtResource("14_rkfhe")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=728593527]
-layout_mode = 2
-texture = ExtResource("15_ukb12")
-expand_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=1682972040]
-layout_mode = 2
-texture = ExtResource("16_i7m4m")
-expand_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=2024322960]
-layout_mode = 2
-texture = ExtResource("17_rkfhe")
-expand_mode = 2
-
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FrostContainer/HBoxContainer/FrostPromptsContainer" unique_id=1474936601]
-layout_mode = 2
-texture = ExtResource("14_3re04")
-expand_mode = 2
-
-[node name="ShockContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=538953800]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer" unique_id=1093786843]
-layout_mode = 2
-
-[node name="ShockLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer" unique_id=1453897208]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-theme_type_variation = &"HeaderMedium"
-text = "SHOCK"
-
-[node name="ShockPromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer" unique_id=1343203918]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=383740465]
-layout_mode = 2
-texture = ExtResource("16_i7m4m")
-expand_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=721786875]
-layout_mode = 2
-texture = ExtResource("15_ukb12")
-expand_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=150022550]
-layout_mode = 2
-texture = ExtResource("17_rkfhe")
-expand_mode = 2
-
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/ShockContainer/HBoxContainer/ShockPromptsContainer" unique_id=633031807]
-layout_mode = 2
-texture = ExtResource("14_3re04")
-expand_mode = 2
-
-[node name="FireContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1940308992]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer" unique_id=732131166]
-layout_mode = 2
-
-[node name="FireLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer" unique_id=1928122359]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-theme_type_variation = &"HeaderMedium"
-text = "FIRE"
-
-[node name="FirePromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer" unique_id=1379222336]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=1730930645]
-layout_mode = 2
-texture = ExtResource("17_rkfhe")
-expand_mode = 2
-
-[node name="TextureRect5" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=383904674]
-layout_mode = 2
-texture = ExtResource("14_3re04")
-expand_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=1381526919]
-layout_mode = 2
-texture = ExtResource("16_i7m4m")
-expand_mode = 2
-
-[node name="TextureRect6" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=282701892]
-layout_mode = 2
-texture = ExtResource("14_3re04")
-expand_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/FireContainer/HBoxContainer/FirePromptsContainer" unique_id=1113485341]
-layout_mode = 2
-texture = ExtResource("15_ukb12")
-expand_mode = 2
+prompt_name = "Fire"
+prompt_textures = Array[AtlasTexture]([ExtResource("17_rkfhe"), ExtResource("14_3re04"), ExtResource("16_i7m4m"), ExtResource("14_3re04"), ExtResource("15_ukb12")])
 
 [node name="MapPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=100305939]
 layout_mode = 2

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cdokmnrix3fw8"]
+
+[ext_resource type="Script" uid="uid://kyj1rns5w2em" path="res://scripts/prompt_container.gd" id="1_8uc0b"]
+
+[node name="PromptContainer" type="PanelContainer" unique_id=729049574]
+script = ExtResource("1_8uc0b")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1629161514]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1300757089]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "SPELL NAME"
+uppercase = true
+
+[node name="PromptsContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=1653422585]
+unique_name_in_owner = true
+layout_mode = 2
