@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_me2pg"]
 [ext_resource type="Texture2D" uid="uid://bkp10t0p3m212" path="res://assets/textures/tile_0078.png" id="7_qfyql"]
 [ext_resource type="PackedScene" uid="uid://cc2lr2gij22nv" path="res://scenes/spell_area.tscn" id="9_bnuu0"]
+[ext_resource type="Script" uid="uid://dhso327km1gsv" path="res://scripts/focus_input.gd" id="9_me2pg"]
 [ext_resource type="Script" uid="uid://b3jdrkl8nwgey" path="res://scripts/focus_controller.gd" id="10_xvx2c"]
 [ext_resource type="PackedScene" uid="uid://cbclie1d2agk7" path="res://scenes/enemy.tscn" id="11_me2pg"]
 
@@ -235,9 +236,13 @@ texture = ExtResource("7_qfyql")
 unique_name_in_owner = true
 visible = false
 
-[node name="FocusController" type="Node" parent="." unique_id=595491641 node_paths=PackedStringArray("player", "focus_sprite_template")]
+[node name="FocusInput" type="Node" parent="." unique_id=878295645]
+script = ExtResource("9_me2pg")
+
+[node name="FocusController" type="Node" parent="." unique_id=595491641 node_paths=PackedStringArray("focus_input", "player", "focus_sprite_template")]
 unique_name_in_owner = true
 script = ExtResource("10_xvx2c")
+focus_input = NodePath("../FocusInput")
 player = NodePath("../PlayerCharacter")
 focus_sprite_template = NodePath("../FocusSprite")
 

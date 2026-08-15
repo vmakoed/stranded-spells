@@ -2,6 +2,7 @@
 extends Node
 
 
+@export var focus_input: Node
 @export var player: Player
 @export var focus_sprite_template: Sprite2D
 
@@ -12,10 +13,10 @@ var focus_node: Node2D
 
 
 func _ready() -> void:
-	player.focus_on_target_requested.connect(_on_focus_on_target_requested)
-	player.blur_on_target_requested.connect(_on_blur_on_target_requested)
-	player.focus_on_next_target_requested.connect(_on_focus_on_next_target_requested)
-	player.focus_on_previous_target_requested.connect(_on_focus_on_previous_target_requested)
+	focus_input.focus_on_target_requested.connect(_on_focus_on_target_requested)
+	focus_input.blur_on_target_requested.connect(_on_blur_on_target_requested)
+	focus_input.focus_on_next_target_requested.connect(_on_focus_on_next_target_requested)
+	focus_input.focus_on_previous_target_requested.connect(_on_focus_on_previous_target_requested)
 
 
 func get_focus_node() -> Node:
@@ -78,7 +79,7 @@ func _on_focus_on_next_target_requested() -> void:
 	var focus_targets := _get_focus_targets_ordered_by_distance()
 	if focus_targets.is_empty(): return _clear_focus()
 	var current_focus_index = focus_targets.find(focus_node)
-	
+	_clear_focus()
 	var next_focus_index = current_focus_index + 1
 	if (next_focus_index > focus_targets.size() - 1): next_focus_index = 0
 	_focus_on(focus_targets[next_focus_index])

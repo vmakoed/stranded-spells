@@ -8,7 +8,7 @@ enum SpellDirection {UP, DOWN, LEFT, RIGHT}
 
 const SPELL_LABELS: Dictionary[Spell, String] = {
 	Spell.ATTACK_TARGET: "Attack Target",
-	Spell.ATTACK_AREA: "Attack Area",
+	Spell.ATTACK_AREA: "Attack Around",
 	Spell.SHIELD: "Shield",
 	Spell.HEAL: "Heal"
 }
@@ -53,6 +53,9 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	]
 }
 
+const EXECUTE_SPELL_LABEL = "RT"
+const RESET_CAST_LABEL = "RB"
+
 
 var spell_sequence := []
 
@@ -71,7 +74,6 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	for action in SPELL_ACTIONS.values():
 		if event.is_action_pressed(action):
-			print("adding " + action)
 			return _append_to_spell_sequence(action)
 
 	if event.is_action_pressed(&"reset_cast"):
@@ -86,16 +88,13 @@ func _clear_spell_sequence(with_signal := true) -> void:
 	# if with_signal: spell_sequence_cleared.emit()
 
 
-
 func _append_to_spell_sequence(action: StringName) -> void:
 	spell_sequence.append(action)
 
 	var spells = _find_matching_spells()
 	if spells.is_empty():
 		print("spell does not exist")
-		# show error 
 		spell_sequence.pop_back()
-		pass
 	else:
 		_continue_casting(spells)
 
@@ -113,10 +112,8 @@ func _is_spell_matching(spell: Array) -> bool:
 
 
 func _continue_casting(spells: Array[Spell]) -> void:
-	print("continued casting")
 	_update_button_box()
 	_update_prompt(spells)
-	pass
 	# var current_sequence_size = spell_sequence.size()
 	
 	# if SpellDefinitions.get_spell_sequence(spell).size() == current_sequence_size:
@@ -147,6 +144,9 @@ func _update_prompt_text(spells: Array[Spell]) -> void:
 
 	for spell in spells:
 		var sequence_text: String = ""
+		if SPELL_SEQUENCES[spell].size() == sequence_size:
+			sequence_text += "RT"
+
 		for action in SPELL_SEQUENCES[spell].slice(sequence_size):
 			sequence_text += SPELL_DIRECTION_LABELS[action]
 

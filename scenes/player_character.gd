@@ -3,12 +3,6 @@ extends CharacterBody2D
 
 
 signal destroyed
-signal focus_on_target_requested
-signal blur_on_target_requested
-signal focus_on_self_requested
-signal blur_on_self_requested
-signal focus_on_next_target_requested
-signal focus_on_previous_target_requested
 
 
 const MAX_HEALTH = 300.0
@@ -58,34 +52,6 @@ func _input(event: InputEvent) -> void:
 	for action in SpellDefinitions.SPELL_ACTIONS.values():
 		if event.is_action_pressed(action):
 			return SpellSystem.append_to_spell_sequence(action)
-
-	if event.is_action_pressed(&"focus_self"):
-		focus_on_self_requested.emit()
-		return
-
-	if event.is_action_released(&"focus_self"):
-		blur_on_self_requested.emit()
-		return
-
-	if event.is_action_pressed(&"focus_target"):
-		focus_on_target_requested.emit()
-		return
-
-	if event.is_action_released(&"focus_target"):
-		blur_on_target_requested.emit()
-		return
-
-	if event.is_action_pressed(&"reset_cast"):
-		SpellSystem.clear_spell_sequence()
-		return
-
-	if event.is_action_pressed(&"focus_target_next"):
-		focus_on_next_target_requested.emit()
-		return
-
-	if event.is_action_pressed(&"focus_target_previous"):
-		focus_on_previous_target_requested.emit()
-		return
 
 
 func take_damage(damage: float) -> void:
