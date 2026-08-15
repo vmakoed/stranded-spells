@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://b3sm4xxywgc1u" path="res://resources/input_up_texture.tres" id="16_i7m4m"]
 [ext_resource type="Texture2D" uid="uid://bscptfvidja4n" path="res://resources/input_right_texture.tres" id="17_rkfhe"]
 [ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
+[ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="20_g2ndc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkfhe"]
 atlas = ExtResource("13_i7m4m")
@@ -60,7 +61,7 @@ level_loading_screen = NodePath("../LevelLoadingScreen")
 [node name="LevelManager" type="Node" parent="." unique_id=459127899 node_paths=PackedStringArray("level_loader")]
 script = ExtResource("5_wr4n6")
 level_loader = NodePath("../LevelLoader")
-starting_level_path = "uid://xqg3mn2c4186"
+starting_level_path = "uid://b5injtvoxvea"
 game_won_scene = ExtResource("6_ukb12")
 level_lost_scene = ExtResource("7_i7m4m")
 
@@ -111,6 +112,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="LevelTitleContainer" type="PanelContainer" parent="MarginContainer" unique_id=1007728376]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -139,6 +141,7 @@ theme_type_variation = &"HealthBar"
 show_percentage = false
 
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -208,10 +211,14 @@ prompt_name = "Fire"
 prompt_textures = Array[AtlasTexture]([ExtResource("17_rkfhe"), ExtResource("14_3re04"), ExtResource("16_i7m4m"), ExtResource("14_3re04"), ExtResource("15_ukb12")])
 
 [node name="MapPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=100305939]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
 [node name="MiniMap" parent="MarginContainer/MapPanelContainer" unique_id=151508479 instance=ExtResource("17_ukb12")]
 unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CastInputPanel" parent="MarginContainer" unique_id=273345157 instance=ExtResource("20_g2ndc")]
 layout_mode = 2

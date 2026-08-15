@@ -1,94 +1,80 @@
-[gd_scene format=3 uid="uid://bflj1ohtxp55x"]
+[gd_scene format=3 uid="uid://dq2dfwm5bq3ag"]
 
 [ext_resource type="Script" uid="uid://2pq8tkg8211t" path="res://scenes/cast_input_panel.gd" id="1_8unxh"]
 
-[node name="CastInputPanel" type="MarginContainer" unique_id=561554881]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-script = ExtResource("1_8unxh")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1282963164]
-layout_mode = 2
+[node name="CastInputPanel" type="VBoxContainer" unique_id=273345157]
 size_flags_vertical = 8
 theme_override_constants/separation = 16
+script = ExtResource("1_8unxh")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=845663306]
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1169212906]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PromptContainerLeftSpacer" type="Control" parent="VBoxContainer/HBoxContainer2" unique_id=576760864]
+[node name="PromptContainerLeftSpacer" type="Control" parent="HBoxContainer2" unique_id=845542101]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(800, 0)
+custom_minimum_size = Vector2(824, 0)
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer2" unique_id=114958430]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer2" unique_id=211859345]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer" unique_id=1075326699]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2/PanelContainer" unique_id=162447511]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="PromptContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer" unique_id=724464662]
+[node name="PromptContainer" type="VBoxContainer" parent="HBoxContainer2/PanelContainer/VBoxContainer" unique_id=2075232109]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer" unique_id=654724069]
+[node name="Label" type="Label" parent="HBoxContainer2/PanelContainer/VBoxContainer" unique_id=787454221]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "RB: Reset"
 
-[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1566511681]
+[node name="ButtonContainer" type="HBoxContainer" parent="." unique_id=1419272330]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 16
 
-[node name="ButtonContainerLeftSpacer" type="Control" parent="VBoxContainer/ButtonContainer" unique_id=1143359772]
+[node name="ButtonContainerLeftSpacer" type="Control" parent="ButtonContainer" unique_id=285384921]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ButtonBox" type="HBoxContainer" parent="VBoxContainer/ButtonContainer" unique_id=462596397]
+[node name="ButtonBox" type="HBoxContainer" parent="ButtonContainer" unique_id=352360666]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="ColorRect" type="PanelContainer" parent="VBoxContainer/ButtonContainer/ButtonBox" unique_id=1152437728]
+[node name="ColorRect" type="PanelContainer" parent="ButtonContainer/ButtonBox" unique_id=490452318]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/ButtonContainer/ButtonBox/ColorRect" unique_id=663545141]
+[node name="Label" type="Label" parent="ButtonContainer/ButtonBox/ColorRect" unique_id=422003934]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 32
 
-[node name="ColorRect2" type="PanelContainer" parent="VBoxContainer/ButtonContainer/ButtonBox" unique_id=1954412022]
+[node name="ColorRect2" type="PanelContainer" parent="ButtonContainer/ButtonBox" unique_id=1196693024]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/ButtonContainer/ButtonBox/ColorRect2" unique_id=708696980]
+[node name="Label" type="Label" parent="ButtonContainer/ButtonBox/ColorRect2" unique_id=829357514]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 32
 
-[node name="ColorRect3" type="PanelContainer" parent="VBoxContainer/ButtonContainer/ButtonBox" unique_id=1936104975]
+[node name="ColorRect3" type="PanelContainer" parent="ButtonContainer/ButtonBox" unique_id=1152245817]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/ButtonContainer/ButtonBox/ColorRect3" unique_id=416567218]
+[node name="Label" type="Label" parent="ButtonContainer/ButtonBox/ColorRect3" unique_id=198129698]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 32
 
-[node name="Control2" type="Control" parent="VBoxContainer/ButtonContainer" unique_id=953965698]
+[node name="Control2" type="Control" parent="ButtonContainer" unique_id=872535381]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[connection signal="resized" from="VBoxContainer/ButtonContainer/ButtonContainerLeftSpacer" to="." method="_on_button_container_left_spacer_resized"]

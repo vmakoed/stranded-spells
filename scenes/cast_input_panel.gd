@@ -1,5 +1,6 @@
 @tool
-extends MarginContainer
+class_name CastInputPanel
+extends Control
 
 
 enum Spell {ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL}
@@ -69,21 +70,30 @@ var spell_sequence := []
 
 func _ready() -> void:
 	_clear_spell_sequence()
+	button_container_left_spacer.resized.connect(_update_prompt_position)
 
 
 func _input(event: InputEvent) -> void:
 	for action in SPELL_ACTIONS.values():
 		if event.is_action_pressed(action):
-			return _append_to_spell_sequence(action)
+			_append_to_spell_sequence(action)
+		var complete_spell = _find_complete_spell()
+		if complete_spell != null: GameUIBridge.spell_ready.emit(complete_spell)
 
 	if event.is_action_pressed(&"reset_cast"):
-		_clear_spell_sequence()
+		return _clear_spell_sequence()
+
+	if event.is_action_pressed(&"confirm_cast"):
+		var complete_spell = _find_complete_spell()
+		if complete_spell != null: GameUIBridge.spell_casted.emit(complete_spell)
+		return _clear_spell_sequence()
 
 
 func _clear_spell_sequence(with_signal := true) -> void:
 	spell_sequence.clear()
 	_update_prompt([Spell.ATTACK_TARGET, Spell.ATTACK_AREA, Spell.SHIELD, Spell.HEAL])
 	_update_button_box()
+	GameUIBridge.spell_reset.emit()
 
 	# if with_signal: spell_sequence_cleared.emit()
 
@@ -105,6 +115,14 @@ func _find_matching_spells() -> Array[Spell]:
 		var sequence_definition = SPELL_SEQUENCES[spell]
 		if _is_spell_matching(sequence_definition): matching_spells.append(spell)
 	return matching_spells
+
+
+func _find_complete_spell() -> Variant:
+	for spell in SPELL_SEQUENCES:
+		var sequence_definition = SPELL_SEQUENCES[spell]
+		if _is_spell_matching(sequence_definition) and spell_sequence.size() == sequence_definition.size(): return spell
+
+	return null
 
 
 func _is_spell_matching(spell: Array) -> bool:
@@ -157,11 +175,8 @@ func _update_prompt_text(spells: Array[Spell]) -> void:
 		label.add_theme_font_size_override(&"font_size", 32)
 		prompt_container.add_child(label)
 
+
 func _update_prompt_position() -> void:
 	var button_separation = button_container.get_theme_constant("separation")
 	var horizontal_offset = button_separation + spell_sequence.size() * (button_separation + 80.0)
 	prompt_container_left_spacer.custom_minimum_size = Vector2(button_container_left_spacer.size.x + horizontal_offset, 0)
-
-
-func _on_button_container_left_spacer_resized() -> void:
-	_update_prompt_position()

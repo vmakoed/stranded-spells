@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bflj1ohtxp55x"]
+
+[ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="1_3g554"]
+
+[node name="CastInputScreen" type="MarginContainer" unique_id=1959530426]
+custom_minimum_size = Vector2(1920, 1080)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CastInputPanel" parent="." unique_id=273345157 instance=ExtResource("1_3g554")]
+layout_mode = 2

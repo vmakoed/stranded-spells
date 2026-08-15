@@ -94,6 +94,18 @@ func unfocus() -> void:
 	$FocusSprite.hide()
 
 
+func show_spell_area() -> void:
+	spell_area.show()
+
+
+func hide_spell_area() -> void:
+	spell_area.hide()
+
+
+func get_spell_area_bodies() -> Array[Node2D]:
+	return spell_area.get_overlapping_bodies()
+
+
 func _set_health(new_value: float) -> void:
 	health = new_value
 	GameUIBridge.health_changed.emit(health, MAX_HEALTH)
