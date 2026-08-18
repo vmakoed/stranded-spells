@@ -77,19 +77,18 @@ func _input(event: InputEvent) -> void:
 	for action in SPELL_ACTIONS.values():
 		if event.is_action_pressed(action):
 			_append_to_spell_sequence(action)
-		var complete_spell = _find_complete_spell()
-		if complete_spell != null: GameUIBridge.spell_ready.emit(complete_spell)
 
 	if event.is_action_pressed(&"reset_cast"):
 		return _clear_spell_sequence()
 
 	if event.is_action_pressed(&"confirm_cast"):
 		var complete_spell = _find_complete_spell()
-		if complete_spell != null: GameUIBridge.spell_casted.emit(complete_spell)
+		if complete_spell == null: return	#TODO: complete spell looked for twice (when spell ready), can memorize to var
+		GameUIBridge.spell_casted.emit(complete_spell)
 		return _clear_spell_sequence()
 
 
-func _clear_spell_sequence(with_signal := true) -> void:
+func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
 	spell_sequence.clear()
 	_update_prompt([Spell.ATTACK_TARGET, Spell.ATTACK_AREA, Spell.SHIELD, Spell.HEAL])
 	_update_button_box()
@@ -132,13 +131,12 @@ func _is_spell_matching(spell: Array) -> bool:
 func _continue_casting(spells: Array[Spell]) -> void:
 	_update_button_box()
 	_update_prompt(spells)
-	# var current_sequence_size = spell_sequence.size()
-	
-	# if SpellDefinitions.get_spell_sequence(spell).size() == current_sequence_size:
-	# 	_on_spell_casted(spell)
-	# 	clear_spell_sequence(false)
-	# else:
-	# 	spell_in_progress.emit(spell, current_sequence_size)
+	_check_complete_spell()
+
+
+func _check_complete_spell() -> void:
+	var complete_spell = _find_complete_spell()
+	if complete_spell != null: GameUIBridge.spell_ready.emit(complete_spell)
 
 
 func _update_button_box() -> void:

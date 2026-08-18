@@ -15,6 +15,8 @@ func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 	print("ready ", CastInputPanel.SPELL_LABELS[spell])
 	if spell == CastInputPanel.Spell.ATTACK_AREA:
 		player.show_spell_area()
+	if spell == CastInputPanel.Spell.ATTACK_AREA:
+		player.show_spell_area()
 
 
 func _on_spell_reset() -> void:
