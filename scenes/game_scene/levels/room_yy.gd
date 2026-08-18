@@ -15,18 +15,19 @@ func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 	print("ready ", CastInputPanel.SPELL_LABELS[spell])
 	if spell == CastInputPanel.Spell.ATTACK_AREA:
 		player.show_spell_area()
-	if spell == CastInputPanel.Spell.ATTACK_AREA:
-		player.show_spell_area()
+	if spell == CastInputPanel.Spell.ATTACK_TARGET:
+		player.aim_active = true
 
 
 func _on_spell_reset() -> void:
 	player.hide_spell_area()
+	player.aim_active = false
 
 
 func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 	print("casted ", CastInputPanel.SPELL_LABELS[spell])
 	if spell == CastInputPanel.Spell.ATTACK_AREA:
-		var targets := player.get_spell_area_bodies()
+		var targets := player.get_spell_area_bodies()	# TODO: remove spell area from player?
 		print(targets)
 		if targets.is_empty(): return
 		for target in targets:

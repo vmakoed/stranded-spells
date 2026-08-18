@@ -5,6 +5,7 @@ extends CharacterBody2D
 signal destroyed
 
 
+const AIM_TEXTURE_DISTANCE = 64.0
 const MAX_HEALTH = 300.0
 const SPEED = 100.0
 const CAST_FADEOUT_DURATION = 0.25
@@ -26,6 +27,9 @@ var invincible := false
 var dead := false
 var invincibility_tween: Tween 
 var initial_sprite_modulate: Color
+var initial_aim_modulate: Color
+var aim_angle: float: set = _set_aim_angle
+var aim_active: bool: set = _set_aim_active
 
 
 @onready var spell_area: Area2D = %SpellArea
@@ -33,25 +37,44 @@ var initial_sprite_modulate: Color
 @onready var invincibility_timer: Timer = %InvincibilityTimer
 @onready var character_sprite: Sprite2D = %CharacterSprite
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
+@onready var aim_sprite: Sprite2D = %AimSprite
 
 
 func _ready() -> void:
 	health = GameState.get_player_character_health()
 	# SpellSystem.spell_casted.connect(_on_spell_casted)
 	initial_sprite_modulate = character_sprite.modulate
+	initial_aim_modulate = aim_sprite.modulate
+	aim_angle = 0.0
+	aim_active = false
 
 
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * SPEED
-
 	move_and_slide()
+
+	var aim_direction := Input.get_vector(&"aim_left", &"aim_right", &"aim_up", &"aim_down")
+	if aim_direction.length_squared() > 0.0: aim_angle = aim_direction.angle()
 
 
 func _input(event: InputEvent) -> void:
 	for action in SpellDefinitions.SPELL_ACTIONS.values():
 		if event.is_action_pressed(action):
 			return SpellSystem.append_to_spell_sequence(action)
+
+
+func _set_aim_active(new_value: bool) -> void:
+	aim_active = new_value
+	if aim_active:
+		aim_sprite.modulate = Color(1, 1, 1, 0.8)
+	else:
+		aim_sprite.modulate = initial_aim_modulate
+
+
+func _set_aim_angle(new_value: float) -> void:
+	aim_angle = new_value
+	aim_sprite.position = Vector2(64, 0).rotated(aim_angle)
 
 
 func take_damage(damage: float) -> void:
