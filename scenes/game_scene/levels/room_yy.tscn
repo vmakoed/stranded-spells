@@ -4,6 +4,10 @@
 [ext_resource type="TileSet" uid="uid://cqpxtj0a2etkf" path="res://resources/dungeon_tile_set.tres" id="1_yeu1w"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="2_ufrm4"]
 [ext_resource type="PackedScene" uid="uid://bo2roq2qru875" path="res://scenes/game_scene/levels/training_dummy.tscn" id="3_una8b"]
+[ext_resource type="Texture2D" uid="uid://b38711582lkqr" path="res://assets/textures/star_09.png" id="4_7y4fr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sd08o"]
+radius = 32.06244
 
 [node name="RoomYY" type="Node" unique_id=1406349685]
 script = ExtResource("1_bluhm")
@@ -15,7 +19,34 @@ tile_set = ExtResource("1_yeu1w")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("2_ufrm4")]
 unique_name_in_owner = true
+z_index = 1
 position = Vector2(160, 90)
 
-[node name="TrainingDummy" parent="." unique_id=1507931852 instance=ExtResource("3_una8b")]
+[node name="Area2D" type="Area2D" parent="PlayerCharacter" unique_id=111510110]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCharacter/Area2D" unique_id=2011828340]
+shape = SubResource("CircleShape2D_sd08o")
+
+[node name="SpellAreaSprite" type="Sprite2D" parent="PlayerCharacter/Area2D" unique_id=2100306588]
+unique_name_in_owner = true
+visible = false
+z_index = -1
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_7y4fr")
+
+[node name="TrainingDummies" type="Node" parent="." unique_id=908056218]
+
+[node name="TrainingDummy" parent="TrainingDummies" unique_id=1507931852 instance=ExtResource("3_una8b")]
 position = Vector2(252, 56)
+
+[node name="TrainingDummy2" parent="TrainingDummies" unique_id=524527610 instance=ExtResource("3_una8b")]
+position = Vector2(252, 84)
+
+[node name="TrainingDummy3" parent="TrainingDummies" unique_id=545647770 instance=ExtResource("3_una8b")]
+position = Vector2(252, 112)
+
+[node name="TrainingDummy4" parent="TrainingDummies" unique_id=19287470 instance=ExtResource("3_una8b")]
+position = Vector2(276, 84)
+
+[node name="TrainingDummy5" parent="TrainingDummies" unique_id=1478147186 instance=ExtResource("3_una8b")]
+position = Vector2(224, 84)

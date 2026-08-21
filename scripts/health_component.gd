@@ -18,6 +18,10 @@ var health: float: set = _set_health
 
 
 func _ready() -> void:
+	reset()
+
+
+func reset() -> void:
 	health = max_health
 
 
