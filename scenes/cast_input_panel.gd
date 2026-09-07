@@ -3,8 +3,8 @@ class_name CastInputPanel
 extends Control
 
 
-enum Spell {ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL}
-enum SpellDirection {UP, DOWN, LEFT, RIGHT}
+enum Spell { ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL }
+enum SpellDirection { UP, DOWN, LEFT, RIGHT }
 
 
 const SPELL_LABELS: Dictionary[Spell, String] = {

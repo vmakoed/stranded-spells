@@ -23,6 +23,7 @@ shock_sound = ExtResource("4_pxja8")
 fire_sound = ExtResource("4_6unfe")
 hit_sound = ExtResource("6_iadup")
 pickup_sound = ExtResource("7_herhr")
+metadata/_edit_group_ = true
 
 [node name="CharacterSprite" type="Sprite2D" parent="." unique_id=1015337729]
 unique_name_in_owner = true

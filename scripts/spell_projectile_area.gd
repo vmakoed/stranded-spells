@@ -1,6 +1,10 @@
 extends Area2D
 
 
+const DAMAGE = 100.0
+const DELETION_DELAY = 5.0
+
+
 var active := true: set = _set_active
 var velocity := Vector2.ZERO
 
@@ -14,13 +18,14 @@ func _set_active(new_value: bool) -> void:
 	active = new_value
 	if active: return
 	visible = false
-	await get_tree().create_timer(5.0).timeout
+	await get_tree().create_timer(DELETION_DELAY).timeout
 	queue_free()
 
 
-func _on_body_entered(enemy: Node2D) -> void:
+func _on_area_entered(area: Area2D) -> void:
 	if not active: return
-	enemy.take_damage(100.0)
+	if area is not HurtboxComponent: return
+	area.damage(DAMAGE)
 	active = false
 
 

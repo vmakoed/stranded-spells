@@ -3,12 +3,17 @@
 [ext_resource type="Script" uid="uid://fs536vs2uigu" path="res://scripts/training_dummy.gd" id="1_otiwl"]
 [ext_resource type="Texture2D" uid="uid://qyu0owh15i0y" path="res://assets/textures/dungeon-dummy.png" id="1_sji20"]
 [ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="2_g4or8"]
+[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="4_eqmid"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sd08o"]
 size = Vector2(8, 12)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y5lg2"]
+size = Vector2(8, 12)
+
 [node name="TrainingDummy" type="StaticBody2D" unique_id=1507931852 groups=["enemies"]]
-collision_layer = 8
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_otiwl")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2143677130]
@@ -29,5 +34,14 @@ offset_top = -12.0
 offset_right = 8.0
 offset_bottom = -7.0
 show_percentage = false
+
+[node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component") instance=ExtResource("4_eqmid")]
+collision_layer = 8
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1129258270]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_y5lg2")
 
 [connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]

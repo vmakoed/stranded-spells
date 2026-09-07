@@ -7,7 +7,7 @@ signal destroyed
 
 const AIM_TEXTURE_DISTANCE = 64.0
 const MAX_HEALTH = 300.0
-const SPEED = 100.0
+const SPEED = 75.0
 const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
@@ -127,6 +127,10 @@ func hide_spell_area() -> void:
 
 func get_spell_area_bodies() -> Array[Node2D]:
 	return spell_area.get_overlapping_bodies()
+
+
+func get_spell_area_areas() -> Array[Area2D]:
+	return spell_area.get_overlapping_areas()
 
 
 func _set_health(new_value: float) -> void:

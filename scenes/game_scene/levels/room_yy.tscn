@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="2_ufrm4"]
 [ext_resource type="PackedScene" uid="uid://bo2roq2qru875" path="res://scenes/game_scene/levels/training_dummy.tscn" id="3_una8b"]
 [ext_resource type="Texture2D" uid="uid://b38711582lkqr" path="res://assets/textures/star_09.png" id="4_7y4fr"]
+[ext_resource type="PackedScene" uid="uid://b4wn65n2jk0wn" path="res://scenes/game_scene/levels/enemy_new.tscn" id="6_6kb32"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sd08o"]
 radius = 32.06244
@@ -50,3 +51,7 @@ position = Vector2(276, 84)
 
 [node name="TrainingDummy5" parent="TrainingDummies" unique_id=1478147186 instance=ExtResource("3_una8b")]
 position = Vector2(224, 84)
+
+[node name="EnemyNew" parent="." unique_id=1212860439 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+position = Vector2(56, 72)
+player = NodePath("../PlayerCharacter")

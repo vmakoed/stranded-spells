@@ -12,8 +12,9 @@ config_version=5
 
 config/name="Stranded Spells"
 config/version="0.0.4"
-run/main_scene="res://scenes/opening/opening.tscn"
+run/main_scene="uid://clxs5gwisal5m"
 config/features=PackedStringArray("4.7")
+run/max_fps=120
 config/icon="res://icon.png"
 
 [autoload]

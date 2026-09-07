@@ -22,11 +22,11 @@ func _ready() -> void:
 
 
 func _damage_targets_in_area() -> void:
-	var targets := player.get_spell_area_bodies()	# TODO: remove spell area from player?
+	var targets := player.get_spell_area_areas()	# TODO: remove spell area from player? / area is kind of same as projectile?
 	if targets.is_empty(): return
 	for target in targets:
-		if not target.is_in_group("enemies"): return
-		target.take_damage(SPELL_AREA_DAMAGE)
+		if target is not HurtboxComponent: return
+		target.damage(SPELL_AREA_DAMAGE)
 	return
 
 

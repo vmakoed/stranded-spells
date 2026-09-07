@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://b4wn65n2jk0wn"]
+
+[ext_resource type="Script" uid="uid://bhnatxwt44wsa" path="res://scripts/enemy_new.gd" id="1_5kp5r"]
+[ext_resource type="Texture2D" uid="uid://diafadmhnsewq" path="res://assets/textures/Dungeon_Character_2.png" id="2_wadj6"]
+[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="3_yopix"]
+[ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="4_rgjo0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
+atlas = ExtResource("2_wadj6")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w7uo7"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_30ysp"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qctea"]
+radius = 32.0
+
+[node name="EnemyNew" type="CharacterBody2D" unique_id=1212860439]
+collision_layer = 0
+collision_mask = 4
+motion_mode = 1
+script = ExtResource("1_5kp5r")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=852717464]
+texture = SubResource("AtlasTexture_sd08o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=863764532]
+visible = false
+shape = SubResource("CircleShape2D_w7uo7")
+
+[node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component") instance=ExtResource("3_yopix")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=966433981]
+visible = false
+shape = SubResource("CircleShape2D_30ysp")
+
+[node name="HealthComponent" parent="." unique_id=365341202 instance=ExtResource("4_rgjo0")]
+max_health = 300.0
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=29969262]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=887917294]
+visible = false
+shape = SubResource("CircleShape2D_qctea")
+
+[node name="RechargeTimer" type="Timer" parent="." unique_id=122553387]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true
+
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="timeout" from="RechargeTimer" to="." method="_on_recharge_timer_timeout"]
