@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
 [ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="20_g2ndc"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n4y2n"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkfhe"]
 atlas = ExtResource("13_i7m4m")
 region = Rect2(512, 128, 64, 64)
@@ -115,7 +117,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 8
 
 [node name="LevelTitleLabel" type="Label" parent="MarginContainer/LevelTitleContainer" unique_id=1910253873]
 unique_name_in_owner = true
@@ -127,18 +129,25 @@ horizontal_alignment = 1
 autowrap_mode = 2
 uppercase = true
 
-[node name="HealthPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=2118804925]
+[node name="PlayerHealthPanel" type="PanelContainer" parent="MarginContainer" unique_id=2118804925]
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n4y2n")
 
-[node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/HealthPanelContainer" unique_id=1683256926]
+[node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/PlayerHealthPanel" unique_id=1683256926]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(300, 40)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_type_variation = &"HealthBar"
 show_percentage = false
+
+[node name="PlayerHeartsContainer" type="HBoxContainer" parent="MarginContainer/PlayerHealthPanel" unique_id=1052428732]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
 visible = false

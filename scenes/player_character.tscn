@@ -9,9 +9,14 @@
 [ext_resource type="AudioStream" uid="uid://bhbqbbblv5qrd" path="res://assets/audio/slap.wav" id="6_iadup"]
 [ext_resource type="AudioStream" uid="uid://cso5fxf8ydyi7" path="res://assets/audio/page_turn.wav" id="7_herhr"]
 [ext_resource type="PackedScene" uid="uid://cc2lr2gij22nv" path="res://scenes/spell_area.tscn" id="9_iadup"]
+[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="9_s7f3b"]
 [ext_resource type="Texture2D" uid="uid://bsx85wxyn5vxu" path="res://assets/textures/crosshair-alt.png" id="10_herhr"]
+[ext_resource type="Script" uid="uid://bmr2uhrmavf4a" path="res://scripts/health_component.gd" id="11_xb3ya"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kww55"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c4hvp"]
 radius = 7.0
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=745586083]
@@ -32,16 +37,17 @@ texture = ExtResource("2_6r27q")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1105964065]
 shape = SubResource("CircleShape2D_kww55")
 
-[node name="SpellArea" parent="." unique_id=860379297 instance=ExtResource("9_iadup")]
-unique_name_in_owner = true
-
-[node name="HurtBoxArea" type="Area2D" parent="." unique_id=1029853410]
+[node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component") instance=ExtResource("9_s7f3b")]
 collision_layer = 16
 collision_mask = 0
+health_component = NodePath("../HealthComponent")
 
-[node name="HurtBoxCollisionShape" type="CollisionShape2D" parent="HurtBoxArea" unique_id=1685140459]
+[node name="HurtboxCollisionShape" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1086994647]
 unique_name_in_owner = true
-shape = SubResource("CircleShape2D_kww55")
+shape = SubResource("CircleShape2D_c4hvp")
+
+[node name="SpellArea" parent="." unique_id=860379297 instance=ExtResource("9_iadup")]
+unique_name_in_owner = true
 
 [node name="InvincibilityTimer" type="Timer" parent="." unique_id=415396756]
 unique_name_in_owner = true
@@ -57,4 +63,10 @@ modulate = Color(1, 1, 1, 0.3)
 position = Vector2(64, 0)
 texture = ExtResource("10_herhr")
 
+[node name="HealthComponent" type="Node" parent="." unique_id=729150298]
+script = ExtResource("11_xb3ya")
+max_health = 4.0
+metadata/_custom_type_script = "uid://bmr2uhrmavf4a"
+
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]
+[connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]

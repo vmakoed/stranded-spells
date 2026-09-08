@@ -6,7 +6,7 @@ signal destroyed
 
 
 const AIM_TEXTURE_DISTANCE = 64.0
-const MAX_HEALTH = 300.0
+const MAX_HEALTH = 4.0
 const SPEED = 75.0
 const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
@@ -33,7 +33,7 @@ var aim_active: bool: set = _set_aim_active
 
 
 @onready var spell_area: Area2D = %SpellArea
-@onready var hurtbox_collision_shape: CollisionShape2D = %HurtBoxCollisionShape
+@onready var hurtbox_collision_shape: CollisionShape2D = %HurtboxCollisionShape
 @onready var invincibility_timer: Timer = %InvincibilityTimer
 @onready var character_sprite: Sprite2D = %CharacterSprite
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
@@ -251,3 +251,22 @@ func _on_invincibility_timer_timeout() -> void:
 	character_sprite.modulate = initial_sprite_modulate
 	hurtbox_collision_shape.set_deferred("disabled", false)
 	invincible = false
+
+
+func _on_health_component_health_changed(new_value: float) -> void:
+	GameUIBridge.health_changed.emit(new_value, MAX_HEALTH)
+		
+	if dead: return
+	if new_value == MAX_HEALTH: return	# workaround for initial set
+	if not invincible:
+		_play_hit_sound()
+		_blink_sprite()
+		
+	if health <= 0:
+		dead = true
+		destroyed.emit()
+		queue_free()
+	else:
+		invincible = true
+		hurtbox_collision_shape.set_deferred("disabled", true)
+		invincibility_timer.start()

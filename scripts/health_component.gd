@@ -4,7 +4,7 @@ extends Node
 
 signal damaged(value: float)
 signal health_below_minimum
-signal health_changed(new_value: float)
+signal health_changed(new_value: float)	# add old_value
 
 
 const MIN_HEALTH = 0.0

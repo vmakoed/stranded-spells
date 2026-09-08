@@ -19,10 +19,12 @@ func _ready() -> void:
 	GameUIBridge.spell_ready.connect(_on_spell_ready)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
+	%EnemyNew.died.connect(_on_enemy_new_died.bind(%EnemyNew))
 
 
 func _damage_targets_in_area() -> void:
-	var targets := player.get_spell_area_areas()	# TODO: remove spell area from player? / area is kind of same as projectile?
+	var targets := player.get_spell_area_areas()
+	print(targets)	# TODO: remove spell area from player? / area is kind of same as projectile?
 	if targets.is_empty(): return
 	for target in targets:
 		if target is not HurtboxComponent: return
@@ -108,3 +110,7 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		_show_projectile(projectile)
 		_launch_projectile(projectile)
 		return
+
+
+func _on_enemy_new_died(enemy: Node) -> void:
+	enemy.queue_free()

@@ -12,7 +12,11 @@ const PROMPT_TEXTURE_MAP: Dictionary[SpellDefinitions.SpellDirection, AtlasTextu
 }
 
 
+var player_heart_scene = preload("res://scenes/player_heart.tscn")
+
+
 @onready var health_progress_bar: ProgressBar = %HealthProgressBar
+@onready var player_hearts_container: HBoxContainer = %PlayerHeartsContainer
 @onready var mini_map: MiniMap = %MiniMap
 @onready var level_title_container = %LevelTitleContainer
 @onready var level_title_label = %LevelTitleLabel
@@ -74,6 +78,25 @@ func _refresh_level_title() -> void:
 func _on_health_changed(value: float, max_value: float) -> void:
 	health_progress_bar.max_value = max_value
 	health_progress_bar.value = value
+	_refresh_player_hearts(value, max_value)
+
+
+func _refresh_player_hearts(value: float, max_value: float) -> void:
+	var hearts_total := maxi(int(ceil(max_value)), 0)
+	var hearts_solid := clampi(int(ceil(value)), 0, hearts_total)
+
+	var hearts := player_hearts_container.get_children()
+	while hearts.size() > hearts_total:
+		var heart = hearts.pop_back()
+		player_hearts_container.remove_child(heart)
+		heart.queue_free()
+	while hearts.size() < hearts_total:
+		var heart = player_heart_scene.instantiate()
+		player_hearts_container.add_child(heart)
+		hearts.append(heart)
+
+	for i in hearts.size():
+		hearts[i].solid = i < hearts_solid
 
 
 func _on_spell_unlocked() -> void:
