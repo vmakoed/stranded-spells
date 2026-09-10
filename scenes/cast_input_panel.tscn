@@ -13,7 +13,7 @@ theme_override_constants/separation = 0
 
 [node name="PromptContainerLeftSpacer" type="Control" parent="HBoxContainer2" unique_id=845542101]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(824, 0)
+custom_minimum_size = Vector2(43, 0)
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer2" unique_id=211859345]

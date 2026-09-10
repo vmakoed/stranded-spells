@@ -12,6 +12,7 @@ const SPELL_PROJECTILE_OFFSET = 16.0
 
 @onready var player: Player = %PlayerCharacter
 @onready var spell_area_sprite = %SpellAreaSprite
+@onready var magic_circle: MagicCircle = %MagicCircleNode
 
 
 func _ready() -> void:
@@ -19,6 +20,7 @@ func _ready() -> void:
 	GameUIBridge.spell_ready.connect(_on_spell_ready)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
+	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	%EnemyNew.died.connect(_on_enemy_new_died.bind(%EnemyNew))
 
 
@@ -98,6 +100,7 @@ func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 func _on_spell_reset() -> void:
 	player.hide_spell_area()
 	player.aim_active = false
+	magic_circle.clear_sequence()
 
 
 func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
@@ -114,3 +117,7 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 
 func _on_enemy_new_died(enemy: Node) -> void:
 	enemy.queue_free()
+
+
+func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
+	magic_circle.set_sequence(sequence)

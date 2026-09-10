@@ -58,7 +58,7 @@ const EXECUTE_SPELL_LABEL = "RT"
 const RESET_CAST_LABEL = "RB"
 
 
-var spell_sequence := []
+var spell_sequence: Array[StringName] = []
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -132,6 +132,7 @@ func _continue_casting(spells: Array[Spell]) -> void:
 	_update_button_box()
 	_update_prompt(spells)
 	_check_complete_spell()
+	GameUIBridge.spell_sequence_changed.emit(spell_sequence)
 
 
 func _check_complete_spell() -> void:
