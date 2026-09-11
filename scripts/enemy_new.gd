@@ -19,10 +19,10 @@ const CHARGE_SHAKE_DURATION = 0.9
 const CHARGE_SHAKE_STRENGTH = 1.0
 const CHARGE_SHAKE_STEP = 0.06
 const DAMAGE_FLASH_DURATION = 1.0
-const DEATH_GREYSCALE_DURATION = 0.5
-const DEATH_FADE_DURATION = 0.5
+const DEATH_FLASH_HOLD = 0.1
 const RECHARGE_TIME_MIN = 0.35
 const RECHARGE_TIME_MAX = 0.8
+const DEATH_SHATTER_SCENE = preload("res://scenes/game_scene/death_shatter.tscn")
 
 
 @export var player: Player
@@ -77,6 +77,9 @@ func _set_state(new_value: State) -> void:
 			velocity = Vector2.ZERO
 			%RechargeTimer.stop()
 			%AttackArea.set_deferred("monitoring", false)
+			$HurtboxComponent.set_deferred("monitorable", false)
+			$HitboxComponent.set_deferred("monitoring", false)
+			set_physics_process(false)
 			_start_death_animation()
 
 
@@ -173,26 +176,26 @@ func _start_death_animation() -> void:
 	if _damage_tween:
 		_damage_tween.kill()
 
-	var sprite: Node2D = %Sprite2D
-	var flash_material: ShaderMaterial = sprite.material
-	flash_material.set_shader_parameter("flash_amount", 0.0)
-	flash_material.set_shader_parameter("greyscale_amount", 0.0)
+	var flash_material: ShaderMaterial = %Sprite2D.material
+	flash_material.set_shader_parameter("flash_amount", 1.0)
 
 	_death_tween = create_tween()
-	_death_tween.tween_method(
-		func(amount: float) -> void:
-			flash_material.set_shader_parameter("greyscale_amount", amount),
-		0.0,
-		1.0,
-		DEATH_GREYSCALE_DURATION
-	)
-	_death_tween.tween_property(
-		sprite,
-		"modulate:a",
-		0.0,
-		DEATH_FADE_DURATION
-	)
-	_death_tween.finished.connect(died.emit)
+	_death_tween.tween_interval(DEATH_FLASH_HOLD)
+	_death_tween.tween_callback(_shatter)
+
+
+func _shatter() -> void:
+	var sprite: AnimatedSprite2D = %Sprite2D
+	sprite.position = Vector2.ZERO	# charge shake may have left an offset
+
+	var shatter: DeathShatter = DEATH_SHATTER_SCENE.instantiate()
+	shatter.z_index = z_index + 1
+	get_parent().add_child(shatter)
+	shatter.global_position = sprite.global_position
+	shatter.play(sprite)
+
+	sprite.hide()
+	died.emit()
 
 
 func _on_attack_area_body_entered(_body: Node2D) -> void:

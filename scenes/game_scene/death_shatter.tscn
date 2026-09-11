@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/death_shatter.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="2_ring"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
+[node name="DeathShatter" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Ring" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.8)
+material = SubResource("CanvasItemMaterial_add")
+scale = Vector2(0, 0)
+texture = ExtResource("2_ring")
+
+[node name="Shards" type="Node2D" parent="."]
+unique_name_in_owner = true

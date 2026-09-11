@@ -18,9 +18,16 @@ const SPELL_PROJECTILE_OFFSET = 16.0
 @onready var magic_circle: MagicCircle = %MagicCircleNode
 
 
+var _preview_projectile: SpellProjectile
+
+
 func _ready() -> void:
 	player.hide_spell_area()
-	player.destroyed.connect(func(): print("destroyed"); level_lost.emit())
+	player.destroyed.connect(func():
+		print("destroyed")
+		_dismiss_preview_projectile()
+		level_lost.emit()
+	)
 	GameUIBridge.spell_ready.connect(_on_spell_ready)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
@@ -41,29 +48,35 @@ func _damage_targets_in_area() -> void:
 	return
 
 
-func _launch_projectile(projectile: Node2D) -> void:
-	projectile.velocity = Vector2.from_angle(player.aim_angle) * SPELL_PROJECTILE_SPEED
+func _process(_delta: float) -> void:
+	if _preview_projectile == null: return
+	if not is_instance_valid(player):
+		_preview_projectile = null
+		return
+	_place_projectile(_preview_projectile)
 
 
-func _setup_projectile() -> Area2D:
-	var projectile = projectile_scene.instantiate() as Area2D
-	projectile.global_position = \
-		player.global_position + \
-			Vector2(SPELL_PROJECTILE_OFFSET, 0.0).rotated(player.aim_angle)
-	projectile.rotation = player.aim_angle
+func _setup_projectile() -> SpellProjectile:
+	var projectile := projectile_scene.instantiate() as SpellProjectile
 	add_child(projectile)
 	return projectile
 
 
-func _show_projectile(projectile: Node2D) -> void:
-	projectile.show()
-	var tween = create_tween()
-	tween.tween_property(
-		projectile,
-		"modulate",
-		projectile.modulate,
-		0.1
-	).from(projectile.modulate - Color(0, 0, 0, 1.0))
+func _spawn_origin() -> Vector2:
+	return player.global_position + \
+		Vector2(SPELL_PROJECTILE_OFFSET, 0.0).rotated(player.aim_angle)
+
+
+func _place_projectile(projectile: SpellProjectile) -> void:
+	projectile.global_position = _spawn_origin()
+	projectile.rotation = player.aim_angle
+
+
+func _dismiss_preview_projectile() -> void:
+	if _preview_projectile == null: return
+	if is_instance_valid(_preview_projectile):
+		_preview_projectile.dismiss()
+	_preview_projectile = null
 
 
 func _show_spell_area() -> void:
@@ -101,6 +114,10 @@ func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 		return
 	if spell == CastInputPanel.Spell.ATTACK_TARGET:
 		player.aim_active = true
+		if _preview_projectile != null: return
+		_preview_projectile = _setup_projectile()
+		_place_projectile(_preview_projectile)
+		_preview_projectile.manifest()
 		return
 
 
@@ -108,6 +125,7 @@ func _on_spell_reset() -> void:
 	player.hide_spell_area()
 	player.aim_active = false
 	magic_circle.clear_sequence()
+	_dismiss_preview_projectile()
 
 
 func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
@@ -116,9 +134,12 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		_damage_targets_in_area()
 		return
 	if spell == CastInputPanel.Spell.ATTACK_TARGET:
-		var projectile = _setup_projectile()
-		_show_projectile(projectile)
-		_launch_projectile(projectile)
+		var projectile := _preview_projectile
+		_preview_projectile = null
+		if projectile == null or not is_instance_valid(projectile):
+			projectile = _setup_projectile()
+		_place_projectile(projectile)
+		projectile.launch(Vector2.from_angle(player.aim_angle), SPELL_PROJECTILE_SPEED)
 		return
 
 
