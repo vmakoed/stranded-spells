@@ -48,6 +48,7 @@ shape = SubResource("CircleShape2D_c4hvp")
 
 [node name="SpellArea" parent="." unique_id=860379297 instance=ExtResource("9_iadup")]
 unique_name_in_owner = true
+visible = false
 
 [node name="InvincibilityTimer" type="Timer" parent="." unique_id=415396756]
 unique_name_in_owner = true

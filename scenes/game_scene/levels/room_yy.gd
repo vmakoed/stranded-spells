@@ -4,28 +4,26 @@ extends Node
 signal level_lost
 
 
-const SPELL_AREA_ANIMATION_DURATION = 0.5
 const SPELL_AREA_DAMAGE = 50.0
 const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 
 
 @export var projectile_scene := preload("res://scenes/spell_projectile_area.tscn")
+@export var area_burst_scene := preload("res://scenes/spell_area_burst.tscn")
 
 
 @onready var player: Player = %PlayerCharacter
-@onready var spell_area_sprite = %SpellAreaSprite
 @onready var magic_circle: MagicCircle = %MagicCircleNode
 
 
-var _preview_projectile: SpellProjectile
+var _preview_spell: Node2D
 
 
 func _ready() -> void:
-	player.hide_spell_area()
 	player.destroyed.connect(func():
 		print("destroyed")
-		_dismiss_preview_projectile()
+		_dismiss_preview_spell()
 		level_lost.emit()
 	)
 	GameUIBridge.spell_ready.connect(_on_spell_ready)
@@ -38,28 +36,32 @@ func _ready() -> void:
 		enemy.died.connect(_on_enemy_new_died.bind(enemy))
 
 
-func _damage_targets_in_area() -> void:
-	var targets := player.get_spell_area_areas()
-	print(targets)	# TODO: remove spell area from player? / area is kind of same as projectile?
-	if targets.is_empty(): return
-	for target in targets:
-		if target is not HurtboxComponent: return
-		target.damage(SPELL_AREA_DAMAGE)
-	return
-
-
 func _process(_delta: float) -> void:
-	if _preview_projectile == null: return
+	if _preview_spell == null: return
 	if not is_instance_valid(player):
-		_preview_projectile = null
+		_preview_spell = null
 		return
-	_place_projectile(_preview_projectile)
+	_place_preview()
+
+
+func _place_preview() -> void:
+	if _preview_spell is SpellProjectile:
+		_place_projectile(_preview_spell)
+	else:
+		_preview_spell.global_position = player.global_position
 
 
 func _setup_projectile() -> SpellProjectile:
 	var projectile := projectile_scene.instantiate() as SpellProjectile
 	add_child(projectile)
 	return projectile
+
+
+func _setup_area_burst() -> SpellAreaBurst:
+	var burst := area_burst_scene.instantiate() as SpellAreaBurst
+	add_child(burst)
+	burst.global_position = player.global_position
+	return burst
 
 
 func _spawn_origin() -> Vector2:
@@ -72,71 +74,54 @@ func _place_projectile(projectile: SpellProjectile) -> void:
 	projectile.rotation = player.aim_angle
 
 
-func _dismiss_preview_projectile() -> void:
-	if _preview_projectile == null: return
-	if is_instance_valid(_preview_projectile):
-		_preview_projectile.dismiss()
-	_preview_projectile = null
+func _dismiss_preview_spell() -> void:
+	if _preview_spell == null: return
+	if is_instance_valid(_preview_spell):
+		_preview_spell.dismiss()
+	_preview_spell = null
 
 
-func _show_spell_area() -> void:
-	var initial_scale: Vector2 = spell_area_sprite.scale
-	spell_area_sprite.show()
-
-	var tween = create_tween()
-
-	tween.tween_property(
-		spell_area_sprite,
-		"modulate",
-		spell_area_sprite.modulate,
-		0.2
-	).from(spell_area_sprite.modulate - Color(0, 0, 0, 1.0))
-
-	tween \
-		.tween_property(
-			spell_area_sprite,
-			"scale",
-			Vector2.ZERO,
-			SPELL_AREA_ANIMATION_DURATION
-		).from(initial_scale) \
-		.set_trans(Tween.TRANS_EXPO)
-
-	tween.tween_callback(func(): 
-		spell_area_sprite.hide()
-		spell_area_sprite.scale = initial_scale
-	)
+func _take_preview_spell() -> Node2D:
+	var spell := _preview_spell
+	_preview_spell = null
+	if spell != null and not is_instance_valid(spell): return null
+	return spell
 
 
 func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 	print("ready ", CastInputPanel.SPELL_LABELS[spell])
+	if _preview_spell != null: return
 	if spell == CastInputPanel.Spell.ATTACK_AREA:
-		player.show_spell_area()
+		var burst := _setup_area_burst()
+		burst.manifest()
+		_preview_spell = burst
 		return
 	if spell == CastInputPanel.Spell.ATTACK_TARGET:
 		player.aim_active = true
-		if _preview_projectile != null: return
-		_preview_projectile = _setup_projectile()
-		_place_projectile(_preview_projectile)
-		_preview_projectile.manifest()
+		var projectile := _setup_projectile()
+		_place_projectile(projectile)
+		projectile.manifest()
+		_preview_spell = projectile
 		return
 
 
 func _on_spell_reset() -> void:
-	player.hide_spell_area()
 	player.aim_active = false
 	magic_circle.clear_sequence()
-	_dismiss_preview_projectile()
+	_dismiss_preview_spell()
 
 
 func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 	if spell == CastInputPanel.Spell.ATTACK_AREA:
-		_show_spell_area()
-		_damage_targets_in_area()
+		var burst := _take_preview_spell() as SpellAreaBurst
+		if burst == null:
+			burst = _setup_area_burst()
+		burst.global_position = player.global_position
+		burst.release(SPELL_AREA_DAMAGE)
 		return
 	if spell == CastInputPanel.Spell.ATTACK_TARGET:
-		var projectile := _preview_projectile
-		_preview_projectile = null
-		if projectile == null or not is_instance_valid(projectile):
+		var projectile := _take_preview_spell() as SpellProjectile
+		if projectile == null:
 			projectile = _setup_projectile()
 		_place_projectile(projectile)
 		projectile.launch(Vector2.from_angle(player.aim_angle), SPELL_PROJECTILE_SPEED)

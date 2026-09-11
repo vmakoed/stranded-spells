@@ -8,10 +8,10 @@ enum SpellDirection { UP, DOWN, LEFT, RIGHT }
 
 
 const SPELL_LABELS: Dictionary[Spell, String] = {
-	Spell.ATTACK_TARGET: "Attack Target",
-	Spell.ATTACK_AREA: "Attack Around",
-	Spell.SHIELD: "Shield",
-	Spell.HEAL: "Heal"
+	Spell.ATTACK_TARGET: "Sacred Flame",
+	Spell.ATTACK_AREA: "Word of Radiance",
+	Spell.SHIELD: "Shield of Faith",
+	Spell.HEAL: "Healing Word"
 }
 
 
