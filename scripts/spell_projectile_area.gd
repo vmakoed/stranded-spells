@@ -10,6 +10,7 @@ const MANIFEST_DURATION = 0.2
 const DISMISS_DURATION = 0.15
 const PULSE_PERIOD = 1.0
 const PULSE_SCALE = 1.12
+const WORLD_LAYER = 3
 
 
 var state := State.IDLE
@@ -55,6 +56,8 @@ func launch(direction: Vector2, speed: float) -> void:
 	trail.emitting = true
 	for area in get_overlapping_areas():
 		if _try_hit(area): return
+	for body in get_overlapping_bodies():
+		if _try_hit_wall(body): return
 
 
 func dismiss() -> void:
@@ -98,6 +101,18 @@ func _try_hit(area: Area2D) -> bool:
 	return true
 
 
+func _try_hit_wall(body: Node2D) -> bool:
+	if not _is_world(body): return false
+	_spend()
+	return true
+
+
+func _is_world(body: Node2D) -> bool:
+	if body is TileMapLayer: return true
+	if body is PhysicsBody2D: return body.get_collision_layer_value(WORLD_LAYER)
+	return false
+
+
 func _kill_tween() -> void:
 	if _tween: _tween.kill()
 	_tween = null
@@ -106,6 +121,11 @@ func _kill_tween() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if state != State.FLYING: return
 	_try_hit(area)
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if state != State.FLYING: return
+	_try_hit_wall(body)
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
