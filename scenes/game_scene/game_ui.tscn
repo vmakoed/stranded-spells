@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://bscptfvidja4n" path="res://resources/input_right_texture.tres" id="17_rkfhe"]
 [ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
 [ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="20_g2ndc"]
+[ext_resource type="PackedScene" uid="uid://dm7q3kx8wprmt" path="res://scenes/game_scene/magic_circle_prompts.tscn" id="21_mcprm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n4y2n"]
 
@@ -230,4 +231,8 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="CastInputPanel" parent="MarginContainer" unique_id=273345157 instance=ExtResource("20_g2ndc")]
+visible = false
 layout_mode = 2
+
+[node name="MagicCirclePrompts" parent="." unique_id=2103803853 instance=ExtResource("21_mcprm")]
+layout_mode = 1

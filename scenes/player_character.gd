@@ -255,6 +255,7 @@ func _on_invincibility_timer_timeout() -> void:
 
 func _on_health_component_health_changed(new_value: float) -> void:
 	GameUIBridge.health_changed.emit(new_value, MAX_HEALTH)
+	print(new_value)
 		
 	if dead: return
 	if new_value == MAX_HEALTH: return	# workaround for initial set
@@ -262,10 +263,9 @@ func _on_health_component_health_changed(new_value: float) -> void:
 		_play_hit_sound()
 		_blink_sprite()
 		
-	if health <= 0:
+	if new_value <= 0:
 		dead = true
 		destroyed.emit()
-		queue_free()
 	else:
 		invincible = true
 		hurtbox_collision_shape.set_deferred("disabled", true)

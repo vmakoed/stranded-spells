@@ -1,3 +1,4 @@
+class_name EnemyNew
 extends CharacterBody2D
 
 

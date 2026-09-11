@@ -1,6 +1,9 @@
 extends Node
 
 
+signal level_lost
+
+
 const SPELL_AREA_ANIMATION_DURATION = 0.5
 const SPELL_AREA_DAMAGE = 50.0
 const SPELL_PROJECTILE_SPEED = 320.0
@@ -17,11 +20,14 @@ const SPELL_PROJECTILE_OFFSET = 16.0
 
 func _ready() -> void:
 	player.hide_spell_area()
+	player.destroyed.connect(func(): print("destroyed"); level_lost.emit())
 	GameUIBridge.spell_ready.connect(_on_spell_ready)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
-	%EnemyNew.died.connect(_on_enemy_new_died.bind(%EnemyNew))
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if not enemy.has_signal("died"): continue
+		enemy.died.connect(_on_enemy_new_died.bind(enemy))
 
 
 func _damage_targets_in_area() -> void:

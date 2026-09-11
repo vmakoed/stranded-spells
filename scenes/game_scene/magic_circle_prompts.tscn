@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dm7q3kx8wprmt"]
+
+[ext_resource type="Script" path="res://scenes/game_scene/magic_circle_prompts.gd" id="1_mcprm"]
+
+[node name="MagicCirclePrompts" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_mcprm")
+
+[node name="UpList" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="RightList" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="DownList" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="LeftList" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+mouse_filter = 2
+theme_override_constants/separation = 0

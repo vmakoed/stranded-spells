@@ -8,6 +8,7 @@ const ANCHOR_COLOR = Color(1.0, 1.0, 1.0, 0.25)
 const ANCHOR_RADIUS = 1.0
 const ACTIVE_RADIUS = 1.5
 const LINE_WIDTH = 1.0
+const GROUP_NAME = &"magic_circle"
 
 
 var sequence: Array[StringName] = []
@@ -22,7 +23,12 @@ var sequence: Array[StringName] = []
 
 
 func _ready() -> void:
+	add_to_group(GROUP_NAME)
 	_update_marker_tints()
+
+
+func get_marker_canvas_position(action: StringName) -> Vector2:
+	return marker_sprites[action].get_global_transform_with_canvas().origin
 
 
 func set_sequence(new_sequence: Array[StringName]) -> void:

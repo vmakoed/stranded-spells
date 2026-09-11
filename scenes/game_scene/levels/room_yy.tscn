@@ -43,6 +43,8 @@ unique_name_in_owner = true
 z_index = 1
 position = Vector2(160, 90)
 
+[node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1055916806]
+
 [node name="SpellAreaVFX" type="Area2D" parent="PlayerCharacter" unique_id=111510110]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCharacter/SpellAreaVFX" unique_id=2011828340]
@@ -87,6 +89,7 @@ position = Vector2(-15, 0)
 texture = ExtResource("8_mini1")
 
 [node name="TrainingDummies" type="Node2D" parent="." unique_id=447042889]
+visible = false
 
 [node name="TrainingDummy" parent="TrainingDummies" unique_id=1507931852 instance=ExtResource("3_una8b")]
 position = Vector2(252, 56)

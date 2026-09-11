@@ -117,10 +117,23 @@ func _find_matching_spells() -> Array[Spell]:
 
 
 func _find_complete_spell() -> Variant:
-	for spell in SPELL_SEQUENCES:
-		var sequence_definition = SPELL_SEQUENCES[spell]
-		if _is_spell_matching(sequence_definition) and spell_sequence.size() == sequence_definition.size(): return spell
+	return find_complete_spell(spell_sequence)
 
+
+static func spells_for_next_action(sequence: Array[StringName], action: StringName) -> Array[Spell]:
+	var result: Array[Spell] = []
+	var sequence_size := sequence.size()
+	for spell in SPELL_SEQUENCES:
+		var definition: Array = SPELL_SEQUENCES[spell]
+		if definition.size() <= sequence_size: continue
+		if definition.slice(0, sequence_size) != sequence: continue
+		if definition[sequence_size] == action: result.append(spell)
+	return result
+
+
+static func find_complete_spell(sequence: Array[StringName]) -> Variant:
+	for spell in SPELL_SEQUENCES:
+		if SPELL_SEQUENCES[spell] == sequence: return spell
 	return null
 
 
