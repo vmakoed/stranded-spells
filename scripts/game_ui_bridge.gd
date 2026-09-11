@@ -14,4 +14,6 @@ signal spell_reset()
 signal spell_casted(spell: CastInputPanel.Spell)
 @warning_ignore("unused_signal")
 signal spell_sequence_changed(sequence: Array[StringName])
+@warning_ignore("unused_signal")
+signal cast_mode_changed(active: bool)
 

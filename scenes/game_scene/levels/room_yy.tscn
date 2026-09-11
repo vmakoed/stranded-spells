@@ -3,16 +3,19 @@
 [ext_resource type="Script" uid="uid://cd8t8a5t0mmq0" path="res://scenes/game_scene/levels/room_yy.gd" id="1_bluhm"]
 [ext_resource type="TileSet" uid="uid://cqpxtj0a2etkf" path="res://resources/dungeon_tile_set.tres" id="1_yeu1w"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="2_ufrm4"]
-[ext_resource type="PackedScene" uid="uid://bo2roq2qru875" path="res://scenes/training_dummy.tscn" id="3_una8b"]
 [ext_resource type="Texture2D" uid="uid://b38711582lkqr" path="res://assets/textures/star_09.png" id="4_7y4fr"]
-[ext_resource type="Texture2D" uid="uid://c44g80h1q5777" path="res://assets/textures/magic-circl-v1..png" id="5_qg0dq"]
 [ext_resource type="PackedScene" uid="uid://b4wn65n2jk0wn" path="res://scenes/game_scene/levels/enemy_new.tscn" id="6_6kb32"]
+[ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="7_30ysp"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scenes/game_scene/levels/magic_circle.gd" id="7_mgcrc"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="8_mini1"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="9_rclr1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sd08o"]
 radius = 32.06244
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
+shader = ExtResource("9_rclr1")
+shader_parameter/tint = Color(1, 1, 1, 0.35)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mkup"]
 shader = ExtResource("9_rclr1")
@@ -61,8 +64,10 @@ texture = ExtResource("4_7y4fr")
 unique_name_in_owner = true
 script = ExtResource("7_mgcrc")
 
-[node name="Sprite2D" type="Sprite2D" parent="PlayerCharacter/MagicCircleNode" unique_id=958826532]
-texture = ExtResource("5_qg0dq")
+[node name="CircleRing" type="Sprite2D" parent="PlayerCharacter/MagicCircleNode" unique_id=958826532]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_ring")
+texture = ExtResource("7_30ysp")
 
 [node name="CircleMarkerUp" type="Sprite2D" parent="PlayerCharacter/MagicCircleNode" unique_id=613132707]
 unique_name_in_owner = true
@@ -88,24 +93,6 @@ material = SubResource("ShaderMaterial_mkleft")
 position = Vector2(-15, 0)
 texture = ExtResource("8_mini1")
 
-[node name="TrainingDummies" type="Node2D" parent="." unique_id=447042889]
-visible = false
-
-[node name="TrainingDummy" parent="TrainingDummies" unique_id=1507931852 instance=ExtResource("3_una8b")]
-position = Vector2(252, 56)
-
-[node name="TrainingDummy2" parent="TrainingDummies" unique_id=524527610 instance=ExtResource("3_una8b")]
-position = Vector2(252, 84)
-
-[node name="TrainingDummy3" parent="TrainingDummies" unique_id=545647770 instance=ExtResource("3_una8b")]
-position = Vector2(252, 112)
-
-[node name="TrainingDummy4" parent="TrainingDummies" unique_id=19287470 instance=ExtResource("3_una8b")]
-position = Vector2(276, 84)
-
-[node name="TrainingDummy5" parent="TrainingDummies" unique_id=1478147186 instance=ExtResource("3_una8b")]
-position = Vector2(224, 84)
-
 [node name="EnemyNew" parent="." unique_id=1212860439 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
@@ -116,4 +103,16 @@ player = NodePath("../PlayerCharacter")
 unique_name_in_owner = true
 z_index = 2
 position = Vector2(244, 56)
+player = NodePath("../PlayerCharacter")
+
+[node name="EnemyNew3" parent="." unique_id=349291011 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+unique_name_in_owner = true
+z_index = 2
+position = Vector2(252, 112)
+player = NodePath("../PlayerCharacter")
+
+[node name="EnemyNew4" parent="." unique_id=1138997188 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+unique_name_in_owner = true
+z_index = 2
+position = Vector2(72, 132)
 player = NodePath("../PlayerCharacter")

@@ -6,7 +6,7 @@ signal level_lost
 
 const SPELL_AREA_ANIMATION_DURATION = 0.5
 const SPELL_AREA_DAMAGE = 50.0
-const SPELL_PROJECTILE_SPEED = 320.0
+const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 
 
@@ -25,6 +25,7 @@ func _ready() -> void:
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
+	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 	for enemy in get_tree().get_nodes_in_group("enemies"):
 		if not enemy.has_signal("died"): continue
 		enemy.died.connect(_on_enemy_new_died.bind(enemy))
@@ -127,3 +128,7 @@ func _on_enemy_new_died(enemy: Node) -> void:
 
 func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
 	magic_circle.set_sequence(sequence)
+
+
+func _on_cast_mode_changed(active: bool) -> void:
+	magic_circle.visible = active

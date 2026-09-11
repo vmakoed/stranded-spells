@@ -20,6 +20,7 @@ const LABEL_ALIGNMENTS: Dictionary[CastInputPanel.SpellDirection, HorizontalAlig
 
 
 var sequence: Array[StringName] = []
+var casting := false
 
 var _circle: MagicCircle
 
@@ -36,11 +37,12 @@ func _ready() -> void:
 	_build_label_pools()
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
+	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 	_rebuild()	# CastInputPanel's initial spell_reset fires before we connect
 
 
 func _process(_delta: float) -> void:
-	visible = _ensure_circle()
+	visible = casting and _ensure_circle()
 	if visible: _layout()
 
 
@@ -137,3 +139,7 @@ func _on_spell_sequence_changed(new_sequence: Array[StringName]) -> void:
 func _on_spell_reset() -> void:
 	sequence.clear()
 	_rebuild()
+
+
+func _on_cast_mode_changed(active: bool) -> void:
+	casting = active

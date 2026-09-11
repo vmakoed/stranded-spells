@@ -54,11 +54,12 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	]
 }
 
-const EXECUTE_SPELL_LABEL = "RT"
+const EXECUTE_SPELL_LABEL = "Release LT"
 const RESET_CAST_LABEL = "RB"
 
 
 var spell_sequence: Array[StringName] = []
+var casting := false
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -74,18 +75,35 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	for action in SPELL_ACTIONS.values():
-		if event.is_action_pressed(action):
-			_append_to_spell_sequence(action)
+	# Joypad trigger motion fires on every value change, so gate transitions on `casting`.
+	if event.is_action_pressed(&"cast_hold") and not casting:
+		return _begin_casting()
+	if event.is_action_released(&"cast_hold") and casting:
+		return _end_casting()
 
 	if event.is_action_pressed(&"reset_cast"):
 		return _clear_spell_sequence()
 
-	if event.is_action_pressed(&"confirm_cast"):
-		var complete_spell = _find_complete_spell()
-		if complete_spell == null: return	#TODO: complete spell looked for twice (when spell ready), can memorize to var
+	if not casting: return
+
+	for action in SPELL_ACTIONS.values():
+		if event.is_action_pressed(action):
+			_append_to_spell_sequence(action)
+
+
+func _begin_casting() -> void:
+	casting = true
+	GameUIBridge.cast_mode_changed.emit(true)
+
+
+## Executes the spell if the sequence is complete; otherwise keeps the sequence for the next hold.
+func _end_casting() -> void:
+	casting = false
+	var complete_spell = _find_complete_spell()
+	if complete_spell != null:
 		GameUIBridge.spell_casted.emit(complete_spell)
-		return _clear_spell_sequence()
+		_clear_spell_sequence()
+	GameUIBridge.cast_mode_changed.emit(false)	# after cast/reset so listeners hide last
 
 
 func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
@@ -175,7 +193,7 @@ func _update_prompt_text(spells: Array[Spell]) -> void:
 	for spell in spells:
 		var sequence_text: String = ""
 		if SPELL_SEQUENCES[spell].size() == sequence_size:
-			sequence_text += "RT"
+			sequence_text += EXECUTE_SPELL_LABEL
 
 		for action in SPELL_SEQUENCES[spell].slice(sequence_size):
 			sequence_text += SPELL_DIRECTION_LABELS[action]
