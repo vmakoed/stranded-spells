@@ -5,7 +5,7 @@ extends CharacterBody2D
 signal died
 
 
-enum State { CHASING, CHARGING, ATTACKING, RECHARGING, DEAD }
+enum State { IDLE, CHASING, CHARGING, ATTACKING, RECHARGING, DEAD }
 
 
 const CHASE_ACCELERATION = 40.0
@@ -38,13 +38,19 @@ var _state: State: set = _set_state
 
 
 func _ready() -> void:
-	_state = State.CHASING
+	_state = State.IDLE
 	if shielded:
 		%ShieldComponent.activate()
 
 
+func start_chase() -> void:
+	if _state != State.IDLE: return
+	_state = State.CHASING
+
+
 func _physics_process(delta: float) -> void:
 	match _state:
+		State.IDLE: pass
 		State.CHASING: _chase(delta)
 		State.CHARGING: pass
 		State.ATTACKING: _attack(delta)
@@ -204,6 +210,7 @@ func _shatter() -> void:
 
 
 func _on_attack_area_body_entered(_body: Node2D) -> void:
+	start_chase()
 	if not _state == State.CHASING:
 		return
 
@@ -219,6 +226,7 @@ func _on_recharge_timer_timeout() -> void:
 
 
 func _on_health_component_damaged(_value: float) -> void:
+	start_chase()
 	_flash_damage()
 
 

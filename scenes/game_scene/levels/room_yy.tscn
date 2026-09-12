@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="18_shield"]
 [ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_bubble.gd" id="19_bubble"]
 [ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="20_ring"]
+[ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/chase_trigger.gd" id="21_chase"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("9_rclr1")
@@ -39,6 +40,9 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mkleft"]
 shader = ExtResource("9_rclr1")
 shader_parameter/tint = Color(1, 1, 1, 0.35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chase"]
+size = Vector2(16, 24)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7uo7"]
 radius = 8.0
@@ -116,13 +120,13 @@ player = NodePath("../PlayerCharacter")
 [node name="EnemyNew2" parent="." unique_id=1164792054 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
-position = Vector2(32, 220)
+position = Vector2(-52, 216)
 player = NodePath("../PlayerCharacter")
 
 [node name="EnemyNew3" parent="." unique_id=349291011 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
-position = Vector2(40, 276)
+position = Vector2(-44, 284)
 player = NodePath("../PlayerCharacter")
 
 [node name="EnemyNew4" parent="." unique_id=1138997188 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
@@ -130,6 +134,14 @@ unique_name_in_owner = true
 z_index = 2
 position = Vector2(-140, 296)
 player = NodePath("../PlayerCharacter")
+
+[node name="ChaseTrigger" type="Area2D" parent="." unique_id=1695093852]
+position = Vector2(184, 188)
+script = ExtResource("21_chase")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseTrigger" unique_id=365178363]
+position = Vector2(-112, 16)
+shape = SubResource("RectangleShape2D_chase")
 
 [node name="Objects" type="Node" parent="." unique_id=1440820633]
 
