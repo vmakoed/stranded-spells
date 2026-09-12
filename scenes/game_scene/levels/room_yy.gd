@@ -7,10 +7,12 @@ signal level_lost
 const SPELL_AREA_DAMAGE = 50.0
 const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
+const BASIC_ATTACK_SPEED = 220.0
 
 
 @export var projectile_scene := preload("res://scenes/spell_projectile_area.tscn")
 @export var area_burst_scene := preload("res://scenes/spell_area_burst.tscn")
+@export var basic_projectile_scene := preload("res://scenes/basic_attack_projectile.tscn")
 
 
 @onready var player: Player = %PlayerCharacter
@@ -26,6 +28,7 @@ func _ready() -> void:
 		_dismiss_preview_spell()
 		level_lost.emit()
 	)
+	player.basic_attack_requested.connect(_on_basic_attack_requested)
 	GameUIBridge.spell_ready.connect(_on_spell_ready)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
@@ -126,6 +129,13 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		_place_projectile(projectile)
 		projectile.launch(Vector2.from_angle(player.aim_angle), SPELL_PROJECTILE_SPEED)
 		return
+
+
+func _on_basic_attack_requested(direction: Vector2) -> void:
+	var projectile := basic_projectile_scene.instantiate() as SpellProjectile
+	add_child(projectile)
+	projectile.global_position = _spawn_origin()
+	projectile.launch(direction, BASIC_ATTACK_SPEED)
 
 
 func _on_enemy_new_died(enemy: Node) -> void:

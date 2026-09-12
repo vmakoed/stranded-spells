@@ -5,12 +5,14 @@ extends Area2D
 enum State { IDLE, PREVIEW, FLYING, SPENT }
 
 
-const DAMAGE = 100.0
 const MANIFEST_DURATION = 0.2
 const DISMISS_DURATION = 0.15
 const PULSE_PERIOD = 1.0
 const PULSE_SCALE = 1.12
 const WORLD_LAYER = 3
+
+
+@export var damage := 100.0
 
 
 var state := State.IDLE
@@ -96,7 +98,7 @@ func _spend() -> void:
 
 func _try_hit(area: Area2D) -> bool:
 	if area is not HurtboxComponent: return false
-	area.damage(DAMAGE)
+	area.damage(damage)
 	_spend()
 	return true
 

@@ -151,12 +151,12 @@ layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="GridContainer" type="VBoxContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=550799427]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 
@@ -219,6 +219,87 @@ unique_name_in_owner = true
 layout_mode = 2
 prompt_name = "Fire"
 prompt_textures = Array[AtlasTexture]([ExtResource("17_rkfhe"), ExtResource("14_3re04"), ExtResource("16_i7m4m"), ExtResource("14_3re04"), ExtResource("15_ukb12")])
+
+[node name="GridContainer2" type="GridContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=1511404399]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=30047934]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Left Stick:"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1948941385]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Move"
+
+[node name="Label14" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=248131472]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Right Stick:"
+horizontal_alignment = 2
+
+[node name="Label15" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1527101442]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Aim"
+
+[node name="Label3" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=422424319]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "RT:"
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=102881395]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Basic Attack"
+
+[node name="Label5" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1626066911]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "LT (hold):"
+horizontal_alignment = 2
+
+[node name="Label6" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=233154552]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Prepare Spell"
+
+[node name="Label7" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=151649410]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "LT (release):"
+horizontal_alignment = 2
+
+[node name="Label8" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=136488202]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Cast Spell"
+
+[node name="Label9" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1089804125]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "RB:"
+horizontal_alignment = 2
+
+[node name="Label10" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=213541565]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Reset Spell"
+
+[node name="Label11" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1637237743]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Start:"
+horizontal_alignment = 2
+
+[node name="Label12" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1397234934]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Pause"
 
 [node name="MapPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=100305939]
 visible = false

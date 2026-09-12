@@ -3,11 +3,12 @@ extends CharacterBody2D
 
 
 signal destroyed
+signal basic_attack_requested(direction: Vector2)
 
 
 const AIM_TEXTURE_DISTANCE = 64.0
 const MAX_HEALTH = 4.0
-const SPEED = 75.0
+const SPEED = 60.0
 const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
@@ -35,6 +36,7 @@ var aim_active: bool: set = _set_aim_active
 @onready var spell_area: Area2D = %SpellArea
 @onready var hurtbox_collision_shape: CollisionShape2D = %HurtboxCollisionShape
 @onready var invincibility_timer: Timer = %InvincibilityTimer
+@onready var basic_attack_timer: Timer = %BasicAttackTimer
 @onready var character_sprite: Sprite2D = %CharacterSprite
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 @onready var aim_sprite: Sprite2D = %AimSprite
@@ -56,6 +58,17 @@ func _physics_process(_delta: float) -> void:
 
 	var aim_direction := Input.get_vector(&"aim_left", &"aim_right", &"aim_up", &"aim_down")
 	if aim_direction.length_squared() > 0.0: aim_angle = aim_direction.angle()
+
+	_handle_basic_attack()
+
+
+func _handle_basic_attack() -> void:
+	if dead: return
+	if Input.is_action_pressed(&"cast_hold"): return
+	if not Input.is_action_pressed(&"basic_attack"): return
+	if not basic_attack_timer.is_stopped(): return
+	basic_attack_timer.start()
+	basic_attack_requested.emit(Vector2.from_angle(aim_angle))
 
 
 func _input(event: InputEvent) -> void:
