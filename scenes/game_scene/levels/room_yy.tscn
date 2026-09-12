@@ -15,6 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://dpxjeq4biekud" path="res://assets/textures/inventory icon 195.png" id="14_p442k"]
 [ext_resource type="Script" uid="uid://dejvrxhmkssta" path="res://scripts/item_pickup.gd" id="15_pickup"]
 [ext_resource type="PackedScene" path="res://scenes/locked_door.tscn" id="16_door"]
+[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="17_hurtbox"]
+[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="18_shield"]
+[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_bubble.gd" id="19_bubble"]
+[ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="20_ring"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("9_rclr1")
@@ -47,6 +51,9 @@ radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nx0vs"]
 radius = 8.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
 
 [node name="RoomYY" type="Node" unique_id=1406349685]
 script = ExtResource("1_bluhm")
@@ -182,13 +189,34 @@ texture = ExtResource("13_jurnp")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/KeySilver" unique_id=469194908]
 shape = SubResource("CircleShape2D_g5140")
 
-[node name="KeyGold" type="Area2D" parent="Objects" unique_id=1551467573]
+[node name="KeyGold" type="Area2D" parent="Objects" unique_id=1551467573 node_paths=PackedStringArray("shield_component", "hurtbox")]
 position = Vector2(184, 76)
 script = ExtResource("15_pickup")
 item = 3
+shield_component = NodePath("ShieldComponent")
+hurtbox = NodePath("HurtboxComponent")
 
 [node name="Sprite2D" type="Sprite2D" parent="Objects/KeyGold" unique_id=867441054]
 texture = ExtResource("14_p442k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/KeyGold" unique_id=1306600627]
 shape = SubResource("CircleShape2D_nx0vs")
+
+[node name="ShieldComponent" parent="Objects/KeyGold" unique_id=1906266033 instance=ExtResource("18_shield")]
+
+[node name="HurtboxComponent" parent="Objects/KeyGold" unique_id=1068378945 node_paths=PackedStringArray("shield_component") instance=ExtResource("17_hurtbox")]
+collision_layer = 8
+collision_mask = 0
+shield_component = NodePath("../ShieldComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/KeyGold/HurtboxComponent" unique_id=746550845]
+shape = SubResource("CircleShape2D_nx0vs")
+
+[node name="ShieldBubble" type="Sprite2D" parent="Objects/KeyGold" unique_id=854369263 node_paths=PackedStringArray("shield")]
+visible = false
+modulate = Color(0.6, 0.8, 1, 0.8)
+material = SubResource("CanvasItemMaterial_add")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("20_ring")
+script = ExtResource("19_bubble")
+shield = NodePath("../ShieldComponent")

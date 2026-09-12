@@ -7,4 +7,4 @@ extends Area2D
 func damage(value: float, breaks_shield := false):
 	if shield_component and shield_component.try_absorb(value, breaks_shield):
 		return
-	health_component.damage(value)
+	if health_component: health_component.damage(value)
