@@ -11,11 +11,15 @@ enum Item { WAND, BOOK, KEY_SILVER, KEY_GOLD }
 
 const AIM_TEXTURE_DISTANCE = 64.0
 const MAX_HEALTH = 3.0
-const SPEED = 60.0
+const SPEED = 75.0
 const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
 const CAST_FRAME_FREEZE_DURATION = 0.15
+const HINT_FADE_IN_DURATION = 0.15
+const HINT_HOLD_DURATION = 1.0
+const HINT_FADE_OUT_DURATION = 0.3
+const HINT_RISE = 4.0
 
 
 @export var push_sound: AudioStream
@@ -35,6 +39,8 @@ var initial_aim_modulate: Color
 var aim_angle: float: set = _set_aim_angle
 var aim_active: bool: set = _set_aim_active
 var inventory: Array[Item] = []
+var _hint_tween: Tween
+var _hint_position: Vector2
 
 
 @onready var spell_area: Area2D = %SpellArea
@@ -44,6 +50,7 @@ var inventory: Array[Item] = []
 @onready var character_sprite: Sprite2D = %CharacterSprite
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 @onready var aim_sprite: Sprite2D = %AimSprite
+@onready var hint_sprite: Sprite2D = %HintSprite
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var shield_component: ShieldComponent = %ShieldComponent
 
@@ -53,6 +60,7 @@ func _ready() -> void:
 	# SpellSystem.spell_casted.connect(_on_spell_casted)
 	initial_sprite_modulate = character_sprite.modulate
 	initial_aim_modulate = aim_sprite.modulate
+	_hint_position = hint_sprite.position
 	aim_angle = 0.0
 	aim_active = false
 	GameUIBridge.shield_changed.emit(shield_component.active)
@@ -135,6 +143,20 @@ func collect(item: Item) -> void:
 
 func has_item(item: Item) -> bool:
 	return item in inventory
+
+
+func show_hint(texture: Texture2D) -> void:
+	if _hint_tween: _hint_tween.kill()
+	hint_sprite.texture = texture
+	hint_sprite.modulate.a = 0.0
+	hint_sprite.position = _hint_position + Vector2(0.0, HINT_RISE)
+	hint_sprite.show()
+	_hint_tween = create_tween()
+	_hint_tween.tween_property(hint_sprite, "modulate:a", 1.0, HINT_FADE_IN_DURATION)
+	_hint_tween.parallel().tween_property(hint_sprite, "position", _hint_position, HINT_FADE_IN_DURATION)
+	_hint_tween.tween_interval(HINT_HOLD_DURATION)
+	_hint_tween.tween_property(hint_sprite, "modulate:a", 0.0, HINT_FADE_OUT_DURATION)
+	_hint_tween.tween_callback(hint_sprite.hide)
 
 
 func _emit_inventory() -> void:

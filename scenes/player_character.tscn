@@ -71,6 +71,12 @@ modulate = Color(1, 1, 1, 0.3)
 position = Vector2(64, 0)
 texture = ExtResource("10_herhr")
 
+[node name="HintSprite" type="Sprite2D" parent="." unique_id=1140582465]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+position = Vector2(0, -16)
+
 [node name="HealthComponent" type="Node" parent="." unique_id=729150298]
 unique_name_in_owner = true
 script = ExtResource("11_xb3ya")
