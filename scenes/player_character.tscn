@@ -70,9 +70,12 @@ position = Vector2(64, 0)
 texture = ExtResource("10_herhr")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=729150298]
+unique_name_in_owner = true
 script = ExtResource("11_xb3ya")
 max_health = 4.0
 metadata/_custom_type_script = "uid://bmr2uhrmavf4a"
 
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]
+[connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
+[connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
 [connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]

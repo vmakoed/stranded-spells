@@ -40,6 +40,7 @@ var aim_active: bool: set = _set_aim_active
 @onready var character_sprite: Sprite2D = %CharacterSprite
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 @onready var aim_sprite: Sprite2D = %AimSprite
+@onready var health_component: HealthComponent = %HealthComponent
 
 
 func _ready() -> void:
@@ -106,6 +107,11 @@ func take_damage(damage: float) -> void:
 		invincible = true
 		hurtbox_collision_shape.set_deferred("disabled", true)
 		invincibility_timer.start()
+
+
+func heal(value: float) -> void:
+	if dead: return
+	health_component.heal(value)
 
 
 func save_health() -> void:
@@ -268,18 +274,19 @@ func _on_invincibility_timer_timeout() -> void:
 
 func _on_health_component_health_changed(new_value: float) -> void:
 	GameUIBridge.health_changed.emit(new_value, MAX_HEALTH)
-	print(new_value)
-		
+
+
+func _on_health_component_damaged(_value: float) -> void:
 	if dead: return
-	if new_value == MAX_HEALTH: return	# workaround for initial set
 	if not invincible:
 		_play_hit_sound()
 		_blink_sprite()
-		
-	if new_value <= 0:
-		dead = true
-		destroyed.emit()
-	else:
-		invincible = true
-		hurtbox_collision_shape.set_deferred("disabled", true)
-		invincibility_timer.start()
+	invincible = true
+	hurtbox_collision_shape.set_deferred("disabled", true)
+	invincibility_timer.start()
+
+
+func _on_health_component_health_below_minimum() -> void:
+	if dead: return
+	dead = true
+	destroyed.emit()

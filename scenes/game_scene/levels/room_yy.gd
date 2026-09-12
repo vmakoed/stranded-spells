@@ -5,6 +5,7 @@ signal level_lost
 
 
 const SPELL_AREA_DAMAGE = 50.0
+const SPELL_HEAL_AMOUNT = 1.0
 const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 const BASIC_ATTACK_SPEED = 220.0
@@ -12,6 +13,7 @@ const BASIC_ATTACK_SPEED = 220.0
 
 @export var projectile_scene := preload("res://scenes/spell_projectile_area.tscn")
 @export var area_burst_scene := preload("res://scenes/spell_area_burst.tscn")
+@export var heal_scene := preload("res://scenes/spell_heal.tscn")
 @export var basic_projectile_scene := preload("res://scenes/basic_attack_projectile.tscn")
 
 
@@ -67,6 +69,15 @@ func _setup_area_burst() -> SpellAreaBurst:
 	return burst
 
 
+func _setup_heal() -> SpellHeal:
+	var heal := heal_scene.instantiate() as SpellHeal
+	add_child(heal)
+	heal.target = player
+	heal.global_position = player.global_position
+	heal.arrived.connect(_on_heal_arrived)
+	return heal
+
+
 func _spawn_origin() -> Vector2:
 	return player.global_position + \
 		Vector2(SPELL_PROJECTILE_OFFSET, 0.0).rotated(player.aim_angle)
@@ -106,6 +117,11 @@ func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 		projectile.manifest()
 		_preview_spell = projectile
 		return
+	if spell == CastInputPanel.Spell.HEAL:
+		var heal := _setup_heal()
+		heal.manifest()
+		_preview_spell = heal
+		return
 
 
 func _on_spell_reset() -> void:
@@ -129,6 +145,17 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		_place_projectile(projectile)
 		projectile.launch(Vector2.from_angle(player.aim_angle), SPELL_PROJECTILE_SPEED)
 		return
+	if spell == CastInputPanel.Spell.HEAL:
+		var heal := _take_preview_spell() as SpellHeal
+		if heal == null:
+			heal = _setup_heal()
+		heal.release()
+		return
+
+
+func _on_heal_arrived() -> void:
+	if not is_instance_valid(player): return
+	player.heal(SPELL_HEAL_AMOUNT)
 
 
 func _on_basic_attack_requested(direction: Vector2) -> void:

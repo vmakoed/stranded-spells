@@ -75,7 +75,6 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	# Joypad trigger motion fires on every value change, so gate transitions on `casting`.
 	if event.is_action_pressed(&"cast_hold") and not casting:
 		return _begin_casting()
 	if event.is_action_released(&"cast_hold") and casting:
@@ -96,7 +95,6 @@ func _begin_casting() -> void:
 	GameUIBridge.cast_mode_changed.emit(true)
 
 
-## Executes the spell if the sequence is complete; otherwise keeps the sequence for the next hold.
 func _end_casting() -> void:
 	casting = false
 	var complete_spell = _find_complete_spell()
