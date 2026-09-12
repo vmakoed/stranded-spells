@@ -13,6 +13,7 @@ const WORLD_LAYER = 3
 
 
 @export var damage := 100.0
+@export var breaks_shield := false
 
 
 var state := State.IDLE
@@ -98,7 +99,7 @@ func _spend() -> void:
 
 func _try_hit(area: Area2D) -> bool:
 	if area is not HurtboxComponent: return false
-	area.damage(damage)
+	area.damage(damage, breaks_shield)
 	_spend()
 	return true
 

@@ -23,9 +23,17 @@ const DEATH_FLASH_HOLD = 0.1
 const RECHARGE_TIME_MIN = 0.35
 const RECHARGE_TIME_MAX = 0.8
 const DEATH_SHATTER_SCENE = preload("res://scenes/game_scene/death_shatter.tscn")
+const BUBBLE_PULSE_SCALE = 1.3
+const BUBBLE_PULSE_DURATION = 0.08
+const BUBBLE_POP_SCALE = 1.6
+const BUBBLE_POP_DURATION = 0.15
+const BUBBLE_FADE_IN_DURATION = 0.25
+const BUBBLE_REGEN_WARNING = 0.5
+const BUBBLE_FLICKER_STEP = 0.08
 
 
 @export var player: Player
+@export var shielded := true
 
 
 var _attack_start_position: Vector2
@@ -33,11 +41,18 @@ var _attack_direction: Vector2
 var _charge_tween: Tween
 var _damage_tween: Tween
 var _death_tween: Tween
+var _bubble_tween: Tween
+var _bubble_scale: Vector2
+var _bubble_alpha: float
 var _state: State: set = _set_state
 
 
 func _ready() -> void:
+	_bubble_scale = %ShieldBubble.scale
+	_bubble_alpha = %ShieldBubble.modulate.a
 	_state = State.CHASING
+	if shielded:
+		%ShieldComponent.activate()
 
 
 func _physics_process(delta: float) -> void:
@@ -76,6 +91,9 @@ func _set_state(new_value: State) -> void:
 		State.DEAD:
 			velocity = Vector2.ZERO
 			%RechargeTimer.stop()
+			%ShieldComponent.disable()
+			_kill_bubble_tween()
+			%ShieldBubble.hide()
 			%AttackArea.set_deferred("monitoring", false)
 			$HurtboxComponent.set_deferred("monitorable", false)
 			$HitboxComponent.set_deferred("monitoring", false)
@@ -211,6 +229,82 @@ func _on_recharge_timer_timeout() -> void:
 		_state = State.CHARGING
 	else:
 		_state = State.CHASING
+
+
+func _kill_bubble_tween() -> void:
+	if _bubble_tween:
+		_bubble_tween.kill()
+	_bubble_tween = null
+
+
+func _show_bubble() -> void:
+	_kill_bubble_tween()
+	var bubble: Sprite2D = %ShieldBubble
+	bubble.scale = _bubble_scale
+	bubble.modulate.a = 0.0
+	bubble.show()
+	_bubble_tween = create_tween()
+	_bubble_tween.tween_property(bubble, "modulate:a", _bubble_alpha, BUBBLE_FADE_IN_DURATION)
+
+
+func _pulse_bubble() -> void:
+	_kill_bubble_tween()
+	var bubble: Sprite2D = %ShieldBubble
+	bubble.modulate.a = _bubble_alpha
+	bubble.scale = _bubble_scale
+	_bubble_tween = create_tween()
+	_bubble_tween \
+		.tween_property(bubble, "scale", _bubble_scale * BUBBLE_PULSE_SCALE, BUBBLE_PULSE_DURATION) \
+		.set_trans(Tween.TRANS_SINE) \
+		.set_ease(Tween.EASE_OUT)
+	_bubble_tween \
+		.tween_property(bubble, "scale", _bubble_scale, BUBBLE_PULSE_DURATION) \
+		.set_trans(Tween.TRANS_SINE) \
+		.set_ease(Tween.EASE_IN)
+
+
+func _pop_bubble() -> void:
+	_kill_bubble_tween()
+	var bubble: Sprite2D = %ShieldBubble
+	_bubble_tween = create_tween().set_parallel(true)
+	_bubble_tween \
+		.tween_property(bubble, "scale", _bubble_scale * BUBBLE_POP_SCALE, BUBBLE_POP_DURATION) \
+		.set_trans(Tween.TRANS_QUAD) \
+		.set_ease(Tween.EASE_OUT)
+	_bubble_tween.tween_property(bubble, "modulate:a", 0.0, BUBBLE_POP_DURATION)
+	_bubble_tween.set_parallel(false)
+	_bubble_tween.tween_callback(bubble.hide)
+
+	var regen_time: float = %ShieldComponent.regen_time
+	var warning_delay := regen_time - BUBBLE_POP_DURATION - BUBBLE_REGEN_WARNING
+	if regen_time <= 0.0 or warning_delay <= 0.0: return
+	_bubble_tween.tween_interval(warning_delay)
+	_bubble_tween.tween_callback(_start_regen_flicker)
+
+
+
+func _start_regen_flicker() -> void:
+	_kill_bubble_tween()
+	var bubble: Sprite2D = %ShieldBubble
+	bubble.scale = _bubble_scale
+	bubble.modulate.a = 0.0
+	bubble.show()
+	_bubble_tween = create_tween().set_loops()
+	_bubble_tween.tween_property(bubble, "modulate:a", _bubble_alpha * 0.5, BUBBLE_FLICKER_STEP)
+	_bubble_tween.tween_property(bubble, "modulate:a", 0.0, BUBBLE_FLICKER_STEP)
+
+
+func _on_shield_component_blocked() -> void:
+	_pulse_bubble()
+
+
+func _on_shield_component_broken() -> void:
+	_pop_bubble()
+
+
+func _on_shield_component_shield_changed(active: bool) -> void:
+	if active:
+		_show_bubble()
 
 
 func _on_health_component_damaged(_value: float) -> void:

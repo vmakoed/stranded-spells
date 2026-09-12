@@ -117,7 +117,7 @@ func _sweep() -> void:
 		var id := area.get_instance_id()
 		if id in _hit: continue
 		if global_position.distance_to(area.global_position) > _wave_radius + HIT_PAD: continue
-		area.damage(damage)
+		area.damage(damage, true)
 		_hit.append(id)
 
 

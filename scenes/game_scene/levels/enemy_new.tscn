@@ -6,6 +6,8 @@
 [ext_resource type="Shader" uid="uid://dcuwu475ty4ng" path="res://assets/shaders/flash.gdshader" id="5_flash"]
 [ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
 [ext_resource type="Texture2D" uid="uid://bxc8vsg1tudtq" path="res://assets/textures/skull_v2_1-sheet.png" id="6_yopix"]
+[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
+[ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="8_ring"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
@@ -52,6 +54,9 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7uo7"]
 radius = 8.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_30ysp"]
 radius = 8.0
 
@@ -76,16 +81,29 @@ autoplay = "default"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=863764532]
 shape = SubResource("CircleShape2D_w7uo7")
 
-[node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component") instance=ExtResource("3_yopix")]
+[node name="ShieldBubble" type="Sprite2D" parent="." unique_id=1739420117]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.6, 0.8, 1, 0.8)
+material = SubResource("CanvasItemMaterial_add")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("8_ring")
+
+[node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("3_yopix")]
 collision_layer = 8
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
+shield_component = NodePath("../ShieldComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=966433981]
 shape = SubResource("CircleShape2D_30ysp")
 
 [node name="HealthComponent" parent="." unique_id=365341202 instance=ExtResource("4_rgjo0")]
 max_health = 150.0
+
+[node name="ShieldComponent" parent="." unique_id=1140018950 instance=ExtResource("7_shield")]
+unique_name_in_owner = true
+regen_time = 5.0
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=29969262]
 unique_name_in_owner = true
@@ -106,5 +124,8 @@ shape = SubResource("CircleShape2D_yopix")
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
 [connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
+[connection signal="blocked" from="ShieldComponent" to="." method="_on_shield_component_blocked"]
+[connection signal="broken" from="ShieldComponent" to="." method="_on_shield_component_broken"]
+[connection signal="shield_changed" from="ShieldComponent" to="." method="_on_shield_component_shield_changed"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="timeout" from="RechargeTimer" to="." method="_on_recharge_timer_timeout"]
