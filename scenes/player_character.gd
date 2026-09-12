@@ -7,7 +7,7 @@ signal basic_attack_requested(direction: Vector2)
 
 
 const AIM_TEXTURE_DISTANCE = 64.0
-const MAX_HEALTH = 4.0
+const MAX_HEALTH = 3.0
 const SPEED = 60.0
 const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
