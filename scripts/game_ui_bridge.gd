@@ -18,4 +18,6 @@ signal spell_sequence_changed(sequence: Array[StringName])
 signal cast_mode_changed(active: bool)
 @warning_ignore("unused_signal")
 signal shield_changed(active: bool)
+@warning_ignore("unused_signal")
+signal inventory_changed(items: Array[Player.Item])
 

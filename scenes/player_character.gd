@@ -6,6 +6,9 @@ signal destroyed
 signal basic_attack_requested(direction: Vector2)
 
 
+enum Item { WAND, BOOK, KEY_SILVER, KEY_GOLD }
+
+
 const AIM_TEXTURE_DISTANCE = 64.0
 const MAX_HEALTH = 3.0
 const SPEED = 60.0
@@ -31,6 +34,7 @@ var initial_sprite_modulate: Color
 var initial_aim_modulate: Color
 var aim_angle: float: set = _set_aim_angle
 var aim_active: bool: set = _set_aim_active
+var inventory: Array[Item] = []
 
 
 @onready var spell_area: Area2D = %SpellArea
@@ -52,6 +56,7 @@ func _ready() -> void:
 	aim_angle = 0.0
 	aim_active = false
 	GameUIBridge.shield_changed.emit(shield_component.active)
+	_emit_inventory()
 
 
 func _physics_process(_delta: float) -> void:
@@ -67,6 +72,7 @@ func _physics_process(_delta: float) -> void:
 
 func _handle_basic_attack() -> void:
 	if dead: return
+	if not has_item(Item.WAND): return
 	if Input.is_action_pressed(&"cast_hold"): return
 	if not Input.is_action_pressed(&"basic_attack"): return
 	if not basic_attack_timer.is_stopped(): return
@@ -119,6 +125,20 @@ func heal(value: float) -> void:
 func grant_shield() -> void:
 	if dead: return
 	shield_component.activate()
+
+
+func collect(item: Item) -> void:
+	if has_item(item): return
+	inventory.append(item)
+	_emit_inventory()
+
+
+func has_item(item: Item) -> bool:
+	return item in inventory
+
+
+func _emit_inventory() -> void:
+	GameUIBridge.inventory_changed.emit(inventory.duplicate())
 
 
 func save_health() -> void:

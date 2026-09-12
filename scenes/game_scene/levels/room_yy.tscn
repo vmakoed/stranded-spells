@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="12_nd67j"]
 [ext_resource type="Texture2D" uid="uid://b688u2lowypit" path="res://assets/textures/xtra icons 190.png" id="13_jurnp"]
 [ext_resource type="Texture2D" uid="uid://dpxjeq4biekud" path="res://assets/textures/inventory icon 195.png" id="14_p442k"]
+[ext_resource type="Script" uid="uid://dejvrxhmkssta" path="res://scripts/item_pickup.gd" id="15_pickup"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("9_rclr1")
@@ -144,6 +145,7 @@ player = NodePath("../PlayerCharacter")
 
 [node name="Wand" type="Area2D" parent="Objects" unique_id=480616936]
 position = Vector2(552, -24)
+script = ExtResource("15_pickup")
 
 [node name="Sprite2D" type="Sprite2D" parent="Objects/Wand" unique_id=1823085893]
 texture = ExtResource("9_qadag")
@@ -162,6 +164,8 @@ position = Vector2(232, -24)
 
 [node name="Book" type="Area2D" parent="Objects" unique_id=149927781]
 position = Vector2(360, -192)
+script = ExtResource("15_pickup")
+item = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="Objects/Book" unique_id=1572304394]
 texture = ExtResource("11_fehe7")
@@ -193,6 +197,8 @@ shape = SubResource("RectangleShape2D_g2off")
 
 [node name="KeySilver" type="Area2D" parent="Objects" unique_id=855302636]
 position = Vector2(184, 16)
+script = ExtResource("15_pickup")
+item = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Objects/KeySilver" unique_id=1880167725]
 texture = ExtResource("13_jurnp")
@@ -202,6 +208,8 @@ shape = SubResource("CircleShape2D_g5140")
 
 [node name="KeyGold" type="Area2D" parent="Objects" unique_id=1551467573]
 position = Vector2(184, 76)
+script = ExtResource("15_pickup")
+item = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="Objects/KeyGold" unique_id=867441054]
 texture = ExtResource("14_p442k")
