@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="9_s7f3b"]
 [ext_resource type="Texture2D" uid="uid://bsx85wxyn5vxu" path="res://assets/textures/crosshair-alt.png" id="10_herhr"]
 [ext_resource type="Script" uid="uid://bmr2uhrmavf4a" path="res://scripts/health_component.gd" id="11_xb3ya"]
+[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="12_shield"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kww55"]
 radius = 7.0
@@ -37,10 +38,11 @@ texture = ExtResource("2_6r27q")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1105964065]
 shape = SubResource("CircleShape2D_kww55")
 
-[node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component") instance=ExtResource("9_s7f3b")]
+[node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("9_s7f3b")]
 collision_layer = 16
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
+shield_component = NodePath("../ShieldComponent")
 
 [node name="HurtboxCollisionShape" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1086994647]
 unique_name_in_owner = true
@@ -75,7 +77,13 @@ script = ExtResource("11_xb3ya")
 max_health = 4.0
 metadata/_custom_type_script = "uid://bmr2uhrmavf4a"
 
+[node name="ShieldComponent" parent="." instance=ExtResource("12_shield")]
+unique_name_in_owner = true
+mode = 0
+
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]
+[connection signal="broken" from="ShieldComponent" to="." method="_on_shield_broken"]
+[connection signal="shield_changed" from="ShieldComponent" to="." method="_on_shield_changed"]
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
 [connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
 [connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]

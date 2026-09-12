@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://duh0ge21sxgld"]
+
+[ext_resource type="Script" uid="uid://cuiki4hty45gg" path="res://scripts/player_heart.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ckgqsg2v1rula" path="res://assets/textures/colored-transparent.png" id="2_atlas"]
+[ext_resource type="Texture2D" uid="uid://wwjj11xjfnt2" path="res://assets/textures/shield-hollow-v1.png" id="3_81x05"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_solid"]
+atlas = ExtResource("2_atlas")
+region = Rect2(629, 68, 16, 16)
+
+[node name="PlayerShieldIcon" type="Control" unique_id=369708488]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_script")
+
+[node name="SolidHeartTexture" type="TextureRect" parent="." unique_id=1009087046]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_solid")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HollowHeartTexture" type="TextureRect" parent="." unique_id=1064401978]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_81x05")
+expand_mode = 1
+stretch_mode = 5

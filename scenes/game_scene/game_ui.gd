@@ -17,6 +17,7 @@ var player_heart_scene = preload("res://scenes/player_heart.tscn")
 
 @onready var health_progress_bar: ProgressBar = %HealthProgressBar
 @onready var player_hearts_container: HBoxContainer = %PlayerHeartsContainer
+@onready var player_shield_icon: Control = %PlayerShieldIcon
 @onready var mini_map: MiniMap = %MiniMap
 @onready var level_title_container = %LevelTitleContainer
 @onready var level_title_label = %LevelTitleLabel
@@ -38,7 +39,9 @@ var player_heart_scene = preload("res://scenes/player_heart.tscn")
 
 
 func _ready() -> void:
+	player_shield_icon.solid = false	# player_heart.gd defaults to solid
 	GameUIBridge.health_changed.connect(_on_health_changed)
+	GameUIBridge.shield_changed.connect(_on_shield_changed)
 	GameUIBridge.room_changed.connect(_on_room_changed)
 	GameUIBridge.spell_unlocked.connect(_on_spell_unlocked)
 	SpellSystem.spell_in_progress.connect(_on_spell_in_progress)
@@ -97,6 +100,10 @@ func _refresh_player_hearts(value: float, max_value: float) -> void:
 
 	for i in hearts.size():
 		hearts[i].solid = i < hearts_solid
+
+
+func _on_shield_changed(active: bool) -> void:
+	player_shield_icon.solid = active
 
 
 func _on_spell_unlocked() -> void:

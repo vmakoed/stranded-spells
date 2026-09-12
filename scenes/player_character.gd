@@ -41,6 +41,7 @@ var aim_active: bool: set = _set_aim_active
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 @onready var aim_sprite: Sprite2D = %AimSprite
 @onready var health_component: HealthComponent = %HealthComponent
+@onready var shield_component: ShieldComponent = %ShieldComponent
 
 
 func _ready() -> void:
@@ -50,6 +51,7 @@ func _ready() -> void:
 	initial_aim_modulate = aim_sprite.modulate
 	aim_angle = 0.0
 	aim_active = false
+	GameUIBridge.shield_changed.emit(shield_component.active)
 
 
 func _physics_process(_delta: float) -> void:
@@ -112,6 +114,11 @@ func take_damage(damage: float) -> void:
 func heal(value: float) -> void:
 	if dead: return
 	health_component.heal(value)
+
+
+func grant_shield() -> void:
+	if dead: return
+	shield_component.activate()
 
 
 func save_health() -> void:
@@ -278,6 +285,19 @@ func _on_health_component_health_changed(new_value: float) -> void:
 
 func _on_health_component_damaged(_value: float) -> void:
 	if dead: return
+	_start_invincibility()
+
+
+func _on_shield_broken() -> void:
+	if dead: return
+	_start_invincibility()
+
+
+func _on_shield_changed(active: bool) -> void:
+	GameUIBridge.shield_changed.emit(active)
+
+
+func _start_invincibility() -> void:
 	if not invincible:
 		_play_hit_sound()
 		_blink_sprite()

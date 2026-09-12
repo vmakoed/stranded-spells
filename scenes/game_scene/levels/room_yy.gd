@@ -14,6 +14,7 @@ const BASIC_ATTACK_SPEED = 220.0
 @export var projectile_scene := preload("res://scenes/spell_projectile_area.tscn")
 @export var area_burst_scene := preload("res://scenes/spell_area_burst.tscn")
 @export var heal_scene := preload("res://scenes/spell_heal.tscn")
+@export var shield_scene := preload("res://scenes/spell_shield.tscn")
 @export var basic_projectile_scene := preload("res://scenes/basic_attack_projectile.tscn")
 
 
@@ -78,6 +79,15 @@ func _setup_heal() -> SpellHeal:
 	return heal
 
 
+func _setup_shield() -> SpellHeal:
+	var shield := shield_scene.instantiate() as SpellHeal
+	add_child(shield)
+	shield.target = player
+	shield.global_position = player.global_position
+	shield.arrived.connect(_on_shield_arrived)
+	return shield
+
+
 func _spawn_origin() -> Vector2:
 	return player.global_position + \
 		Vector2(SPELL_PROJECTILE_OFFSET, 0.0).rotated(player.aim_angle)
@@ -122,6 +132,11 @@ func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 		heal.manifest()
 		_preview_spell = heal
 		return
+	if spell == CastInputPanel.Spell.SHIELD:
+		var shield := _setup_shield()
+		shield.manifest()
+		_preview_spell = shield
+		return
 
 
 func _on_spell_reset() -> void:
@@ -151,11 +166,22 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 			heal = _setup_heal()
 		heal.release()
 		return
+	if spell == CastInputPanel.Spell.SHIELD:
+		var shield := _take_preview_spell() as SpellHeal
+		if shield == null:
+			shield = _setup_shield()
+		shield.release()
+		return
 
 
 func _on_heal_arrived() -> void:
 	if not is_instance_valid(player): return
 	player.heal(SPELL_HEAL_AMOUNT)
+
+
+func _on_shield_arrived() -> void:
+	if not is_instance_valid(player): return
+	player.grant_shield()
 
 
 func _on_basic_attack_requested(direction: Vector2) -> void:

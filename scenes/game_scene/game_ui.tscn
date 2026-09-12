@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://bnhmjy582mlax" path="res://scenes/game_scene/configurable_sub_viewport.gd" id="11_ulq3g"]
 [ext_resource type="Script" uid="uid://bmcttnpvsi36l" path="res://scenes/game_scene/game_timer.gd" id="12_gpor5"]
 [ext_resource type="Texture2D" uid="uid://dr3xk7rcnsiw4" path="res://assets/textures/keyboard-&-mouse_sheet_default.png" id="13_i7m4m"]
+[ext_resource type="PackedScene" uid="uid://bgwyyjwh5712r" path="res://scenes/player_heart.tscn" id="13_ulq3g"]
+[ext_resource type="PackedScene" path="res://scenes/player_shield_icon.tscn" id="13_shield"]
 [ext_resource type="Texture2D" uid="uid://co6dms25h23so" path="res://resources/input_down_texture.tres" id="14_3re04"]
 [ext_resource type="PackedScene" uid="uid://cdokmnrix3fw8" path="res://scenes/prompt_container.tscn" id="14_rkfhe"]
 [ext_resource type="Texture2D" uid="uid://dri6xxl20aw3v" path="res://resources/input_left_texture.tres" id="15_ukb12"]
@@ -142,10 +144,30 @@ size_flags_horizontal = 0
 theme_type_variation = &"HealthBar"
 show_percentage = false
 
-[node name="PlayerHeartsContainer" type="HBoxContainer" parent="MarginContainer/PlayerHealthPanel" unique_id=1052428732]
+[node name="PlayerStatusRow" type="HBoxContainer" parent="MarginContainer/PlayerHealthPanel"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PlayerHeartsContainer" type="HBoxContainer" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow" unique_id=1052428732]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
+
+[node name="PlayerHeart" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=343170385 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerHeart2" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=835300414 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerHeart3" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=288806870 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerHeart4" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=1093625772 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerShieldIcon" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow" instance=ExtResource("13_shield")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
 layout_mode = 2
@@ -223,79 +245,79 @@ columns = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=30047934]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Left Stick:"
 horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1948941385]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Move"
 
 [node name="Label14" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=248131472]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Right Stick:"
 horizontal_alignment = 2
 
 [node name="Label15" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1527101442]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Aim"
 
 [node name="Label3" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=422424319]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "RT:"
 horizontal_alignment = 2
 
 [node name="Label4" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=102881395]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Basic Attack"
+theme_override_font_sizes/font_size = 32
+text = "Sacred Flame"
 
 [node name="Label5" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1626066911]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "LT (hold):"
 horizontal_alignment = 2
 
 [node name="Label6" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=233154552]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Prepare Spell"
 
 [node name="Label7" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=151649410]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "LT (release):"
 horizontal_alignment = 2
 
 [node name="Label8" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=136488202]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Cast Spell"
 
 [node name="Label9" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1089804125]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "RB:"
 horizontal_alignment = 2
 
 [node name="Label10" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=213541565]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Reset Spell"
 
 [node name="Label11" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1637237743]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Start:"
 horizontal_alignment = 2
 
 [node name="Label12" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1397234934]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Pause"
 
 [node name="MapPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=100305939]
