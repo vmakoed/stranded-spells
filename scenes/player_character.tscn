@@ -21,7 +21,7 @@ radius = 7.0
 radius = 7.0
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=745586083]
-collision_mask = 6
+collision_mask = 38
 script = ExtResource("1_1t15j")
 push_sound = ExtResource("2_2vmgx")
 frost_sound = ExtResource("2_uj7mf")

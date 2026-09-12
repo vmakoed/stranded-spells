@@ -19,7 +19,11 @@ const FLASH_SHADER = preload("res://assets/shaders/flash.gdshader")
 @onready var shards: Node2D = %Shards
 
 
-func play(sprite: AnimatedSprite2D) -> void:
+## Plays the shatter VFX: the ring expands and [param sprite] is split into a
+## [constant GRID]×[constant GRID] grid of shards that fly outward and fade.[br]
+## [param sprite] is an [AnimatedSprite2D] (uses its current frame) or a plain
+## [Sprite2D] (uses its [member Sprite2D.texture]). Frees itself when finished.
+func play(sprite: Node2D) -> void:
 	var tween := create_tween().set_parallel(true)
 	_animate_ring(tween)
 
@@ -45,11 +49,18 @@ func _animate_ring(tween: Tween) -> void:
 	tween.tween_property(ring, "modulate:a", 0.0, RING_DURATION)
 
 
-func _build_shards(sprite: AnimatedSprite2D) -> ShaderMaterial:
-	if sprite.sprite_frames == null: return null
-	if not sprite.sprite_frames.has_animation(sprite.animation): return null
+func _frame_texture(sprite: Node2D) -> Texture2D:
+	if sprite is Sprite2D:
+		return sprite.texture
+	if sprite is AnimatedSprite2D:
+		if sprite.sprite_frames == null: return null
+		if not sprite.sprite_frames.has_animation(sprite.animation): return null
+		return sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+	return null
 
-	var frame_texture := sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+
+func _build_shards(sprite: Node2D) -> ShaderMaterial:
+	var frame_texture := _frame_texture(sprite)
 	if frame_texture == null: return null
 
 	var atlas: Texture2D = frame_texture
