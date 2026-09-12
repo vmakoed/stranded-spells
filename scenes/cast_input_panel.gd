@@ -60,6 +60,7 @@ const RESET_CAST_LABEL = "RB"
 
 var spell_sequence: Array[StringName] = []
 var casting := false
+var spells_unlocked := false: set = _set_spells_unlocked
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -72,6 +73,20 @@ var casting := false
 func _ready() -> void:
 	_clear_spell_sequence()
 	button_container_left_spacer.resized.connect(_update_prompt_position)
+	if Engine.is_editor_hint(): return
+	set_process_input(false)	# locked until the book is collected
+	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+
+
+func _set_spells_unlocked(new_value: bool) -> void:
+	if new_value == spells_unlocked: return
+	spells_unlocked = new_value
+	if not spells_unlocked and casting: _end_casting()
+	set_process_input(spells_unlocked)
+
+
+func _on_inventory_changed(items: Array[Player.Item]) -> void:
+	spells_unlocked = Player.Item.BOOK in items
 
 
 func _input(event: InputEvent) -> void:
@@ -108,7 +123,7 @@ func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if
 	spell_sequence.clear()
 	_update_prompt([Spell.ATTACK_TARGET, Spell.ATTACK_AREA, Spell.SHIELD, Spell.HEAL])
 	_update_button_box()
-	GameUIBridge.spell_reset.emit()
+	if not Engine.is_editor_hint(): GameUIBridge.spell_reset.emit()
 
 	# if with_signal: spell_sequence_cleared.emit()
 
