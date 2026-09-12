@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bxc8vsg1tudtq" path="res://assets/textures/skull_v2_1-sheet.png" id="6_yopix"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
 [ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="8_ring"]
+[ext_resource type="Script" path="res://scripts/shield_bubble.gd" id="9_bubble"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
@@ -81,13 +82,15 @@ autoplay = "default"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=863764532]
 shape = SubResource("CircleShape2D_w7uo7")
 
-[node name="ShieldBubble" type="Sprite2D" parent="." unique_id=1739420117]
+[node name="ShieldBubble" type="Sprite2D" parent="." unique_id=1739420117 node_paths=PackedStringArray("shield")]
 unique_name_in_owner = true
 visible = false
 modulate = Color(0.6, 0.8, 1, 0.8)
 material = SubResource("CanvasItemMaterial_add")
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("8_ring")
+script = ExtResource("9_bubble")
+shield = NodePath("../ShieldComponent")
 
 [node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("3_yopix")]
 collision_layer = 8
@@ -124,8 +127,5 @@ shape = SubResource("CircleShape2D_yopix")
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
 [connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
-[connection signal="blocked" from="ShieldComponent" to="." method="_on_shield_component_blocked"]
-[connection signal="broken" from="ShieldComponent" to="." method="_on_shield_component_broken"]
-[connection signal="shield_changed" from="ShieldComponent" to="." method="_on_shield_component_shield_changed"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="timeout" from="RechargeTimer" to="." method="_on_recharge_timer_timeout"]
