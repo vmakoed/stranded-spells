@@ -138,6 +138,7 @@ func has_item(item: Item) -> bool:
 
 
 func _emit_inventory() -> void:
+	aim_sprite.visible = has_item(Item.WAND)	# reticle only once there is something to aim
 	GameUIBridge.inventory_changed.emit(inventory.duplicate())
 
 

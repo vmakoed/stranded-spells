@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
 [ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="20_g2ndc"]
 [ext_resource type="PackedScene" uid="uid://dm7q3kx8wprmt" path="res://scenes/game_scene/magic_circle_prompts.tscn" id="21_mcprm"]
+[ext_resource type="Script" path="res://scripts/prompts_panel.gd" id="22_prompts"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkfhe"]
 atlas = ExtResource("13_i7m4m")
@@ -239,75 +240,10 @@ layout_mode = 2
 prompt_name = "Fire"
 prompt_textures = Array[AtlasTexture]([ExtResource("17_rkfhe"), ExtResource("14_3re04"), ExtResource("16_i7m4m"), ExtResource("14_3re04"), ExtResource("15_ukb12")])
 
-[node name="GridContainer2" type="GridContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=1511404399]
+[node name="PromptsPanel" type="GridContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=1511404399]
 layout_mode = 2
 columns = 2
-
-[node name="Label" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=30047934]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "LS:"
-horizontal_alignment = 2
-
-[node name="Label2" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1948941385]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Move"
-
-[node name="Label14" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=248131472]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "RS:"
-horizontal_alignment = 2
-
-[node name="Label15" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1527101442]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Aim"
-
-[node name="Label3" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=422424319]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "RT:"
-horizontal_alignment = 2
-
-[node name="Label4" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=102881395]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Sacred Flame"
-
-[node name="Label5" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1626066911]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "LT:"
-horizontal_alignment = 2
-
-[node name="Label6" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=233154552]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Cast Spell"
-
-[node name="Label9" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1089804125]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "RB:"
-horizontal_alignment = 2
-
-[node name="Label10" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=213541565]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Reset Spell"
-
-[node name="Label11" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1637237743]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Start:"
-horizontal_alignment = 2
-
-[node name="Label12" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer2" unique_id=1397234934]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Pause"
+script = ExtResource("22_prompts")
 
 [node name="MapPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=100305939]
 visible = false
