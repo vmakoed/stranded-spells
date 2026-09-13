@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
 [ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="20_g2ndc"]
 [ext_resource type="PackedScene" uid="uid://dm7q3kx8wprmt" path="res://scenes/game_scene/magic_circle_prompts.tscn" id="21_mcprm"]
-[ext_resource type="Script" path="res://scripts/prompts_panel.gd" id="22_prompts"]
+[ext_resource type="Script" uid="uid://d8e8pefvnjv4" path="res://scripts/prompts_panel.gd" id="22_prompts"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkfhe"]
 atlas = ExtResource("13_i7m4m")
@@ -173,7 +173,7 @@ layout_mode = 2
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
+size_flags_vertical = 0
 
 [node name="GridContainer" type="VBoxContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=550799427]
 visible = false

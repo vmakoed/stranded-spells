@@ -5,12 +5,18 @@
 [ext_resource type="Shader" uid="uid://dcuwu475ty4ng" path="res://assets/shaders/flash.gdshader" id="3_flash"]
 [ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="4_hurtbox"]
 [ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="5_health"]
+[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="6_shield"]
+[ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="7_ring"]
+[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_bubble.gd" id="8_bubble"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
 shader = ExtResource("3_flash")
 shader_parameter/flash_amount = 0.0
 shader_parameter/greyscale_amount = 0.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_box"]
 atlas = ExtResource("2_tiles")
@@ -33,16 +39,30 @@ texture = SubResource("AtlasTexture_box")
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_box")
 
-[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_hurtbox")]
+[node name="ShieldBubble" type="Sprite2D" parent="." node_paths=PackedStringArray("shield")]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.6, 0.8, 1, 0.8)
+material = SubResource("CanvasItemMaterial_add")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("7_ring")
+script = ExtResource("8_bubble")
+shield = NodePath("../ShieldComponent")
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("4_hurtbox")]
 unique_name_in_owner = true
 collision_layer = 8
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
+shield_component = NodePath("../ShieldComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 shape = SubResource("RectangleShape2D_box")
 
 [node name="HealthComponent" parent="." instance=ExtResource("5_health")]
 max_health = 1.0
+
+[node name="ShieldComponent" parent="." instance=ExtResource("6_shield")]
+unique_name_in_owner = true
 
 [connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]

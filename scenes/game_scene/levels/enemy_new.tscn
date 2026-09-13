@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bxc8vsg1tudtq" path="res://assets/textures/skull_v2_1-sheet.png" id="6_yopix"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
 [ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="8_ring"]
-[ext_resource type="Script" path="res://scripts/shield_bubble.gd" id="9_bubble"]
+[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_bubble.gd" id="9_bubble"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
