@@ -37,21 +37,21 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 		SPELL_ACTIONS[SpellDirection.RIGHT],
 		SPELL_ACTIONS[SpellDirection.UP]
 	],
-	Spell.ATTACK_AREA: [
-		SPELL_ACTIONS[SpellDirection.DOWN],
-		SPELL_ACTIONS[SpellDirection.LEFT],
-		SPELL_ACTIONS[SpellDirection.UP]
-	],
+	# Spell.ATTACK_AREA: [
+	# 	SPELL_ACTIONS[SpellDirection.DOWN],
+	# 	SPELL_ACTIONS[SpellDirection.LEFT],
+	# 	SPELL_ACTIONS[SpellDirection.UP]
+	# ],
 	Spell.SHIELD: [
 		SPELL_ACTIONS[SpellDirection.RIGHT],
 		SPELL_ACTIONS[SpellDirection.UP],
 		SPELL_ACTIONS[SpellDirection.LEFT]
 	],
-	Spell.HEAL: [
-		SPELL_ACTIONS[SpellDirection.RIGHT],
-		SPELL_ACTIONS[SpellDirection.DOWN],
-		SPELL_ACTIONS[SpellDirection.LEFT]
-	]
+	# Spell.HEAL: [
+	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
+	# 	SPELL_ACTIONS[SpellDirection.DOWN],
+	# 	SPELL_ACTIONS[SpellDirection.LEFT]
+	# ]
 }
 
 const EXECUTE_SPELL_LABEL = "Release LT"
@@ -121,7 +121,12 @@ func _end_casting() -> void:
 
 func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
 	spell_sequence.clear()
-	_update_prompt([Spell.ATTACK_TARGET, Spell.ATTACK_AREA, Spell.SHIELD, Spell.HEAL])
+	_update_prompt([
+		Spell.ATTACK_TARGET,
+		# Spell.ATTACK_AREA,
+		Spell.SHIELD,
+		# Spell.HEAL
+	])
 	_update_button_box()
 	if not Engine.is_editor_hint(): GameUIBridge.spell_reset.emit()
 
