@@ -20,6 +20,9 @@ radius = 7.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_c4hvp"]
 radius = 7.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_c4hvp"]
+light_mode = 1
+
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=745586083]
 collision_mask = 38
 script = ExtResource("1_1t15j")
@@ -67,7 +70,8 @@ bus = &"SFX"
 
 [node name="AimSprite" type="Sprite2D" parent="." unique_id=934696125]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.3)
+modulate = Color(1, 1, 1, 0.5)
+material = SubResource("CanvasItemMaterial_c4hvp")
 position = Vector2(64, 0)
 texture = ExtResource("10_herhr")
 

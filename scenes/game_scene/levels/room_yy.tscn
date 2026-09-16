@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="20_ring"]
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/chase_trigger.gd" id="21_chase"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="21_s7gcq"]
+[ext_resource type="Script" uid="uid://hkp6m3fni1pg" path="res://scripts/darkness_zone.gd" id="22_dark"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("9_rclr1")
@@ -73,6 +74,9 @@ size = Vector2(32, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s7gcq"]
 size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dark"]
+size = Vector2(112, 232)
 
 [node name="RoomYY" type="Node" unique_id=1406349685]
 script = ExtResource("1_bluhm")
@@ -133,6 +137,7 @@ facing = 3
 [node name="RightTorch29" parent="Lights" unique_id=623771360 instance=ExtResource("4_s7gcq")]
 position = Vector2(840, 168)
 facing = 3
+lit = false
 
 [node name="TopTorch30" parent="Lights" unique_id=529677342 instance=ExtResource("4_s7gcq")]
 position = Vector2(816, 88)
@@ -144,6 +149,7 @@ facing = 2
 [node name="LeftTorch32" parent="Lights" unique_id=1391398024 instance=ExtResource("4_s7gcq")]
 position = Vector2(792, 168)
 facing = 2
+lit = false
 
 [node name="RightTorch27" parent="Lights" unique_id=122637395 instance=ExtResource("4_s7gcq")]
 position = Vector2(952, 120)
@@ -176,6 +182,7 @@ lit = false
 
 [node name="TopTorch3" parent="Lights" unique_id=1050566448 instance=ExtResource("4_s7gcq")]
 position = Vector2(816, 232)
+lit = false
 
 [node name="TopTorch4" parent="Lights" unique_id=819761307 instance=ExtResource("4_s7gcq")]
 position = Vector2(928, 376)
@@ -664,5 +671,19 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/ChaseTrigger3" unique_id=1516058708]
 position = Vector2(0, -24)
 shape = SubResource("RectangleShape2D_s7gcq")
+
+[node name="DarknessReturn" type="Marker2D" parent="TriggerAreas" unique_id=1921530417]
+position = Vector2(700, 284)
+
+[node name="EastDarkness" type="Area2D" parent="TriggerAreas" unique_id=1466607309 node_paths=PackedStringArray("torches", "return_point")]
+position = Vector2(912, 220)
+script = ExtResource("22_dark")
+torches = [NodePath("../../Lights/TopTorch7"), NodePath("../../Lights/LeftTorch22"), NodePath("../../Lights/LeftTorch23"), NodePath("../../Lights/LeftTorch24"), NodePath("../../Lights/RightTorch23"), NodePath("../../Lights/RightTorch24"), NodePath("../../Lights/RightTorch25"), NodePath("../../Lights/RightTorch26")]
+return_point = NodePath("../DarknessReturn")
+grace_time = 1.5
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/EastDarkness" unique_id=1921530418]
+shape = SubResource("RectangleShape2D_dark")
 
 [connection signal="body_entered" from="Objects/WinChest" to="." method="_on_win_chest_body_entered"]

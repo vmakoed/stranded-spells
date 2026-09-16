@@ -2,6 +2,8 @@
 class_name Torch
 extends Area2D
 
+signal ignited
+
 enum Facing { TOP, DOWN, LEFT, RIGHT }
 
 const LIT_TEXTURE := preload("res://assets/textures/Dungeon_Tileset.png")
@@ -41,6 +43,7 @@ func ignite() -> void:
 	if _tween: _tween.kill()
 	_tween = create_tween()
 	_tween.tween_property(light, "energy", LIGHT_ENERGY, IGNITE_DURATION)
+	ignited.emit()
 
 
 func _apply() -> void:
