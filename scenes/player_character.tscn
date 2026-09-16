@@ -13,6 +13,22 @@
 [ext_resource type="Texture2D" uid="uid://bsx85wxyn5vxu" path="res://assets/textures/crosshair-alt.png" id="10_herhr"]
 [ext_resource type="Script" uid="uid://bmr2uhrmavf4a" path="res://scripts/health_component.gd" id="11_xb3ya"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="12_shield"]
+[ext_resource type="Script" uid="uid://csi1su7bj77oj" path="res://scripts/player_hint.gd" id="13_hint"]
+[ext_resource type="Texture2D" uid="uid://ckgqsg2v1rula" path="res://assets/textures/colored-transparent.png" id="14_icons"]
+[ext_resource type="Texture2D" uid="uid://wwjj11xjfnt2" path="res://assets/textures/shield-hollow-v1.png" id="15_shield_hollow"]
+[ext_resource type="LabelSettings" path="res://resources/hint_label_settings.tres" id="16_labels"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_heart_solid"]
+atlas = ExtResource("14_icons")
+region = Rect2(714, 170, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_heart_hollow"]
+atlas = ExtResource("14_icons")
+region = Rect2(680, 170, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shield_solid"]
+atlas = ExtResource("14_icons")
+region = Rect2(629, 68, 16, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kww55"]
 radius = 7.0
@@ -32,6 +48,10 @@ shock_sound = ExtResource("4_pxja8")
 fire_sound = ExtResource("4_6unfe")
 hit_sound = ExtResource("6_iadup")
 pickup_sound = ExtResource("7_herhr")
+heart_solid = SubResource("AtlasTexture_heart_solid")
+heart_hollow = SubResource("AtlasTexture_heart_hollow")
+shield_solid = SubResource("AtlasTexture_shield_solid")
+shield_hollow = ExtResource("15_shield_hollow")
 metadata/_edit_group_ = true
 
 [node name="CharacterSprite" type="Sprite2D" parent="." unique_id=1015337729]
@@ -75,11 +95,30 @@ material = SubResource("CanvasItemMaterial_c4hvp")
 position = Vector2(64, 0)
 texture = ExtResource("10_herhr")
 
-[node name="HintSprite" type="Sprite2D" parent="." unique_id=1140582465]
+[node name="Hint" type="Node2D" parent="." unique_id=1140582465]
+unique_name_in_owner = true
+z_index = 1
+material = SubResource("CanvasItemMaterial_c4hvp")
+position = Vector2(0, -16)
+script = ExtResource("13_hint")
+label_settings = ExtResource("16_labels")
+
+[node name="IconSprite" type="Sprite2D" parent="Hint" unique_id=421103868]
 unique_name_in_owner = true
 visible = false
-z_index = 1
-position = Vector2(0, -16)
+use_parent_material = true
+
+[node name="IconOverlay" type="Sprite2D" parent="Hint" unique_id=1555874625]
+unique_name_in_owner = true
+visible = false
+use_parent_material = true
+
+[node name="Rows" type="VBoxContainer" parent="Hint" unique_id=401220524]
+unique_name_in_owner = true
+visible = false
+use_parent_material = true
+theme_override_constants/separation = 0
+alignment = 1
 
 [node name="HealthComponent" type="Node" parent="." unique_id=729150298]
 unique_name_in_owner = true

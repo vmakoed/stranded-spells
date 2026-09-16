@@ -11,13 +11,14 @@ const REVEAL_FADE_DURATION = 1.0
 
 
 const ROWS: Array[Dictionary] = [
-	{ "button": "LS:", "text": "Move" },
-	{ "button": "Start:", "text": "Pause" },
-	{ "button": "RS:", "text": "Aim", "requires": Player.Item.WAND },
-	{ "button": "RT:", "text": " Energy Bolt", "requires": Player.Item.WAND },
-	{ "button": "LT:", "text": "Cast Spell", "requires": Player.Item.BOOK },
-	{ "button": "ABXY:", "text": "Select Spell", "requires": Player.Item.BOOK },
-	{ "button": "RB:", "text": "Reset Spell", "requires": Player.Item.BOOK },
+	{ "button": "LS:", "text": "Move", "icon": preload("res://resources/prompt_ls.tres") },
+	{ "button": "Start:", "text": "Pause", "icon": preload("res://resources/prompt_start.tres") },
+	{ "button": "RS:", "text": "Aim", "requires": Player.Item.WAND, "icon": preload("res://resources/prompt_rs.tres") },
+	{ "button": "RT:", "text": "Energy Bolt", "requires": Player.Item.WAND, "icon": preload("res://resources/prompt_rt.tres") },
+	{ "button": "LT:", "text": "(Hold) Start Casting Spell", "requires": Player.Item.BOOK, "icon": preload("res://resources/prompt_lt.tres") },
+	{ "button": "ABXY:", "text": "Select Spell", "requires": Player.Item.BOOK, "icon": preload("res://assets/textures/prompt_abxy.png") },
+	{ "button": "LT:", "text": "(Release) Confirm Spell", "requires": Player.Item.BOOK, "icon": preload("res://resources/prompt_lt.tres") },
+	{ "button": "RB:", "text": "Reset Spell", "requires": Player.Item.BOOK, "icon": preload("res://resources/prompt_rb.tres") },
 ]
 
 

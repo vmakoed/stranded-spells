@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/input_prompts_pixel.png" id="1_sheet"]
+
+[resource]
+atlas = ExtResource("1_sheet")
+region = Rect2(80, 288, 16, 16)
