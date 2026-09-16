@@ -12,7 +12,7 @@ const PULSE_SCALE = 1.12
 const WORLD_LAYER = 3
 
 
-@export var damage := 100.0
+@export var damage := 50.0
 @export var breaks_shield := false
 
 

@@ -52,6 +52,15 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_light"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
+gradient = SubResource("Gradient_light")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7uo7"]
 radius = 8.0
 
@@ -79,6 +88,11 @@ material = SubResource("ShaderMaterial_flash")
 sprite_frames = SubResource("SpriteFrames_wadj6")
 autoplay = "default"
 
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=520853205]
+color = Color(0.13257393, 0.57921696, 0.81687254, 1)
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 0.8
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=863764532]
 shape = SubResource("CircleShape2D_w7uo7")
 
@@ -102,7 +116,7 @@ shield_component = NodePath("../ShieldComponent")
 shape = SubResource("CircleShape2D_30ysp")
 
 [node name="HealthComponent" parent="." unique_id=365341202 instance=ExtResource("4_rgjo0")]
-max_health = 150.0
+max_health = 300.0
 
 [node name="ShieldComponent" parent="." unique_id=1140018950 instance=ExtResource("7_shield")]
 unique_name_in_owner = true

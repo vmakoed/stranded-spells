@@ -14,7 +14,7 @@ const ROWS: Array[Dictionary] = [
 	{ "button": "LS:", "text": "Move" },
 	{ "button": "Start:", "text": "Pause" },
 	{ "button": "RS:", "text": "Aim", "requires": Player.Item.WAND },
-	{ "button": "RT:", "text": "Sacred Flame", "requires": Player.Item.WAND },
+	{ "button": "RT:", "text": "Sacred Spark", "requires": Player.Item.WAND },
 	{ "button": "LT:", "text": "Cast Spell", "requires": Player.Item.BOOK },
 	{ "button": "ABXY:", "text": "Select Spell", "requires": Player.Item.BOOK },
 	{ "button": "RB:", "text": "Reset Spell", "requires": Player.Item.BOOK },
