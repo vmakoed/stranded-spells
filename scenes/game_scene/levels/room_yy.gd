@@ -2,6 +2,7 @@ extends Node
 
 
 signal level_lost
+signal level_won
 
 
 const SPELL_AREA_DAMAGE = 50.0
@@ -201,3 +202,7 @@ func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
 
 func _on_cast_mode_changed(active: bool) -> void:
 	magic_circle.visible = active
+
+
+func _on_win_chest_body_entered(body: Node2D) -> void:
+	if body is Player: level_won.emit()

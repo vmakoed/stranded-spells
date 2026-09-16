@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_bubble.gd" id="19_bubble"]
 [ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="20_ring"]
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/chase_trigger.gd" id="21_chase"]
+[ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="21_s7gcq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("9_rclr1")
@@ -42,15 +43,6 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 shader = ExtResource("9_rclr1")
 shader_parameter/tint = Color(1, 1, 1, 0.35)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_chase"]
-size = Vector2(32, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hj76"]
-size = Vector2(32, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7gcq"]
-size = Vector2(32, 16)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7uo7"]
 radius = 8.0
 
@@ -65,6 +57,22 @@ radius = 8.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
 blend_mode = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
+atlas = ExtResource("21_s7gcq")
+region = Rect2(64, 128, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sd08o"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chase"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hj76"]
+size = Vector2(32, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7gcq"]
+size = Vector2(32, 16)
 
 [node name="RoomYY" type="Node" unique_id=1406349685]
 script = ExtResource("1_bluhm")
@@ -113,6 +121,28 @@ lit = false
 
 [node name="LeftTorch25" parent="Lights" unique_id=2129573419 instance=ExtResource("4_s7gcq")]
 position = Vector2(904, 120)
+facing = 2
+
+[node name="TopTorch26" parent="Lights" unique_id=979596272 instance=ExtResource("4_s7gcq")]
+position = Vector2(876, 120)
+
+[node name="RightTorch28" parent="Lights" unique_id=1660442223 instance=ExtResource("4_s7gcq")]
+position = Vector2(840, 120)
+facing = 3
+
+[node name="RightTorch29" parent="Lights" unique_id=623771360 instance=ExtResource("4_s7gcq")]
+position = Vector2(840, 168)
+facing = 3
+
+[node name="TopTorch30" parent="Lights" unique_id=529677342 instance=ExtResource("4_s7gcq")]
+position = Vector2(816, 88)
+
+[node name="LeftTorch31" parent="Lights" unique_id=1724743355 instance=ExtResource("4_s7gcq")]
+position = Vector2(792, 120)
+facing = 2
+
+[node name="LeftTorch32" parent="Lights" unique_id=1391398024 instance=ExtResource("4_s7gcq")]
+position = Vector2(792, 168)
 facing = 2
 
 [node name="RightTorch27" parent="Lights" unique_id=122637395 instance=ExtResource("4_s7gcq")]
@@ -406,64 +436,38 @@ material = SubResource("ShaderMaterial_mkleft")
 position = Vector2(-15, 0)
 texture = ExtResource("8_mini1")
 
-[node name="EnemyNew" parent="." unique_id=1212860439 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+[node name="Enemies" type="Node" parent="." unique_id=711953616]
+
+[node name="EnemyNew" parent="Enemies" unique_id=1212860439 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
 position = Vector2(816, 576)
-player = NodePath("../PlayerCharacter")
+player = NodePath("../../PlayerCharacter")
 shielded = false
 
-[node name="EnemyNew2" parent="." unique_id=1164792054 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+[node name="EnemyNew2" parent="Enemies" unique_id=1164792054 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
 position = Vector2(912, 152)
-player = NodePath("../PlayerCharacter")
+player = NodePath("../../PlayerCharacter")
 
-[node name="EnemyNew3" parent="." unique_id=349291011 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+[node name="EnemyNew3" parent="Enemies" unique_id=349291011 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
 position = Vector2(928, 112)
-player = NodePath("../PlayerCharacter")
+player = NodePath("../../PlayerCharacter")
 
-[node name="EnemyNew4" parent="." unique_id=1138997188 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+[node name="EnemyNew4" parent="Enemies" unique_id=1138997188 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
 position = Vector2(704, 428)
-player = NodePath("../PlayerCharacter")
+player = NodePath("../../PlayerCharacter")
 
-[node name="EnemyNew5" parent="." unique_id=382274447 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
+[node name="EnemyNew5" parent="Enemies" unique_id=382274447 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
 unique_name_in_owner = true
 z_index = 2
 position = Vector2(944, 144)
-player = NodePath("../PlayerCharacter")
-
-[node name="ChaseTrigger" type="Area2D" parent="." unique_id=1695093852 node_paths=PackedStringArray("enemies")]
-position = Vector2(928, 200)
-script = ExtResource("21_chase")
-enemies = [NodePath("../EnemyNew2"), NodePath("../EnemyNew3"), NodePath("../EnemyNew5")]
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseTrigger" unique_id=365178363]
-shape = SubResource("RectangleShape2D_chase")
-
-[node name="ChaseTrigger2" type="Area2D" parent="." unique_id=1086907808 node_paths=PackedStringArray("enemies")]
-position = Vector2(816, 532)
-script = ExtResource("21_chase")
-enemies = [NodePath("../EnemyNew")]
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseTrigger2" unique_id=12774938]
-shape = SubResource("RectangleShape2D_2hj76")
-
-[node name="ChaseTrigger3" type="Area2D" parent="." unique_id=507612370 node_paths=PackedStringArray("enemies")]
-position = Vector2(704, 504)
-script = ExtResource("21_chase")
-enemies = [NodePath("../EnemyNew4")]
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseTrigger3" unique_id=1516058708]
-position = Vector2(0, -24)
-shape = SubResource("RectangleShape2D_s7gcq")
+player = NodePath("../../PlayerCharacter")
 
 [node name="Objects" type="Node" parent="." unique_id=1440820633]
 
@@ -621,3 +625,44 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_ring")
 script = ExtResource("19_bubble")
 shield = NodePath("../ShieldComponent")
+
+[node name="WinChest" type="Area2D" parent="Objects" unique_id=330359362]
+position = Vector2(816, 140)
+
+[node name="Sprite2D" type="Sprite2D" parent="Objects/WinChest" unique_id=302294646]
+texture = SubResource("AtlasTexture_sd08o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/WinChest" unique_id=2088413106]
+shape = SubResource("RectangleShape2D_sd08o")
+
+[node name="TriggerAreas" type="Node" parent="." unique_id=1466607308]
+
+[node name="ChaseTrigger" type="Area2D" parent="TriggerAreas" unique_id=1695093852 node_paths=PackedStringArray("enemies")]
+position = Vector2(928, 200)
+script = ExtResource("21_chase")
+enemies = [NodePath("../../Enemies/EnemyNew2"), NodePath("../../Enemies/EnemyNew3"), NodePath("../../Enemies/EnemyNew5")]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/ChaseTrigger" unique_id=365178363]
+shape = SubResource("RectangleShape2D_chase")
+
+[node name="ChaseTrigger2" type="Area2D" parent="TriggerAreas" unique_id=1086907808 node_paths=PackedStringArray("enemies")]
+position = Vector2(816, 532)
+script = ExtResource("21_chase")
+enemies = [NodePath("../../Enemies/EnemyNew")]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/ChaseTrigger2" unique_id=12774938]
+shape = SubResource("RectangleShape2D_2hj76")
+
+[node name="ChaseTrigger3" type="Area2D" parent="TriggerAreas" unique_id=507612370 node_paths=PackedStringArray("enemies")]
+position = Vector2(704, 504)
+script = ExtResource("21_chase")
+enemies = [NodePath("../../Enemies/EnemyNew4")]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/ChaseTrigger3" unique_id=1516058708]
+position = Vector2(0, -24)
+shape = SubResource("RectangleShape2D_s7gcq")
+
+[connection signal="body_entered" from="Objects/WinChest" to="." method="_on_win_chest_body_entered"]
