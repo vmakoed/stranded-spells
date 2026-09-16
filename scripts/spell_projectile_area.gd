@@ -14,6 +14,7 @@ const WORLD_LAYER = 3
 
 @export var damage := 50.0
 @export var breaks_shield := false
+@export var ignites_torches := false
 
 
 var state := State.IDLE
@@ -98,6 +99,9 @@ func _spend() -> void:
 
 
 func _try_hit(area: Area2D) -> bool:
+	if area is Torch:
+		if ignites_torches: area.ignite()
+		return false
 	if area is not HurtboxComponent: return false
 	area.damage(damage, breaks_shield)
 	_spend()
@@ -106,6 +110,9 @@ func _try_hit(area: Area2D) -> bool:
 
 func _try_hit_wall(body: Node2D) -> bool:
 	if not _is_world(body): return false
+	if ignites_torches:
+		for area in get_overlapping_areas():
+			if area is Torch: area.ignite()
 	_spend()
 	return true
 

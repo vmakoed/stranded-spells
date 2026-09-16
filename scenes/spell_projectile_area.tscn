@@ -45,6 +45,7 @@ collision_layer = 0
 collision_mask = 12
 script = ExtResource("1_bnecg")
 breaks_shield = true
+ignites_torches = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1811448568]
 shape = SubResource("CircleShape2D_sd08o")

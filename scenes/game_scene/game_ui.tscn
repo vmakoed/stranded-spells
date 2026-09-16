@@ -114,6 +114,125 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1995592399]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="PlayerHealthPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=2118804925]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/PlayerHealthPanel" unique_id=1683256926]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"HealthBar"
+show_percentage = false
+
+[node name="PlayerStatusRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PlayerHealthPanel" unique_id=1262039217]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PlayerHeartsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PlayerHealthPanel/PlayerStatusRow" unique_id=1052428732]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PlayerHeart" parent="MarginContainer/VBoxContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=343170385 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerHeart2" parent="MarginContainer/VBoxContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=835300414 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerHeart3" parent="MarginContainer/VBoxContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=288806870 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerHeart4" parent="MarginContainer/VBoxContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=1093625772 instance=ExtResource("13_ulq3g")]
+layout_mode = 2
+
+[node name="PlayerShieldIcon" parent="MarginContainer/VBoxContainer/PlayerHealthPanel/PlayerStatusRow" unique_id=1677927113 instance=ExtResource("13_shield")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1698209032]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="GridContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer" unique_id=550799427]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="MoveContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer" unique_id=2081199480]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer/MoveContainer" unique_id=1667371753]
+layout_mode = 2
+
+[node name="MoveLabel" type="Label" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer" unique_id=1008825554]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "MOVE"
+
+[node name="MovePromptsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer" unique_id=66034783]
+layout_mode = 2
+
+[node name="W" type="TextureRect" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1009755538]
+layout_mode = 2
+texture = SubResource("AtlasTexture_rkfhe")
+expand_mode = 2
+
+[node name="A" type="TextureRect" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1499250815]
+layout_mode = 2
+texture = SubResource("AtlasTexture_g2ndc")
+expand_mode = 2
+
+[node name="S" type="TextureRect" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=372337337]
+layout_mode = 2
+texture = SubResource("AtlasTexture_0v86b")
+expand_mode = 2
+
+[node name="D" type="TextureRect" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1319636339]
+layout_mode = 2
+texture = SubResource("AtlasTexture_ulq3g")
+expand_mode = 2
+
+[node name="PushContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer" unique_id=729049574 instance=ExtResource("14_rkfhe")]
+unique_name_in_owner = true
+layout_mode = 2
+prompt_name = "Push"
+prompt_textures = Array[AtlasTexture]([ExtResource("14_3re04"), ExtResource("14_3re04")])
+
+[node name="FrostContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer" unique_id=1656123766 instance=ExtResource("14_rkfhe")]
+unique_name_in_owner = true
+layout_mode = 2
+prompt_name = "Frost"
+prompt_textures = Array[AtlasTexture]([ExtResource("15_ukb12"), ExtResource("16_i7m4m"), ExtResource("17_rkfhe"), ExtResource("14_3re04")])
+
+[node name="ShockContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer" unique_id=998469625 instance=ExtResource("14_rkfhe")]
+unique_name_in_owner = true
+layout_mode = 2
+prompt_name = "Shock"
+prompt_textures = Array[AtlasTexture]([ExtResource("16_i7m4m"), ExtResource("15_ukb12"), ExtResource("17_rkfhe"), ExtResource("14_3re04")])
+
+[node name="FireContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer/GridContainer" unique_id=1035381326 instance=ExtResource("14_rkfhe")]
+unique_name_in_owner = true
+layout_mode = 2
+prompt_name = "Fire"
+prompt_textures = Array[AtlasTexture]([ExtResource("17_rkfhe"), ExtResource("14_3re04"), ExtResource("16_i7m4m"), ExtResource("14_3re04"), ExtResource("15_ukb12")])
+
+[node name="PromptsPanel" type="GridContainer" parent="MarginContainer/VBoxContainer/PromptsPanelContainer" unique_id=1511404399]
+layout_mode = 2
+columns = 2
+script = ExtResource("22_prompts")
+
 [node name="LevelTitleContainer" type="PanelContainer" parent="MarginContainer" unique_id=1007728376]
 unique_name_in_owner = true
 visible = false
@@ -130,120 +249,6 @@ text = "Optional level title"
 horizontal_alignment = 1
 autowrap_mode = 2
 uppercase = true
-
-[node name="PlayerHealthPanel" type="PanelContainer" parent="MarginContainer" unique_id=2118804925]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/PlayerHealthPanel" unique_id=1683256926]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(300, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_type_variation = &"HealthBar"
-show_percentage = false
-
-[node name="PlayerStatusRow" type="HBoxContainer" parent="MarginContainer/PlayerHealthPanel" unique_id=1262039217]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="PlayerHeartsContainer" type="HBoxContainer" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow" unique_id=1052428732]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="PlayerHeart" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=343170385 instance=ExtResource("13_ulq3g")]
-layout_mode = 2
-
-[node name="PlayerHeart2" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=835300414 instance=ExtResource("13_ulq3g")]
-layout_mode = 2
-
-[node name="PlayerHeart3" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=288806870 instance=ExtResource("13_ulq3g")]
-layout_mode = 2
-
-[node name="PlayerHeart4" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=1093625772 instance=ExtResource("13_ulq3g")]
-layout_mode = 2
-
-[node name="PlayerShieldIcon" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow" unique_id=1677927113 instance=ExtResource("13_shield")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-
-[node name="GridContainer" type="VBoxContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=550799427]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="MoveContainer" type="PanelContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=2081199480]
-visible = false
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer" unique_id=1667371753]
-layout_mode = 2
-
-[node name="MoveLabel" type="Label" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer" unique_id=1008825554]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-theme_type_variation = &"HeaderMedium"
-text = "MOVE"
-
-[node name="MovePromptsContainer" type="HBoxContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer" unique_id=66034783]
-layout_mode = 2
-
-[node name="W" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1009755538]
-layout_mode = 2
-texture = SubResource("AtlasTexture_rkfhe")
-expand_mode = 2
-
-[node name="A" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1499250815]
-layout_mode = 2
-texture = SubResource("AtlasTexture_g2ndc")
-expand_mode = 2
-
-[node name="S" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=372337337]
-layout_mode = 2
-texture = SubResource("AtlasTexture_0v86b")
-expand_mode = 2
-
-[node name="D" type="TextureRect" parent="MarginContainer/PromptsPanelContainer/GridContainer/MoveContainer/HBoxContainer/MovePromptsContainer" unique_id=1319636339]
-layout_mode = 2
-texture = SubResource("AtlasTexture_ulq3g")
-expand_mode = 2
-
-[node name="PushContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=729049574 instance=ExtResource("14_rkfhe")]
-unique_name_in_owner = true
-layout_mode = 2
-prompt_name = "Push"
-prompt_textures = Array[AtlasTexture]([ExtResource("14_3re04"), ExtResource("14_3re04")])
-
-[node name="FrostContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1656123766 instance=ExtResource("14_rkfhe")]
-unique_name_in_owner = true
-layout_mode = 2
-prompt_name = "Frost"
-prompt_textures = Array[AtlasTexture]([ExtResource("15_ukb12"), ExtResource("16_i7m4m"), ExtResource("17_rkfhe"), ExtResource("14_3re04")])
-
-[node name="ShockContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=998469625 instance=ExtResource("14_rkfhe")]
-unique_name_in_owner = true
-layout_mode = 2
-prompt_name = "Shock"
-prompt_textures = Array[AtlasTexture]([ExtResource("16_i7m4m"), ExtResource("15_ukb12"), ExtResource("17_rkfhe"), ExtResource("14_3re04")])
-
-[node name="FireContainer" parent="MarginContainer/PromptsPanelContainer/GridContainer" unique_id=1035381326 instance=ExtResource("14_rkfhe")]
-unique_name_in_owner = true
-layout_mode = 2
-prompt_name = "Fire"
-prompt_textures = Array[AtlasTexture]([ExtResource("17_rkfhe"), ExtResource("14_3re04"), ExtResource("16_i7m4m"), ExtResource("14_3re04"), ExtResource("15_ukb12")])
-
-[node name="PromptsPanel" type="GridContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=1511404399]
-layout_mode = 2
-columns = 2
-script = ExtResource("22_prompts")
 
 [node name="MapPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=100305939]
 visible = false
