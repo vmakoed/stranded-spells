@@ -4,13 +4,14 @@ extends Area2D
 
 signal ignited
 
-enum Facing { TOP, DOWN, LEFT, RIGHT }
+enum Facing { TOP, DOWN, LEFT, RIGHT, FLOOR }
 
-const LIT_TEXTURE := preload("res://assets/textures/Dungeon_Tileset.png")
+const LIT_TOP_TEXTURE := preload("res://assets/textures/torch_1.png")
+const LIT_SIDE_TEXTURE := preload("res://assets/textures/side_torch_1.png")
+const LIT_FLOOR_TEXTURE := preload("res://assets/textures/candlestick_1_3.png")
 const UNLIT_TOP_TEXTURE := preload("res://assets/textures/torch_unlit_top_v2.png")
 const UNLIT_SIDE_TEXTURE := preload("res://assets/textures/torch_unlit_side_v2.png")
-const REGION_TOP := Rect2(0, 144, 16, 16)
-const REGION_SIDE := Rect2(16, 144, 16, 16)
+const UNLIT_FLOOR_TEXTURE := preload("res://assets/textures/candlestick_1_3_unlit.png")
 const LIGHT_ENERGY := 1.2
 const IGNITE_DURATION := 0.3
 
@@ -49,14 +50,18 @@ func ignite() -> void:
 func _apply() -> void:
 	if not is_node_ready():
 		return
-	var top := facing == Facing.TOP
 	sprite.visible = facing != Facing.DOWN
 	sprite.flip_h = facing == Facing.RIGHT
-	sprite.region_enabled = lit
-	if lit:
-		sprite.texture = LIT_TEXTURE
-		sprite.region_rect = REGION_TOP if top else REGION_SIDE
-	else:
-		sprite.texture = UNLIT_TOP_TEXTURE if top else UNLIT_SIDE_TEXTURE
+	sprite.texture = _texture()
 	light.enabled = lit
 	light.energy = LIGHT_ENERGY
+
+
+func _texture() -> Texture2D:
+	match facing:
+		Facing.FLOOR:
+			return LIT_FLOOR_TEXTURE if lit else UNLIT_FLOOR_TEXTURE
+		Facing.LEFT, Facing.RIGHT:
+			return LIT_SIDE_TEXTURE if lit else UNLIT_SIDE_TEXTURE
+		_:
+			return LIT_TOP_TEXTURE if lit else UNLIT_TOP_TEXTURE

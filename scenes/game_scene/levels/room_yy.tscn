@@ -25,24 +25,6 @@
 [ext_resource type="Script" uid="uid://hkp6m3fni1pg" path="res://scripts/darkness_zone.gd" id="22_dark"]
 [ext_resource type="Script" uid="uid://bjl231omvo4k1" path="res://scripts/cast_tutorial.gd" id="23_tutorial"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_w7uo7"]
-atlas = ExtResource("21_s7gcq")
-region = Rect2(48, 144, 16, 16)
-
-[sub_resource type="Gradient" id="Gradient_torch"]
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_q04jx"]
-gradient = SubResource("Gradient_torch")
-width = 128
-height = 128
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.508547, 0.0064102565)
-metadata/_snap_enabled = true
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_sd08o"]
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("9_rclr1")
 shader_parameter/tint = Color(1, 1, 1, 0.35)
@@ -101,7 +83,6 @@ size = Vector2(140, 168)
 script = ExtResource("1_bluhm")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=633852505]
-visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="VoidCanvasLayer" type="CanvasLayer" parent="." unique_id=235427477]
@@ -238,6 +219,36 @@ lit = false
 
 [node name="TopTorch12" parent="Lights" unique_id=853635844 instance=ExtResource("4_s7gcq")]
 position = Vector2(90, 520)
+
+[node name="FloorTorch" parent="Lights" unique_id=498929384 instance=ExtResource("4_s7gcq")]
+position = Vector2(119, 572)
+facing = 4
+
+[node name="FloorTorch2" parent="Lights" unique_id=765377938 instance=ExtResource("4_s7gcq")]
+position = Vector2(285, 576)
+facing = 4
+
+[node name="FloorTorch3" parent="Lights" unique_id=166451178 instance=ExtResource("4_s7gcq")]
+position = Vector2(396, 435)
+facing = 4
+
+[node name="FloorTorch4" parent="Lights" unique_id=313860693 instance=ExtResource("4_s7gcq")]
+position = Vector2(116, 422)
+facing = 4
+
+[node name="FloorTorch5" parent="Lights" unique_id=1103140573 instance=ExtResource("4_s7gcq")]
+position = Vector2(391, 284)
+facing = 4
+lit = false
+
+[node name="FloorTorch7" parent="Lights" unique_id=1033061580 instance=ExtResource("4_s7gcq")]
+position = Vector2(432, 284)
+facing = 4
+lit = false
+
+[node name="FloorTorch6" parent="Lights" unique_id=2052416224 instance=ExtResource("4_s7gcq")]
+position = Vector2(405, 136)
+facing = 4
 
 [node name="TopTorch9" parent="Lights" unique_id=90942360 instance=ExtResource("4_s7gcq")]
 position = Vector2(233, 520)
@@ -409,102 +420,6 @@ facing = 3
 position = Vector2(167, 600)
 facing = 3
 lit = false
-
-[node name="Area2D2" type="Area2D" parent="Lights" unique_id=477303994]
-position = Vector2(119, 571)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Lights/Area2D2" unique_id=1881035333]
-texture = SubResource("AtlasTexture_w7uo7")
-
-[node name="PointLight2D" type="PointLight2D" parent="Lights/Area2D2" unique_id=1680099773]
-color = Color(0.9991935, 0.9387797, 0.7970198, 1)
-energy = 1.2
-range_layer_min = -1
-texture = SubResource("GradientTexture2D_q04jx")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lights/Area2D2" unique_id=197294259]
-shape = SubResource("CircleShape2D_sd08o")
-
-[node name="Area2D5" type="Area2D" parent="Lights" unique_id=1968452462]
-position = Vector2(287, 572)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Lights/Area2D5" unique_id=114462837]
-texture = SubResource("AtlasTexture_w7uo7")
-
-[node name="PointLight2D" type="PointLight2D" parent="Lights/Area2D5" unique_id=788714771]
-color = Color(0.9991935, 0.9387797, 0.7970198, 1)
-energy = 1.2
-range_layer_min = -1
-texture = SubResource("GradientTexture2D_q04jx")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lights/Area2D5" unique_id=1668064620]
-shape = SubResource("CircleShape2D_sd08o")
-
-[node name="Area2D11" type="Area2D" parent="Lights" unique_id=1279620361]
-position = Vector2(401, 428)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Lights/Area2D11" unique_id=546660024]
-texture = SubResource("AtlasTexture_w7uo7")
-
-[node name="PointLight2D" type="PointLight2D" parent="Lights/Area2D11" unique_id=1317246610]
-color = Color(0.9991935, 0.9387797, 0.7970198, 1)
-energy = 1.2
-range_layer_min = -1
-texture = SubResource("GradientTexture2D_q04jx")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lights/Area2D11" unique_id=1406657501]
-shape = SubResource("CircleShape2D_sd08o")
-
-[node name="Area2D6" type="Area2D" parent="Lights" unique_id=1259880653]
-position = Vector2(115, 423)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Lights/Area2D6" unique_id=413693022]
-texture = SubResource("AtlasTexture_w7uo7")
-
-[node name="PointLight2D" type="PointLight2D" parent="Lights/Area2D6" unique_id=866656024]
-color = Color(0.9991935, 0.9387797, 0.7970198, 1)
-energy = 1.2
-range_layer_min = -1
-texture = SubResource("GradientTexture2D_q04jx")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lights/Area2D6" unique_id=1430616490]
-shape = SubResource("CircleShape2D_sd08o")
-
-[node name="Area2D7" type="Area2D" parent="Lights" unique_id=1795593599]
-position = Vector2(400, 143)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Lights/Area2D7" unique_id=18718315]
-texture = SubResource("AtlasTexture_w7uo7")
-
-[node name="PointLight2D" type="PointLight2D" parent="Lights/Area2D7" unique_id=1601963602]
-color = Color(0.9991935, 0.9387797, 0.7970198, 1)
-energy = 1.2
-range_layer_min = -1
-texture = SubResource("GradientTexture2D_q04jx")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lights/Area2D7" unique_id=1440337965]
-shape = SubResource("CircleShape2D_sd08o")
-
-[node name="Area2D9" type="Area2D" parent="Lights" unique_id=981297345]
-position = Vector2(257, 140)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Lights/Area2D9" unique_id=1845671377]
-texture = SubResource("AtlasTexture_w7uo7")
-
-[node name="PointLight2D" type="PointLight2D" parent="Lights/Area2D9" unique_id=1472437950]
-color = Color(0.9991935, 0.9387797, 0.7970198, 1)
-energy = 1.2
-range_layer_min = -1
-texture = SubResource("GradientTexture2D_q04jx")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lights/Area2D9" unique_id=332961386]
-shape = SubResource("CircleShape2D_sd08o")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("2_ufrm4")]
 unique_name_in_owner = true

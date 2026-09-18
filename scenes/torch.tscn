@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://1j4d4vlt5onq"]
 
-[ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="1_my26j"]
+[ext_resource type="Texture2D" uid="uid://dp268ga1ikbe5" path="res://assets/textures/torch_1.png" id="1_my26j"]
 [ext_resource type="Script" uid="uid://cmobr5nt0hfmq" path="res://scripts/torch.gd" id="1_o2tjn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ignite"]
@@ -28,7 +28,7 @@ shape = SubResource("CircleShape2D_ignite")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1979870245]
 unique_name_in_owner = true
-color = Color(0.9991935, 0.9387797, 0.7970198, 1)
+color = Color(0.9999998, 0.895718, 0.65910995, 1)
 energy = 1.2
 range_layer_min = -1
 texture = SubResource("GradientTexture2D_torch")
@@ -36,5 +36,3 @@ texture = SubResource("GradientTexture2D_torch")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=543060830]
 unique_name_in_owner = true
 texture = ExtResource("1_my26j")
-region_enabled = true
-region_rect = Rect2(0, 144, 16, 16)
