@@ -87,7 +87,7 @@ func _handle_basic_attack() -> void:
 	if dead: return
 	if not has_item(Item.WAND): return
 	if Input.is_action_pressed(&"cast_hold"): return
-	if not Input.is_action_pressed(&"basic_attack"): return
+	if not Input.is_action_just_pressed(&"basic_attack"): return
 	if not basic_attack_timer.is_stopped(): return
 	basic_attack_timer.start()
 	basic_attack_requested.emit(Vector2.from_angle(aim_angle))

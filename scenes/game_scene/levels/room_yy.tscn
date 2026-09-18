@@ -509,13 +509,13 @@ texture = ExtResource("9_qadag")
 shape = SubResource("CircleShape2D_w7uo7")
 
 [node name="BreakableBox9" parent="Objects" unique_id=1411625572 instance=ExtResource("11_bbox")]
-position = Vector2(199, 568)
+position = Vector2(201, 568)
 
 [node name="BreakableBox14" parent="Objects" unique_id=1985021495 instance=ExtResource("11_bbox")]
-position = Vector2(247, 504)
+position = Vector2(249, 504)
 
 [node name="BreakableBox15" parent="Objects" unique_id=1520870759 instance=ExtResource("11_bbox")]
-position = Vector2(263, 504)
+position = Vector2(265, 504)
 
 [node name="BreakableBox11" parent="Objects" unique_id=1946169947 instance=ExtResource("11_bbox")]
 position = Vector2(406, 461)
@@ -536,14 +536,14 @@ position = Vector2(432, 396)
 position = Vector2(446, 455)
 
 [node name="BreakableBox10" parent="Objects" unique_id=858755350 instance=ExtResource("11_bbox")]
-position = Vector2(199, 584)
+position = Vector2(201, 584)
 
 [node name="ShieldedBox1" parent="Objects" unique_id=1030210413 instance=ExtResource("11_bbox")]
-position = Vector2(135, 344)
+position = Vector2(137, 344)
 shielded = true
 
 [node name="ShieldedBox3" parent="Objects" unique_id=1035287533 instance=ExtResource("11_bbox")]
-position = Vector2(151, 344)
+position = Vector2(153, 344)
 shielded = true
 
 [node name="ShieldedBox6" parent="Objects" unique_id=1608929 instance=ExtResource("11_bbox")]
@@ -563,11 +563,11 @@ position = Vector2(105, 504)
 shielded = true
 
 [node name="ShieldedBox4" parent="Objects" unique_id=789792986 instance=ExtResource("11_bbox")]
-position = Vector2(135, 328)
+position = Vector2(137, 328)
 shielded = true
 
 [node name="ShieldedBox5" parent="Objects" unique_id=1381259768 instance=ExtResource("11_bbox")]
-position = Vector2(151, 328)
+position = Vector2(153, 328)
 shielded = true
 
 [node name="Book" type="Area2D" parent="Objects" unique_id=149927781]
