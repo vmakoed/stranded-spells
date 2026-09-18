@@ -24,6 +24,7 @@ var _active := false
 var _casting := false
 var _sequence: Array[StringName] = []
 var _expected: Array = []
+var _dim: TutorialDim
 
 
 func _ready() -> void:
@@ -32,6 +33,7 @@ func _ready() -> void:
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
+	GameUIBridge.spell_previewed.connect(_on_spell_previewed)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
 
 
@@ -53,6 +55,9 @@ func _start() -> void:
 		player.aim_angle = -PI / 2.0
 	player.aim_sprite.visible = true
 	player.set_physics_process(false)
+	_dim = TutorialDim.new()
+	get_parent().add_child(_dim)
+	_dim.raise([player, target])
 	_refresh()
 
 
@@ -88,6 +93,10 @@ func _on_spell_reset() -> void:
 	_refresh()
 
 
+func _on_spell_previewed(preview: Node2D) -> void:
+	if _active and is_instance_valid(_dim): _dim.raise([preview])
+
+
 func _on_spell_casted(cast: CastInputPanel.Spell) -> void:
 	if _active and cast == spell: _finish()
 
@@ -100,4 +109,5 @@ func _finish() -> void:
 		player.hint.dismiss()
 		player.aim_sprite.visible = player.has_item(Player.Item.WAND)
 		player.set_physics_process(true)
+	if is_instance_valid(_dim): _dim.dismiss()
 	queue_free()

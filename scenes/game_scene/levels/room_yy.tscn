@@ -559,9 +559,11 @@ position = Vector2(412, 428)
 
 [node name="BreakableBox12" parent="Items" unique_id=1318313601 instance=ExtResource("11_bbox")]
 position = Vector2(432, 396)
+shielded = true
 
 [node name="BreakableBox13" parent="Items" unique_id=1820240554 instance=ExtResource("11_bbox")]
 position = Vector2(446, 455)
+shielded = true
 
 [node name="BreakableBox10" parent="Items" unique_id=858755350 instance=ExtResource("11_bbox")]
 position = Vector2(185, 584)
@@ -579,7 +581,7 @@ position = Vector2(120, 520)
 shielded = true
 
 [node name="ShieldedBox8" parent="Items" unique_id=1510494357 instance=ExtResource("11_bbox")]
-position = Vector2(93, 547)
+position = Vector2(64, 540)
 shielded = true
 
 [node name="ShieldedBox9" parent="Items" unique_id=301311109 instance=ExtResource("11_bbox")]
