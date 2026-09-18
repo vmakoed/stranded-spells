@@ -2,8 +2,11 @@ class_name ShieldSmoke
 extends CPUParticles2D
 
 
-const REGEN_WARNING = 0.5
-const FLICKER_STEP = 0.12
+const REGEN_WARNING = 1.2
+const WARNING_PUFFS = 3
+const WARNING_STEP = 0.4
+const WARNING_AMOUNT = 6
+const WARNING_SPEED = 0.4
 const POP_BURST_SCALE = 1.5
 
 
@@ -37,6 +40,7 @@ func fade_in() -> void:
 
 
 func pulse() -> void:
+	_burst.speed_scale = 1.0
 	_burst.amount = _burst_amount
 	_burst.restart()
 
@@ -44,6 +48,7 @@ func pulse() -> void:
 func pop() -> void:
 	_kill_tween()
 	emitting = false
+	_burst.speed_scale = 1.0
 	_burst.amount = int(_burst_amount * POP_BURST_SCALE)
 	_burst.restart()
 
@@ -51,16 +56,15 @@ func pop() -> void:
 	if shield.regen_time <= 0.0 or warning_delay <= 0.0: return
 	_tween = create_tween()
 	_tween.tween_interval(warning_delay)
-	_tween.tween_callback(_start_regen_flicker)
+	for i in WARNING_PUFFS:
+		_tween.tween_callback(_warning_puff)
+		_tween.tween_interval(WARNING_STEP)
 
 
-func _start_regen_flicker() -> void:
-	_kill_tween()
-	_tween = create_tween().set_loops()
-	_tween.tween_callback(set_emitting.bind(true))
-	_tween.tween_interval(FLICKER_STEP)
-	_tween.tween_callback(set_emitting.bind(false))
-	_tween.tween_interval(FLICKER_STEP)
+func _warning_puff() -> void:
+	_burst.speed_scale = WARNING_SPEED
+	_burst.amount = WARNING_AMOUNT
+	_burst.restart()
 
 
 func _kill_tween() -> void:

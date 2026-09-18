@@ -116,26 +116,28 @@ func _take_preview_spell() -> Node2D:
 func _on_spell_ready(spell: CastInputPanel.Spell) -> void:
 	print("ready ", CastInputPanel.SPELL_LABELS[spell])
 	if _preview_spell != null: return
-	match spell:
-		CastInputPanel.Spell.ATTACK_AREA:
-			var burst := _setup_area_burst()
-			burst.manifest()
-			_preview_spell = burst
-		CastInputPanel.Spell.ATTACK_TARGET:
-			player.aim_active = true
-			var projectile := _setup_projectile()
-			_place_projectile(projectile)
-			projectile.manifest()
-			_preview_spell = projectile
-		CastInputPanel.Spell.HEAL:
-			var heal := _setup_heal()
-			heal.manifest()
-			_preview_spell = heal
-		CastInputPanel.Spell.SHIELD:
-			var shield := _setup_shield()
-			shield.manifest()
-			_preview_spell = shield
-	if _preview_spell != null: GameUIBridge.spell_previewed.emit(_preview_spell)
+	if spell == CastInputPanel.Spell.ATTACK_AREA:
+		var burst := _setup_area_burst()
+		burst.manifest()
+		_preview_spell = burst
+		return
+	if spell == CastInputPanel.Spell.ATTACK_TARGET:
+		player.aim_active = true
+		var projectile := _setup_projectile()
+		_place_projectile(projectile)
+		projectile.manifest()
+		_preview_spell = projectile
+		return
+	if spell == CastInputPanel.Spell.HEAL:
+		var heal := _setup_heal()
+		heal.manifest()
+		_preview_spell = heal
+		return
+	if spell == CastInputPanel.Spell.SHIELD:
+		var shield := _setup_shield()
+		shield.manifest()
+		_preview_spell = shield
+		return
 
 
 func _on_spell_reset() -> void:

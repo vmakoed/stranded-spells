@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="8_mini1"]
 [ext_resource type="Texture2D" uid="uid://bi2lanlxsi3pt" path="res://assets/textures/wand.png" id="9_qadag"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="9_rclr1"]
-[ext_resource type="PackedScene" path="res://scenes/breakable_box.tscn" id="11_bbox"]
+[ext_resource type="PackedScene" uid="uid://bma7joqsr7g43" path="res://scenes/breakable_box.tscn" id="11_bbox"]
 [ext_resource type="Texture2D" uid="uid://b1dt117qmv6ow" path="res://assets/textures/inventory icon 189.png" id="11_fehe7"]
 [ext_resource type="Texture2D" uid="uid://b688u2lowypit" path="res://assets/textures/xtra icons 190.png" id="13_jurnp"]
 [ext_resource type="Texture2D" uid="uid://dpxjeq4biekud" path="res://assets/textures/inventory icon 195.png" id="14_p442k"]
@@ -61,13 +61,13 @@ radius = 8.0
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
 light_mode = 1
 
-[sub_resource type="Gradient" id="Gradient_smoke"]
-offsets = PackedFloat32Array(0, 0.25, 1)
-colors = PackedColorArray(0.12, 0.05, 0.18, 0, 0.12, 0.05, 0.18, 0.85, 0.12, 0.05, 0.18, 0)
-
 [sub_resource type="Curve" id="Curve_smoke_scale"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_smoke"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(0.12, 0.05, 0.18, 0, 0.12, 0.05, 0.18, 0.85, 0.12, 0.05, 0.18, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
 atlas = ExtResource("21_s7gcq")
@@ -675,7 +675,6 @@ amount = 14
 texture = ExtResource("20_smoke")
 lifetime = 0.9
 lifetime_randomness = 0.3
-local_coords = false
 emission_shape = 1
 emission_sphere_radius = 6.0
 spread = 180.0
@@ -691,7 +690,7 @@ color_ramp = SubResource("Gradient_smoke")
 script = ExtResource("19_bubble")
 shield = NodePath("../ShieldComponent")
 
-[node name="Burst" type="CPUParticles2D" parent="Items/KeyGold/ShieldSmoke"]
+[node name="Burst" type="CPUParticles2D" parent="Items/KeyGold/ShieldSmoke" unique_id=1144116908]
 material = SubResource("CanvasItemMaterial_unshaded")
 emitting = false
 amount = 24
@@ -699,7 +698,6 @@ texture = ExtResource("20_smoke")
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
-local_coords = false
 emission_shape = 1
 emission_sphere_radius = 6.0
 spread = 180.0
