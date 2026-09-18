@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
 [ext_resource type="Texture2D" uid="uid://bxc8vsg1tudtq" path="res://assets/textures/skull_v2_1-sheet.png" id="6_yopix"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
-[ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="8_ring"]
-[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_bubble.gd" id="9_bubble"]
+[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_smoke.gd" id="9_bubble"]
+[ext_resource type="Texture2D" uid="uid://c4i0b0pr3gp08" path="res://assets/textures/circle_b.png" id="10_smoke"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
@@ -64,8 +64,16 @@ fill_to = Vector2(0.5, 0)
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7uo7"]
 radius = 8.0
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
-blend_mode = 1
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[sub_resource type="Curve" id="Curve_smoke_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_smoke"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(0.12, 0.05, 0.18, 0, 0.12, 0.05, 0.18, 0.85, 0.12, 0.05, 0.18, 0)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_30ysp"]
 radius = 8.0
@@ -96,15 +104,48 @@ texture_scale = 0.8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=863764532]
 shape = SubResource("CircleShape2D_w7uo7")
 
-[node name="ShieldBubble" type="Sprite2D" parent="." unique_id=1739420117 node_paths=PackedStringArray("shield")]
+[node name="ShieldSmoke" type="CPUParticles2D" parent="." unique_id=1739420117 node_paths=PackedStringArray("shield")]
 unique_name_in_owner = true
-visible = false
-modulate = Color(0.6, 0.8, 1, 0.8)
-material = SubResource("CanvasItemMaterial_add")
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("8_ring")
+material = SubResource("CanvasItemMaterial_unshaded")
+amount = 14
+texture = ExtResource("10_smoke")
+lifetime = 1.5
+lifetime_randomness = 0.3
+emission_shape = 1
+emission_sphere_radius = 6.0
+spread = 180.0
+gravity = Vector2(0, -8)
+initial_velocity_min = 8.0
+initial_velocity_max = 18.0
+damping_min = 6.0
+damping_max = 10.0
+scale_amount_min = 0.012
+scale_amount_max = 0.02
+scale_amount_curve = SubResource("Curve_smoke_scale")
+color_ramp = SubResource("Gradient_smoke")
 script = ExtResource("9_bubble")
 shield = NodePath("../ShieldComponent")
+
+[node name="Burst" type="CPUParticles2D" parent="ShieldSmoke" unique_id=1451710629]
+material = SubResource("CanvasItemMaterial_unshaded")
+emitting = false
+amount = 24
+texture = ExtResource("10_smoke")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 6.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 70.0
+damping_min = 60.0
+damping_max = 90.0
+scale_amount_min = 0.012
+scale_amount_max = 0.02
+scale_amount_curve = SubResource("Curve_smoke_scale")
+color_ramp = SubResource("Gradient_smoke")
 
 [node name="HurtboxComponent" parent="." unique_id=408996227 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("3_yopix")]
 collision_layer = 8

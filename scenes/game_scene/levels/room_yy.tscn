@@ -18,8 +18,8 @@
 [ext_resource type="PackedScene" path="res://scenes/locked_door.tscn" id="16_door"]
 [ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="17_hurtbox"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="18_shield"]
-[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_bubble.gd" id="19_bubble"]
-[ext_resource type="Texture2D" uid="uid://dnercypp33h5w" path="res://assets/textures/circle-outline.svg" id="20_ring"]
+[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_smoke.gd" id="19_bubble"]
+[ext_resource type="Texture2D" uid="uid://c4i0b0pr3gp08" path="res://assets/textures/circle_b.png" id="20_smoke"]
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="21_chase"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="21_s7gcq"]
 [ext_resource type="Script" uid="uid://hkp6m3fni1pg" path="res://scripts/darkness_zone.gd" id="22_dark"]
@@ -58,8 +58,16 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_nx0vs"]
 radius = 8.0
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
-blend_mode = 1
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_smoke"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(0.12, 0.05, 0.18, 0, 0.12, 0.05, 0.18, 0.85, 0.12, 0.05, 0.18, 0)
+
+[sub_resource type="Curve" id="Curve_smoke_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
 atlas = ExtResource("21_s7gcq")
@@ -660,14 +668,50 @@ shield_component = NodePath("../ShieldComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/KeyGold/HurtboxComponent" unique_id=746550845]
 shape = SubResource("CircleShape2D_nx0vs")
 
-[node name="ShieldBubble" type="Sprite2D" parent="Items/KeyGold" unique_id=854369263 node_paths=PackedStringArray("shield")]
-visible = false
-modulate = Color(0.6, 0.8, 1, 0.8)
-material = SubResource("CanvasItemMaterial_add")
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("20_ring")
+[node name="ShieldSmoke" type="CPUParticles2D" parent="Items/KeyGold" unique_id=854369263 node_paths=PackedStringArray("shield")]
+material = SubResource("CanvasItemMaterial_unshaded")
+emitting = false
+amount = 14
+texture = ExtResource("20_smoke")
+lifetime = 0.9
+lifetime_randomness = 0.3
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 6.0
+spread = 180.0
+gravity = Vector2(0, -8)
+initial_velocity_min = 8.0
+initial_velocity_max = 18.0
+damping_min = 6.0
+damping_max = 10.0
+scale_amount_min = 0.012
+scale_amount_max = 0.02
+scale_amount_curve = SubResource("Curve_smoke_scale")
+color_ramp = SubResource("Gradient_smoke")
 script = ExtResource("19_bubble")
 shield = NodePath("../ShieldComponent")
+
+[node name="Burst" type="CPUParticles2D" parent="Items/KeyGold/ShieldSmoke"]
+material = SubResource("CanvasItemMaterial_unshaded")
+emitting = false
+amount = 24
+texture = ExtResource("20_smoke")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 6.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 70.0
+damping_min = 60.0
+damping_max = 90.0
+scale_amount_min = 0.012
+scale_amount_max = 0.02
+scale_amount_curve = SubResource("Curve_smoke_scale")
+color_ramp = SubResource("Gradient_smoke")
 
 [node name="WinChest" type="Area2D" parent="Items" unique_id=330359362]
 position = Vector2(140, 144)

@@ -10,43 +10,33 @@ const SHARD_SPEED_MAX = 60.0
 const SHARD_ANGLE_JITTER = deg_to_rad(25.0)
 const SHARD_SPIN_MAX = PI * 0.75
 const RECOLOR_DURATION = 0.15
-const RING_DURATION = 0.3
-const RING_END_SCALE = 0.3125
 const FLASH_SHADER = preload("res://assets/shaders/flash.gdshader")
 
 
-@onready var ring: Sprite2D = %Ring
 @onready var shards: Node2D = %Shards
 
 
-## Plays the shatter VFX: the ring expands and [param sprite] is split into a
-## [constant GRID]×[constant GRID] grid of shards that fly outward and fade.[br]
+## Plays the shatter VFX: [param sprite] is split into a [constant GRID]×[constant GRID]
+## grid of shards that fly outward and fade.[br]
 ## [param sprite] is an [AnimatedSprite2D] (uses its current frame) or a plain
 ## [Sprite2D] (uses its [member Sprite2D.texture]). Frees itself when finished.
 func play(sprite: Node2D) -> void:
-	var tween := create_tween().set_parallel(true)
-	_animate_ring(tween)
-
 	var shard_material := _build_shards(sprite)
-	if shard_material != null:
-		tween.tween_property(
-			shard_material,
-			"shader_parameter/flash_amount",
-			0.0,
-			RECOLOR_DURATION
-		)
-		for shard: Sprite2D in shards.get_children():
-			_animate_shard(tween, shard)
+	if shard_material == null:
+		queue_free()
+		return
+
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(
+		shard_material,
+		"shader_parameter/flash_amount",
+		0.0,
+		RECOLOR_DURATION
+	)
+	for shard: Sprite2D in shards.get_children():
+		_animate_shard(tween, shard)
 
 	tween.finished.connect(queue_free)
-
-
-func _animate_ring(tween: Tween) -> void:
-	tween \
-		.tween_property(ring, "scale", Vector2.ONE * RING_END_SCALE, RING_DURATION) \
-		.set_trans(Tween.TRANS_CUBIC) \
-		.set_ease(Tween.EASE_OUT)
-	tween.tween_property(ring, "modulate:a", 0.0, RING_DURATION)
 
 
 func _frame_texture(sprite: Node2D) -> Texture2D:

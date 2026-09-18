@@ -16,7 +16,7 @@ const BREAK_FLASH_HOLD = 0.1
 @onready var collision_shape: CollisionShape2D = %CollisionShape2D
 @onready var hurtbox: HurtboxComponent = %HurtboxComponent
 @onready var shield: ShieldComponent = %ShieldComponent
-@onready var shield_bubble: ShieldBubble = %ShieldBubble
+@onready var shield_smoke: ShieldSmoke = %ShieldSmoke
 
 
 var _broken := false
@@ -34,7 +34,7 @@ func _on_health_component_health_below_minimum() -> void:
 	collision_shape.set_deferred("disabled", true)
 	hurtbox.set_deferred("monitorable", false)
 	shield.disable()
-	shield_bubble.disable()
+	shield_smoke.disable()
 
 	var flash_material: ShaderMaterial = sprite.material
 	flash_material.set_shader_parameter("flash_amount", 1.0)
