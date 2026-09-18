@@ -2,8 +2,8 @@ class_name DarknessZone
 extends Area2D
 
 
-const HOLD_TIME := 0.3
-const FADE_OUT_TIME := 0.4
+const HOLD_TIME := 0.2
+const FADE_OUT_TIME := 0.2
 const RECOVER_RATE := 2.0
 
 @export var torches: Array[Torch] = []

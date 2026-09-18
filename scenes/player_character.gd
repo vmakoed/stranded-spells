@@ -144,8 +144,8 @@ func grant_shield() -> void:
 func collect(item: Item) -> void:
 	if has_item(item): return
 	inventory.append(item)
-	_emit_inventory()
 	hint.show_prompts(_rows_for(item))
+	_emit_inventory()
 
 
 func has_item(item: Item) -> bool:

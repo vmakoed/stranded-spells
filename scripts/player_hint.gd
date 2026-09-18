@@ -20,6 +20,7 @@ const ICON_SIZE = Vector2(16, 16)
 
 var _tween: Tween
 var _base_position: Vector2
+var _sticky_entries: Array[Dictionary] = []
 
 
 @onready var icon_sprite: Sprite2D = %IconSprite
@@ -40,7 +41,7 @@ func show_icon(texture: Texture2D) -> void:
 	_tween = _begin(icon_sprite)
 	_tween.tween_interval(ICON_HOLD_DURATION)
 	_tween.tween_property(icon_sprite, "modulate:a", 0.0, ICON_FADE_OUT_DURATION)
-	_tween.tween_callback(_reset)
+	_tween.tween_callback(_end_transient)
 
 
 func show_transition(from: Texture2D, to: Texture2D) -> void:
@@ -57,20 +58,48 @@ func show_transition(from: Texture2D, to: Texture2D) -> void:
 	_tween.parallel().tween_property(icon_overlay, "modulate:a", 1.0, TRANSITION_DURATION)
 	_tween.tween_interval(TRANSITION_HOLD_DURATION)
 	_tween.tween_property(icon_overlay, "modulate:a", 0.0, ICON_FADE_OUT_DURATION)
+	_tween.tween_callback(_end_transient)
+
+
+func show_prompts(entries: Array[Dictionary], hold := PROMPTS_HOLD_DURATION) -> void:
+	if entries.is_empty(): return
+	_reset()
+	if hold < 0.0:
+		_sticky_entries = entries
+		_show_rows(entries)
+		_tween.tween_callback(func() -> void: _tween = null)
+		return
+	_sticky_entries = []
+	_show_rows(entries)
+	_tween.tween_interval(hold)
+	_tween.tween_property(rows, "modulate:a", 0.0, PROMPTS_FADE_OUT_DURATION)
 	_tween.tween_callback(_reset)
 
 
-func show_prompts(entries: Array[Dictionary]) -> void:
-	if entries.is_empty(): return
-	_reset()
+func dismiss() -> void:
+	_sticky_entries = []
+	if not rows.visible:
+		_reset()
+		return
+	if _tween: _tween.kill()
+	_tween = create_tween()
+	_tween.tween_property(rows, "modulate:a", 0.0, PROMPTS_FADE_OUT_DURATION)
+	_tween.tween_callback(_reset)
+
+
+func _show_rows(entries: Array[Dictionary]) -> void:
 	for entry in entries:
 		rows.add_child(_make_row(entry))
 	rows.modulate.a = 0.0
 	rows.show()
 	_tween = _begin(rows)
-	_tween.tween_interval(PROMPTS_HOLD_DURATION)
-	_tween.tween_property(rows, "modulate:a", 0.0, PROMPTS_FADE_OUT_DURATION)
-	_tween.tween_callback(_reset)
+
+
+func _end_transient() -> void:
+	_reset()
+	if _sticky_entries.is_empty(): return
+	_show_rows(_sticky_entries)
+	_tween.tween_callback(func() -> void: _tween = null)
 
 
 func _begin(target: CanvasItem) -> Tween:

@@ -16,7 +16,7 @@
 [ext_resource type="Script" uid="uid://csi1su7bj77oj" path="res://scripts/player_hint.gd" id="13_hint"]
 [ext_resource type="Texture2D" uid="uid://ckgqsg2v1rula" path="res://assets/textures/colored-transparent.png" id="14_icons"]
 [ext_resource type="Texture2D" uid="uid://wwjj11xjfnt2" path="res://assets/textures/shield-hollow-v1.png" id="15_shield_hollow"]
-[ext_resource type="LabelSettings" path="res://resources/hint_label_settings.tres" id="16_labels"]
+[ext_resource type="LabelSettings" uid="uid://thhrnwxa66cc" path="res://resources/hint_label_settings.tres" id="16_labels"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_heart_solid"]
 atlas = ExtResource("14_icons")
@@ -99,7 +99,7 @@ texture = ExtResource("10_herhr")
 unique_name_in_owner = true
 z_index = 1
 material = SubResource("CanvasItemMaterial_c4hvp")
-position = Vector2(0, -16)
+position = Vector2(0, -24)
 script = ExtResource("13_hint")
 label_settings = ExtResource("16_labels")
 

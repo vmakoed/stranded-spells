@@ -7,8 +7,8 @@ signal ignited
 enum Facing { TOP, DOWN, LEFT, RIGHT }
 
 const LIT_TEXTURE := preload("res://assets/textures/Dungeon_Tileset.png")
-const UNLIT_TOP_TEXTURE := preload("res://assets/textures/torch_unlit_top_v1.png")
-const UNLIT_SIDE_TEXTURE := preload("res://assets/textures/torch_unlit_side_v1.png")
+const UNLIT_TOP_TEXTURE := preload("res://assets/textures/torch_unlit_top_v2.png")
+const UNLIT_SIDE_TEXTURE := preload("res://assets/textures/torch_unlit_side_v2.png")
 const REGION_TOP := Rect2(0, 144, 16, 16)
 const REGION_SIDE := Rect2(16, 144, 16, 16)
 const LIGHT_ENERGY := 1.2

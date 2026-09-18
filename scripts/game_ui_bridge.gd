@@ -20,4 +20,6 @@ signal cast_mode_changed(active: bool)
 signal shield_changed(active: bool)
 @warning_ignore("unused_signal")
 signal inventory_changed(items: Array[Player.Item])
+@warning_ignore("unused_signal")
+signal cast_action_required(action: StringName)
 

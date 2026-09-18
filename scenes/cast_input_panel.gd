@@ -61,6 +61,7 @@ const RESET_CAST_LABEL = "RB"
 var spell_sequence: Array[StringName] = []
 var casting := false
 var spells_unlocked := false: set = _set_spells_unlocked
+var required_action: StringName = &""
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -76,17 +77,34 @@ func _ready() -> void:
 	if Engine.is_editor_hint(): return
 	set_process_input(false)	# locked until the book is collected
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+	GameUIBridge.cast_action_required.connect(_on_cast_action_required)
+
+
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_UNPAUSED: return
+	if casting and not Input.is_action_pressed(&"cast_hold"): _end_casting()
 
 
 func _set_spells_unlocked(new_value: bool) -> void:
 	if new_value == spells_unlocked: return
 	spells_unlocked = new_value
-	if not spells_unlocked and casting: _end_casting()
 	set_process_input(spells_unlocked)
+	if spells_unlocked:
+		if Input.is_action_pressed(&"cast_hold"): _begin_casting()
+		return
+	required_action = &""
+	if not casting: return
+	casting = false
+	_clear_spell_sequence()
+	GameUIBridge.cast_mode_changed.emit(false)
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:
 	spells_unlocked = Player.Item.BOOK in items
+
+
+func _on_cast_action_required(action: StringName) -> void:
+	required_action = action
 
 
 func _input(event: InputEvent) -> void:
@@ -101,6 +119,7 @@ func _input(event: InputEvent) -> void:
 	if not casting: return
 
 	for action in SPELL_ACTIONS.values():
+		if required_action != &"" and action != required_action: continue
 		if event.is_action_pressed(action):
 			_append_to_spell_sequence(action)
 
