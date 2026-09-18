@@ -84,6 +84,7 @@ func _teleport() -> void:
 
 
 func _check_dispel() -> void:
+	if torches.is_empty(): return
 	for torch in torches:
 		if is_instance_valid(torch) and not torch.lit: return
 	_dispelled = true

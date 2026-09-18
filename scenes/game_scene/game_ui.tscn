@@ -25,6 +25,8 @@
 [ext_resource type="PackedScene" uid="uid://dm7q3kx8wprmt" path="res://scenes/game_scene/magic_circle_prompts.tscn" id="21_mcprm"]
 [ext_resource type="Script" uid="uid://d8e8pefvnjv4" path="res://scripts/prompts_panel.gd" id="22_prompts"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k6yn7"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkfhe"]
 atlas = ExtResource("13_i7m4m")
 region = Rect2(512, 128, 64, 64)
@@ -118,6 +120,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_k6yn7")
 
 [node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/PlayerHealthPanel" unique_id=1683256926]
 unique_name_in_owner = true

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://c7ntfygwixk8k"]
+
+[ext_resource type="Script" uid="uid://dgk3kukub4na3" path="res://scripts/challenge_door.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://resources/door_top.tres" id="2_tex"]
+[ext_resource type="Shape2D" path="res://resources/door_top_shape.tres" id="3_shape"]
+[ext_resource type="AudioStream" uid="uid://dhodhf5q8vqhm" path="res://assets/audio/door_open.wav" id="4_open"]
+[ext_resource type="AudioStream" uid="uid://c7jrkdevxmgwr" path="res://assets/audio/door_close.wav" id="5_close"]
+
+[node name="ChallengeDoor" type="StaticBody2D" unique_id=68105329]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_script")
+open_sound = ExtResource("4_open")
+close_sound = ExtResource("5_close")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1771850636]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.5)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1388733291]
+unique_name_in_owner = true
+position = Vector2(0, 2)
+shape = ExtResource("3_shape")
+disabled = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=122351916]
+unique_name_in_owner = true
+bus = &"SFX"

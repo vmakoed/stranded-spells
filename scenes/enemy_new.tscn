@@ -116,7 +116,7 @@ shield_component = NodePath("../ShieldComponent")
 shape = SubResource("CircleShape2D_30ysp")
 
 [node name="HealthComponent" parent="." unique_id=365341202 instance=ExtResource("4_rgjo0")]
-max_health = 300.0
+max_health = 150.0
 
 [node name="ShieldComponent" parent="." unique_id=1140018950 instance=ExtResource("7_shield")]
 unique_name_in_owner = true
