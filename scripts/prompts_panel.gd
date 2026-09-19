@@ -1,8 +1,9 @@
+@tool
 class_name PromptsPanel
 extends GridContainer
 
 
-const FONT_SIZE = 32
+const FONT_SIZE = 24
 const REVEAL_COLOR = Color(0.5, 0.72, 0.78, 1.0)	# attack teal, same as spell highlights
 const REVEAL_BLINKS = 4
 const REVEAL_BLINK_DURATION = 0.15
@@ -27,10 +28,12 @@ var _reveal_tweens: Dictionary[int, Tween] = {}
 
 func _ready() -> void:
 	columns = 2
-	for index in ROWS.size():
-		if ROWS[index].has("requires"): continue
-		_add_row(index)
-	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+	if Engine.is_editor_hint():
+		for index in ROWS.size(): _add_row(index)
+	else:
+		for index in ROWS.size():
+			if not ROWS[index].has("requires"): _add_row(index)
+		GameUIBridge.inventory_changed.connect(_on_inventory_changed)
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:

@@ -10,7 +10,6 @@ script = ExtResource("2_2bpb8")
 update_content = true
 text = "Level complete!"
 close_button_text = "Continue"
-title_visible = false
 
 [node name="TitleMargin" parent="ContentContainer/BoxContainer" parent_id_path=PackedInt32Array(394030069) index="0" unique_id=1262022916]
 visible = false
@@ -30,6 +29,7 @@ text = "Exit"
 
 [node name="MainMenuButton" type="Button" parent="ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="1" unique_id=265365820]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Main Menu"
@@ -41,6 +41,7 @@ size_flags_horizontal = 3
 text = "Restart"
 
 [node name="CloseButton" parent="ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="3" unique_id=314526102]
+visible = false
 size_flags_horizontal = 3
 text = "Continue"
 
@@ -49,15 +50,15 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
-text = "Exit to the main menu?"
 title = "Confirm Exit"
+text = "Exit to the main menu?"
 
 [node name="ExitConfirmation" parent="." index="2" unique_id=1395779445 instance=ExtResource("3_ss43f")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "Exit the game?"
 title = "Confirm Exit"
+text = "Exit the game?"
 
 [connection signal="pressed" from="ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
