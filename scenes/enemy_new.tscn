@@ -107,6 +107,7 @@ shape = SubResource("CircleShape2D_w7uo7")
 [node name="ShieldSmoke" type="CPUParticles2D" parent="." unique_id=1739420117 node_paths=PackedStringArray("shield")]
 unique_name_in_owner = true
 material = SubResource("CanvasItemMaterial_unshaded")
+emitting = false
 amount = 14
 texture = ExtResource("10_smoke")
 lifetime = 1.5

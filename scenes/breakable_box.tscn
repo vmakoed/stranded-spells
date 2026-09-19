@@ -50,6 +50,7 @@ shape = SubResource("RectangleShape2D_box")
 [node name="ShieldSmoke" type="CPUParticles2D" parent="." unique_id=1360963502 node_paths=PackedStringArray("shield")]
 unique_name_in_owner = true
 material = SubResource("CanvasItemMaterial_unshaded")
+emitting = false
 amount = 4
 texture = ExtResource("9_smoke")
 lifetime = 1.5
