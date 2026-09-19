@@ -28,6 +28,9 @@ var _dim: TutorialDim
 
 
 func _ready() -> void:
+	if is_instance_valid(player) and player.has_item(item):
+		queue_free()
+		return
 	_expected = CastInputPanel.SPELL_SEQUENCES[spell]
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)

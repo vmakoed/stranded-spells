@@ -30,6 +30,7 @@ const START_PROMPTS_DELAY = 0.5
 @export var heart_hollow: Texture2D
 @export var shield_solid: Texture2D
 @export var shield_hollow: Texture2D
+@export_flags("Wand", "Book") var debug_items := 0
 
 
 var health: float: set = _set_health
@@ -64,8 +65,16 @@ func _ready() -> void:
 	aim_angle = 0.0
 	aim_active = false
 	GameUIBridge.shield_changed.emit(shield_component.active)
+	_apply_debug_items()
 	_emit_inventory()
 	_show_start_prompts()
+
+
+func _apply_debug_items() -> void:
+	if not OS.is_debug_build(): return
+	for item: Item in [Item.WAND, Item.BOOK]:
+		if debug_items & (1 << item) and not has_item(item):
+			inventory.append(item)
 
 
 func _show_start_prompts() -> void:
