@@ -62,6 +62,8 @@ var spell_sequence: Array[StringName] = []
 var casting := false
 var spells_unlocked := false: set = _set_spells_unlocked
 var required_action: StringName = &""
+var _has_book := false
+var _alive := true
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -77,6 +79,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint(): return
 	set_process_input(false)	# locked until the book is collected
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+	GameUIBridge.player_alive_changed.connect(_on_player_alive_changed)
 	GameUIBridge.cast_action_required.connect(_on_cast_action_required)
 
 
@@ -100,7 +103,17 @@ func _set_spells_unlocked(new_value: bool) -> void:
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:
-	spells_unlocked = Player.Item.BOOK in items
+	_has_book = Player.Item.BOOK in items
+	_refresh_unlock()
+
+
+func _on_player_alive_changed(alive: bool) -> void:
+	_alive = alive
+	_refresh_unlock()
+
+
+func _refresh_unlock() -> void:
+	spells_unlocked = _has_book and _alive
 
 
 func _on_cast_action_required(action: StringName) -> void:

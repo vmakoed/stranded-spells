@@ -65,6 +65,7 @@ func _ready() -> void:
 	aim_angle = 0.0
 	aim_active = false
 	GameUIBridge.shield_changed.emit(shield_component.active)
+	GameUIBridge.player_alive_changed.emit(true)
 	_apply_debug_items()
 	_emit_inventory()
 	_show_start_prompts()
@@ -148,6 +149,7 @@ func heal(value: float) -> void:
 
 func revive() -> void:
 	health_component.reset()
+	GameUIBridge.player_alive_changed.emit(true)
 
 
 func grant_shield() -> void:
@@ -372,8 +374,12 @@ func _start_invincibility() -> void:
 
 func _on_health_component_health_below_minimum() -> void:
 	if dead: return
+	GameUIBridge.player_alive_changed.emit(false)
 	if is_instance_valid(respawn_point):
 		fainted.emit()
 		return
 	dead = true
+	velocity = Vector2.ZERO
+	aim_active = false
+	set_physics_process(false)
 	destroyed.emit()
