@@ -32,15 +32,13 @@ func _ready() -> void:
 		_dismiss_preview_spell()
 		level_lost.emit()
 	)
+	player.fainted.connect(_dismiss_preview_spell)
 	player.basic_attack_requested.connect(_on_basic_attack_requested)
 	GameUIBridge.spell_ready.connect(_on_spell_ready)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
-	for enemy in get_tree().get_nodes_in_group("enemies"):
-		if not enemy.has_signal("died"): continue
-		enemy.died.connect(_on_enemy_new_died.bind(enemy))
 
 
 func _process(_delta: float) -> void:
@@ -190,10 +188,6 @@ func _on_basic_attack_requested(direction: Vector2) -> void:
 	add_child(projectile)
 	projectile.global_position = _spawn_origin()
 	projectile.launch(direction, BASIC_ATTACK_SPEED)
-
-
-func _on_enemy_new_died(enemy: Node) -> void:
-	enemy.queue_free()
 
 
 func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:

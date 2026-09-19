@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 
 signal destroyed
+signal fainted
 signal basic_attack_requested(direction: Vector2)
 
 
@@ -34,6 +35,7 @@ const START_PROMPTS_DELAY = 0.5
 var health: float: set = _set_health
 var invincible := false
 var dead := false
+var respawn_point: Node2D
 var invincibility_tween: Tween 
 var initial_sprite_modulate: Color
 var initial_aim_modulate: Color
@@ -133,6 +135,10 @@ func take_damage(damage: float) -> void:
 func heal(value: float) -> void:
 	if dead: return
 	health_component.heal(value)
+
+
+func revive() -> void:
+	health_component.reset()
 
 
 func grant_shield() -> void:
@@ -357,5 +363,8 @@ func _start_invincibility() -> void:
 
 func _on_health_component_health_below_minimum() -> void:
 	if dead: return
+	if is_instance_valid(respawn_point):
+		fainted.emit()
+		return
 	dead = true
 	destroyed.emit()

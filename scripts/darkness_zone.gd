@@ -15,7 +15,7 @@ var _player: Player
 var _dark_time := 0.0
 var _teleporting := false
 var _dispelled := false
-var _fade: ColorRect
+var _fade: ScreenFade
 
 
 func _ready() -> void:
@@ -35,7 +35,7 @@ func _physics_process(delta: float) -> void:
 	var in_dark := is_instance_valid(_player) and not _near_lit_torch(_player.global_position)
 	var step := delta if in_dark else -delta * RECOVER_RATE
 	_dark_time = clampf(_dark_time + step, 0.0, grace_time)
-	_fade.color.a = _dark_time / grace_time
+	_fade.alpha = _dark_time / grace_time
 	if _dark_time >= grace_time:
 		_teleport()
 		return
@@ -45,14 +45,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _build_fade() -> void:
-	var layer := CanvasLayer.new()
-	layer.layer = 10
-	add_child(layer)
-	_fade = ColorRect.new()
-	_fade.color = Color(0, 0, 0, 0)
-	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_fade.set_anchors_preset(Control.PRESET_FULL_RECT)
-	layer.add_child(_fade)
+	_fade = ScreenFade.new()
+	add_child(_fade)
 
 
 func _near_lit_torch(pos: Vector2) -> bool:
@@ -72,9 +66,7 @@ func _teleport() -> void:
 		player.global_position = return_point.global_position
 	await get_tree().create_timer(HOLD_TIME).timeout
 	if is_instance_valid(player): player.set_physics_process(true)
-	var tween := create_tween()
-	tween.tween_property(_fade, "color:a", 0.0, FADE_OUT_TIME)
-	await tween.finished
+	await _fade.fade_to(0.0, FADE_OUT_TIME).finished
 	_dark_time = 0.0
 	_teleporting = false
 	if _dispelled:

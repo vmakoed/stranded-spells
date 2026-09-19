@@ -4,7 +4,6 @@
 [ext_resource type="TileSet" uid="uid://cqpxtj0a2etkf" path="res://resources/dungeon_tile_set.tres" id="1_yeu1w"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="2_ufrm4"]
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="4_s7gcq"]
-[ext_resource type="PackedScene" uid="uid://b4wn65n2jk0wn" path="res://scenes/enemy_new.tscn" id="6_6kb32"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="7_30ysp"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="7_mgcrc"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="8_mini1"]
@@ -94,13 +93,13 @@ size = Vector2(136, 96)
 [node name="RoomYY" type="Node" unique_id=1406349685]
 script = ExtResource("1_bluhm")
 
-[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=633852505]
+[node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=633852505]
 color = Color(0, 0, 0, 1)
 
 [node name="VoidCanvasLayer" type="CanvasLayer" parent="." unique_id=235427477]
 layer = -1
 
-[node name="CanvasModulate2" type="CanvasModulate" parent="VoidCanvasLayer" unique_id=598224301]
+[node name="VoidDarknessModulate" type="CanvasModulate" parent="VoidCanvasLayer" unique_id=598224301]
 color = Color(0, 0, 0, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="VoidCanvasLayer" unique_id=774280268]
@@ -263,7 +262,17 @@ facing = 4
 lit = false
 
 [node name="FloorTorch6" parent="Lights" unique_id=2052416224 instance=ExtResource("4_s7gcq")]
-position = Vector2(405, 136)
+position = Vector2(412, 140)
+facing = 4
+lit = false
+
+[node name="FloorTorch12" parent="Lights" unique_id=652958835 instance=ExtResource("4_s7gcq")]
+position = Vector2(380, 112)
+facing = 4
+lit = false
+
+[node name="FloorTorch11" parent="Lights" unique_id=404968949 instance=ExtResource("4_s7gcq")]
+position = Vector2(432, 168)
 facing = 4
 lit = false
 
@@ -498,39 +507,6 @@ material = SubResource("ShaderMaterial_mkleft")
 position = Vector2(-15, 0)
 texture = ExtResource("8_mini1")
 
-[node name="Enemies" type="Node" parent="." unique_id=711953616]
-
-[node name="EnemyNew" parent="Enemies" unique_id=1212860439 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
-unique_name_in_owner = true
-z_index = 2
-position = Vector2(331, 606)
-player = NodePath("../../PlayerCharacter")
-shielded = false
-
-[node name="EnemyNew2" parent="Enemies" unique_id=1164792054 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
-unique_name_in_owner = true
-z_index = 2
-position = Vector2(354, 157)
-player = NodePath("../../PlayerCharacter")
-
-[node name="EnemyNew3" parent="Enemies" unique_id=349291011 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
-unique_name_in_owner = true
-z_index = 2
-position = Vector2(444, 103)
-player = NodePath("../../PlayerCharacter")
-
-[node name="EnemyNew4" parent="Enemies" unique_id=1138997188 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
-unique_name_in_owner = true
-z_index = 2
-position = Vector2(115, 423)
-player = NodePath("../../PlayerCharacter")
-
-[node name="EnemyNew5" parent="Enemies" unique_id=382274447 node_paths=PackedStringArray("player") instance=ExtResource("6_6kb32")]
-unique_name_in_owner = true
-z_index = 2
-position = Vector2(354, 104)
-player = NodePath("../../PlayerCharacter")
-
 [node name="Items" type="Node" parent="." unique_id=1440820633]
 
 [node name="Wand" type="Area2D" parent="Items" unique_id=480616936]
@@ -723,44 +699,65 @@ shape = SubResource("RectangleShape2D_sd08o")
 
 [node name="TriggerAreas" type="Node" parent="." unique_id=1466607308]
 
-[node name="Challenge" type="Area2D" parent="TriggerAreas" unique_id=1695093852 node_paths=PackedStringArray("enemies", "doors")]
+[node name="GroupChallenge" type="Area2D" parent="TriggerAreas" unique_id=1695093852 node_paths=PackedStringArray("spawn_points", "doors", "respawn_point")]
 position = Vector2(448, 172)
 script = ExtResource("21_chase")
-enemies = [NodePath("../../Enemies/EnemyNew2"), NodePath("../../Enemies/EnemyNew3"), NodePath("../../Enemies/EnemyNew5")]
+spawn_points = [NodePath("Spawn"), NodePath("Spawn2"), NodePath("Spawn3")]
 doors = [NodePath("../../Doors/ChallengeDoor4"), NodePath("../../Doors/ChallengeDoor3")]
+respawn_point = NodePath("../DarknessReturn")
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/Challenge" unique_id=365178363]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/GroupChallenge" unique_id=365178363]
 position = Vector2(-48, 0)
 shape = SubResource("RectangleShape2D_chase")
 
-[node name="Challenge2" type="Area2D" parent="TriggerAreas" unique_id=1086907808 node_paths=PackedStringArray("enemies", "doors")]
+[node name="Spawn" type="Marker2D" parent="TriggerAreas/GroupChallenge" unique_id=2092613734]
+position = Vector2(-94, -15)
+
+[node name="Spawn2" type="Marker2D" parent="TriggerAreas/GroupChallenge" unique_id=1074121905]
+position = Vector2(-4, -69)
+
+[node name="Spawn3" type="Marker2D" parent="TriggerAreas/GroupChallenge" unique_id=35870333]
+position = Vector2(-94, -68)
+
+[node name="EnemyChallenge" type="Area2D" parent="TriggerAreas" unique_id=1086907808 node_paths=PackedStringArray("spawn_points", "doors")]
 position = Vector2(240, 544)
 script = ExtResource("21_chase")
-enemies = [NodePath("../../Enemies/EnemyNew")]
+spawn_points = [NodePath("Spawn")]
 doors = [NodePath("../../Doors/DoorTop"), NodePath("../../Doors/DoorLeft")]
+shielded = false
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/Challenge2" unique_id=12774938]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/EnemyChallenge" unique_id=12774938]
 position = Vector2(48, 0)
 shape = SubResource("RectangleShape2D_2hj76")
 
-[node name="Challenge3" type="Area2D" parent="TriggerAreas" unique_id=507612370 node_paths=PackedStringArray("enemies", "doors")]
+[node name="Spawn" type="Marker2D" parent="TriggerAreas/EnemyChallenge" unique_id=1966604056]
+position = Vector2(91, 62)
+
+[node name="ShieldChallenge" type="Area2D" parent="TriggerAreas" unique_id=507612370 node_paths=PackedStringArray("spawn_points", "doors", "respawn_point")]
 position = Vector2(116, 464)
 script = ExtResource("21_chase")
-enemies = [NodePath("../../Enemies/EnemyNew4")]
+spawn_points = [NodePath("Spawn")]
 doors = [NodePath("../../Doors/ChallengeDoor"), NodePath("../../Doors/ChallengeDoor2")]
+respawn_point = NodePath("../ShieldChallengeReturn")
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/Challenge3" unique_id=1516058708]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/ShieldChallenge" unique_id=1516058708]
 position = Vector2(-2, 4)
 shape = SubResource("RectangleShape2D_s7gcq")
+
+[node name="Spawn" type="Marker2D" parent="TriggerAreas/ShieldChallenge" unique_id=1798681029]
+position = Vector2(-48, -72)
 
 [node name="DarknessReturn" type="Marker2D" parent="TriggerAreas" unique_id=1921530417]
 position = Vector2(139, 284)
 
 [node name="ChestDarknessReturn" type="Marker2D" parent="TriggerAreas" unique_id=1026790086]
 position = Vector2(364, 144)
+
+[node name="ShieldChallengeReturn" type="Marker2D" parent="TriggerAreas" unique_id=525967297]
+position = Vector2(112, 548)
 
 [node name="EastDarkness" type="Area2D" parent="TriggerAreas" unique_id=1466607309 node_paths=PackedStringArray("torches", "return_point")]
 position = Vector2(404, 259)
@@ -775,7 +772,7 @@ position = Vector2(0, 29)
 shape = SubResource("RectangleShape2D_dark")
 
 [node name="ChestDarkness" type="Area2D" parent="TriggerAreas" unique_id=10813118 node_paths=PackedStringArray("torches", "return_point")]
-position = Vector2(224, 104)
+position = Vector2(220, 104)
 script = ExtResource("22_dark")
 torches = [NodePath("../../Lights/FloorTorch8"), NodePath("../../Lights/FloorTorch9"), NodePath("../../Lights/FloorTorch10")]
 return_point = NodePath("../ChestDarknessReturn")
