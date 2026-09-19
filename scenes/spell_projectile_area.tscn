@@ -53,6 +53,13 @@ shape = SubResource("CircleShape2D_sd08o")
 [node name="Visual" type="Node2D" parent="." unique_id=1278586807]
 unique_name_in_owner = true
 
+[node name="PointLight2D" type="PointLight2D" parent="Visual" unique_id=1464372676]
+color = Color(0.5, 0.72, 0.78, 1)
+energy = 1.0
+range_layer_min = -1
+texture = SubResource("GradientTexture2D_glow")
+texture_scale = 0.6
+
 [node name="Glow" type="Sprite2D" parent="Visual" unique_id=1464372675]
 modulate = Color(0.5, 0.72, 0.78, 0.6)
 material = SubResource("CanvasItemMaterial_add")
