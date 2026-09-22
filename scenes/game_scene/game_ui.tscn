@@ -19,14 +19,31 @@
 [ext_resource type="Texture2D" uid="uid://co6dms25h23so" path="res://resources/input_down_texture.tres" id="14_3re04"]
 [ext_resource type="PackedScene" uid="uid://cdokmnrix3fw8" path="res://scenes/prompt_container.tscn" id="14_rkfhe"]
 [ext_resource type="Texture2D" uid="uid://dri6xxl20aw3v" path="res://resources/input_left_texture.tres" id="15_ukb12"]
+[ext_resource type="Texture2D" uid="uid://dn7dpux0rh5gk" path="res://assets/textures/input_prompts_pixel.png" id="16_20j2n"]
 [ext_resource type="Texture2D" uid="uid://b3sm4xxywgc1u" path="res://resources/input_up_texture.tres" id="16_i7m4m"]
+[ext_resource type="FontFile" uid="uid://c32iuskff7ulq" path="res://assets/fonts/kenney_mini_square.ttf" id="17_ck3wh"]
 [ext_resource type="Texture2D" uid="uid://bscptfvidja4n" path="res://resources/input_right_texture.tres" id="17_rkfhe"]
 [ext_resource type="PackedScene" uid="uid://bs08x0l7bps6t" path="res://scenes/game_scene/mini_map.tscn" id="17_ukb12"]
 [ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="20_g2ndc"]
 [ext_resource type="PackedScene" uid="uid://dm7q3kx8wprmt" path="res://scenes/game_scene/magic_circle_prompts.tscn" id="21_mcprm"]
 [ext_resource type="Script" uid="uid://d8e8pefvnjv4" path="res://scripts/prompts_panel.gd" id="22_prompts"]
+[ext_resource type="Script" path="res://scripts/equipped_spell_panel.gd" id="23_equip"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k6yn7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ck3wh"]
+atlas = ExtResource("16_20j2n")
+region = Rect2(176, 256, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_p0l08"]
+font = ExtResource("17_ck3wh")
+font_size = 32
+outline_size = 1
+outline_color = Color(0.12, 0.18, 0.21, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7uo7"]
+atlas = ExtResource("16_20j2n")
+region = Rect2(192, 256, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkfhe"]
 atlas = ExtResource("13_i7m4m")
@@ -157,6 +174,63 @@ layout_mode = 2
 [node name="PlayerShieldIcon" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow" unique_id=1677927113 instance=ExtResource("13_shield")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="EquippedSpellContainer" type="PanelContainer" parent="MarginContainer" unique_id=325640227]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+script = ExtResource("23_equip")
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/EquippedSpellContainer" unique_id=1440734400]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="PrepareTexture" type="Control" parent="MarginContainer/EquippedSpellContainer/GridContainer" unique_id=1479859982]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/EquippedSpellContainer/GridContainer/PrepareTexture" unique_id=57031875]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_ck3wh")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PrepareLabel" type="Label" parent="MarginContainer/EquippedSpellContainer/GridContainer" unique_id=262143420]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Prepare SPELL"
+label_settings = SubResource("LabelSettings_p0l08")
+
+[node name="CastTexture" type="Control" parent="MarginContainer/EquippedSpellContainer/GridContainer" unique_id=87846951]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/EquippedSpellContainer/GridContainer/CastTexture" unique_id=1611015373]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_w7uo7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpellLabel" type="Label" parent="MarginContainer/EquippedSpellContainer/GridContainer" unique_id=79609740]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sacred Flame"
+label_settings = SubResource("LabelSettings_p0l08")
 
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
 layout_mode = 2

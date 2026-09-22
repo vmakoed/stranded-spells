@@ -7,11 +7,11 @@ signal room_changed
 @warning_ignore("unused_signal")
 signal spell_unlocked
 @warning_ignore("unused_signal")
-signal spell_ready(spell: CastInputPanel.Spell)
-@warning_ignore("unused_signal")
 signal spell_previewed(preview: Node2D)
 @warning_ignore("unused_signal")
 signal spell_reset()
+@warning_ignore("unused_signal")
+signal spell_equipped(spell: CastInputPanel.Spell)
 @warning_ignore("unused_signal")
 signal spell_casted(spell: CastInputPanel.Spell)
 @warning_ignore("unused_signal")

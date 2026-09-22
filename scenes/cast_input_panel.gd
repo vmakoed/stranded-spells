@@ -8,7 +8,7 @@ enum SpellDirection { UP, DOWN, LEFT, RIGHT }
 
 
 const SPELL_LABELS: Dictionary[Spell, String] = {
-	Spell.ATTACK_TARGET: "Sacred Spark",
+	Spell.ATTACK_TARGET: "Sacred Flame",
 	Spell.ATTACK_AREA: "Word of Radiance",
 	Spell.SHIELD: "Shield of Faith",
 	Spell.HEAL: "Healing Word"
@@ -54,12 +54,13 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	# ]
 }
 
-const EXECUTE_SPELL_LABEL = "Release LT"
+const EXECUTE_SPELL_LABEL = "RT"
 const RESET_CAST_LABEL = "RB"
 
 
 var spell_sequence: Array[StringName] = []
 var casting := false
+var equipped := false
 var spells_unlocked := false: set = _set_spells_unlocked
 var required_action: StringName = &""
 var _has_book := false
@@ -78,6 +79,7 @@ func _ready() -> void:
 	button_container_left_spacer.resized.connect(_update_prompt_position)
 	if Engine.is_editor_hint(): return
 	set_process_input(false)	# locked until the book is collected
+	set_physics_process(false)
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
 	GameUIBridge.player_alive_changed.connect(_on_player_alive_changed)
 	GameUIBridge.cast_action_required.connect(_on_cast_action_required)
@@ -92,14 +94,15 @@ func _set_spells_unlocked(new_value: bool) -> void:
 	if new_value == spells_unlocked: return
 	spells_unlocked = new_value
 	set_process_input(spells_unlocked)
+	set_physics_process(spells_unlocked)
 	if spells_unlocked:
 		if Input.is_action_pressed(&"cast_hold"): _begin_casting()
 		return
 	required_action = &""
-	if not casting: return
+	var was_casting := casting
 	casting = false
 	_clear_spell_sequence()
-	GameUIBridge.cast_mode_changed.emit(false)
+	if was_casting: GameUIBridge.cast_mode_changed.emit(false)
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:
@@ -118,6 +121,11 @@ func _refresh_unlock() -> void:
 
 func _on_cast_action_required(action: StringName) -> void:
 	required_action = action
+
+
+func _physics_process(_delta: float) -> void:
+	if Engine.is_editor_hint() or not equipped: return
+	if Input.is_action_just_pressed(&"basic_attack"): _cast_equipped()
 
 
 func _input(event: InputEvent) -> void:
@@ -144,15 +152,19 @@ func _begin_casting() -> void:
 
 func _end_casting() -> void:
 	casting = false
+	GameUIBridge.cast_mode_changed.emit(false)
+
+
+func _cast_equipped() -> void:
 	var complete_spell = _find_complete_spell()
-	if complete_spell != null:
-		GameUIBridge.spell_casted.emit(complete_spell)
-		_clear_spell_sequence()
-	GameUIBridge.cast_mode_changed.emit(false)	# after cast/reset so listeners hide last
+	if complete_spell == null: return
+	GameUIBridge.spell_casted.emit(complete_spell)
+	_clear_spell_sequence()
 
 
 func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
 	spell_sequence.clear()
+	equipped = false
 	_update_prompt([
 		Spell.ATTACK_TARGET,
 		# Spell.ATTACK_AREA,
@@ -218,7 +230,9 @@ func _continue_casting(spells: Array[Spell]) -> void:
 
 func _check_complete_spell() -> void:
 	var complete_spell = _find_complete_spell()
-	if complete_spell != null: GameUIBridge.spell_ready.emit(complete_spell)
+	if complete_spell == null or equipped: return
+	equipped = true
+	GameUIBridge.spell_equipped.emit(complete_spell)
 
 
 func _update_button_box() -> void:

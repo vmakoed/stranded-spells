@@ -9,9 +9,9 @@ const GLYPHS: Dictionary[StringName, Texture2D] = {
 	&"cast_left": preload("res://resources/prompt_face_left.tres"),
 }
 const LT: Texture2D = preload("res://resources/prompt_lt.tres")
+const RT: Texture2D = preload("res://resources/prompt_rt.tres")
 const HOLD_TEXT = "Hold"
 const PRESS_TEXT = "Press"
-const RELEASE_TEXT = "Release"
 
 
 @export var player: Player
@@ -71,10 +71,10 @@ func _refresh() -> void:
 	var gate: StringName = &""
 	if not complete: gate = _expected[step]
 	var row: Dictionary
-	if not _casting:
+	if complete:
+		row = { "icon": RT, "text": PRESS_TEXT }
+	elif not _casting:
 		row = { "icon": LT, "text": HOLD_TEXT }
-	elif complete:
-		row = { "icon": LT, "text": RELEASE_TEXT }
 	else:
 		row = { "icon": GLYPHS[gate], "text": PRESS_TEXT }
 	GameUIBridge.cast_action_required.emit(gate)

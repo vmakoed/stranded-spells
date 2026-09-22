@@ -42,6 +42,7 @@ var initial_sprite_modulate: Color
 var initial_aim_modulate: Color
 var aim_angle: float: set = _set_aim_angle
 var aim_active: bool: set = _set_aim_active
+var spell_equipped := false
 var inventory: Array[Item] = []
 
 
@@ -64,6 +65,8 @@ func _ready() -> void:
 	initial_aim_modulate = aim_sprite.modulate
 	aim_angle = 0.0
 	aim_active = false
+	GameUIBridge.spell_equipped.connect(func(_spell): spell_equipped = true)
+	GameUIBridge.spell_reset.connect(func(): spell_equipped = false)
 	GameUIBridge.shield_changed.emit(shield_component.active)
 	GameUIBridge.player_alive_changed.emit(true)
 	_apply_debug_items()
@@ -97,6 +100,7 @@ func _physics_process(_delta: float) -> void:
 
 func _handle_basic_attack() -> void:
 	if dead: return
+	if spell_equipped: return	# RT casts the spell instead, see CastInputPanel._physics_process
 	if not has_item(Item.WAND): return
 	if Input.is_action_pressed(&"cast_hold"): return
 	if not Input.is_action_just_pressed(&"basic_attack"): return
