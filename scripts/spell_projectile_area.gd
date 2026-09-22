@@ -2,16 +2,20 @@ class_name SpellProjectile
 extends Area2D
 
 
-enum State { IDLE, PREVIEW, FLYING, DEFLECTED, SPENT }
+enum State { IDLE, PREVIEW, FLYING, SPLASHING, SPENT }
 
 
 const MANIFEST_DURATION = 0.2
 const DISMISS_DURATION = 0.15
 const PULSE_PERIOD = 1.0
 const PULSE_SCALE = 1.12
-const DEFLECT_SPEED_SCALE = 0.6
-const DEFLECT_FADE_DURATION = 0.3
-const DEFLECT_END_SCALE = 0.4
+const SPLASH_DURATION = 0.2
+const SPLASH_SQUASH = Vector2(0.4, 1.6)
+const SPLASH_END_SCALE = Vector2(0.15, 2.4)
+const SPLASH_DROPLETS = 10
+const SPLASH_SPREAD = 80.0
+const SPLASH_SPEED_MIN = 40.0
+const SPLASH_SPEED_MAX = 80.0
 const WORLD_LAYER = 3
 
 
@@ -30,7 +34,7 @@ var _tween: Tween
 
 
 func _physics_process(delta: float) -> void:
-	if state != State.FLYING and state != State.DEFLECTED: return
+	if state != State.FLYING: return
 	position += velocity * delta
 
 
@@ -95,17 +99,28 @@ func _spend() -> void:
 	_finish()
 
 
-func _deflect(area: Area2D) -> void:
-	state = State.DEFLECTED
+func _splash(area: Area2D) -> void:
+	state = State.SPLASHING
 	var normal := global_position - area.global_position
 	if normal.is_zero_approx(): normal = -velocity
-	velocity = velocity.bounce(normal.normalized()) * DEFLECT_SPEED_SCALE
-	rotation = velocity.angle()
+	velocity = Vector2.ZERO
+	set_deferred(&"monitoring", false)
+	rotation = (-normal).angle()
+
+	trail.emitting = false
+	trail.one_shot = true
+	trail.explosiveness = 0.9
+	trail.amount = SPLASH_DROPLETS
+	trail.spread = SPLASH_SPREAD
+	trail.initial_velocity_min = SPLASH_SPEED_MIN
+	trail.initial_velocity_max = SPLASH_SPEED_MAX
+	trail.restart()
 
 	_kill_tween()
+	visual.scale = SPLASH_SQUASH
 	_tween = create_tween().set_parallel(true)
-	_tween.tween_property(visual, "modulate:a", 0.0, DEFLECT_FADE_DURATION)
-	_tween.tween_property(visual, "scale", Vector2.ONE * DEFLECT_END_SCALE, DEFLECT_FADE_DURATION)
+	_tween.tween_property(visual, "scale", SPLASH_END_SCALE, SPLASH_DURATION)
+	_tween.tween_property(visual, "modulate:a", 0.0, SPLASH_DURATION)
 	_tween.finished.connect(_finish)
 
 
@@ -127,7 +142,7 @@ func _try_hit(area: Area2D) -> bool:
 		return false
 	if area is not HurtboxComponent: return false
 	if area.damage(damage, breaks_shield):
-		_deflect(area)
+		_splash(area)
 	else:
 		_spend()
 	return true
@@ -159,11 +174,10 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	match state:
-		State.FLYING: _try_hit_wall(body)
-		State.DEFLECTED: if _is_world(body): _finish()
+	if state != State.FLYING: return
+	_try_hit_wall(body)
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	if state != State.FLYING and state != State.DEFLECTED: return
-	_finish()
+	if state != State.FLYING: return
+	_spend()
