@@ -470,6 +470,7 @@ lit = false
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(140, 284)
+debug_items = 2
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1055916806]
 
