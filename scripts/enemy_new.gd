@@ -86,7 +86,7 @@ func _set_state(new_value: State) -> void:
 			velocity = Vector2.ZERO
 			%RechargeTimer.stop()
 			%ShieldComponent.disable()
-			%ShieldSmoke.disable()
+			%ShieldBubble.disable()
 			%AttackArea.set_deferred("monitoring", false)
 			$HurtboxComponent.set_deferred("monitorable", false)
 			$HitboxComponent.set_deferred("monitoring", false)

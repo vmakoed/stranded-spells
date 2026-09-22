@@ -2,13 +2,16 @@ class_name SpellProjectile
 extends Area2D
 
 
-enum State { IDLE, PREVIEW, FLYING, SPENT }
+enum State { IDLE, PREVIEW, FLYING, DEFLECTED, SPENT }
 
 
 const MANIFEST_DURATION = 0.2
 const DISMISS_DURATION = 0.15
 const PULSE_PERIOD = 1.0
 const PULSE_SCALE = 1.12
+const DEFLECT_SPEED_SCALE = 0.6
+const DEFLECT_FADE_DURATION = 0.3
+const DEFLECT_END_SCALE = 0.4
 const WORLD_LAYER = 3
 
 
@@ -27,7 +30,7 @@ var _tween: Tween
 
 
 func _physics_process(delta: float) -> void:
-	if state != State.FLYING: return
+	if state != State.FLYING and state != State.DEFLECTED: return
 	position += velocity * delta
 
 
@@ -89,8 +92,28 @@ func _start_pulse() -> void:
 
 func _spend() -> void:
 	if state != State.FLYING: return
+	_finish()
+
+
+func _deflect(area: Area2D) -> void:
+	state = State.DEFLECTED
+	var normal := global_position - area.global_position
+	if normal.is_zero_approx(): normal = -velocity
+	velocity = velocity.bounce(normal.normalized()) * DEFLECT_SPEED_SCALE
+	rotation = velocity.angle()
+
+	_kill_tween()
+	_tween = create_tween().set_parallel(true)
+	_tween.tween_property(visual, "modulate:a", 0.0, DEFLECT_FADE_DURATION)
+	_tween.tween_property(visual, "scale", Vector2.ONE * DEFLECT_END_SCALE, DEFLECT_FADE_DURATION)
+	_tween.finished.connect(_finish)
+
+
+func _finish() -> void:
+	if state == State.SPENT: return
 	state = State.SPENT
 	velocity = Vector2.ZERO
+	_kill_tween()
 	set_deferred(&"monitoring", false)
 	visual.hide()
 	trail.emitting = false
@@ -103,8 +126,10 @@ func _try_hit(area: Area2D) -> bool:
 		if ignites_torches: area.ignite()
 		return false
 	if area is not HurtboxComponent: return false
-	area.damage(damage, breaks_shield)
-	_spend()
+	if area.damage(damage, breaks_shield):
+		_deflect(area)
+	else:
+		_spend()
 	return true
 
 
@@ -134,10 +159,11 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if state != State.FLYING: return
-	_try_hit_wall(body)
+	match state:
+		State.FLYING: _try_hit_wall(body)
+		State.DEFLECTED: if _is_world(body): _finish()
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	if state != State.FLYING: return
-	_spend()
+	if state != State.FLYING and state != State.DEFLECTED: return
+	_finish()

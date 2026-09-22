@@ -17,8 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/locked_door.tscn" id="16_door"]
 [ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="17_hurtbox"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="18_shield"]
-[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_smoke.gd" id="19_bubble"]
-[ext_resource type="Texture2D" uid="uid://c4i0b0pr3gp08" path="res://assets/textures/circle_b.png" id="20_smoke"]
+[ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="19_bubble"]
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="21_chase"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="21_s7gcq"]
 [ext_resource type="Script" uid="uid://hkp6m3fni1pg" path="res://scripts/darkness_zone.gd" id="22_dark"]
@@ -56,17 +55,6 @@ radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nx0vs"]
 radius = 8.0
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
-light_mode = 1
-
-[sub_resource type="Curve" id="Curve_smoke_scale"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Gradient" id="Gradient_smoke"]
-offsets = PackedFloat32Array(0, 0.25, 1)
-colors = PackedColorArray(0.12, 0.05, 0.18, 0, 0.12, 0.05, 0.18, 0.85, 0.12, 0.05, 0.18, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
 atlas = ExtResource("21_s7gcq")
@@ -240,7 +228,7 @@ position = Vector2(119, 572)
 facing = 4
 
 [node name="FloorTorch2" parent="Lights" unique_id=765377938 instance=ExtResource("4_s7gcq")]
-position = Vector2(285, 576)
+position = Vector2(288, 576)
 facing = 4
 
 [node name="FloorTorch3" parent="Lights" unique_id=166451178 instance=ExtResource("4_s7gcq")]
@@ -299,6 +287,7 @@ position = Vector2(201, 551)
 
 [node name="TopTorch6" parent="Lights" unique_id=1987542511 instance=ExtResource("4_s7gcq")]
 position = Vector2(424, 376)
+lit = false
 
 [node name="DownTorch8" parent="Lights" unique_id=1868773038 instance=ExtResource("4_s7gcq")]
 position = Vector2(424, 487)
@@ -307,6 +296,7 @@ facing = 1
 [node name="DownTorch9" parent="Lights" unique_id=925169976 instance=ExtResource("4_s7gcq")]
 position = Vector2(368, 487)
 facing = 1
+lit = false
 
 [node name="DownTorch10" parent="Lights" unique_id=479183616 instance=ExtResource("4_s7gcq")]
 position = Vector2(311, 629)
@@ -315,10 +305,12 @@ facing = 1
 [node name="DownTorch11" parent="Lights" unique_id=174841820 instance=ExtResource("4_s7gcq")]
 position = Vector2(264, 629)
 facing = 1
+lit = false
 
 [node name="DownTorch12" parent="Lights" unique_id=125250246 instance=ExtResource("4_s7gcq")]
 position = Vector2(139, 629)
 facing = 1
+lit = false
 
 [node name="DownTorch13" parent="Lights" unique_id=15088334 instance=ExtResource("4_s7gcq")]
 position = Vector2(89, 629)
@@ -344,6 +336,7 @@ facing = 2
 [node name="LeftTorch11" parent="Lights" unique_id=87650633 instance=ExtResource("4_s7gcq")]
 position = Vector2(233, 408)
 facing = 2
+lit = false
 
 [node name="LeftTorch12" parent="Lights" unique_id=1496349635 instance=ExtResource("4_s7gcq")]
 position = Vector2(233, 456)
@@ -444,6 +437,7 @@ lit = false
 [node name="RightTorch14" parent="Lights" unique_id=948241693 instance=ExtResource("4_s7gcq")]
 position = Vector2(457, 456)
 facing = 3
+lit = false
 
 [node name="RightTorch15" parent="Lights" unique_id=403051553 instance=ExtResource("4_s7gcq")]
 position = Vector2(457, 408)
@@ -456,15 +450,16 @@ facing = 3
 [node name="RightTorch17" parent="Lights" unique_id=1328807679 instance=ExtResource("4_s7gcq")]
 position = Vector2(345, 552)
 facing = 3
+lit = false
 
 [node name="RightTorch18" parent="Lights" unique_id=162769346 instance=ExtResource("4_s7gcq")]
 position = Vector2(169, 552)
 facing = 3
+lit = false
 
 [node name="RightTorch19" parent="Lights" unique_id=39045008 instance=ExtResource("4_s7gcq")]
 position = Vector2(168, 600)
 facing = 3
-lit = false
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("2_ufrm4")]
 unique_name_in_owner = true
@@ -645,48 +640,8 @@ shield_component = NodePath("../ShieldComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/KeyGold/HurtboxComponent" unique_id=746550845]
 shape = SubResource("CircleShape2D_nx0vs")
 
-[node name="ShieldSmoke" type="CPUParticles2D" parent="Items/KeyGold" unique_id=854369263 node_paths=PackedStringArray("shield")]
-material = SubResource("CanvasItemMaterial_unshaded")
-emitting = false
-amount = 14
-texture = ExtResource("20_smoke")
-lifetime = 0.9
-lifetime_randomness = 0.3
-emission_shape = 1
-emission_sphere_radius = 6.0
-spread = 180.0
-gravity = Vector2(0, -8)
-initial_velocity_min = 8.0
-initial_velocity_max = 18.0
-damping_min = 6.0
-damping_max = 10.0
-scale_amount_min = 0.012
-scale_amount_max = 0.02
-scale_amount_curve = SubResource("Curve_smoke_scale")
-color_ramp = SubResource("Gradient_smoke")
-script = ExtResource("19_bubble")
+[node name="ShieldBubble" parent="Items/KeyGold" unique_id=854369263 node_paths=PackedStringArray("shield") instance=ExtResource("19_bubble")]
 shield = NodePath("../ShieldComponent")
-
-[node name="Burst" type="CPUParticles2D" parent="Items/KeyGold/ShieldSmoke" unique_id=1144116908]
-material = SubResource("CanvasItemMaterial_unshaded")
-emitting = false
-amount = 24
-texture = ExtResource("20_smoke")
-lifetime = 0.5
-one_shot = true
-explosiveness = 1.0
-emission_shape = 1
-emission_sphere_radius = 6.0
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 40.0
-initial_velocity_max = 70.0
-damping_min = 60.0
-damping_max = 90.0
-scale_amount_min = 0.012
-scale_amount_max = 0.02
-scale_amount_curve = SubResource("Curve_smoke_scale")
-color_ramp = SubResource("Gradient_smoke")
 
 [node name="WinChest" type="Area2D" parent="Items" unique_id=330359362]
 position = Vector2(140, 144)

@@ -6,8 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="4_hurtbox"]
 [ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="5_health"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="6_shield"]
-[ext_resource type="Script" uid="uid://crmihl0d48bmb" path="res://scripts/shield_smoke.gd" id="8_bubble"]
-[ext_resource type="Texture2D" uid="uid://c4i0b0pr3gp08" path="res://assets/textures/circle_b.png" id="9_smoke"]
+[ext_resource type="PackedScene" path="res://scenes/shield_bubble.tscn" id="8_bubble"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
@@ -21,17 +20,6 @@ region = Rect2(0, 96, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
 size = Vector2(16, 16)
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
-light_mode = 1
-
-[sub_resource type="Curve" id="Curve_smoke_scale"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Gradient" id="Gradient_smoke"]
-offsets = PackedFloat32Array(0, 0.25, 1)
-colors = PackedColorArray(0.12, 0.05, 0.18, 0, 0.12, 0.05, 0.18, 0.85, 0.12, 0.05, 0.18, 0)
 
 [node name="BreakableBox" type="StaticBody2D" unique_id=1098040619]
 collision_layer = 32
@@ -47,49 +35,9 @@ texture = SubResource("AtlasTexture_box")
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_box")
 
-[node name="ShieldSmoke" type="CPUParticles2D" parent="." unique_id=1360963502 node_paths=PackedStringArray("shield")]
+[node name="ShieldBubble" parent="." unique_id=1360963502 node_paths=PackedStringArray("shield") instance=ExtResource("8_bubble")]
 unique_name_in_owner = true
-material = SubResource("CanvasItemMaterial_unshaded")
-emitting = false
-amount = 4
-texture = ExtResource("9_smoke")
-lifetime = 1.5
-lifetime_randomness = 0.3
-emission_shape = 1
-emission_sphere_radius = 6.0
-spread = 180.0
-gravity = Vector2(0, -8)
-initial_velocity_min = 8.0
-initial_velocity_max = 18.0
-damping_min = 6.0
-damping_max = 10.0
-scale_amount_min = 0.012
-scale_amount_max = 0.02
-scale_amount_curve = SubResource("Curve_smoke_scale")
-color_ramp = SubResource("Gradient_smoke")
-script = ExtResource("8_bubble")
 shield = NodePath("../ShieldComponent")
-
-[node name="Burst" type="CPUParticles2D" parent="ShieldSmoke" unique_id=1292104403]
-material = SubResource("CanvasItemMaterial_unshaded")
-emitting = false
-amount = 24
-texture = ExtResource("9_smoke")
-lifetime = 0.5
-one_shot = true
-explosiveness = 1.0
-emission_shape = 1
-emission_sphere_radius = 6.0
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 40.0
-initial_velocity_max = 70.0
-damping_min = 60.0
-damping_max = 90.0
-scale_amount_min = 0.012
-scale_amount_max = 0.02
-scale_amount_curve = SubResource("Curve_smoke_scale")
-color_ramp = SubResource("Gradient_smoke")
 
 [node name="HurtboxComponent" parent="." unique_id=1507827127 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("4_hurtbox")]
 unique_name_in_owner = true

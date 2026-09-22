@@ -4,7 +4,8 @@ extends Area2D
 @export var health_component: HealthComponent
 @export var shield_component: ShieldComponent
 
-func damage(value: float, breaks_shield := false):
+func damage(value: float, breaks_shield := false) -> bool:
 	if shield_component and shield_component.try_absorb(value, breaks_shield):
-		return
+		return true
 	if health_component: health_component.damage(value)
+	return false
