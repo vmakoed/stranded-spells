@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bpcbdivgajl3a"]
+
+[ext_resource type="Script" uid="uid://djdn328j8ut3p" path="res://scripts/cast_guide.gd" id="1_script"]
+[ext_resource type="FontFile" uid="uid://c32iuskff7ulq" path="res://assets/fonts/kenney_mini_square.ttf" id="2_font"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[node name="CastGuide" type="Node2D" unique_id=1897414652]
+material = SubResource("CanvasItemMaterial_unshaded")
+script = ExtResource("1_script")
+
+[node name="Text" type="RichTextLabel" parent="." unique_id=1102294959]
+unique_name_in_owner = true
+use_parent_material = true
+offset_right = 1.0
+offset_bottom = 1.0
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0.12, 0.18, 0.21, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("2_font")
+theme_override_font_sizes/normal_font_size = 8
+fit_content = true
+scroll_active = false
+autowrap_mode = 0

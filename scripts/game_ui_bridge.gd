@@ -7,8 +7,6 @@ signal room_changed
 @warning_ignore("unused_signal")
 signal spell_unlocked
 @warning_ignore("unused_signal")
-signal spell_previewed(preview: Node2D)
-@warning_ignore("unused_signal")
 signal spell_reset()
 @warning_ignore("unused_signal")
 signal spell_equipped(spell: CastInputPanel.Spell)
@@ -22,8 +20,6 @@ signal cast_mode_changed(active: bool)
 signal shield_changed(active: bool)
 @warning_ignore("unused_signal")
 signal inventory_changed(items: Array[Player.Item])
-@warning_ignore("unused_signal")
-signal cast_action_required(action: StringName)
 @warning_ignore("unused_signal")
 signal player_alive_changed(alive: bool)
 

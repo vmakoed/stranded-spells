@@ -27,7 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://dq2dfwm5bq3ag" path="res://scenes/cast_input_panel.tscn" id="20_g2ndc"]
 [ext_resource type="PackedScene" uid="uid://dm7q3kx8wprmt" path="res://scenes/game_scene/magic_circle_prompts.tscn" id="21_mcprm"]
 [ext_resource type="Script" uid="uid://d8e8pefvnjv4" path="res://scripts/prompts_panel.gd" id="22_prompts"]
-[ext_resource type="Script" path="res://scripts/equipped_spell_panel.gd" id="23_equip"]
+[ext_resource type="Script" uid="uid://envgyti58kmf" path="res://scripts/equipped_spell_panel.gd" id="23_equip"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k6yn7"]
 
@@ -175,7 +175,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="EquippedSpellContainer" type="PanelContainer" parent="MarginContainer" unique_id=325640227]
+[node name="EquippedSpellContainer" type="CenterContainer" parent="MarginContainer" unique_id=1921206399]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
@@ -233,6 +233,7 @@ text = "Sacred Flame"
 label_settings = SubResource("LabelSettings_p0l08")
 
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -303,6 +304,7 @@ prompt_name = "Fire"
 prompt_textures = Array[AtlasTexture]([ExtResource("17_rkfhe"), ExtResource("14_3re04"), ExtResource("16_i7m4m"), ExtResource("14_3re04"), ExtResource("15_ukb12")])
 
 [node name="PromptsPanel" type="GridContainer" parent="MarginContainer/PromptsPanelContainer" unique_id=1511404399]
+visible = false
 layout_mode = 2
 columns = 2
 script = ExtResource("22_prompts")

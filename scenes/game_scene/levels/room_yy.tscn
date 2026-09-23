@@ -21,8 +21,8 @@
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="21_chase"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="21_s7gcq"]
 [ext_resource type="Script" uid="uid://hkp6m3fni1pg" path="res://scripts/darkness_zone.gd" id="22_dark"]
-[ext_resource type="Script" uid="uid://bjl231omvo4k1" path="res://scripts/cast_tutorial.gd" id="23_tutorial"]
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="24_cdoor"]
+[ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="24_q04jx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("9_rclr1")
@@ -464,7 +464,7 @@ facing = 3
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("2_ufrm4")]
 unique_name_in_owner = true
 z_index = 1
-position = Vector2(140, 284)
+position = Vector2(144, 268)
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1055916806]
 
@@ -564,7 +564,7 @@ position = Vector2(64, 540)
 shielded = true
 
 [node name="ShieldedBox9" parent="Items" unique_id=301311109 instance=ExtResource("11_bbox")]
-position = Vector2(155, 604)
+position = Vector2(156, 548)
 shielded = true
 
 [node name="ShieldedBox7" parent="Items" unique_id=39937702 instance=ExtResource("11_bbox")]
@@ -706,7 +706,7 @@ shape = SubResource("RectangleShape2D_s7gcq")
 position = Vector2(-48, -72)
 
 [node name="DarknessReturn" type="Marker2D" parent="TriggerAreas" unique_id=1921530417]
-position = Vector2(139, 284)
+position = Vector2(144, 268)
 
 [node name="ChestDarknessReturn" type="Marker2D" parent="TriggerAreas" unique_id=1026790086]
 position = Vector2(364, 144)
@@ -738,11 +738,6 @@ metadata/_edit_group_ = true
 position = Vector2(0, 40)
 shape = SubResource("RectangleShape2D_yfxib")
 
-[node name="CastTutorial" type="Node" parent="TriggerAreas" unique_id=415119083 node_paths=PackedStringArray("player", "target")]
-script = ExtResource("23_tutorial")
-player = NodePath("../../PlayerCharacter")
-target = NodePath("../../Items/ShieldedBox8")
-
 [node name="Doors" type="Node" parent="." unique_id=1541874283]
 
 [node name="DoorTop" parent="Doors" unique_id=752656758 instance=ExtResource("24_cdoor")]
@@ -764,5 +759,9 @@ position = Vector2(432, 200)
 [node name="ChallengeDoor4" parent="Doors" unique_id=671498573 instance=ExtResource("24_cdoor")]
 position = Vector2(328, 144)
 facing = 1
+
+[node name="CastGuide" parent="." unique_id=1450978606 node_paths=PackedStringArray("player") instance=ExtResource("24_q04jx")]
+position = Vector2(112, 612)
+player = NodePath("../PlayerCharacter")
 
 [connection signal="body_entered" from="Items/WinChest" to="." method="_on_win_chest_body_entered"]

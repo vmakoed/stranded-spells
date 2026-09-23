@@ -62,7 +62,6 @@ var spell_sequence: Array[StringName] = []
 var casting := false
 var equipped := false
 var spells_unlocked := false: set = _set_spells_unlocked
-var required_action: StringName = &""
 var _has_book := false
 var _alive := true
 
@@ -82,7 +81,6 @@ func _ready() -> void:
 	set_physics_process(false)
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
 	GameUIBridge.player_alive_changed.connect(_on_player_alive_changed)
-	GameUIBridge.cast_action_required.connect(_on_cast_action_required)
 
 
 func _notification(what: int) -> void:
@@ -98,7 +96,6 @@ func _set_spells_unlocked(new_value: bool) -> void:
 	if spells_unlocked:
 		if Input.is_action_pressed(&"cast_hold"): _begin_casting()
 		return
-	required_action = &""
 	var was_casting := casting
 	casting = false
 	_clear_spell_sequence()
@@ -119,10 +116,6 @@ func _refresh_unlock() -> void:
 	spells_unlocked = _has_book and _alive
 
 
-func _on_cast_action_required(action: StringName) -> void:
-	required_action = action
-
-
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint() or not equipped: return
 	if Input.is_action_just_pressed(&"basic_attack"): _cast_equipped()
@@ -140,7 +133,6 @@ func _input(event: InputEvent) -> void:
 	if not casting: return
 
 	for action in SPELL_ACTIONS.values():
-		if required_action != &"" and action != required_action: continue
 		if event.is_action_pressed(action):
 			_append_to_spell_sequence(action)
 

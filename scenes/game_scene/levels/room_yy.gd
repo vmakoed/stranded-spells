@@ -131,7 +131,6 @@ func _on_spell_equipped(spell: CastInputPanel.Spell) -> void:
 		var shield := _setup_shield()
 		shield.manifest()
 		_preview_spell = shield
-	if _preview_spell != null: GameUIBridge.spell_previewed.emit(_preview_spell)
 
 
 func _on_spell_reset() -> void:

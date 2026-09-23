@@ -1,5 +1,5 @@
 class_name EquippedSpellPanel
-extends PanelContainer
+extends CenterContainer
 
 
 @onready var prepare_texture: Control = %PrepareTexture
