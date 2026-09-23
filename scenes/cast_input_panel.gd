@@ -3,7 +3,7 @@ class_name CastInputPanel
 extends Control
 
 
-enum Spell { ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL }
+enum Spell { ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL, MAGIC_MISSILE }
 enum SpellDirection { UP, DOWN, LEFT, RIGHT }
 
 
@@ -11,7 +11,8 @@ const SPELL_LABELS: Dictionary[Spell, String] = {
 	Spell.ATTACK_TARGET: "Sacred Flame",
 	Spell.ATTACK_AREA: "Word of Radiance",
 	Spell.SHIELD: "Shield of Faith",
-	Spell.HEAL: "Healing Word"
+	Spell.HEAL: "Healing Word",
+	Spell.MAGIC_MISSILE: "Magic Missile"
 }
 
 
@@ -52,7 +53,16 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	# 	SPELL_ACTIONS[SpellDirection.DOWN],
 	# 	SPELL_ACTIONS[SpellDirection.LEFT]
 	# ]
+	Spell.MAGIC_MISSILE: [
+		SPELL_ACTIONS[SpellDirection.DOWN],
+		SPELL_ACTIONS[SpellDirection.UP]
+	],
 }
+
+const SPELL_CHARGES: Dictionary[Spell, int] = {
+	Spell.MAGIC_MISSILE: 3
+}
+const CHARGE_COOLDOWN = 0.3
 
 const EXECUTE_SPELL_LABEL = "RT"
 const RESET_CAST_LABEL = "RB"
@@ -64,6 +74,8 @@ var equipped := false
 var spells_unlocked := false: set = _set_spells_unlocked
 var _has_book := false
 var _alive := true
+var _charges := 0
+var _charge_timer: Timer
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -77,6 +89,10 @@ func _ready() -> void:
 	_clear_spell_sequence()
 	button_container_left_spacer.resized.connect(_update_prompt_position)
 	if Engine.is_editor_hint(): return
+	_charge_timer = Timer.new()
+	_charge_timer.one_shot = true
+	_charge_timer.wait_time = CHARGE_COOLDOWN
+	add_child(_charge_timer)
 	set_process_input(false)	# locked until the book is collected
 	set_physics_process(false)
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
@@ -150,8 +166,12 @@ func _end_casting() -> void:
 func _cast_equipped() -> void:
 	var complete_spell = _find_complete_spell()
 	if complete_spell == null: return
+	var charged := SPELL_CHARGES.has(complete_spell)
+	if charged and not _charge_timer.is_stopped(): return
 	GameUIBridge.spell_casted.emit(complete_spell)
-	_clear_spell_sequence()
+	_charges -= 1
+	if charged: _charge_timer.start()
+	if _charges <= 0: _clear_spell_sequence()
 
 
 func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
@@ -162,6 +182,7 @@ func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if
 		# Spell.ATTACK_AREA,
 		Spell.SHIELD,
 		# Spell.HEAL
+		Spell.MAGIC_MISSILE,
 	])
 	_update_button_box()
 	if not Engine.is_editor_hint(): GameUIBridge.spell_reset.emit()
@@ -224,6 +245,7 @@ func _check_complete_spell() -> void:
 	var complete_spell = _find_complete_spell()
 	if complete_spell == null or equipped: return
 	equipped = true
+	_charges = SPELL_CHARGES.get(complete_spell, 1)
 	GameUIBridge.spell_equipped.emit(complete_spell)
 
 

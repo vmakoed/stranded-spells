@@ -87,6 +87,18 @@ func _setup_shield() -> SpellHeal:
 	return shield
 
 
+func _setup_magic_missiles() -> MagicMissileOrbit:
+	var orbit := MagicMissileOrbit.new()
+	orbit.player = player
+	add_child(orbit)
+	for i in CastInputPanel.SPELL_CHARGES[CastInputPanel.Spell.MAGIC_MISSILE]:
+		var orb := basic_projectile_scene.instantiate() as SpellProjectile
+		add_child(orb)
+		orbit.add_orb(orb)
+		orb.manifest()
+	return orbit
+
+
 func _spawn_origin() -> Vector2:
 	return player.global_position + \
 		Vector2(SPELL_PROJECTILE_OFFSET, 0.0).rotated(player.aim_angle)
@@ -131,6 +143,9 @@ func _on_spell_equipped(spell: CastInputPanel.Spell) -> void:
 		var shield := _setup_shield()
 		shield.manifest()
 		_preview_spell = shield
+	elif spell == CastInputPanel.Spell.MAGIC_MISSILE:
+		player.aim_active = true
+		_preview_spell = _setup_magic_missiles()
 
 
 func _on_spell_reset() -> void:
@@ -165,6 +180,10 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		if shield == null:
 			shield = _setup_shield()
 		shield.release()
+		return
+	if spell == CastInputPanel.Spell.MAGIC_MISSILE:
+		if not is_instance_valid(_preview_spell) or _preview_spell is not MagicMissileOrbit: return
+		_preview_spell.launch_front(BASIC_ATTACK_SPEED)
 		return
 
 
