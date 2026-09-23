@@ -4,7 +4,6 @@ extends CharacterBody2D
 
 signal destroyed
 signal fainted
-signal basic_attack_requested(direction: Vector2)
 
 
 enum Item { WAND, BOOK, KEY_SILVER, KEY_GOLD }
@@ -17,7 +16,6 @@ const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
 const CAST_FRAME_FREEZE_DURATION = 0.15
-const START_PROMPTS_DELAY = 0.5
 
 
 @export var push_sound: AudioStream
@@ -42,14 +40,12 @@ var initial_sprite_modulate: Color
 var initial_aim_modulate: Color
 var aim_angle: float: set = _set_aim_angle
 var aim_active: bool: set = _set_aim_active
-var spell_equipped := false
 var inventory: Array[Item] = []
 
 
 @onready var spell_area: Area2D = %SpellArea
 @onready var hurtbox_collision_shape: CollisionShape2D = %HurtboxCollisionShape
 @onready var invincibility_timer: Timer = %InvincibilityTimer
-@onready var basic_attack_timer: Timer = %BasicAttackTimer
 @onready var character_sprite: Sprite2D = %CharacterSprite
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 @onready var aim_sprite: Sprite2D = %AimSprite
@@ -65,13 +61,10 @@ func _ready() -> void:
 	initial_aim_modulate = aim_sprite.modulate
 	aim_angle = 0.0
 	aim_active = false
-	GameUIBridge.spell_equipped.connect(func(_spell): spell_equipped = true)
-	GameUIBridge.spell_reset.connect(func(): spell_equipped = false)
 	GameUIBridge.shield_changed.emit(shield_component.active)
 	GameUIBridge.player_alive_changed.emit(true)
 	_apply_debug_items()
 	_emit_inventory()
-	_show_start_prompts()
 
 
 func _apply_debug_items() -> void:
@@ -81,12 +74,6 @@ func _apply_debug_items() -> void:
 			inventory.append(item)
 
 
-func _show_start_prompts() -> void:
-	await get_tree().create_timer(START_PROMPTS_DELAY).timeout
-	if dead or not is_inside_tree(): return
-	hint.show_prompts(_rows_for(null))
-
-
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * SPEED
@@ -94,19 +81,6 @@ func _physics_process(_delta: float) -> void:
 
 	var aim_direction := Input.get_vector(&"aim_left", &"aim_right", &"aim_up", &"aim_down")
 	if aim_direction.length_squared() > 0.0: aim_angle = aim_direction.angle()
-
-	_handle_basic_attack()
-
-
-func _handle_basic_attack() -> void:
-	if dead: return
-	if spell_equipped: return	# RT casts the spell instead, see CastInputPanel._physics_process
-	if not has_item(Item.WAND): return
-	if Input.is_action_pressed(&"cast_hold"): return
-	if not Input.is_action_just_pressed(&"basic_attack"): return
-	if not basic_attack_timer.is_stopped(): return
-	basic_attack_timer.start()
-	basic_attack_requested.emit(Vector2.from_angle(aim_angle))
 
 
 func _input(event: InputEvent) -> void:
@@ -165,7 +139,6 @@ func grant_shield() -> void:
 func collect(item: Item) -> void:
 	if has_item(item): return
 	inventory.append(item)
-	hint.show_prompts(_rows_for(item))
 	_emit_inventory()
 
 
@@ -175,13 +148,6 @@ func has_item(item: Item) -> bool:
 
 func show_hint(texture: Texture2D) -> void:
 	hint.show_icon(texture)
-
-
-func _rows_for(item: Variant) -> Array[Dictionary]:
-	var rows: Array[Dictionary] = []
-	for row in PromptsPanel.ROWS:
-		if row.get("requires") == item: rows.append(row)
-	return rows
 
 
 func _emit_inventory() -> void:

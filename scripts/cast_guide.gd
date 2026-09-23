@@ -23,11 +23,11 @@ const GLYPHS: Dictionary[String, Texture2D] = {
 		prepare_text = value
 		if is_node_ready(): _refresh()
 @export_multiline var equipped_text := "{RS}: aim {RT}: cast {RB}: unequip"
-@export_multiline var draw_text := "{FACE_BOTTOM} {FACE_RIGHT} {FACE_TOP}: draw glyph"
+@export_multiline var draw_text := "{FACE_BOTTOM} {FACE_TOP}: draw glyph"
 @export_multiline var release_text := "Release {LT}"
 
 
-var _has_book := false
+var _has_wand := false
 var _casting := false
 var _equipped := false
 var _shown_text := ""
@@ -42,7 +42,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		_refresh()
 		return
-	_has_book = is_instance_valid(player) and player.has_item(Player.Item.BOOK)
+	_has_wand = is_instance_valid(player) and player.has_item(Player.Item.WAND)
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
@@ -51,7 +51,7 @@ func _ready() -> void:
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:
-	_has_book = Player.Item.BOOK in items
+	_has_wand = Player.Item.WAND in items
 	_refresh()
 
 
@@ -71,7 +71,7 @@ func _on_spell_reset() -> void:
 
 
 func _refresh() -> void:
-	visible = _has_book or Engine.is_editor_hint()
+	visible = _has_wand or Engine.is_editor_hint()
 	var text: String
 	if _casting:
 		text = release_text if _equipped else draw_text

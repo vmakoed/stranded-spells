@@ -465,7 +465,6 @@ facing = 3
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(144, 268)
-debug_items = 3
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1055916806]
 
@@ -762,7 +761,7 @@ position = Vector2(328, 144)
 facing = 1
 
 [node name="CastGuide" parent="." unique_id=1450978606 node_paths=PackedStringArray("player") instance=ExtResource("24_q04jx")]
-position = Vector2(112, 612)
+position = Vector2(400, 468)
 player = NodePath("../PlayerCharacter")
 
 [connection signal="body_entered" from="Items/WinChest" to="." method="_on_win_chest_body_entered"]

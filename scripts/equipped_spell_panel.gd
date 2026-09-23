@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:
-	visible = Player.Item.BOOK in items
+	visible = Player.Item.WAND in items
 
 
 func _show_equipped(spell: Variant) -> void:

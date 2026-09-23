@@ -14,7 +14,6 @@ const REVEAL_FADE_DURATION = 1.0
 const ROWS: Array[Dictionary] = [
 	{ "button": "LS:", "text": "Move", "icon": preload("res://resources/prompt_ls.tres") },
 	{ "button": "RS:", "text": "Aim", "requires": Player.Item.WAND, "icon": preload("res://resources/prompt_rs.tres") },
-	{ "button": "RT:", "text": "Energy Bolt", "requires": Player.Item.WAND, "icon": preload("res://resources/prompt_rt.tres") },
 ]
 
 

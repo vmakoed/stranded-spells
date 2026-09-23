@@ -72,7 +72,7 @@ var spell_sequence: Array[StringName] = []
 var casting := false
 var equipped := false
 var spells_unlocked := false: set = _set_spells_unlocked
-var _has_book := false
+var _has_wand := false
 var _alive := true
 var _charges := 0
 var _charge_timer: Timer
@@ -93,7 +93,7 @@ func _ready() -> void:
 	_charge_timer.one_shot = true
 	_charge_timer.wait_time = CHARGE_COOLDOWN
 	add_child(_charge_timer)
-	set_process_input(false)	# locked until the book is collected
+	set_process_input(false)	# locked until the wand is collected
 	set_physics_process(false)
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
 	GameUIBridge.player_alive_changed.connect(_on_player_alive_changed)
@@ -119,7 +119,7 @@ func _set_spells_unlocked(new_value: bool) -> void:
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:
-	_has_book = Player.Item.BOOK in items
+	_has_wand = Player.Item.WAND in items
 	_refresh_unlock()
 
 
@@ -129,7 +129,7 @@ func _on_player_alive_changed(alive: bool) -> void:
 
 
 func _refresh_unlock() -> void:
-	spells_unlocked = _has_book and _alive
+	spells_unlocked = _has_wand and _alive
 
 
 func _physics_process(_delta: float) -> void:

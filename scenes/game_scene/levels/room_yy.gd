@@ -9,7 +9,7 @@ const SPELL_AREA_DAMAGE = 50.0
 const SPELL_HEAL_AMOUNT = 1.0
 const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
-const BASIC_ATTACK_SPEED = 220.0
+const MAGIC_MISSILE_SPEED = 220.0
 
 
 @export var projectile_scene := preload("res://scenes/spell_projectile_area.tscn")
@@ -33,7 +33,6 @@ func _ready() -> void:
 		level_lost.emit()
 	)
 	player.fainted.connect(_dismiss_preview_spell)
-	player.basic_attack_requested.connect(_on_basic_attack_requested)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
@@ -183,7 +182,7 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		return
 	if spell == CastInputPanel.Spell.MAGIC_MISSILE:
 		if not is_instance_valid(_preview_spell) or _preview_spell is not MagicMissileOrbit: return
-		_preview_spell.launch_front(BASIC_ATTACK_SPEED)
+		_preview_spell.launch_front(MAGIC_MISSILE_SPEED)
 		return
 
 
@@ -195,13 +194,6 @@ func _on_heal_arrived() -> void:
 func _on_shield_arrived() -> void:
 	if not is_instance_valid(player): return
 	player.grant_shield()
-
-
-func _on_basic_attack_requested(direction: Vector2) -> void:
-	var projectile := basic_projectile_scene.instantiate() as SpellProjectile
-	add_child(projectile)
-	projectile.global_position = _spawn_origin()
-	projectile.launch(direction, BASIC_ATTACK_SPEED)
 
 
 func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
