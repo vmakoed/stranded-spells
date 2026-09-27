@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://dskel7swng2a4"]
+
+[ext_resource type="Script" uid="uid://xjkrb54bpwfj" path="res://scripts/enemy_skeleton.gd" id="1_skel"]
+[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="3_yopix"]
+[ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="4_rgjo0"]
+[ext_resource type="Shader" uid="uid://dcuwu475ty4ng" path="res://assets/shaders/flash.gdshader" id="5_flash"]
+[ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
+[ext_resource type="Texture2D" uid="uid://cpswe6khnsclc" path="res://assets/textures/enemies-skeleton1_attack.png" id="6_skel"]
+[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
+[ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
+resource_local_to_scene = true
+shader = ExtResource("5_flash")
+shader_parameter/flash_amount = 0.0
+shader_parameter/greyscale_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel0"]
+atlas = ExtResource("6_skel")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel1"]
+atlas = ExtResource("6_skel")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel2"]
+atlas = ExtResource("6_skel")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel3"]
+atlas = ExtResource("6_skel")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel4"]
+atlas = ExtResource("6_skel")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel5"]
+atlas = ExtResource("6_skel")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel6"]
+atlas = ExtResource("6_skel")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel7"]
+atlas = ExtResource("6_skel")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel8"]
+atlas = ExtResource("6_skel")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_skel"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel8")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel0")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_reach"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_slash"]
+radius = 7.0
+
+[node name="EnemySkeleton" type="CharacterBody2D" unique_id=297279986 groups=["enemies"]]
+z_index = 2
+collision_layer = 8
+collision_mask = 36
+motion_mode = 1
+script = ExtResource("1_skel")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=643113679]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_flash")
+sprite_frames = SubResource("SpriteFrames_skel")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(0, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1549594323]
+shape = SubResource("CircleShape2D_body")
+
+[node name="ShieldBubble" parent="." unique_id=968358834 node_paths=PackedStringArray("shield") instance=ExtResource("9_bubble")]
+unique_name_in_owner = true
+shield = NodePath("../ShieldComponent")
+
+[node name="HurtboxComponent" parent="." unique_id=1506842863 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("3_yopix")]
+collision_layer = 8
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+shield_component = NodePath("../ShieldComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=421396614]
+shape = SubResource("CircleShape2D_hurt")
+
+[node name="HealthComponent" parent="." unique_id=149027597 instance=ExtResource("4_rgjo0")]
+max_health = 125.0
+
+[node name="ShieldComponent" parent="." unique_id=1427020064 instance=ExtResource("7_shield")]
+unique_name_in_owner = true
+regen_time = 5.0
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=361980426]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1273253847]
+shape = SubResource("CircleShape2D_reach")
+
+[node name="RechargeTimer" type="Timer" parent="." unique_id=2051991929]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true
+
+[node name="HitboxComponent" parent="." unique_id=1583981409 instance=ExtResource("6_rgjo0")]
+unique_name_in_owner = true
+position = Vector2(9, 0)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=2060796429]
+shape = SubResource("CircleShape2D_slash")
+
+[connection signal="animation_finished" from="Sprite2D" to="." method="_on_sprite_animation_finished"]
+[connection signal="frame_changed" from="Sprite2D" to="." method="_on_sprite_frame_changed"]
+[connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
+[connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="timeout" from="RechargeTimer" to="." method="_on_recharge_timer_timeout"]

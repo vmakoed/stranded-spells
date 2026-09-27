@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="10_rdiqp"]
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="11_ununi"]
 [ext_resource type="PackedScene" path="res://scenes/switch.tscn" id="12_switch"]
+[ext_resource type="PackedScene" uid="uid://dskel7swng2a4" path="res://scenes/enemy_skeleton.tscn" id="13_1mvbh"]
 [ext_resource type="TileSet" uid="uid://cqpxtj0a2etkf" path="res://resources/dungeon_tile_set.tres" id="15_l3f3c"]
 [ext_resource type="Texture2D" uid="uid://dbpdora1larfw" path="res://assets/textures/arrow_1.png" id="16_yco7m"]
 
@@ -737,7 +738,7 @@ tile_set = SubResource("TileSet_sd08o")
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("3_5m8i2")]
 unique_name_in_owner = true
 z_index = 1
-position = Vector2(656, 224)
+position = Vector2(404, 221)
 debug_items = 1
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=361838150]
@@ -814,6 +815,7 @@ spawn_points = [NodePath("Challenge1Spawn")]
 doors = [NodePath("../../Doors/ChallengeDoor"), NodePath("../../Doors/ChallengeDoor2")]
 respawn_point = NodePath("Challenge1Respawn")
 shielded = false
+enemy_scene = ExtResource("13_1mvbh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Challenges/Challenge1" unique_id=122265904]
 shape = SubResource("RectangleShape2D_sd08o")

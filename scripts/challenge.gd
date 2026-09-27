@@ -17,6 +17,7 @@ const FAIL_FADE_OUT := 0.2
 @export var doors: Array[ChallengeDoor] = []
 @export var respawn_point: Marker2D
 @export var shielded := true
+@export var enemy_scene: PackedScene = ENEMY_SCENE
 
 
 var _player: Player
@@ -66,7 +67,7 @@ func _start() -> void:
 
 
 func _spawn(point: Marker2D) -> void:
-	var enemy := ENEMY_SCENE.instantiate() as EnemyNew
+	var enemy := enemy_scene.instantiate() as EnemyNew
 	enemy.player = _player
 	enemy.shielded = shielded
 	owner.add_child(enemy)

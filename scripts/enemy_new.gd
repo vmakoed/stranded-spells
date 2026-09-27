@@ -105,7 +105,7 @@ func _chase(delta: float) -> void:
 	)
 
 	if _can_start_attack():
-		_state = State.CHARGING
+		_begin_attack()
 
 
 func _attack(_delta: float) -> void:
@@ -125,6 +125,10 @@ func _can_start_attack() -> bool:
 		return true
 
 	return collision.get_normal().dot(direction) > -ATTACK_WALL_DOT
+
+
+func _begin_attack() -> void:
+	_state = State.CHARGING
 
 
 func _is_lunge_blocked() -> bool:
@@ -215,12 +219,12 @@ func _on_attack_area_body_entered(_body: Node2D) -> void:
 		return
 
 	if _can_start_attack():
-		_state = State.CHARGING
+		_begin_attack()
 
 
 func _on_recharge_timer_timeout() -> void:
 	if _can_start_attack():
-		_state = State.CHARGING
+		_begin_attack()
 	else:
 		_state = State.CHASING
 
