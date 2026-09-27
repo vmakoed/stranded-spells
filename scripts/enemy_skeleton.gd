@@ -3,7 +3,6 @@ extends EnemyNew
 
 
 const ATTACK_ANIMATION := &"attack"
-const IDLE_ANIMATION := &"idle"
 const SLASH_FRAMES: Array[int] = [7]
 const HITBOX_OFFSET := 9.0
 
@@ -35,7 +34,6 @@ func _swing() -> void:
 
 func _end_swing() -> void:
 	%HitboxComponent.set_deferred("monitoring", false)
-	%Sprite2D.play(IDLE_ANIMATION)
 
 
 func _face_player() -> void:

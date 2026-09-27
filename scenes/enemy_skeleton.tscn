@@ -6,7 +6,9 @@
 [ext_resource type="Shader" uid="uid://dcuwu475ty4ng" path="res://assets/shaders/flash.gdshader" id="5_flash"]
 [ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
 [ext_resource type="Texture2D" uid="uid://cpswe6khnsclc" path="res://assets/textures/enemies-skeleton1_attack.png" id="6_skel"]
+[ext_resource type="Texture2D" uid="uid://bw7ltyudap006" path="res://assets/textures/enemies-skeleton1_idle.png" id="7_idle"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
+[ext_resource type="Texture2D" uid="uid://p5mrnegiqy7q" path="res://assets/textures/enemies-skeleton1_movement.png" id="8_move"]
 [ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
@@ -51,6 +53,70 @@ region = Rect2(224, 0, 32, 32)
 atlas = ExtResource("6_skel")
 region = Rect2(256, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle0"]
+atlas = ExtResource("7_idle")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle1"]
+atlas = ExtResource("7_idle")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle2"]
+atlas = ExtResource("7_idle")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle3"]
+atlas = ExtResource("7_idle")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle4"]
+atlas = ExtResource("7_idle")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle5"]
+atlas = ExtResource("7_idle")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move0"]
+atlas = ExtResource("8_move")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move1"]
+atlas = ExtResource("8_move")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move2"]
+atlas = ExtResource("8_move")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move3"]
+atlas = ExtResource("8_move")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move4"]
+atlas = ExtResource("8_move")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move5"]
+atlas = ExtResource("8_move")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move6"]
+atlas = ExtResource("8_move")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move7"]
+atlas = ExtResource("8_move")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move8"]
+atlas = ExtResource("8_move")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_move9"]
+atlas = ExtResource("8_move")
+region = Rect2(288, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_skel"]
 animations = [{
 "frames": [{
@@ -87,11 +153,61 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_skel0")
+"texture": SubResource("AtlasTexture_idle0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle5")
 }],
 "loop": 1,
 "name": &"idle",
-"speed": 5.0
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_move9")
+}],
+"loop": 1,
+"name": &"move",
+"speed": 10.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]

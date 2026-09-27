@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="4_rgjo0"]
 [ext_resource type="Shader" uid="uid://dcuwu475ty4ng" path="res://assets/shaders/flash.gdshader" id="5_flash"]
 [ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
-[ext_resource type="Texture2D" uid="uid://bxc8vsg1tudtq" path="res://assets/textures/skull_v2_1-sheet.png" id="6_yopix"]
+[ext_resource type="Texture2D" uid="uid://dg25y2slc42i8" path="res://assets/textures/enemies-skull_idle.png" id="6_yopix"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
 [ext_resource type="PackedScene" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
 

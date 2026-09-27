@@ -23,6 +23,8 @@ const DEATH_FLASH_HOLD = 0.1
 const RECHARGE_TIME_MIN = 0.35
 const RECHARGE_TIME_MAX = 0.8
 const DEATH_SHATTER_SCENE = preload("res://scenes/game_scene/death_shatter.tscn")
+const IDLE_ANIMATION := &"idle"
+const MOVE_ANIMATION := &"move"
 
 
 @export var player: Player
@@ -72,6 +74,10 @@ func _update_facing() -> void:
 func _set_state(new_value: State) -> void:
 	_state = new_value
 	match _state:
+		State.IDLE:
+			_play_animation(IDLE_ANIMATION)
+		State.CHASING:
+			_play_animation(MOVE_ANIMATION)
 		State.CHARGING:
 			velocity = Vector2.ZERO
 			_start_charge_shake()
@@ -82,6 +88,7 @@ func _set_state(new_value: State) -> void:
 		State.RECHARGING:
 			velocity = Vector2.ZERO
 			%RechargeTimer.start(randf_range(RECHARGE_TIME_MIN, RECHARGE_TIME_MAX))
+			_play_animation(IDLE_ANIMATION)
 		State.DEAD:
 			velocity = Vector2.ZERO
 			%RechargeTimer.stop()
@@ -92,6 +99,12 @@ func _set_state(new_value: State) -> void:
 			$HitboxComponent.set_deferred("monitoring", false)
 			set_physics_process(false)
 			_start_death_animation()
+
+
+func _play_animation(animation_name: StringName) -> void:
+	var sprite: AnimatedSprite2D = %Sprite2D
+	if sprite.sprite_frames.has_animation(animation_name):
+		sprite.play(animation_name)
 
 
 func _chase(delta: float) -> void:
