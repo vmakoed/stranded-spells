@@ -22,6 +22,7 @@ const WORLD_LAYER = 3
 @export var damage := 50.0
 @export var breaks_shield := false
 @export var ignites_torches := false
+@export var toggles_switches := false
 
 
 var state := State.IDLE
@@ -150,6 +151,7 @@ func _try_hit(area: Area2D) -> bool:
 
 func _try_hit_wall(body: Node2D) -> bool:
 	if not _is_world(body): return false
+	if body is Switch and toggles_switches: body.activate()
 	if ignites_torches:
 		for area in get_overlapping_areas():
 			if area is Torch: area.ignite()

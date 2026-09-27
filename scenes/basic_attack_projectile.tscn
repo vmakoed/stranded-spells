@@ -45,6 +45,7 @@ collision_layer = 0
 collision_mask = 12
 script = ExtResource("1_script")
 damage = 25.0
+toggles_switches = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=489511994]
 shape = SubResource("CircleShape2D_hit")
