@@ -3,7 +3,7 @@ class_name CastInputPanel
 extends Control
 
 
-enum Spell { ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL, MAGIC_MISSILE }
+enum Spell { ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL, MAGIC_MISSILE, MISTY_STEP }
 enum SpellDirection { UP, DOWN, LEFT, RIGHT }
 
 
@@ -12,7 +12,8 @@ const SPELL_LABELS: Dictionary[Spell, String] = {
 	Spell.ATTACK_AREA: "Word of Radiance",
 	Spell.SHIELD: "Shield of Faith",
 	Spell.HEAL: "Healing Word",
-	Spell.MAGIC_MISSILE: "Magic Missile"
+	Spell.MAGIC_MISSILE: "Magic Missile",
+	Spell.MISTY_STEP: "Misty Step"
 }
 
 
@@ -57,6 +58,10 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 		SPELL_ACTIONS[SpellDirection.DOWN],
 		SPELL_ACTIONS[SpellDirection.UP]
 	],
+	# Spell.MISTY_STEP: [
+	# 	SPELL_ACTIONS[SpellDirection.UP],
+	# 	SPELL_ACTIONS[SpellDirection.DOWN]
+	# ],
 }
 
 const SPELL_CHARGES: Dictionary[Spell, int] = {
@@ -183,6 +188,7 @@ func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if
 		# Spell.SHIELD,
 		# Spell.HEAL
 		Spell.MAGIC_MISSILE,
+		# Spell.MISTY_STEP,
 	])
 	_update_button_box()
 	if not Engine.is_editor_hint(): GameUIBridge.spell_reset.emit()

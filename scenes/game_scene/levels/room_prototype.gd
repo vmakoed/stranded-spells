@@ -10,6 +10,7 @@ const SPELL_HEAL_AMOUNT = 1.0
 const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 const MAGIC_MISSILE_SPEED = 220.0
+const SPELL_MISTY_STEP_DISTANCE = 48.0
 
 
 @export var projectile_scene := preload("res://scenes/spell_projectile_area.tscn")
@@ -17,6 +18,7 @@ const MAGIC_MISSILE_SPEED = 220.0
 @export var heal_scene := preload("res://scenes/spell_heal.tscn")
 @export var shield_scene := preload("res://scenes/spell_shield.tscn")
 @export var basic_projectile_scene := preload("res://scenes/basic_attack_projectile.tscn")
+@export var misty_step_scene := preload("res://scenes/spell_misty_step.tscn")
 
 
 @onready var player: Player = %PlayerCharacter
@@ -48,9 +50,16 @@ func _process(_delta: float) -> void:
 	_place_preview()
 
 
+func _physics_process(_delta: float) -> void:
+	if _preview_spell is SpellMistyStep and is_instance_valid(player):
+		_preview_spell.global_position = player.blink_destination(SPELL_MISTY_STEP_DISTANCE)
+
+
 func _place_preview() -> void:
 	if _preview_spell is SpellProjectile:
 		_place_projectile(_preview_spell)
+	elif _preview_spell is SpellMistyStep:
+		return
 	else:
 		_preview_spell.global_position = player.global_position
 
@@ -96,6 +105,13 @@ func _setup_magic_missiles() -> MagicMissileOrbit:
 		orbit.add_orb(orb)
 		orb.manifest()
 	return orbit
+
+
+func _setup_misty_step() -> SpellMistyStep:
+	var step := misty_step_scene.instantiate() as SpellMistyStep
+	add_child(step)
+	step.global_position = player.global_position
+	return step
 
 
 func _spawn_origin() -> Vector2:
@@ -145,6 +161,11 @@ func _on_spell_equipped(spell: CastInputPanel.Spell) -> void:
 	elif spell == CastInputPanel.Spell.MAGIC_MISSILE:
 		player.aim_active = true
 		_preview_spell = _setup_magic_missiles()
+	elif spell == CastInputPanel.Spell.MISTY_STEP:
+		player.aim_active = true
+		var step := _setup_misty_step()
+		step.manifest()
+		_preview_spell = step
 
 
 func _on_spell_reset() -> void:
@@ -179,6 +200,15 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		if shield == null:
 			shield = _setup_shield()
 		shield.release()
+		return
+	if spell == CastInputPanel.Spell.MISTY_STEP:
+		var step := _take_preview_spell() as SpellMistyStep
+		if step == null:
+			step = _setup_misty_step()
+		var origin := player.global_position
+		var destination := player.blink_destination(SPELL_MISTY_STEP_DISTANCE)
+		player.teleport(destination)
+		step.release(origin, destination)
 		return
 	if spell == CastInputPanel.Spell.MAGIC_MISSILE:
 		if not is_instance_valid(_preview_spell) or _preview_spell is not MagicMissileOrbit: return

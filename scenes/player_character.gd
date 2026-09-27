@@ -16,6 +16,9 @@ const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
 const CAST_FRAME_FREEZE_DURATION = 0.15
+const BLINK_SOLID_MASK = 36
+const BLINK_LANDING_MASK = 100
+const BLINK_BACKOFF_STEP = 4.0
 
 
 @export var push_sound: AudioStream
@@ -52,6 +55,7 @@ var inventory: Array[Item] = []
 @onready var hint: PlayerHint = %Hint
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var shield_component: ShieldComponent = %ShieldComponent
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 
 func _ready() -> void:
@@ -128,6 +132,30 @@ func heal(value: float) -> void:
 func revive() -> void:
 	health_component.reset()
 	GameUIBridge.player_alive_changed.emit(true)
+
+
+func blink_destination(distance: float) -> Vector2:
+	var direction := Vector2.from_angle(aim_angle)
+	var space := get_world_2d().direct_space_state
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = collision_shape.shape
+	query.transform = global_transform
+	query.exclude = [get_rid()]
+	query.collision_mask = BLINK_SOLID_MASK
+	query.motion = direction * distance
+	var travel := distance * space.cast_motion(query)[0]
+
+	query.motion = Vector2.ZERO
+	query.collision_mask = BLINK_LANDING_MASK
+	while travel > 0.0:
+		query.transform = Transform2D(0.0, global_position + direction * travel)
+		if space.intersect_shape(query, 1).is_empty(): break
+		travel = maxf(travel - BLINK_BACKOFF_STEP, 0.0)
+	return global_position + direction * travel
+
+
+func teleport(destination: Vector2) -> void:
+	global_position = destination
 
 
 func grant_shield() -> void:
