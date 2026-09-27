@@ -206,4 +206,4 @@ func _on_cast_mode_changed(active: bool) -> void:
 
 func _on_win_chest_body_entered(body: Node2D) -> void:
 	if body is Player: 
-		level_won.emit("res://scenes/game_scene/levels/room_yy.tscn")
+		level_won.emit("res://scenes/game_scene/levels/room_prototype_1.tscn")
