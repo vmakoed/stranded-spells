@@ -33,21 +33,21 @@ const SPELL_DIRECTION_LABELS: Dictionary[StringName, String] = {
 
 
 const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
-	Spell.ATTACK_TARGET: [
-		SPELL_ACTIONS[SpellDirection.DOWN],
-		SPELL_ACTIONS[SpellDirection.RIGHT],
-		SPELL_ACTIONS[SpellDirection.UP]
-	],
+	# Spell.ATTACK_TARGET: [
+	# 	SPELL_ACTIONS[SpellDirection.DOWN],
+	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
+	# 	SPELL_ACTIONS[SpellDirection.UP]
+	# ],
 	# Spell.ATTACK_AREA: [
 	# 	SPELL_ACTIONS[SpellDirection.DOWN],
 	# 	SPELL_ACTIONS[SpellDirection.LEFT],
 	# 	SPELL_ACTIONS[SpellDirection.UP]
 	# ],
-	Spell.SHIELD: [
-		SPELL_ACTIONS[SpellDirection.RIGHT],
-		SPELL_ACTIONS[SpellDirection.UP],
-		SPELL_ACTIONS[SpellDirection.LEFT]
-	],
+	# Spell.SHIELD: [
+	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
+	# 	SPELL_ACTIONS[SpellDirection.UP],
+	# 	SPELL_ACTIONS[SpellDirection.LEFT]
+	# ],
 	# Spell.HEAL: [
 	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
 	# 	SPELL_ACTIONS[SpellDirection.DOWN],
@@ -178,9 +178,9 @@ func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if
 	spell_sequence.clear()
 	equipped = false
 	_update_prompt([
-		Spell.ATTACK_TARGET,
+		# Spell.ATTACK_TARGET,
 		# Spell.ATTACK_AREA,
-		Spell.SHIELD,
+		# Spell.SHIELD,
 		# Spell.HEAL
 		Spell.MAGIC_MISSILE,
 	])
