@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dpc5midne5vba"]
 
-[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/room.gd" id="1_lgeat"]
+[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/jam_version/room.gd" id="1_lgeat"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_e6w0r"]
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_qgmr6"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="4_fmcwq"]

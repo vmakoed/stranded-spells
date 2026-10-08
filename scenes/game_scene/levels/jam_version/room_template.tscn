@@ -1,19 +1,14 @@
-[gd_scene format=4 uid="uid://xqg3mn2c4186"]
+[gd_scene format=4 uid="uid://bd4bbpvs841no"]
 
-[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/room.gd" id="1_g4071"]
-[ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_rljs7"]
-[ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_qfyql"]
-[ext_resource type="PackedScene" uid="uid://dj7hyyystrb57" path="res://scenes/door_left.tscn" id="4_bnuu0"]
-[ext_resource type="PackedScene" uid="uid://cst0s1ds2f44f" path="res://scenes/door_right.tscn" id="5_xvx2c"]
-[ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_me2pg"]
-[ext_resource type="Texture2D" uid="uid://bkp10t0p3m212" path="res://assets/textures/tile_0078.png" id="7_qfyql"]
-[ext_resource type="PackedScene" uid="uid://cc2lr2gij22nv" path="res://scenes/spell_area.tscn" id="9_bnuu0"]
-[ext_resource type="Script" uid="uid://dhso327km1gsv" path="res://scripts/focus_input.gd" id="9_me2pg"]
-[ext_resource type="Script" uid="uid://b3jdrkl8nwgey" path="res://scripts/focus_controller.gd" id="10_xvx2c"]
-[ext_resource type="PackedScene" uid="uid://cbclie1d2agk7" path="res://scenes/enemy.tscn" id="11_me2pg"]
+[ext_resource type="Script" uid="uid://csht45uwu7ulc" path="res://scenes/game_scene/levels/jam_version/room.gd" id="1_j8brx"]
+[ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_el153"]
+[ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_r4ylr"]
+[ext_resource type="PackedScene" uid="uid://dj7hyyystrb57" path="res://scenes/door_left.tscn" id="4_go6hd"]
+[ext_resource type="PackedScene" uid="uid://cst0s1ds2f44f" path="res://scenes/door_right.tscn" id="5_qtesh"]
+[ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_fmfsv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
-texture = ExtResource("2_rljs7")
+texture = ExtResource("2_el153")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -150,15 +145,18 @@ size = Vector2(32, 3.2000003)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
-[node name="RoomXX" type="Node" unique_id=1049756891]
-script = ExtResource("1_g4071")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7q7uu"]
+size = Vector2(128, 16)
+
+[node name="RoomTemplate" type="Node" unique_id=1049756891]
+script = ExtResource("1_j8brx")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1494177456]
 position = Vector2(160, 90)
 tile_map_data = PackedByteArray("AAD8/wAAAAAGAAAAAAD8/wEAAAAGAAEAAAD8/wIAAAAGAAIAAAD9/wAAAAAHAAAAAAD9/wEAAAAHAAEAAAD9/wIAAAAHAAIAAAD+/wAAAAAIAAAAAAD+/wEAAAAIAAEAAAD+/wIAAAAIAAIAAAD//wAAAAAJAAAAAAD//wEAAAAJAAEAAAD//wIAAAAJAAIAAAAAAAAAAAAGAAAAAAAAAAEAAAAGAAEAAAAAAAIAAAAGAAIAAAABAAAAAAAHAAAAAAABAAEAAAAHAAEAAAABAAIAAAAHAAIAAAACAAAAAAAIAAAAAAACAAEAAAAIAAEAAAACAAIAAAAIAAIAAAADAAAAAAAJAAAAAAADAAEAAAAJAAEAAAADAAIAAAAJAAIAAAAAAP3/AAAGAAAAAAAAAP7/AAAGAAEAAAAAAP//AAAGAAIAAAABAP3/AAAHAAAAAAABAP7/AAAHAAEAAAABAP//AAAHAAIAAAACAP3/AAAIAAAAAAACAP7/AAAIAAEAAAACAP//AAAIAAIAAAADAP3/AAAJAAAAAAADAP7/AAAJAAEAAAADAP//AAAJAAIAAAD8//3/AAAGAAAAAAD8//7/AAAGAAEAAAD8////AAAGAAIAAAD9//3/AAAHAAAAAAD9//7/AAAHAAEAAAD9////AAAHAAIAAAD+//3/AAAIAAAAAAD+//7/AAAIAAEAAAD+////AAAIAAIAAAD///3/AAAJAAAAAAD///7/AAAJAAEAAAD/////AAAJAAIAAAD4/wAAAAAHAAIAAAD4/wEAAAADAAQAAAD4/wIAAAAIAAcAAAD5/wEAAAAEAAQAAAD5/wIAAAAIAAcAAAD6/wAAAAAJAAIAAAD6/wEAAAABAAQAAAD6/wIAAAAIAAcAAAD7/wEAAAAFAAUAAAD7/wIAAAAAAAIAAAD4//3/AAAIAAcAAAD4//7/AAADAAQAAAD4////AAAHAAEAAAD5//3/AAAIAAcAAAD5//7/AAAEAAQAAAD6//3/AAAIAAcAAAD6//7/AAAEAAQAAAD6////AAAJAAEAAAD7//3/AAAAAAIAAAD7//7/AAAEAAQAAAAEAP3/AAAFAAIAAAAEAP7/AAABAAQAAAAFAP3/AAAIAAcAAAAFAP7/AAACAAQAAAAFAP//AAAGAAEAAAAGAP3/AAAIAAcAAAAGAP7/AAADAAQAAAAGAP//AAAHAAEAAAAHAP3/AAAIAAcAAAAHAP7/AAAEAAQAAAAHAP//AAAIAAEAAAAEAAEAAAAEAAUAAAAEAAIAAAAFAAEAAAAFAAAAAAAGAAIAAAAFAAEAAAAEAAQAAAAFAAIAAAAIAAcAAAAGAAAAAAAHAAIAAAAGAAEAAAACAAQAAAAGAAIAAAAIAAcAAAAHAAAAAAAIAAIAAAAHAAEAAAACAAQAAAAHAAIAAAAIAAcAAAAEAAMAAAAFAAIAAAAEAAQAAAAFAAQAAAAEAAUAAAAIAAcAAAAFAAMAAAAIAAcAAAAFAAQAAAAIAAcAAAAFAAUAAAAIAAcAAAAGAAMAAAAIAAcAAAAGAAQAAAAIAAcAAAAGAAUAAAAIAAcAAAAHAAMAAAAIAAcAAAAHAAQAAAAIAAcAAAAHAAUAAAAIAAcAAAAAAAMAAAAGAAAAAAAAAAUAAAAIAAEAAAABAAMAAAAHAAAAAAABAAQAAAAEAAUAAAABAAUAAAAFAAIAAAACAAMAAAAIAAAAAAACAAQAAAADAAQAAAACAAUAAAAIAAcAAAADAAMAAAAJAAAAAAADAAQAAAAEAAQAAAADAAUAAAAIAAcAAAD8/wMAAAAGAAAAAAD8/wQAAAABAAQAAAD8/wUAAAAIAAcAAAD9/wMAAAAHAAAAAAD9/wQAAAACAAQAAAD9/wUAAAAIAAcAAAD+/wMAAAAIAAAAAAD+/wQAAAAFAAUAAAD+/wUAAAAAAAEAAAD//wMAAAAJAAAAAAD//wUAAAAHAAEAAAD4/wMAAAAIAAcAAAD4/wQAAAAIAAcAAAD4/wUAAAAIAAcAAAD5/wMAAAAIAAcAAAD5/wQAAAAIAAcAAAD5/wUAAAAIAAcAAAD6/wMAAAAIAAcAAAD6/wQAAAAIAAcAAAD6/wUAAAAIAAcAAAD7/wMAAAAAAAMAAAD7/wQAAAAAAAQAAAD7/wUAAAAIAAcAAAD4//r/AAAIAAcAAAD4//v/AAAIAAcAAAD4//z/AAAIAAcAAAD5//r/AAAIAAcAAAD5//v/AAAIAAcAAAD5//z/AAAIAAcAAAD6//r/AAAIAAcAAAD6//v/AAAIAAcAAAD6//z/AAAIAAcAAAD7//r/AAAIAAcAAAD7//v/AAAAAAAAAAD7//z/AAAAAAEAAAD8//r/AAAIAAcAAAD8//v/AAABAAAAAAD8//z/AAAGAAIAAAD9//r/AAAIAAcAAAD9//v/AAACAAAAAAD9//z/AAAHAAIAAAD+//r/AAAAAAMAAAD+//v/AAADAAAAAAD+//z/AAAIAAIAAAD///r/AAAHAAEAAAD///z/AAAJAAIAAAAAAPr/AAAIAAEAAAAAAPz/AAAGAAIAAAABAPr/AAAFAAMAAAABAPz/AAAHAAIAAAACAPr/AAAIAAcAAAACAPv/AAADAAAAAAACAPz/AAAIAAIAAAADAPr/AAAIAAcAAAADAPv/AAAEAAAAAAADAPz/AAAJAAIAAAAEAPr/AAAIAAcAAAAEAPv/AAAFAAAAAAAEAPz/AAAFAAEAAAAFAPr/AAAIAAcAAAAFAPv/AAAIAAcAAAAFAPz/AAAIAAcAAAAGAPr/AAAIAAcAAAAGAPv/AAAIAAcAAAAGAPz/AAAIAAcAAAAHAPr/AAAIAAcAAAAHAPv/AAAIAAcAAAAHAPz/AAAIAAcAAAD2/wUAAAAIAAcAAAD2/wQAAAAIAAcAAAD2/wMAAAAIAAcAAAD2/wIAAAAIAAcAAAD2/wEAAAADAAQAAAD2/wAAAAAIAAEAAAD2////AAAIAAAAAAD2//7/AAABAAQAAAD2//3/AAAIAAcAAAD2//z/AAAIAAcAAAD2//v/AAAIAAcAAAD2//r/AAAIAAcAAAD3/wUAAAAIAAcAAAAIAAUAAAAIAAcAAAAJAAUAAAAIAAcAAAAJAAQAAAAIAAcAAAAJAAMAAAAIAAcAAAAJAAIAAAAIAAcAAAAJAAEAAAAEAAQAAAAJAAAAAAAIAAIAAAAJAP//AAAIAAEAAAAJAP7/AAAEAAQAAAAJAP3/AAAIAAcAAAAJAPz/AAAIAAcAAAAJAPv/AAAIAAcAAAAJAPr/AAAIAAcAAAAIAPr/AAAIAAcAAAD3//r/AAAIAAcAAAD3/wMAAAAIAAcAAAD3/wIAAAAIAAcAAAD3/wQAAAAIAAcAAAD3/wAAAAAGAAIAAAD3/wEAAAAEAAQAAAD3////AAAGAAEAAAD3//7/AAACAAQAAAD3//3/AAAIAAcAAAD3//z/AAAIAAcAAAD3//v/AAAIAAcAAAAIAAQAAAAIAAcAAAAIAAMAAAAIAAcAAAAIAAIAAAAIAAcAAAAIAAEAAAADAAQAAAAIAAAAAAAJAAIAAAAIAP//AAAJAAEAAAAIAP7/AAADAAQAAAAIAP3/AAAIAAcAAAAIAPz/AAAIAAcAAAAIAPv/AAAIAAcAAAABAPv/AAACAAAAAAD//wQAAAACAAIAAAAAAAQAAAADAAIAAAD+/wYAAAAAAAQAAAABAAYAAAAFAAQAAAD///n/AAACAAAAAAAAAPn/AAADAAAAAAD+//n/AAAAAAAAAAABAPn/AAAFAAAAAAD//wYAAAACAAQAAAAAAAYAAAADAAQAAAD7////AAAGAAIAAAD7/wAAAAAGAAIAAAD5////AAAIAAEAAAD5/wAAAAAIAAIAAAAEAP//AAAIAAEAAAAEAAAAAAAIAAIAAAD///v/AAAHAAEAAAAAAPv/AAAIAAEAAAAKAP7/AAAFAAEAAAAKAP//AAAFAAIAAAAKAAAAAAAFAAMAAAAKAAEAAAAFAAQAAAD1//7/AAAAAAEAAAD1////AAAAAAIAAAD1/wAAAAAAAAMAAAD1/wEAAAAAAAQAAAA=")
 tile_set = SubResource("TileSet_1onhq")
 
-[node name="DoorUp" parent="." unique_id=1744715224 instance=ExtResource("3_qfyql")]
+[node name="DoorUp" parent="." unique_id=1744715224 instance=ExtResource("3_r4ylr")]
 unique_name_in_owner = true
 position = Vector2(160, 18)
 
@@ -170,7 +168,7 @@ collision_layer = 0
 scale = Vector2(1, 2.5)
 shape = SubResource("RectangleShape2D_1onhq")
 
-[node name="DoorDown" parent="." unique_id=1233921391 instance=ExtResource("3_qfyql")]
+[node name="DoorDown" parent="." unique_id=1233921391 instance=ExtResource("3_r4ylr")]
 unique_name_in_owner = true
 position = Vector2(160, 162)
 
@@ -181,7 +179,7 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitDownArea" unique_id=32477727]
 shape = SubResource("RectangleShape2D_iphhf")
 
-[node name="DoorLeft" parent="." unique_id=1161277918 instance=ExtResource("4_bnuu0")]
+[node name="DoorLeft" parent="." unique_id=1161277918 instance=ExtResource("4_go6hd")]
 unique_name_in_owner = true
 position = Vector2(88, 90)
 
@@ -193,7 +191,7 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeftArea" unique_id=1764869647]
 shape = SubResource("RectangleShape2D_iphhf")
 
-[node name="DoorRight" parent="." unique_id=434335706 instance=ExtResource("5_xvx2c")]
+[node name="DoorRight" parent="." unique_id=434335706 instance=ExtResource("5_qtesh")]
 unique_name_in_owner = true
 position = Vector2(232, 90)
 
@@ -221,46 +219,45 @@ position = Vector2(80, 90)
 unique_name_in_owner = true
 position = Vector2(240, 90)
 
-[node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_me2pg")]
+[node name="StartChallegeUpArea" type="Area2D" parent="." unique_id=78743932]
+position = Vector2(160, 50)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeUpArea" unique_id=140367421]
+shape = SubResource("RectangleShape2D_7q7uu")
+
+[node name="StartChallegeRightArea" type="Area2D" parent="." unique_id=1693765505]
+position = Vector2(200, 90)
+rotation = 1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeRightArea" unique_id=1794014580]
+shape = SubResource("RectangleShape2D_7q7uu")
+
+[node name="StartChallegeDownArea" type="Area2D" parent="." unique_id=875066596]
+position = Vector2(160, 130)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeDownArea" unique_id=305851262]
+shape = SubResource("RectangleShape2D_7q7uu")
+
+[node name="StartChallegeLeftArea" type="Area2D" parent="." unique_id=671707451]
+position = Vector2(120, 90)
+rotation = -1.5707964
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartChallegeLeftArea" unique_id=2081436852]
+shape = SubResource("RectangleShape2D_7q7uu")
+
+[node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_fmfsv")]
 unique_name_in_owner = true
-z_index = 1
-position = Vector2(160, 89)
-
-[node name="FocusSprite" type="Sprite2D" parent="." unique_id=1272370612]
-unique_name_in_owner = true
-visible = false
-z_as_relative = false
-texture = ExtResource("7_qfyql")
-
-[node name="SpellArea" parent="." unique_id=860379297 instance=ExtResource("9_bnuu0")]
-unique_name_in_owner = true
-visible = false
-
-[node name="FocusInput" type="Node" parent="." unique_id=878295645]
-script = ExtResource("9_me2pg")
-
-[node name="FocusController" type="Node" parent="." unique_id=595491641 node_paths=PackedStringArray("focus_input", "player", "focus_sprite_template")]
-unique_name_in_owner = true
-script = ExtResource("10_xvx2c")
-focus_input = NodePath("../FocusInput")
-player = NodePath("../PlayerCharacter")
-focus_sprite_template = NodePath("../FocusSprite")
-
-[node name="Enemies" type="Node" parent="." unique_id=1023154074]
-
-[node name="Enemy1" parent="Enemies" unique_id=631843200 instance=ExtResource("11_me2pg")]
-z_index = 1
-position = Vector2(116, 136)
-
-[node name="Enemy2" parent="Enemies" unique_id=1658970276 instance=ExtResource("11_me2pg")]
-z_index = 1
-position = Vector2(116, 44)
-
-[node name="Enemy3" parent="Enemies" unique_id=896424387 instance=ExtResource("11_me2pg")]
-z_index = 1
-position = Vector2(212, 88)
+position = Vector2(160, 90)
 
 [connection signal="body_entered" from="ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
 [connection signal="body_entered" from="ExitRightArea" to="." method="_on_exit_right_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeUpArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeRightArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeDownArea" to="." method="_on_start_challege_area_body_entered"]
+[connection signal="body_entered" from="StartChallegeLeftArea" to="." method="_on_start_challege_area_body_entered"]

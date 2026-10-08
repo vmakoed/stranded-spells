@@ -5,6 +5,13 @@ signal level_lost
 signal level_won(level_path: String)
 
 
+
+@export_file("*.tscn") var exit_up_path: String
+@export_file("*.tscn") var exit_left_path: String
+@export_file("*.tscn") var exit_down_path: String
+@export_file("*.tscn") var exit_right_path: String
+
+
 const SPELL_AREA_DAMAGE = 50.0
 const SPELL_HEAL_AMOUNT = 1.0
 const SPELL_PROJECTILE_SPEED = 160.0
@@ -26,6 +33,12 @@ const SPELL_MISTY_STEP_DISTANCE = 48.0
 
 
 var _preview_spell: Node2D
+var level_state: LevelState
+
+var player_spawn_up_marker: Marker2D
+var player_spawn_right_marker: Marker2D
+var player_spawn_down_marker: Marker2D
+var player_spawn_left_marker: Marker2D
 
 
 func _ready() -> void:
@@ -41,6 +54,9 @@ func _ready() -> void:
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 
+	_initialize_markers()
+	_position_player()
+
 
 func _process(_delta: float) -> void:
 	if _preview_spell == null: return
@@ -48,6 +64,30 @@ func _process(_delta: float) -> void:
 		_preview_spell = null
 		return
 	_place_preview()
+
+
+func _initialize_markers() -> void:
+	player_spawn_up_marker = get_node_or_null("%PlayerSpawnUpMarker")
+	player_spawn_right_marker = get_node_or_null("%PlayerSpawnRightMarker")
+	player_spawn_down_marker = get_node_or_null("%PlayerSpawnDownMarker")
+	player_spawn_left_marker = get_node_or_null("%PlayerSpawnLeftMarker")
+
+
+func _position_player() -> void:
+	if (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.NONE):
+		return
+
+	if player_spawn_up_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.UP):
+		player.global_position = player_spawn_up_marker.global_position
+
+	if player_spawn_right_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.RIGHT):
+		player.global_position = player_spawn_right_marker.global_position
+
+	if player_spawn_down_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.DOWN):
+		player.global_position = player_spawn_down_marker.global_position
+
+	if player_spawn_left_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.LEFT):
+		player.global_position = player_spawn_left_marker.global_position
 
 
 func _physics_process(_delta: float) -> void:
@@ -237,3 +277,27 @@ func _on_cast_mode_changed(active: bool) -> void:
 func _on_win_chest_body_entered(body: Node2D) -> void:
 	if body is Player: 
 		level_won.emit("res://scenes/game_scene/levels/room_prototype_1.tscn")
+
+
+func _on_exit_up_area_body_entered(body: Node2D) -> void:
+	if (body is Player) and exit_up_path:
+		GameState.set_checkpoint_level_entry_direction(GameState.EntryDirection.DOWN)
+		level_won.emit(exit_up_path)
+
+
+func _on_exit_right_area_body_entered(body: Node2D) -> void:
+	if (body is Player) and exit_right_path:
+		GameState.set_checkpoint_level_entry_direction(GameState.EntryDirection.LEFT)
+		level_won.emit(exit_right_path)
+
+
+func _on_exit_down_area_body_entered(body: Node2D) -> void:
+	if (body is Player) and exit_down_path:
+		GameState.set_checkpoint_level_entry_direction(GameState.EntryDirection.UP)
+		level_won.emit(exit_down_path)
+
+
+func _on_exit_left_area_body_entered(body: Node2D) -> void:
+	if (body is Player) and exit_left_path:
+		GameState.set_checkpoint_level_entry_direction(GameState.EntryDirection.RIGHT)
+		level_won.emit(exit_left_path)

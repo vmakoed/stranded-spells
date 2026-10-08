@@ -34,11 +34,11 @@ const SPELL_DIRECTION_LABELS: Dictionary[StringName, String] = {
 
 
 const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
-	# Spell.ATTACK_TARGET: [
-	# 	SPELL_ACTIONS[SpellDirection.DOWN],
-	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
-	# 	SPELL_ACTIONS[SpellDirection.UP]
-	# ],
+	Spell.ATTACK_TARGET: [
+		SPELL_ACTIONS[SpellDirection.DOWN],
+		SPELL_ACTIONS[SpellDirection.RIGHT],
+		SPELL_ACTIONS[SpellDirection.UP]
+	],
 	# Spell.ATTACK_AREA: [
 	# 	SPELL_ACTIONS[SpellDirection.DOWN],
 	# 	SPELL_ACTIONS[SpellDirection.LEFT],
@@ -58,10 +58,10 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 		SPELL_ACTIONS[SpellDirection.DOWN],
 		SPELL_ACTIONS[SpellDirection.UP]
 	],
-	# Spell.MISTY_STEP: [
-	# 	SPELL_ACTIONS[SpellDirection.UP],
-	# 	SPELL_ACTIONS[SpellDirection.DOWN]
-	# ],
+	Spell.MISTY_STEP: [
+		SPELL_ACTIONS[SpellDirection.UP],
+		SPELL_ACTIONS[SpellDirection.DOWN]
+	],
 }
 
 const SPELL_CHARGES: Dictionary[Spell, int] = {
@@ -179,16 +179,16 @@ func _cast_equipped() -> void:
 	if _charges <= 0: _clear_spell_sequence()
 
 
-func _clear_spell_sequence(with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
+func _clear_spell_sequence(_with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
 	spell_sequence.clear()
 	equipped = false
 	_update_prompt([
-		# Spell.ATTACK_TARGET,
+		Spell.ATTACK_TARGET,
 		# Spell.ATTACK_AREA,
 		# Spell.SHIELD,
 		# Spell.HEAL
 		Spell.MAGIC_MISSILE,
-		# Spell.MISTY_STEP,
+		Spell.MISTY_STEP,
 	])
 	_update_button_box()
 	if not Engine.is_editor_hint(): GameUIBridge.spell_reset.emit()

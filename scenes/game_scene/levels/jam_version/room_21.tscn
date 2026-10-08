@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://csyoay47kqvuj"]
 
-[ext_resource type="Script" uid="uid://cdao1y8wxicxd" path="res://scenes/game_scene/levels/room_21.gd" id="1_fa7ps"]
+[ext_resource type="Script" uid="uid://cdao1y8wxicxd" path="res://scenes/game_scene/levels/jam_version/room_21.gd" id="1_fa7ps"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="2_cajdr"]
 [ext_resource type="PackedScene" uid="uid://b3fuyvkmi66e8" path="res://scenes/door.tscn" id="3_43wtt"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="4_d3jsu"]
@@ -156,7 +156,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_f8mbk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"off",
 "speed": 5.0
 }, {
@@ -164,7 +164,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("6_cajdr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"on",
 "speed": 5.0
 }]
@@ -175,7 +175,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_f8mbk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"off",
 "speed": 5.0
 }, {
@@ -183,7 +183,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("8_rsbe1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"on",
 "speed": 5.0
 }]
@@ -194,7 +194,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_f8mbk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"off",
 "speed": 5.0
 }, {
@@ -202,7 +202,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("9_amnxn")
 }],
-"loop": true,
+"loop": 1,
 "name": &"on",
 "speed": 5.0
 }]
@@ -213,7 +213,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_f8mbk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"off",
 "speed": 5.0
 }, {
@@ -221,7 +221,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("10_aacfr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"on",
 "speed": 5.0
 }]
