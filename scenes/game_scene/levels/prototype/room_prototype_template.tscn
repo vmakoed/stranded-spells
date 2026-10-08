@@ -10,6 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="8_r7s8u"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="9_dfdci"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="10_8ap7r"]
+[ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="11_wire"]
+[ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="12_plate"]
+[ext_resource type="PackedScene" path="res://scenes/spikes.tscn" id="13_spikes"]
+[ext_resource type="PackedScene" uid="uid://dskel7swng2a4" path="res://scenes/enemy_skeleton.tscn" id="14_6oa77"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("2_co1em")
@@ -315,6 +319,21 @@ facing = 4
 position = Vector2(156, 80)
 facing = 4
 
+[node name="Items" type="Node2D" parent="." unique_id=1616782477]
+
+[node name="SpikesTrap" type="Node2D" parent="Items" unique_id=397736211]
+
+[node name="Wire" type="TileMapLayer" parent="Items/SpikesTrap" unique_id=247010798]
+tile_map_data = PackedByteArray("AAADAAYAAAAAAAEAAAADAAQAAAACAAIAAAADAAUAAAAAAAMAAAAEAAYAAAAAAAMAAFA=")
+tile_set = ExtResource("11_wire")
+
+[node name="PressurePlate" parent="Items/SpikesTrap" unique_id=24332738 node_paths=PackedStringArray("spikes") instance=ExtResource("12_plate")]
+position = Vector2(88, 104)
+spikes = [NodePath("../Spikes")]
+
+[node name="Spikes" parent="Items/SpikesTrap" unique_id=182042831 instance=ExtResource("13_spikes")]
+position = Vector2(72, 72)
+
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_52kc0")]
 unique_name_in_owner = true
 position = Vector2(128, 80)
@@ -353,6 +372,11 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_pghxy")
 position = Vector2(-15, 0)
 texture = ExtResource("10_8ap7r")
+
+[node name="EnemySkeleton" parent="." unique_id=297279986 node_paths=PackedStringArray("player") instance=ExtResource("14_6oa77")]
+position = Vector2(128, 44)
+player = NodePath("../PlayerCharacter")
+shielded = false
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
