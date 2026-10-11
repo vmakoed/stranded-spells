@@ -12,6 +12,7 @@ const LINK_COLOR := Color(1, 0.4, 0.3, 0.6)
 
 @export var spikes: Array[Spikes] = []
 @export_flags_2d_physics var triggered_by := 1 | 8
+@export var wire: TileMapLayer
 
 
 var _count := 0
@@ -41,6 +42,7 @@ func _on_body_entered(_body: Node2D) -> void:
 	if _count != 1: return
 	for s in spikes:
 		if is_instance_valid(s): s.raise()
+	_light_wire(true)
 	pressed.emit()
 
 
@@ -49,4 +51,9 @@ func _on_body_exited(_body: Node2D) -> void:
 	if _count != 0: return
 	for s in spikes:
 		if is_instance_valid(s): s.lower()
+	_light_wire(false)
 	released.emit()
+
+
+func _light_wire(lit: bool) -> void:
+	if is_instance_valid(wire): wire.modulate = ProgressRing.FILL_COLOR if lit else Color.WHITE

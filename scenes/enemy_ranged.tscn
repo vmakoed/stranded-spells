@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://cabipgrytkhlv"]
+
+[ext_resource type="Script" uid="uid://blo3kxjf5rs05" path="res://scripts/enemy_ranged.gd" id="1_ranged"]
+[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="3_yopix"]
+[ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="4_rgjo0"]
+[ext_resource type="Shader" uid="uid://dcuwu475ty4ng" path="res://assets/shaders/flash.gdshader" id="5_flash"]
+[ext_resource type="Texture2D" uid="uid://br5j7x5n2f46" path="res://assets/textures/priest2-sheet.png" id="6_priest"]
+[ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
+[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
+[ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
+resource_local_to_scene = true
+shader = ExtResource("5_flash")
+shader_parameter/flash_amount = 0.0
+shader_parameter/greyscale_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0"]
+atlas = ExtResource("6_priest")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1"]
+atlas = ExtResource("6_priest")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2"]
+atlas = ExtResource("6_priest")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3"]
+atlas = ExtResource("6_priest")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_priest"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sense"]
+radius = 96.0
+
+[node name="EnemyRanged" type="CharacterBody2D" unique_id=1495657810 groups=["enemies"]]
+z_index = 2
+collision_layer = 8
+collision_mask = 36
+motion_mode = 1
+script = ExtResource("1_ranged")
+shielded = false
+recharge_time_min = 1.2
+recharge_time_max = 2.0
+
+[node name="AimLine" type="Line2D" parent="." unique_id=1291445608]
+unique_name_in_owner = true
+visible = false
+material = SubResource("CanvasItemMaterial_unshaded")
+points = PackedVector2Array(0, 0, 0, 0)
+width = 1.0
+default_color = Color(0.75, 0.6, 0.95, 0.7)
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=979051312]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_flash")
+sprite_frames = SubResource("SpriteFrames_priest")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1637290887]
+shape = SubResource("CircleShape2D_body")
+
+[node name="ShieldBubble" parent="." unique_id=2099119776 node_paths=PackedStringArray("shield") instance=ExtResource("9_bubble")]
+unique_name_in_owner = true
+shield = NodePath("../ShieldComponent")
+
+[node name="HurtboxComponent" parent="." unique_id=1978984167 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("3_yopix")]
+collision_layer = 8
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+shield_component = NodePath("../ShieldComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1674861795]
+shape = SubResource("CircleShape2D_hurt")
+
+[node name="HealthComponent" parent="." unique_id=723387272 instance=ExtResource("4_rgjo0")]
+max_health = 100.0
+
+[node name="ShieldComponent" parent="." unique_id=353061940 instance=ExtResource("7_shield")]
+unique_name_in_owner = true
+regen_time = 5.0
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=1143431730]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=594852248]
+shape = SubResource("CircleShape2D_sense")
+
+[node name="RechargeTimer" type="Timer" parent="." unique_id=904393321]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="HitboxComponent" parent="." unique_id=590586093 instance=ExtResource("6_rgjo0")]
+monitoring = false
+
+[connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
+[connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="timeout" from="RechargeTimer" to="." method="_on_recharge_timer_timeout"]

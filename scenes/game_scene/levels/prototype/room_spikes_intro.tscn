@@ -279,9 +279,10 @@ position = Vector2(248, 80)
 tile_map_data = PackedByteArray("AAAHAAIAAQAAAAEAAAAHAAMAAQAAAAMAADAHAAQAAQAAAAMAAAAIAAUAAQABAAEAAAAJAAUAAQAAAAEAAAAKAAIAAQABAAEAAAAKAAMAAQAAAAMAAAAKAAQAAQAAAAMAADAHAAUAAQAAAAIAAAAIAAIAAQAAAAMAAFAJAAIAAQAAAAMAAFAJAAYAAQAAAAMAAAAKAAUAAQABAAIAAAAIAAYAAQABAAIAAAAIAAcAAQAAAAMAAFAJAAcAAQABAAIAAAAHAAYAAQAAAAMAAGAHAAcAAQAAAAMAAGA=")
 tile_set = ExtResource("6_j45st")
 
-[node name="PressurePlate" parent="Items/SpikesTrap" unique_id=24332738 node_paths=PackedStringArray("spikes") instance=ExtResource("7_hgd2q")]
+[node name="PressurePlate" parent="Items/SpikesTrap" unique_id=24332738 node_paths=PackedStringArray("spikes", "wire") instance=ExtResource("7_hgd2q")]
 position = Vector2(104, 112)
 spikes = [NodePath("../SpikesArea/Spikes"), NodePath("../SpikesArea/Spikes2"), NodePath("../SpikesArea/Spikes3"), NodePath("../SpikesArea/Spikes4")]
+wire = NodePath("../Wire")
 
 [node name="SpikesArea" type="Node2D" parent="Items/SpikesTrap" unique_id=1997914724]
 position = Vector2(128, 96)

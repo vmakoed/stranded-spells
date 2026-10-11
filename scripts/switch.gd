@@ -16,6 +16,7 @@ const ON_TEXTURE := preload("res://assets/textures/switch_green.png")
 		_apply()
 
 @export var doors: Array[ChallengeDoor] = []
+@export var wire: TileMapLayer
 
 
 @onready var sprite: Sprite2D = %Sprite2D
@@ -37,3 +38,5 @@ func activate() -> void:
 func _apply() -> void:
 	if not is_node_ready(): return
 	sprite.texture = ON_TEXTURE if on else OFF_TEXTURE
+	if not Engine.is_editor_hint() and is_instance_valid(wire):
+		wire.modulate = ProgressRing.FILL_COLOR if on else Color.WHITE

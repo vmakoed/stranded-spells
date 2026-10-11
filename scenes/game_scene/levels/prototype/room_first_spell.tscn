@@ -12,6 +12,7 @@
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_jnkl5"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_xul5i"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_ssqrm"]
+[ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="14_doorlk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("3_dsto2")
@@ -270,9 +271,6 @@ position = Vector2(168, 56)
 
 [node name="Items" type="Node2D" parent="." unique_id=1616782477]
 
-[node name="PressurePlateDown" parent="Items" unique_id=936383543 instance=ExtResource("7_xoa6a")]
-position = Vector2(72, 120)
-
 [node name="TreasureChest" type="Area2D" parent="Items" unique_id=359544345]
 position = Vector2(200, 80)
 
@@ -282,12 +280,36 @@ texture = SubResource("AtlasTexture_sd08o")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/TreasureChest" unique_id=1433389959]
 shape = SubResource("RectangleShape2D_sd08o")
 
-[node name="Wire" type="TileMapLayer" parent="Items" unique_id=955193991]
-tile_map_data = PackedByteArray("AAAHAAQAAQAAAAMAAFAGAAQAAQAAAAMAAFAFAAQAAQAAAAMAAFAEAAQAAQAAAAMAAFADAAQAAQAAAAIAAAADAAMAAQAAAAMAAAADAAIAAQAAAAEAAAADAAUAAQAAAAEAAAADAAcAAQAAAAIAAAADAAYAAQAAAAMAAAAEAAUAAQAAAAMAAFAFAAUAAQAAAAMAAFAGAAUAAQAAAAMAAFAHAAUAAQAAAAMAAFA=")
+[node name="WireUp" type="TileMapLayer" parent="Items" unique_id=955193991]
+tile_map_data = PackedByteArray("AAAHAAQAAQAAAAMAAFAGAAQAAQAAAAMAAFAFAAQAAQAAAAMAAFAEAAQAAQAAAAMAAFADAAQAAQAAAAIAAAADAAMAAQAAAAMAAAADAAIAAQAAAAEAAAA=")
 tile_set = ExtResource("7_vurgl")
 
-[node name="PressurePlateUp" parent="Items" unique_id=266124566 instance=ExtResource("7_xoa6a")]
+[node name="WireDown" type="TileMapLayer" parent="Items" unique_id=1620448317]
+tile_map_data = PackedByteArray("AAADAAUAAQAAAAEAAAADAAcAAQAAAAIAAAADAAYAAQAAAAMAAAAEAAUAAQAAAAMAAFAFAAUAAQAAAAMAAFAGAAUAAQAAAAMAAFAHAAUAAQAAAAMAAFA=")
+tile_set = ExtResource("7_vurgl")
+
+[node name="PressurePlateUp" parent="Items" unique_id=266124566 node_paths=PackedStringArray("wire") instance=ExtResource("7_xoa6a")]
 position = Vector2(72, 40)
+wire = NodePath("../WireUp")
+
+[node name="PressurePlateDown" parent="Items" unique_id=936383543 node_paths=PackedStringArray("wire") instance=ExtResource("7_xoa6a")]
+position = Vector2(72, 120)
+wire = NodePath("../WireDown")
+
+[node name="DoorLockChest" type="Node2D" parent="Items" unique_id=1138770624 node_paths=PackedStringArray("plates", "door")]
+script = ExtResource("14_doorlk")
+plates = [NodePath("../PressurePlateUp"), NodePath("../PressurePlateDown")]
+door = NodePath("../../Doors/DoorChest")
+
+[node name="DoorLockUp" type="Node2D" parent="Items" unique_id=359848214 node_paths=PackedStringArray("plates", "door")]
+script = ExtResource("14_doorlk")
+plates = [NodePath("../PressurePlateUp")]
+door = NodePath("../../Doors/DoorChestUp")
+
+[node name="DoorLockDown" type="Node2D" parent="Items" unique_id=1142733709 node_paths=PackedStringArray("plates", "door")]
+script = ExtResource("14_doorlk")
+plates = [NodePath("../PressurePlateDown")]
+door = NodePath("../../Doors/DoorChestDown")
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
 
@@ -312,7 +334,7 @@ closed = true
 position = Vector2(64, 56)
 closed = true
 
-[node name="DoorChestUp2" parent="Doors" unique_id=884158602 instance=ExtResource("4_eways")]
+[node name="DoorChestDown" parent="Doors" unique_id=884158602 instance=ExtResource("4_eways")]
 position = Vector2(64, 104)
 closed = true
 

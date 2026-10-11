@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
 [ext_resource type="Texture2D" uid="uid://dg25y2slc42i8" path="res://assets/textures/enemies-skull_idle.png" id="6_yopix"]
 [ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
-[ext_resource type="PackedScene" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
+[ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
