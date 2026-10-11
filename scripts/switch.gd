@@ -17,6 +17,7 @@ const ON_TEXTURE := preload("res://assets/textures/switch_green.png")
 
 @export var doors: Array[ChallengeDoor] = []
 @export var wire: TileMapLayer
+@export var save_id := ""
 
 
 @onready var sprite: Sprite2D = %Sprite2D
@@ -24,12 +25,18 @@ const ON_TEXTURE := preload("res://assets/textures/switch_green.png")
 
 func _ready() -> void:
 	_apply()
+	if Engine.is_editor_hint(): return
+	if GameState.get_flag(self, false):
+		on = true
+		for door in doors:
+			if is_instance_valid(door): door.closed = false
 
 
 func activate() -> void:
 	if on: return
 	on = true
 	if Engine.is_editor_hint(): return
+	GameState.set_flag(self, true)
 	for door in doors:
 		if is_instance_valid(door): door.open()
 	activated.emit()

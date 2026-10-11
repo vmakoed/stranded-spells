@@ -10,6 +10,7 @@ const RING_FADE_DURATION := 0.3
 @export var switches: Array[Switch] = []
 @export var plates: Array[PressurePlate] = []
 @export var door: ChallengeDoor
+@export var save_id := ""
 
 
 var _ring: ProgressRing
@@ -21,24 +22,37 @@ var _total := 0
 
 func _ready() -> void:
 	if door == null: return
+	var solved: Array = GameState.get_flag(self, [])
+	var sources: Array = []
+	sources.append_array(switches)
+	sources.append_array(plates)
+	for i in sources.size():
+		var source: Node = sources[i]
+		if not is_instance_valid(source): continue
+		_total += 1
+		if i in solved:
+			_filled += 1
+			if source is Switch: source.on = true
+			continue
+		var done: Signal = source.activated if source is Switch else source.pressed
+		done.connect(_on_activated.bind(i), CONNECT_ONE_SHOT)
+	if _filled >= _total:
+		door.closed = false
+		queue_free()
+		return
+
 	door.closed = true
 	_ring = ProgressRing.new()
 	_ring.radius = RING_RADIUS
 	add_child(_ring)
 	_ring.global_position = door.global_position
-
-	for s in switches:
-		if not is_instance_valid(s): continue
-		s.activated.connect(_on_activated, CONNECT_ONE_SHOT)
-		_total += 1
-	for p in plates:
-		if not is_instance_valid(p): continue
-		p.pressed.connect(_on_activated, CONNECT_ONE_SHOT)
-		_total += 1
-	if _total == 0: _unlock()
+	_ring.value = float(_filled) / _total
 
 
-func _on_activated() -> void:
+func _on_activated(index: int) -> void:
+	var solved: Array = GameState.get_flag(self, []).duplicate()
+	solved.append(index)
+	GameState.set_flag(self, solved)
 	_pending += 1
 	_pump()
 

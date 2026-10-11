@@ -309,7 +309,6 @@ facing = 1
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_cme3v")]
 unique_name_in_owner = true
 position = Vector2(180, 80)
-debug_items = 3
 
 [node name="MagicCircleNode" type="Node2D" parent="PlayerCharacter" unique_id=927420782]
 unique_name_in_owner = true

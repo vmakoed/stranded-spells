@@ -380,7 +380,6 @@ shape = SubResource("RectangleShape2D_ss5wd")
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_52kc0")]
 unique_name_in_owner = true
 position = Vector2(128, 80)
-debug_items = 3
 
 [node name="MagicCircleNode" type="Node2D" parent="PlayerCharacter" unique_id=927420782]
 unique_name_in_owner = true

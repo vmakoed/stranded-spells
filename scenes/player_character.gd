@@ -67,8 +67,15 @@ func _ready() -> void:
 	aim_active = false
 	GameUIBridge.shield_changed.emit(shield_component.active)
 	GameUIBridge.player_alive_changed.emit(true)
+	_load_inventory()
 	_apply_debug_items()
 	_emit_inventory()
+
+
+func _load_inventory() -> void:
+	for item_name in GameState.get_inventory():
+		if Item.has(item_name) and not has_item(Item[item_name]):
+			inventory.append(Item[item_name])
 
 
 func _apply_debug_items() -> void:
@@ -167,6 +174,7 @@ func grant_shield() -> void:
 func collect(item: Item) -> void:
 	if has_item(item): return
 	inventory.append(item)
+	GameState.add_item(Item.find_key(item))
 	_emit_inventory()
 
 

@@ -364,7 +364,6 @@ position = Vector2(88, 88)
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_tyct2")]
 unique_name_in_owner = true
 position = Vector2(128, 80)
-debug_items = 3
 
 [node name="MagicCircleNode" type="Node2D" parent="PlayerCharacter" unique_id=927420782]
 unique_name_in_owner = true
@@ -441,6 +440,7 @@ shape = SubResource("RectangleShape2D_5m2ey")
 script = ExtResource("15_twnog")
 enemies = [NodePath("../EnemySkeleton"), NodePath("../EnemySkeleton2")]
 door = NodePath("../Doors/DoorRight")
+save_id = "EnemyLock"
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]

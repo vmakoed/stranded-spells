@@ -18,6 +18,7 @@ const FAIL_FADE_OUT := 0.2
 @export var respawn_point: Marker2D
 @export var shielded := true
 @export var enemy_scene: PackedScene = ENEMY_SCENE
+@export var save_id := ""
 
 
 var _player: Player
@@ -31,6 +32,12 @@ var _fade: ScreenFade
 func _ready() -> void:
 	collision_layer = 0
 	collision_mask = 1
+	if GameState.get_flag(self, false):
+		for door in doors:
+			if is_instance_valid(door): door.closed = false
+		monitoring = false
+		queue_free()
+		return
 	body_entered.connect(_on_body_entered)
 	_fade = ScreenFade.new()
 	add_child(_fade)
@@ -39,6 +46,7 @@ func _ready() -> void:
 func complete() -> void:
 	if _completed: return
 	_completed = true
+	GameState.set_flag(self, true)
 	_clear_respawn()
 	_open_doors()
 	completed.emit()

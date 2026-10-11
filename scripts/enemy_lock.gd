@@ -20,6 +20,7 @@ const RING_FADE_DURATION := 0.3
 @export var enemies: Array[EnemyNew] = []
 @export var door: ChallengeDoor
 @export var key_texture: Texture2D = KEY_TEXTURE
+@export var save_id := ""
 
 
 var _ring: ProgressRing
@@ -33,19 +34,29 @@ var _time := 0.0
 
 func _ready() -> void:
 	if door == null: return
+	var killed: Array = GameState.get_flag(self, [])
+	for i in enemies.size():
+		var enemy := enemies[i]
+		if not is_instance_valid(enemy): continue
+		_total += 1
+		if i in killed:
+			_filled += 1
+			enemy.queue_free()
+			continue
+		var key := _make_key()
+		_attached[key] = enemy
+		enemy.died.connect(_on_enemy_died.bind(key, i), CONNECT_ONE_SHOT)
+	if _filled >= _total:
+		door.closed = false
+		queue_free()
+		return
+
 	door.closed = true
 	_ring = ProgressRing.new()
 	_ring.radius = RING_RADIUS
 	add_child(_ring)
 	_ring.global_position = door.global_position
-
-	for enemy in enemies:
-		if not is_instance_valid(enemy): continue
-		var key := _make_key()
-		_attached[key] = enemy
-		enemy.died.connect(_on_enemy_died.bind(key), CONNECT_ONE_SHOT)
-		_total += 1
-	if _total == 0: _unlock()
+	_ring.value = float(_filled) / _total
 
 
 func _process(delta: float) -> void:
@@ -68,7 +79,10 @@ func _make_key() -> Sprite2D:
 	return key
 
 
-func _on_enemy_died(key: Sprite2D) -> void:
+func _on_enemy_died(key: Sprite2D, index: int) -> void:
+	var killed: Array = GameState.get_flag(self, []).duplicate()
+	killed.append(index)
+	GameState.set_flag(self, killed)
 	_attached.erase(key)
 	var from := key.global_position
 	var to := _slot_position(_queue.size() + (1 if _busy else 0))

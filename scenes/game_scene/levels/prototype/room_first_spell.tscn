@@ -300,16 +300,19 @@ wire = NodePath("../WireDown")
 script = ExtResource("14_doorlk")
 plates = [NodePath("../PressurePlateUp"), NodePath("../PressurePlateDown")]
 door = NodePath("../../Doors/DoorChest")
+save_id = "DoorLockChest"
 
 [node name="DoorLockUp" type="Node2D" parent="Items" unique_id=359848214 node_paths=PackedStringArray("plates", "door")]
 script = ExtResource("14_doorlk")
 plates = [NodePath("../PressurePlateUp")]
 door = NodePath("../../Doors/DoorChestUp")
+save_id = "DoorLockUp"
 
 [node name="DoorLockDown" type="Node2D" parent="Items" unique_id=1142733709 node_paths=PackedStringArray("plates", "door")]
 script = ExtResource("14_doorlk")
 plates = [NodePath("../PressurePlateDown")]
 door = NodePath("../../Doors/DoorChestDown")
+save_id = "DoorLockDown"
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
 
@@ -380,7 +383,6 @@ shape = SubResource("RectangleShape2D_iphhf")
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_xa1vf")]
 unique_name_in_owner = true
 position = Vector2(52, 80)
-debug_items = 3
 
 [node name="MagicCircleNode" type="Node2D" parent="PlayerCharacter" unique_id=927420782]
 unique_name_in_owner = true
