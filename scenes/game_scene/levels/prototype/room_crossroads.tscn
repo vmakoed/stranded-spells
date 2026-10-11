@@ -173,6 +173,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 script = ExtResource("1_irnok")
 exit_up_path = "uid://ckn4n5lx44uuc"
 exit_left_path = "uid://c0fa5i707h6ig"
+exit_down_path = "uid://b432qnijacnyb"
 exit_right_path = "uid://rbwloykhueab"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]

@@ -235,7 +235,7 @@ recharge_time_max = 1.0
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_flash")
 sprite_frames = SubResource("SpriteFrames_skel")
-animation = &"idle"
+animation = &"move"
 autoplay = "idle"
 offset = Vector2(0, -4)
 
