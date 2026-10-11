@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="3_dsto2"]
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="4_eways"]
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="5_12556"]
+[ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="7_vurgl"]
 [ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="7_xoa6a"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_xa1vf"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_rfb4q"]
@@ -144,18 +145,18 @@ physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_crmjo")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
-size = Vector2(32, 3.2000003)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
-size = Vector2(32, 8)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
 atlas = ExtResource("3_dsto2")
 region = Rect2(64, 128, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sd08o"]
 size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
+size = Vector2(32, 3.2000003)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
+size = Vector2(32, 8)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6oa77"]
 shader = ExtResource("11_jnkl5")
@@ -199,8 +200,93 @@ rendering_quadrant_size = 1
 
 [node name="BackgroundTileMapLayer" type="TileMapLayer" parent="." unique_id=1494177456]
 position = Vector2(128, 80)
-tile_map_data = PackedByteArray("AAD8/wAAAAAGAAAAAAD8/wEAAAAGAAEAAAD8/wIAAAAGAAIAAAD9/wAAAAAHAAAAAAD9/wEAAAAAAAUAAAD9/wIAAAAFAAIAAAD+/wAAAAAIAAAAAAD+/wEAAAAFAAUAAAD+/wIAAAAAAAEAAAD//wAAAAAJAAAAAAD//wEAAAACAAQAAAD//wIAAAAJAAIAAAAAAAAAAAAGAAAAAAAAAAEAAAADAAQAAAAAAAIAAAAGAAIAAAABAAAAAAAHAAAAAAABAAEAAAAEAAUAAAABAAIAAAAFAAIAAAACAAEAAAAFAAUAAAACAAIAAAAAAAIAAAADAAAAAAAJAAAAAAADAAEAAAAJAAEAAAADAAIAAAAJAAIAAAABAP3/AAAFAAAAAAADAP3/AAAJAAAAAAADAP7/AAAJAAEAAAADAP//AAAJAAIAAAD8//3/AAAGAAAAAAD8//7/AAAGAAEAAAD8////AAAGAAIAAAD9//3/AAAFAAIAAAD9//7/AAADAAAAAAD9////AAAHAAIAAAD+//3/AAAAAAEAAAD+//7/AAAEAAAAAAD+////AAAIAAIAAAD///3/AAAJAAAAAAD4/wAAAAAHAAIAAAD4/wEAAAADAAQAAAD5/wEAAAAFAAUAAAD4//7/AAADAAAAAAD4////AAAHAAEAAAD5//7/AAAEAAAAAAAGAP7/AAABAAAAAAAGAP//AAAIAAEAAAAHAP7/AAACAAAAAAAHAP//AAAIAAEAAAAGAAAAAAAIAAIAAAAGAAEAAAAEAAUAAAAHAAAAAAAIAAIAAAAHAAEAAAACAAQAAAAAAAMAAAADAAIAAAAAAAUAAAAIAAEAAAABAAUAAAAFAAIAAAADAAMAAAAEAAQAAAD8/wMAAAABAAQAAAD9/wMAAAAFAAQAAAD+/wUAAAAAAAEAAAD//wMAAAACAAIAAAD//wUAAAAHAAEAAAD8//z/AAABAAAAAAD9//z/AAAFAAEAAAD+//r/AAAAAAMAAAD///r/AAAHAAEAAAD///z/AAAHAAEAAAAAAPr/AAAIAAEAAAABAPr/AAAFAAMAAAADAPz/AAAEAAAAAAD2/wEAAAADAAQAAAD2/wAAAAAIAAEAAAD2////AAAIAAAAAAD2//7/AAABAAAAAAAJAAEAAAAEAAQAAAAJAAAAAAAIAAIAAAAJAP//AAAIAAEAAAAJAP7/AAAEAAAAAAD3/wAAAAAGAAIAAAD3/wEAAAAEAAQAAAD3////AAAGAAEAAAD3//7/AAACAAAAAAAIAAEAAAADAAQAAAAIAAAAAAAJAAIAAAAIAP//AAAJAAEAAAAIAP7/AAADAAAAAAD+/wYAAAAAAAQAAAABAAYAAAAFAAQAAAD///n/AAACAAAAAAAAAPn/AAADAAAAAAD+//n/AAAAAAAAAAABAPn/AAAFAAAAAAD//wYAAAACAAQAAAAAAAYAAAADAAQAAAD5////AAAGAAIAAAD5/wAAAAAGAAIAAAAKAP7/AAAFAAEAAAAKAP//AAAFAAIAAAAKAAAAAAAFAAMAAAAKAAEAAAAFAAQAAAD1//7/AAAAAAEAAAD1////AAAAAAIAAAD1/wAAAAAAAAMAAAD1/wEAAAAAAAQAAAD7/wMAAAACAAQAAAAEAAMAAAAEAAQAAAAEAPz/AAADAAAAAAD7//z/AAADAAAAAAD7//3/AAAJAAAAAAD7//7/AAAJAAEAAAD7////AAAJAAIAAAD7/wAAAAAJAAAAAAD7/wEAAAAJAAEAAAD7/wIAAAAJAAIAAAAEAP3/AAAGAAAAAAAEAP7/AAAGAAEAAAAEAP//AAAGAAIAAAAEAAAAAAAGAAAAAAAEAAEAAAAGAAEAAAAEAAIAAAAGAAIAAAD+//v/AAAAAAAAAAABAPv/AAAFAAMAAAD+/wQAAAAAAAEAAAABAAQAAAAFAAIAAAD///v/AAACAAIAAAAAAPv/AAADAAIAAAD//wQAAAACAAIAAAAAAAQAAAADAAIAAAD5//z/AAAAAAAAAAD5//3/AAAAAAIAAAD5/wIAAAAAAAIAAAD5/wMAAAAAAAQAAAAGAPz/AAAFAAAAAAAGAP3/AAAFAAIAAAAGAAIAAAAFAAEAAAAGAAMAAAAFAAQAAAD6//z/AAADAAAAAAD6/wMAAAABAAQAAAAFAAMAAAADAAQAAAAFAPz/AAADAAAAAAD6//3/AAAIAAAAAAD6//7/AAAIAAEAAAD6////AAAIAAIAAAD6/wAAAAAIAAAAAAD6/wEAAAAIAAEAAAD6/wIAAAAIAAIAAAAFAP3/AAAIAAAAAAAFAP7/AAAIAAEAAAAFAP//AAAIAAIAAAAFAAAAAAAIAAAAAAAFAAEAAAAIAAEAAAAFAAIAAAAIAAIAAAAAAP3/AAAGAAAAAAACAP3/AAAAAAEAAAABAPz/AAAFAAMAAAACAPz/AAAAAAAAAAD/////AAAJAAIAAAACAAAAAAAIAAAAAAACAAMAAAAAAAQAAAABAP//AAAHAAIAAAACAP//AAAIAAIAAAABAP7/AAADAAAAAAACAP7/AAAEAAAAAAD///7/AAADAAAAAAAAAP7/AAAEAAAAAAAAAPz/AAAIAAEAAAABAAMAAAAFAAMAAAD+/wMAAAAAAAIAAAD+//z/AAAAAAIAAAAAAP//AAAGAAIAAAA=")
+tile_map_data = PackedByteArray("AAD8/wAAAAAGAAAAAAD8/wEAAAAGAAEAAAD8/wIAAAAGAAIAAAD9/wAAAAAHAAAAAAD9/wEAAAACAAAAAAD+/wAAAAAIAAAAAAD+/wEAAAACAAAAAAD//wAAAAAJAAAAAAD//wIAAAAJAAIAAAAAAAAAAAAGAAAAAAAAAAIAAAAGAAIAAAABAAAAAAAHAAAAAAABAAEAAAAEAAUAAAABAAIAAAAFAAIAAAACAAEAAAAFAAUAAAACAAIAAAAAAAIAAAADAAAAAAAJAAAAAAADAAEAAAAJAAEAAAADAAIAAAAJAAIAAAABAP3/AAAFAAAAAAADAP3/AAAJAAAAAAADAP7/AAAJAAEAAAADAP//AAAJAAIAAAD8//3/AAAGAAAAAAD8////AAAGAAIAAAD9//3/AAAIAAIAAAD9//7/AAADAAAAAAD9////AAAHAAIAAAD+//3/AAAIAAIAAAD+//7/AAAEAAAAAAD+////AAAIAAIAAAD///3/AAAJAAAAAAD4/wAAAAAHAAIAAAD4/wEAAAADAAQAAAD5/wEAAAAFAAUAAAD4//7/AAADAAAAAAD4////AAAHAAEAAAD5//7/AAAEAAAAAAAGAP7/AAABAAAAAAAGAP//AAAIAAEAAAAHAP7/AAACAAAAAAAHAP//AAAIAAEAAAAGAAAAAAAIAAIAAAAGAAEAAAAEAAUAAAAHAAAAAAAIAAIAAAAHAAEAAAACAAQAAAAAAAMAAAADAAIAAAAAAAUAAAAIAAEAAAABAAUAAAAFAAIAAAADAAMAAAAEAAQAAAD8/wMAAAABAAQAAAD9/wMAAAACAAQAAAD+/wUAAAAAAAEAAAD//wMAAAACAAIAAAD//wUAAAAHAAEAAAD8//z/AAABAAAAAAD9//z/AAADAAAAAAD+//r/AAAAAAMAAAD///r/AAAHAAEAAAD///z/AAAHAAEAAAAAAPr/AAAIAAEAAAABAPr/AAAFAAMAAAADAPz/AAAEAAAAAAD2/wEAAAADAAQAAAD2/wAAAAAIAAEAAAD2////AAAIAAAAAAD2//7/AAABAAAAAAAJAAEAAAAEAAQAAAAJAAAAAAAIAAIAAAAJAP//AAAIAAEAAAAJAP7/AAAEAAAAAAD3/wAAAAAGAAIAAAD3/wEAAAAEAAQAAAD3////AAAGAAEAAAD3//7/AAACAAAAAAAIAAEAAAADAAQAAAAIAAAAAAAJAAIAAAAIAP//AAAJAAEAAAAIAP7/AAADAAAAAAD+/wYAAAAAAAQAAAABAAYAAAAFAAQAAAD///n/AAACAAAAAAAAAPn/AAADAAAAAAD+//n/AAAAAAAAAAABAPn/AAAFAAAAAAD//wYAAAACAAQAAAAAAAYAAAADAAQAAAD5////AAAGAAIAAAD5/wAAAAAGAAIAAAAKAP7/AAAFAAEAAAAKAP//AAAFAAIAAAAKAAAAAAAFAAMAAAAKAAEAAAAFAAQAAAD1//7/AAAAAAEAAAD1////AAAAAAIAAAD1/wAAAAAAAAMAAAD1/wEAAAAAAAQAAAD7/wMAAAACAAQAAAAEAPz/AAADAAAAAAD7//z/AAADAAAAAAD7//3/AAAJAAAAAAD7////AAAJAAIAAAD7/wAAAAAJAAAAAAD7/wEAAAAJAAEAAAD7/wIAAAAJAAIAAAAEAP3/AAAGAAAAAAAEAP7/AAAGAAEAAAAEAP//AAAGAAIAAAAEAAAAAAAGAAAAAAAEAAEAAAAGAAEAAAAEAAIAAAAGAAIAAAD+//v/AAAAAAAAAAABAPv/AAAFAAMAAAD+/wQAAAAAAAEAAAABAAQAAAAFAAIAAAD///v/AAACAAIAAAAAAPv/AAADAAIAAAD//wQAAAACAAIAAAAAAAQAAAADAAIAAAD5//z/AAAAAAAAAAD5//3/AAAAAAIAAAD5/wIAAAAAAAIAAAD5/wMAAAAAAAQAAAAGAPz/AAAFAAAAAAAGAP3/AAAFAAIAAAAGAAIAAAAFAAEAAAAGAAMAAAAFAAQAAAD6//z/AAADAAAAAAD6/wMAAAABAAQAAAAFAPz/AAADAAAAAAD6//3/AAAIAAAAAAD6////AAAIAAIAAAD6/wAAAAAIAAAAAAD6/wEAAAACAAAAAAD6/wIAAAAIAAIAAAAFAP3/AAAIAAAAAAAFAP7/AAAIAAEAAAAFAP//AAAIAAIAAAAFAAAAAAAIAAAAAAAFAAEAAAAIAAEAAAAFAAIAAAAIAAIAAAAAAP3/AAAGAAAAAAACAP3/AAAAAAEAAAABAPz/AAAFAAMAAAACAPz/AAAAAAAAAAD/////AAAJAAIAAAACAAAAAAAIAAAAAAACAAMAAAAAAAQAAAABAP//AAAHAAIAAAACAP//AAAIAAIAAAABAP7/AAADAAAAAAACAP7/AAAEAAAAAAAAAPz/AAAIAAEAAAABAAMAAAAFAAMAAAD+/wMAAAAFAAUAAAD+//z/AAADAAAAAAAAAP//AAAGAAIAAAD//wEAAAAEAAAAAAAAAAEAAAADAAAAAAD///7/AAADAAAAAAAAAP7/AAADAAAAAAD7//7/AAAIAAIAAAD6//7/AAADAAAAAAD8//7/AAAGAAAAAAD+/wIAAAAJAAIAAAAEAAMAAAAEAAQAAAAFAAMAAAADAAQAAAD9/wIAAAAJAAIAAAA=")
 tile_set = SubResource("TileSet_1onhq")
+
+[node name="PlayerSpawns" type="Node2D" parent="." unique_id=434847098]
+
+[node name="PlayerSpawnDownMarker" type="Marker2D" parent="PlayerSpawns" unique_id=1077115703]
+unique_name_in_owner = true
+position = Vector2(128, 152)
+
+[node name="PlayerSpawnUpMarker" type="Marker2D" parent="PlayerSpawns" unique_id=701982721]
+unique_name_in_owner = true
+position = Vector2(128, 8)
+
+[node name="PlayerSpawnLeftMarker" type="Marker2D" parent="PlayerSpawns" unique_id=2016879853]
+unique_name_in_owner = true
+position = Vector2(8, 80)
+
+[node name="PlayerSpawnRightMarker" type="Marker2D" parent="PlayerSpawns" unique_id=1461200497]
+unique_name_in_owner = true
+position = Vector2(248, 80)
+
+[node name="Lights" type="Node2D" parent="." unique_id=1527614214]
+
+[node name="Torch" parent="Lights" unique_id=1134264119 instance=ExtResource("5_12556")]
+position = Vector2(120, 8)
+facing = 2
+
+[node name="Torch2" parent="Lights" unique_id=1895984912 instance=ExtResource("5_12556")]
+position = Vector2(40, 40)
+facing = 2
+
+[node name="Torch4" parent="Lights" unique_id=186212970 instance=ExtResource("5_12556")]
+position = Vector2(200, 24)
+
+[node name="Torch5" parent="Lights" unique_id=330751375 instance=ExtResource("5_12556")]
+position = Vector2(216, 56)
+facing = 3
+
+[node name="Torch6" parent="Lights" unique_id=1781154456 instance=ExtResource("5_12556")]
+position = Vector2(216, 104)
+facing = 3
+
+[node name="Torch8" parent="Lights" unique_id=1314829248 instance=ExtResource("5_12556")]
+position = Vector2(40, 120)
+facing = 2
+
+[node name="Torch15" parent="Lights" unique_id=385331065 instance=ExtResource("5_12556")]
+position = Vector2(88, 104)
+
+[node name="Torch10" parent="Lights" unique_id=57853210 instance=ExtResource("5_12556")]
+position = Vector2(136, 144)
+facing = 3
+
+[node name="Torch11" parent="Lights" unique_id=509137604 instance=ExtResource("5_12556")]
+position = Vector2(168, 104)
+facing = 1
+
+[node name="Torch12" parent="Lights" unique_id=14297942 instance=ExtResource("5_12556")]
+position = Vector2(200, 136)
+facing = 1
+
+[node name="Torch13" parent="Lights" unique_id=994516951 instance=ExtResource("5_12556")]
+position = Vector2(88, 56)
+
+[node name="Torch14" parent="Lights" unique_id=2071679717 instance=ExtResource("5_12556")]
+position = Vector2(168, 56)
+
+[node name="Items" type="Node2D" parent="." unique_id=1616782477]
+
+[node name="PressurePlateDown" parent="Items" unique_id=936383543 instance=ExtResource("7_xoa6a")]
+position = Vector2(72, 120)
+
+[node name="TreasureChest" type="Area2D" parent="Items" unique_id=359544345]
+position = Vector2(200, 80)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/TreasureChest" unique_id=1383835282]
+texture = SubResource("AtlasTexture_sd08o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/TreasureChest" unique_id=1433389959]
+shape = SubResource("RectangleShape2D_sd08o")
+
+[node name="Wire" type="TileMapLayer" parent="Items" unique_id=955193991]
+tile_map_data = PackedByteArray("AAAHAAQAAQAAAAMAAFAGAAQAAQAAAAMAAFAFAAQAAQAAAAMAAFAEAAQAAQAAAAMAAFADAAQAAQAAAAIAAAADAAMAAQAAAAMAAAADAAIAAQAAAAEAAAADAAUAAQAAAAEAAAADAAcAAQAAAAIAAAADAAYAAQAAAAMAAAAEAAUAAQAAAAMAAFAFAAUAAQAAAAMAAFAGAAUAAQAAAAMAAFAHAAUAAQAAAAMAAFA=")
+tile_set = ExtResource("7_vurgl")
+
+[node name="PressurePlateUp" parent="Items" unique_id=266124566 instance=ExtResource("7_xoa6a")]
+position = Vector2(72, 40)
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
 
@@ -219,6 +305,14 @@ facing = 1
 [node name="DoorChest" parent="Doors" unique_id=1767341413 instance=ExtResource("4_eways")]
 position = Vector2(128, 80)
 facing = 1
+closed = true
+
+[node name="DoorChestUp" parent="Doors" unique_id=1934072610 instance=ExtResource("4_eways")]
+position = Vector2(64, 56)
+closed = true
+
+[node name="DoorChestUp2" parent="Doors" unique_id=884158602 instance=ExtResource("4_eways")]
+position = Vector2(64, 104)
 closed = true
 
 [node name="DoorRight" parent="Doors" unique_id=90353559 instance=ExtResource("4_eways")]
@@ -259,95 +353,6 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Exits/ExitRightArea" unique_id=462946416]
 position = Vector2(-2.2737368e-13, 0)
 shape = SubResource("RectangleShape2D_iphhf")
-
-[node name="PlayerSpawns" type="Node2D" parent="." unique_id=434847098]
-
-[node name="PlayerSpawnDownMarker" type="Marker2D" parent="PlayerSpawns" unique_id=1077115703]
-unique_name_in_owner = true
-position = Vector2(128, 152)
-
-[node name="PlayerSpawnUpMarker" type="Marker2D" parent="PlayerSpawns" unique_id=701982721]
-unique_name_in_owner = true
-position = Vector2(128, 8)
-
-[node name="PlayerSpawnLeftMarker" type="Marker2D" parent="PlayerSpawns" unique_id=2016879853]
-unique_name_in_owner = true
-position = Vector2(8, 80)
-
-[node name="PlayerSpawnRightMarker" type="Marker2D" parent="PlayerSpawns" unique_id=1461200497]
-unique_name_in_owner = true
-position = Vector2(248, 80)
-
-[node name="Lights" type="Node2D" parent="." unique_id=1527614214]
-
-[node name="Torch" parent="Lights" unique_id=1134264119 instance=ExtResource("5_12556")]
-position = Vector2(120, -12)
-facing = 2
-
-[node name="Torch2" parent="Lights" unique_id=1895984912 instance=ExtResource("5_12556")]
-position = Vector2(56, 24)
-
-[node name="Torch3" parent="Lights" unique_id=2051964530 instance=ExtResource("5_12556")]
-position = Vector2(136, 24)
-facing = 3
-
-[node name="Torch4" parent="Lights" unique_id=186212970 instance=ExtResource("5_12556")]
-position = Vector2(200, 24)
-
-[node name="Torch5" parent="Lights" unique_id=330751375 instance=ExtResource("5_12556")]
-position = Vector2(216, 56)
-facing = 3
-
-[node name="Torch6" parent="Lights" unique_id=1781154456 instance=ExtResource("5_12556")]
-position = Vector2(216, 104)
-facing = 3
-
-[node name="Torch7" parent="Lights" unique_id=5426948 instance=ExtResource("5_12556")]
-position = Vector2(40, 56)
-facing = 2
-
-[node name="Torch8" parent="Lights" unique_id=1314829248 instance=ExtResource("5_12556")]
-position = Vector2(40, 104)
-facing = 2
-
-[node name="Torch9" parent="Lights" unique_id=898369597 instance=ExtResource("5_12556")]
-position = Vector2(56, 136)
-facing = 1
-
-[node name="Torch10" parent="Lights" unique_id=57853210 instance=ExtResource("5_12556")]
-position = Vector2(120, 168)
-facing = 2
-
-[node name="Torch11" parent="Lights" unique_id=509137604 instance=ExtResource("5_12556")]
-position = Vector2(136, 120)
-facing = 3
-
-[node name="Torch12" parent="Lights" unique_id=14297942 instance=ExtResource("5_12556")]
-position = Vector2(200, 136)
-facing = 1
-
-[node name="Torch13" parent="Lights" unique_id=994516951 instance=ExtResource("5_12556")]
-position = Vector2(104, 56)
-
-[node name="Torch14" parent="Lights" unique_id=2071679717 instance=ExtResource("5_12556")]
-position = Vector2(152, 56)
-
-[node name="Items" type="Node2D" parent="." unique_id=1616782477]
-
-[node name="PressurePlateUp" parent="Items" unique_id=266124566 instance=ExtResource("7_xoa6a")]
-position = Vector2(128, 32)
-
-[node name="PressurePlateDown" parent="Items" unique_id=936383543 instance=ExtResource("7_xoa6a")]
-position = Vector2(128, 128)
-
-[node name="TreasureChest" type="Area2D" parent="Items" unique_id=359544345]
-position = Vector2(200, 80)
-
-[node name="Sprite2D" type="Sprite2D" parent="Items/TreasureChest" unique_id=1383835282]
-texture = SubResource("AtlasTexture_sd08o")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/TreasureChest" unique_id=1433389959]
-shape = SubResource("RectangleShape2D_sd08o")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_xa1vf")]
 unique_name_in_owner = true

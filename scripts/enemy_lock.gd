@@ -33,6 +33,7 @@ var _time := 0.0
 
 func _ready() -> void:
 	if door == null: return
+	door.closed = true
 	_ring = ProgressRing.new()
 	_ring.radius = RING_RADIUS
 	add_child(_ring)
