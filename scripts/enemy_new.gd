@@ -20,8 +20,6 @@ const CHARGE_SHAKE_STRENGTH = 1.0
 const CHARGE_SHAKE_STEP = 0.06
 const DAMAGE_FLASH_DURATION = 1.0
 const DEATH_FLASH_HOLD = 0.1
-const RECHARGE_TIME_MIN = 0.35
-const RECHARGE_TIME_MAX = 0.8
 const DEATH_SHATTER_SCENE = preload("res://scenes/game_scene/death_shatter.tscn")
 const IDLE_ANIMATION := &"idle"
 const MOVE_ANIMATION := &"move"
@@ -29,6 +27,8 @@ const MOVE_ANIMATION := &"move"
 
 @export var player: Player
 @export var shielded := true
+@export var recharge_time_min := 0.35
+@export var recharge_time_max := 0.8
 
 
 var _attack_start_position: Vector2
@@ -87,7 +87,7 @@ func _set_state(new_value: State) -> void:
 			velocity = _attack_direction * SPEED * 3.0
 		State.RECHARGING:
 			velocity = Vector2.ZERO
-			%RechargeTimer.start(randf_range(RECHARGE_TIME_MIN, RECHARGE_TIME_MAX))
+			%RechargeTimer.start(randf_range(recharge_time_min, recharge_time_max))
 			_play_animation(IDLE_ANIMATION)
 		State.DEAD:
 			velocity = Vector2.ZERO

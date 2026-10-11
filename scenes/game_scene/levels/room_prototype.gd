@@ -43,7 +43,6 @@ var player_spawn_left_marker: Marker2D
 
 func _ready() -> void:
 	player.destroyed.connect(func():
-		print("destroyed")
 		_dismiss_preview_spell()
 		level_lost.emit()
 	)
@@ -272,6 +271,14 @@ func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
 
 func _on_cast_mode_changed(active: bool) -> void:
 	magic_circle.visible = active
+
+
+func _on_enemy_detection_area_body_entered(body: Node2D) -> void:
+	if body is not Player: return
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if node is EnemyNew:
+			node.player = player
+			node.start_chase()
 
 
 func _on_win_chest_body_entered(body: Node2D) -> void:

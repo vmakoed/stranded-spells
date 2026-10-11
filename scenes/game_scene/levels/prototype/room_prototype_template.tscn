@@ -153,6 +153,18 @@ size = Vector2(32, 3.2000003)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6oa77"]
+size = Vector2(192, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yijqb"]
+size = Vector2(192, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qllgk"]
+size = Vector2(16, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ss5wd"]
+size = Vector2(16, 96)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6oa77"]
 shader = ExtResource("8_52kc0")
 shader_parameter/tint = Color(1, 1, 1, 0.35)
@@ -175,6 +187,10 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 
 [node name="RoomTemplate" type="Node" unique_id=1049756891]
 script = ExtResource("1_epwuc")
+exit_up_path = "uid://b4o1c0c8kbjcg"
+exit_left_path = "uid://b4o1c0c8kbjcg"
+exit_down_path = "uid://b4o1c0c8kbjcg"
+exit_right_path = "uid://b4o1c0c8kbjcg"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
@@ -334,6 +350,33 @@ spikes = [NodePath("../Spikes")]
 [node name="Spikes" parent="Items/SpikesTrap" unique_id=182042831 instance=ExtResource("13_spikes")]
 position = Vector2(72, 72)
 
+[node name="DetectionAreas" type="Node2D" parent="." unique_id=1135695816]
+position = Vector2(128, 80)
+
+[node name="EnemyDetectionAreaDown" type="Area2D" parent="DetectionAreas" unique_id=526092949]
+position = Vector2(0, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaDown" unique_id=423792969]
+shape = SubResource("RectangleShape2D_6oa77")
+
+[node name="EnemyDetectionAreaTop" type="Area2D" parent="DetectionAreas" unique_id=1725940586]
+position = Vector2(0, -40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaTop" unique_id=1577361340]
+shape = SubResource("RectangleShape2D_yijqb")
+
+[node name="EnemyDetectionAreaLeft" type="Area2D" parent="DetectionAreas" unique_id=1286280239]
+position = Vector2(-88, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaLeft" unique_id=1590991591]
+shape = SubResource("RectangleShape2D_qllgk")
+
+[node name="EnemyDetectionAreaRight" type="Area2D" parent="DetectionAreas" unique_id=659704865]
+position = Vector2(88, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaRight" unique_id=619460715]
+shape = SubResource("RectangleShape2D_ss5wd")
+
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_52kc0")]
 unique_name_in_owner = true
 position = Vector2(128, 80)
@@ -382,3 +425,7 @@ shielded = false
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitRightArea" to="." method="_on_exit_right_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaDown" to="." method="_on_enemy_detection_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaTop" to="." method="_on_enemy_detection_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaLeft" to="." method="_on_enemy_detection_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaRight" to="." method="_on_enemy_detection_area_body_entered"]

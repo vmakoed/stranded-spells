@@ -228,6 +228,8 @@ collision_layer = 8
 collision_mask = 36
 motion_mode = 1
 script = ExtResource("1_skel")
+recharge_time_min = 0.6
+recharge_time_max = 1.0
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=643113679]
 unique_name_in_owner = true

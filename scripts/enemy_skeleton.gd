@@ -53,7 +53,4 @@ func _on_sprite_frame_changed() -> void:
 func _on_sprite_animation_finished() -> void:
 	if _state != State.ATTACKING:
 		return
-	if _can_start_attack():
-		_swing()
-	else:
-		_state = State.CHASING
+	_state = State.RECHARGING
