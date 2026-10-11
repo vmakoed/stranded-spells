@@ -10,13 +10,15 @@ light_mode = 1
 modulate = Color(1, 1, 1, 0.5882353)
 material = SubResource("CanvasItemMaterial_unshaded")
 script = ExtResource("1_script")
+prepare_text = "Hold {LT}"
+equipped_text = "{RS}: aim {RT}: cast"
 
 [node name="Text" type="RichTextLabel" parent="." unique_id=1102294959]
 unique_name_in_owner = true
 use_parent_material = true
-offset_left = -51.0
+offset_left = -19.0
 offset_top = -8.0
-offset_right = 50.0
+offset_right = 18.0
 offset_bottom = 8.0
 mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0.12, 0.18, 0.21, 1)

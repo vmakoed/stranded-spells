@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="3_6gly8"]
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="4_uux75"]
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="5_6w25a"]
+[ext_resource type="PackedScene" uid="uid://bma7joqsr7g43" path="res://scenes/breakable_box.tscn" id="6_d4r6f"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_hmjxq"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_mnc38"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_g2pl3"]
@@ -172,9 +173,8 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomCrossroads" type="Node" unique_id=1049756891]
 script = ExtResource("1_irnok")
 exit_up_path = "uid://ckn4n5lx44uuc"
-exit_left_path = "uid://c0fa5i707h6ig"
+exit_left_path = "uid://rbwloykhueab"
 exit_down_path = "uid://b432qnijacnyb"
-exit_right_path = "uid://rbwloykhueab"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
@@ -209,6 +209,7 @@ position = Vector2(28, 80)
 facing = 1
 
 [node name="DoorRight" parent="Doors" unique_id=90353559 instance=ExtResource("4_uux75")]
+visible = false
 position = Vector2(228, 80)
 facing = 1
 
@@ -320,6 +321,12 @@ position = Vector2(156, 80)
 facing = 4
 
 [node name="Items" type="Node2D" parent="." unique_id=1616782477]
+
+[node name="BreakableBox" parent="Items" unique_id=1098040619 instance=ExtResource("6_d4r6f")]
+position = Vector2(232, 72)
+
+[node name="BreakableBox2" parent="Items" unique_id=190632280 instance=ExtResource("6_d4r6f")]
+position = Vector2(232, 88)
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_hmjxq")]
 unique_name_in_owner = true

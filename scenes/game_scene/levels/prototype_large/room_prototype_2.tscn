@@ -638,7 +638,6 @@ tile_map_data = PackedByteArray("AAAkAAsAAAAIAAcAAAAlAAsAAAAIAAcAAAAmAAsAAAAIAAc
 tile_set = ExtResource("4_35adn")
 
 [node name="Lights" type="Node2D" parent="." unique_id=220573695]
-visible = false
 
 [node name="Torch" parent="Lights" unique_id=1134264119 instance=ExtResource("18_umhw4")]
 position = Vector2(568, 728)

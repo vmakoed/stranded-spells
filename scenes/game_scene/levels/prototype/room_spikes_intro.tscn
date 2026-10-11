@@ -177,7 +177,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomSpikesIntro" type="Node" unique_id=1049756891]
 script = ExtResource("1_ku1gg")
 exit_left_path = "uid://bjrvki4ocgama"
-exit_right_path = "uid://gdvwdquh0utp"
+exit_right_path = "uid://rbwloykhueab"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
