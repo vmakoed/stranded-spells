@@ -18,6 +18,11 @@ const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 const MAGIC_MISSILE_SPEED = 220.0
 const SPELL_MISTY_STEP_DISTANCE = 48.0
+const AIMED_SPELLS: Array[CastInputPanel.Spell] = [
+	CastInputPanel.Spell.ATTACK_TARGET,
+	CastInputPanel.Spell.MAGIC_MISSILE,
+	CastInputPanel.Spell.MISTY_STEP,
+]
 
 
 @export var projectile_scene := preload("res://scenes/spell_projectile_area.tscn")
@@ -32,7 +37,8 @@ const SPELL_MISTY_STEP_DISTANCE = 48.0
 @onready var magic_circle: MagicCircle = %MagicCircleNode
 
 
-var _preview_spell: Node2D
+var _preview_spells: Array[Node2D] = [null, null]
+var _slot_spells: Array = [null, null]
 var level_state: LevelState
 
 var player_spawn_up_marker: Marker2D
@@ -43,10 +49,10 @@ var player_spawn_left_marker: Marker2D
 
 func _ready() -> void:
 	player.destroyed.connect(func():
-		_dismiss_preview_spell()
+		_dismiss_preview_spells()
 		level_lost.emit()
 	)
-	player.fainted.connect(_dismiss_preview_spell)
+	player.fainted.connect(_dismiss_preview_spells)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
@@ -59,11 +65,13 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if _preview_spell == null: return
-	if not is_instance_valid(player):
-		_preview_spell = null
-		return
-	_place_preview()
+	for slot in _preview_spells.size():
+		var preview := _preview_spells[slot]
+		if preview == null: continue
+		if not is_instance_valid(player) or not is_instance_valid(preview):
+			_preview_spells[slot] = null
+			continue
+		_place_preview(preview)
 
 
 func _initialize_markers() -> void:
@@ -91,17 +99,19 @@ func _position_player() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if _preview_spell is SpellMistyStep and is_instance_valid(player):
-		_preview_spell.global_position = player.blink_destination(SPELL_MISTY_STEP_DISTANCE)
+	if not is_instance_valid(player): return
+	for preview in _preview_spells:
+		if preview is SpellMistyStep and is_instance_valid(preview):
+			preview.global_position = player.blink_destination(SPELL_MISTY_STEP_DISTANCE)
 
 
-func _place_preview() -> void:
-	if _preview_spell is SpellProjectile:
-		_place_projectile(_preview_spell)
-	elif _preview_spell is SpellMistyStep:
+func _place_preview(preview: Node2D) -> void:
+	if preview is SpellProjectile:
+		_place_projectile(preview)
+	elif preview is SpellMistyStep:
 		return
 	else:
-		_preview_spell.global_position = player.global_position
+		preview.global_position = player.global_position
 
 
 func _setup_projectile() -> SpellProjectile:
@@ -164,85 +174,92 @@ func _place_projectile(projectile: SpellProjectile) -> void:
 	projectile.rotation = player.aim_angle
 
 
-func _dismiss_preview_spell() -> void:
-	if _preview_spell == null: return
-	if is_instance_valid(_preview_spell):
-		_preview_spell.dismiss()
-	_preview_spell = null
+func _dismiss_preview_spells() -> void:
+	for slot in _preview_spells.size(): _dismiss_preview_spell(slot)
 
 
-func _take_preview_spell() -> Node2D:
-	var spell := _preview_spell
-	_preview_spell = null
+func _dismiss_preview_spell(slot: int) -> void:
+	var preview := _preview_spells[slot]
+	_preview_spells[slot] = null
+	if preview != null and is_instance_valid(preview): preview.dismiss()
+
+
+func _take_preview_spell(slot: int) -> Node2D:
+	var spell := _preview_spells[slot]
+	_preview_spells[slot] = null
 	if spell != null and not is_instance_valid(spell): return null
 	return spell
 
 
-func _on_spell_equipped(spell: CastInputPanel.Spell) -> void:
-	if _preview_spell != null: return
+func _refresh_aim() -> void:
+	player.aim_active = _slot_spells.any(func(spell): return spell != null and spell in AIMED_SPELLS)
+
+
+func _on_spell_equipped(slot: int, spell: CastInputPanel.Spell) -> void:
+	_dismiss_preview_spell(slot)
+	_slot_spells[slot] = spell
+	_refresh_aim()
 	if spell == CastInputPanel.Spell.ATTACK_AREA:
 		var burst := _setup_area_burst()
 		burst.manifest()
-		_preview_spell = burst
+		_preview_spells[slot] = burst
 	elif spell == CastInputPanel.Spell.ATTACK_TARGET:
-		player.aim_active = true
 		var projectile := _setup_projectile()
 		_place_projectile(projectile)
 		projectile.manifest()
-		_preview_spell = projectile
+		_preview_spells[slot] = projectile
 	elif spell == CastInputPanel.Spell.HEAL:
 		var heal := _setup_heal()
 		heal.manifest()
-		_preview_spell = heal
+		_preview_spells[slot] = heal
 	elif spell == CastInputPanel.Spell.SHIELD:
 		var shield := _setup_shield()
 		shield.manifest()
-		_preview_spell = shield
+		_preview_spells[slot] = shield
 	elif spell == CastInputPanel.Spell.MAGIC_MISSILE:
-		player.aim_active = true
-		_preview_spell = _setup_magic_missiles()
+		_preview_spells[slot] = _setup_magic_missiles()
 	elif spell == CastInputPanel.Spell.MISTY_STEP:
-		player.aim_active = true
 		var step := _setup_misty_step()
 		step.manifest()
-		_preview_spell = step
+		_preview_spells[slot] = step
 
 
 func _on_spell_reset() -> void:
-	player.aim_active = false
+	_slot_spells = [null, null]
+	_refresh_aim()
 	magic_circle.clear_sequence()
-	_dismiss_preview_spell()
+	_dismiss_preview_spells()
 
 
-func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
+func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 	if spell == CastInputPanel.Spell.ATTACK_AREA:
-		var burst := _take_preview_spell() as SpellAreaBurst
+		var burst := _take_preview_spell(slot) as SpellAreaBurst
 		if burst == null:
 			burst = _setup_area_burst()
 		burst.global_position = player.global_position
 		burst.release(SPELL_AREA_DAMAGE)
 		return
 	if spell == CastInputPanel.Spell.ATTACK_TARGET:
-		var projectile := _take_preview_spell() as SpellProjectile
+		var projectile := _take_preview_spell(slot) as SpellProjectile
 		if projectile == null:
 			projectile = _setup_projectile()
 		_place_projectile(projectile)
 		projectile.launch(Vector2.from_angle(player.aim_angle), SPELL_PROJECTILE_SPEED)
 		return
 	if spell == CastInputPanel.Spell.HEAL:
-		var heal := _take_preview_spell() as SpellHeal
+		var heal := _take_preview_spell(slot) as SpellHeal
 		if heal == null:
 			heal = _setup_heal()
 		heal.release()
 		return
 	if spell == CastInputPanel.Spell.SHIELD:
-		var shield := _take_preview_spell() as SpellHeal
+		var shield := _take_preview_spell(slot) as SpellHeal
 		if shield == null:
 			shield = _setup_shield()
 		shield.release()
 		return
 	if spell == CastInputPanel.Spell.MISTY_STEP:
-		var step := _take_preview_spell() as SpellMistyStep
+		var step := _take_preview_spell(slot) as SpellMistyStep
 		if step == null:
 			step = _setup_misty_step()
 		var origin := player.global_position
@@ -251,7 +268,7 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		step.release(origin, destination)
 		return
 	if spell == CastInputPanel.Spell.MAGIC_MISSILE:
-		var orbit := _take_preview_spell() as MagicMissileOrbit
+		var orbit := _take_preview_spell(slot) as MagicMissileOrbit
 		if orbit == null: return
 		orbit.launch_all(MAGIC_MISSILE_SPEED)
 		return
@@ -271,7 +288,7 @@ func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
 	magic_circle.set_sequence(sequence)
 
 
-func _on_cast_mode_changed(active: bool) -> void:
+func _on_cast_mode_changed(active: bool, _slot: int) -> void:
 	magic_circle.visible = active
 
 

@@ -38,7 +38,7 @@ func _ready() -> void:
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
-	_rebuild()	# CastInputPanel's initial spell_reset fires before we connect
+	_rebuild()	# CastInputPanel's initial spell_sequence_changed fires before we connect
 
 
 func _process(_delta: float) -> void:
@@ -141,5 +141,5 @@ func _on_spell_reset() -> void:
 	_rebuild()
 
 
-func _on_cast_mode_changed(active: bool) -> void:
+func _on_cast_mode_changed(active: bool, _slot: int) -> void:
 	casting = active

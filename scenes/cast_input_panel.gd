@@ -66,20 +66,26 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 
 const CAST_COOLDOWN = 0.3
 const SPELL_COOLDOWNS: Dictionary[Spell, float] = {
-	Spell.MAGIC_MISSILE: 1.0
+	Spell.MAGIC_MISSILE: 1.0,
+	Spell.MISTY_STEP: 0.5
 }
 
-const EXECUTE_SPELL_LABEL = "RT"
-const RESET_CAST_LABEL = "RB"
+const SLOT_COUNT = 2
+const HOLD_ACTIONS: Array[StringName] = [&"cast_hold", &"cast_hold_secondary"]
+const FIRE_ACTIONS: Array[StringName] = [&"basic_attack", &"cast_secondary"]
+const HOLD_LABELS: Array[String] = ["LT", "LB"]
+const FIRE_LABELS: Array[String] = ["RT", "RB"]
 
 
 var spell_sequence: Array[StringName] = []
 var casting := false
-var equipped := false
 var spells_unlocked := false: set = _set_spells_unlocked
+var _slot_spells: Array = [null, null]
+var _active_slot := 0
+var _drawn_this_hold := false
 var _has_wand := false
 var _alive := true
-var _cast_timer: Timer
+var _cast_timers: Array[Timer] = []
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -93,10 +99,12 @@ func _ready() -> void:
 	_clear_spell_sequence()
 	button_container_left_spacer.resized.connect(_update_prompt_position)
 	if Engine.is_editor_hint(): return
-	_cast_timer = Timer.new()
-	_cast_timer.one_shot = true
-	_cast_timer.timeout.connect(_on_cast_timer_timeout)
-	add_child(_cast_timer)
+	for slot in SLOT_COUNT:
+		var timer := Timer.new()
+		timer.one_shot = true
+		timer.timeout.connect(_on_cast_timer_timeout.bind(slot))
+		add_child(timer)
+		_cast_timers.append(timer)
 	set_process_input(false)	# locked until the wand is collected
 	set_physics_process(false)
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
@@ -106,7 +114,7 @@ func _ready() -> void:
 
 func _notification(what: int) -> void:
 	if what != NOTIFICATION_UNPAUSED: return
-	if casting and not Input.is_action_pressed(&"cast_hold"): _end_casting()
+	if casting and not Input.is_action_pressed(HOLD_ACTIONS[_active_slot]): _end_casting()
 
 
 func _set_spells_unlocked(new_value: bool) -> void:
@@ -115,12 +123,14 @@ func _set_spells_unlocked(new_value: bool) -> void:
 	set_process_input(spells_unlocked)
 	set_physics_process(spells_unlocked)
 	if spells_unlocked:
-		if Input.is_action_pressed(&"cast_hold"): _begin_casting()
+		for slot in SLOT_COUNT:
+			if Input.is_action_pressed(HOLD_ACTIONS[slot]): return _begin_casting(slot)
 		return
 	var was_casting := casting
 	casting = false
 	_clear_spell_sequence()
-	if was_casting: GameUIBridge.cast_mode_changed.emit(false)
+	_unequip_all()
+	if was_casting: GameUIBridge.cast_mode_changed.emit(false, _active_slot)
 
 
 func _on_inventory_changed(items: Array[Player.Item]) -> void:
@@ -134,7 +144,8 @@ func _on_player_alive_changed(alive: bool) -> void:
 
 
 func _on_level_ready() -> void:
-	if equipped: _equip(_find_complete_spell())
+	for slot in SLOT_COUNT:
+		if _cast_timers[slot].is_stopped(): _equip(slot)
 
 
 func _refresh_unlock() -> void:
@@ -142,18 +153,19 @@ func _refresh_unlock() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if Engine.is_editor_hint() or not equipped: return
-	if Input.is_action_just_pressed(&"basic_attack"): _cast_equipped()
+	if Engine.is_editor_hint(): return
+	for slot in SLOT_COUNT:
+		if Input.is_action_just_pressed(HOLD_ACTIONS[slot]):
+			_begin_casting(slot)
+		elif casting and slot == _active_slot and Input.is_action_just_released(HOLD_ACTIONS[slot]):
+			_end_casting()
+		if Input.is_action_just_pressed(FIRE_ACTIONS[slot]): _cast_slot(slot)
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"cast_hold") and not casting:
-		return _begin_casting()
-	if event.is_action_released(&"cast_hold") and casting:
-		return _end_casting()
-
 	if event.is_action_pressed(&"reset_cast"):
-		return _clear_spell_sequence()
+		_clear_spell_sequence()
+		return _unequip_all()
 
 	if not casting: return
 
@@ -162,33 +174,37 @@ func _input(event: InputEvent) -> void:
 			_append_to_spell_sequence(action)
 
 
-func _begin_casting() -> void:
+func _begin_casting(slot: int) -> void:
+	_active_slot = slot
+	_drawn_this_hold = false
+	_clear_spell_sequence()
 	casting = true
-	GameUIBridge.cast_mode_changed.emit(true)
+	GameUIBridge.cast_mode_changed.emit(true, slot)
 
 
 func _end_casting() -> void:
+	var other := (_active_slot + 1) % SLOT_COUNT
+	if Input.is_action_pressed(HOLD_ACTIONS[other]): return _begin_casting(other)
 	casting = false
-	GameUIBridge.cast_mode_changed.emit(false)
+	GameUIBridge.cast_mode_changed.emit(false, _active_slot)
 
 
-func _cast_equipped() -> void:
-	var complete_spell = _find_complete_spell()
-	if complete_spell == null: return
-	if not _cast_timer.is_stopped(): return
-	GameUIBridge.spell_casted.emit(complete_spell)
-	var cooldown: float = SPELL_COOLDOWNS.get(complete_spell, CAST_COOLDOWN)
-	_cast_timer.start(cooldown)
-	GameUIBridge.cast_cooldown_started.emit(cooldown)
+func _cast_slot(slot: int) -> void:
+	var spell = _slot_spells[slot]
+	if spell == null: return
+	if not _cast_timers[slot].is_stopped(): return
+	GameUIBridge.spell_casted.emit(slot, spell)
+	var cooldown: float = SPELL_COOLDOWNS.get(spell, CAST_COOLDOWN)
+	_cast_timers[slot].start(cooldown)
+	GameUIBridge.cast_cooldown_started.emit(slot, cooldown)
 
 
-func _on_cast_timer_timeout() -> void:
-	if equipped: _equip(_find_complete_spell())
+func _on_cast_timer_timeout(slot: int) -> void:
+	_equip(slot)
 
 
-func _clear_spell_sequence(_with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
+func _clear_spell_sequence() -> void:
 	spell_sequence.clear()
-	equipped = false
 	_update_prompt([
 		Spell.ATTACK_TARGET,
 		# Spell.ATTACK_AREA,
@@ -198,9 +214,12 @@ func _clear_spell_sequence(_with_signal := true) -> void:	# with_signal useful i
 		Spell.MISTY_STEP,
 	])
 	_update_button_box()
-	if not Engine.is_editor_hint(): GameUIBridge.spell_reset.emit()
+	if not Engine.is_editor_hint(): GameUIBridge.spell_sequence_changed.emit(spell_sequence)
 
-	# if with_signal: spell_sequence_cleared.emit()
+
+func _unequip_all() -> void:
+	_slot_spells = [null, null]
+	if not Engine.is_editor_hint(): GameUIBridge.spell_reset.emit()
 
 
 func _append_to_spell_sequence(action: StringName) -> void:
@@ -256,13 +275,16 @@ func _continue_casting(spells: Array[Spell]) -> void:
 
 func _check_complete_spell() -> void:
 	var complete_spell = _find_complete_spell()
-	if complete_spell == null or equipped: return
-	equipped = true
-	_equip(complete_spell)
+	if complete_spell == null or _drawn_this_hold: return
+	_drawn_this_hold = true
+	if complete_spell == _slot_spells[_active_slot]: return
+	_slot_spells[_active_slot] = complete_spell
+	if _cast_timers[_active_slot].is_stopped(): _equip(_active_slot)
 
 
-func _equip(spell: Spell) -> void:
-	GameUIBridge.spell_equipped.emit(spell)
+func _equip(slot: int) -> void:
+	if _slot_spells[slot] == null: return
+	GameUIBridge.spell_equipped.emit(slot, _slot_spells[slot])
 
 
 func _update_button_box() -> void:
@@ -287,7 +309,7 @@ func _update_prompt_text(spells: Array[Spell]) -> void:
 	for spell in spells:
 		var sequence_text: String = ""
 		if SPELL_SEQUENCES[spell].size() == sequence_size:
-			sequence_text += EXECUTE_SPELL_LABEL
+			sequence_text += FIRE_LABELS[_active_slot]
 
 		for action in SPELL_SEQUENCES[spell].slice(sequence_size):
 			sequence_text += SPELL_DIRECTION_LABELS[action]

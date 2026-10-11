@@ -1,0 +1,91 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://envgyti58kmf" path="res://scripts/equipped_spell_panel.gd" id="1_script"]
+[ext_resource type="FontFile" uid="uid://c32iuskff7ulq" path="res://assets/fonts/kenney_mini_square.ttf" id="2_font"]
+[ext_resource type="Texture2D" path="res://resources/prompt_lt.tres" id="3_prepare"]
+[ext_resource type="Texture2D" path="res://resources/prompt_rt.tres" id="4_cast"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_p0l08"]
+font = ExtResource("2_font")
+font_size = 32
+outline_size = 1
+outline_color = Color(0.12, 0.18, 0.21, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k6yn7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cdbar"]
+bg_color = Color(0.5, 0.72, 0.78, 0.45)
+
+[node name="EquippedSpellPanel" type="CenterContainer" unique_id=1921206399]
+size_flags_horizontal = 0
+script = ExtResource("1_script")
+prepare_icon = ExtResource("3_prepare")
+cast_icon = ExtResource("4_cast")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1440734400]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="PrepareTexture" type="Control" parent="GridContainer" unique_id=1479859982]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="PrepareIcon" type="TextureRect" parent="GridContainer/PrepareTexture" unique_id=57031875]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_prepare")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PrepareLabel" type="Label" parent="GridContainer" unique_id=262143420]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Prepare SPELL"
+label_settings = SubResource("LabelSettings_p0l08")
+
+[node name="CastTexture" type="Control" parent="GridContainer" unique_id=87846951]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="CastIcon" type="TextureRect" parent="GridContainer/CastTexture" unique_id=1611015373]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_cast")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpellLabel" type="Label" parent="GridContainer" unique_id=79609740]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sacred Flame"
+label_settings = SubResource("LabelSettings_p0l08")
+
+[node name="SpellCooldownBar" type="ProgressBar" parent="GridContainer/SpellLabel" unique_id=1873406215]
+unique_name_in_owner = true
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_k6yn7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_cdbar")
+max_value = 1.0
+show_percentage = false

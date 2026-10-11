@@ -9,6 +9,7 @@ const GLYPHS: Dictionary[String, Texture2D] = {
 	"RT": preload("res://resources/prompt_rt.tres"),
 	"RS": preload("res://resources/prompt_rs.tres"),
 	"RB": preload("res://resources/prompt_rb.tres"),
+	"LB": preload("res://resources/prompt_lb.tres"),
 	"ABXY": preload("res://assets/textures/prompt_abxy.png"),
 	"FACE_BOTTOM": preload("res://resources/prompt_face_bottom.tres"),
 	"FACE_RIGHT": preload("res://resources/prompt_face_right.tres"),
@@ -18,18 +19,20 @@ const GLYPHS: Dictionary[String, Texture2D] = {
 
 
 @export var player: Player
-@export_multiline var prepare_text := "Hold {LT}: prepare spell":
+@export_multiline var prepare_text := "Hold {LT} {LB}: prepare spell":
 	set(value):
 		prepare_text = value
 		if is_node_ready(): _refresh()
-@export_multiline var equipped_text := "{RS}: aim {RT}: cast {RB}: unequip"
+@export_multiline var equipped_text := "{RS}: aim {RT} {RB}: cast"
 @export_multiline var draw_text := "{FACE_BOTTOM} {FACE_TOP}: draw glyph"
-@export_multiline var release_text := "Release {LT}"
+@export_multiline var release_text := "Release {HOLD}"
 
 
 var _has_wand := false
 var _casting := false
-var _equipped := false
+var _equipped_slots: Array[bool] = [false, false]
+var _active_slot := 0
+var _sequence_complete := false
 var _shown_text := ""
 var _token_regex := RegEx.create_from_string("\\{(\\w+)\\}")
 
@@ -47,6 +50,7 @@ func _ready() -> void:
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
+	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	_refresh()
 
 
@@ -55,18 +59,24 @@ func _on_inventory_changed(items: Array[Player.Item]) -> void:
 	_refresh()
 
 
-func _on_cast_mode_changed(active: bool) -> void:
+func _on_cast_mode_changed(active: bool, slot: int) -> void:
 	_casting = active
+	_active_slot = slot
 	_refresh()
 
 
-func _on_spell_equipped(_spell: CastInputPanel.Spell) -> void:
-	_equipped = true
+func _on_spell_equipped(slot: int, _spell: CastInputPanel.Spell) -> void:
+	_equipped_slots[slot] = true
+	_refresh()
+
+
+func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
+	_sequence_complete = CastInputPanel.find_complete_spell(sequence) != null
 	_refresh()
 
 
 func _on_spell_reset() -> void:
-	_equipped = false
+	_equipped_slots = [false, false]
 	_refresh()
 
 
@@ -74,9 +84,10 @@ func _refresh() -> void:
 	visible = _has_wand or Engine.is_editor_hint()
 	var text: String
 	if _casting:
-		text = release_text if _equipped else draw_text
+		text = release_text if _sequence_complete else draw_text
+		text = text.replace("{HOLD}", "{%s}" % CastInputPanel.HOLD_LABELS[_active_slot])
 	else:
-		text = equipped_text if _equipped else prepare_text
+		text = equipped_text if true in _equipped_slots else prepare_text
 	if text == _shown_text: return
 	_shown_text = text
 	_build(text)
