@@ -64,10 +64,10 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	],
 }
 
-const SPELL_CHARGES: Dictionary[Spell, int] = {
-	Spell.MAGIC_MISSILE: 3
+const CAST_COOLDOWN = 0.3
+const SPELL_COOLDOWNS: Dictionary[Spell, float] = {
+	Spell.MAGIC_MISSILE: 1.0
 }
-const CHARGE_COOLDOWN = 0.3
 
 const EXECUTE_SPELL_LABEL = "RT"
 const RESET_CAST_LABEL = "RB"
@@ -79,8 +79,7 @@ var equipped := false
 var spells_unlocked := false: set = _set_spells_unlocked
 var _has_wand := false
 var _alive := true
-var _charges := 0
-var _charge_timer: Timer
+var _cast_timer: Timer
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -94,14 +93,15 @@ func _ready() -> void:
 	_clear_spell_sequence()
 	button_container_left_spacer.resized.connect(_update_prompt_position)
 	if Engine.is_editor_hint(): return
-	_charge_timer = Timer.new()
-	_charge_timer.one_shot = true
-	_charge_timer.wait_time = CHARGE_COOLDOWN
-	add_child(_charge_timer)
+	_cast_timer = Timer.new()
+	_cast_timer.one_shot = true
+	_cast_timer.timeout.connect(_on_cast_timer_timeout)
+	add_child(_cast_timer)
 	set_process_input(false)	# locked until the wand is collected
 	set_physics_process(false)
 	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
 	GameUIBridge.player_alive_changed.connect(_on_player_alive_changed)
+	GameUIBridge.level_ready.connect(_on_level_ready)
 
 
 func _notification(what: int) -> void:
@@ -131,6 +131,10 @@ func _on_inventory_changed(items: Array[Player.Item]) -> void:
 func _on_player_alive_changed(alive: bool) -> void:
 	_alive = alive
 	_refresh_unlock()
+
+
+func _on_level_ready() -> void:
+	if equipped: _equip(_find_complete_spell())
 
 
 func _refresh_unlock() -> void:
@@ -171,12 +175,15 @@ func _end_casting() -> void:
 func _cast_equipped() -> void:
 	var complete_spell = _find_complete_spell()
 	if complete_spell == null: return
-	var charged := SPELL_CHARGES.has(complete_spell)
-	if charged and not _charge_timer.is_stopped(): return
+	if not _cast_timer.is_stopped(): return
 	GameUIBridge.spell_casted.emit(complete_spell)
-	_charges -= 1
-	if charged: _charge_timer.start()
-	if _charges <= 0: _clear_spell_sequence()
+	var cooldown: float = SPELL_COOLDOWNS.get(complete_spell, CAST_COOLDOWN)
+	_cast_timer.start(cooldown)
+	GameUIBridge.cast_cooldown_started.emit(cooldown)
+
+
+func _on_cast_timer_timeout() -> void:
+	if equipped: _equip(_find_complete_spell())
 
 
 func _clear_spell_sequence(_with_signal := true) -> void:	# with_signal useful if decide to decouple sequence management from UI
@@ -251,8 +258,11 @@ func _check_complete_spell() -> void:
 	var complete_spell = _find_complete_spell()
 	if complete_spell == null or equipped: return
 	equipped = true
-	_charges = SPELL_CHARGES.get(complete_spell, 1)
-	GameUIBridge.spell_equipped.emit(complete_spell)
+	_equip(complete_spell)
+
+
+func _equip(spell: Spell) -> void:
+	GameUIBridge.spell_equipped.emit(spell)
 
 
 func _update_button_box() -> void:

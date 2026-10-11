@@ -3,9 +3,10 @@ extends Node2D
 
 
 const FRONT_RADIUS = 16.0
-const BACK_RADIUS = 10.0
-const BACK_ANGLE = deg_to_rad(140.0)
-const SLIDE_DURATION = CastInputPanel.CHARGE_COOLDOWN
+const BACK_RADIUS = 16.0
+const BACK_ANGLE = deg_to_rad(120.0)
+const ORB_COUNT = 3
+const SLIDE_DURATION = 0.1
 
 
 var player: Player
@@ -41,6 +42,28 @@ func launch_front(speed: float) -> void:
 	if not is_instance_valid(orb): return
 	orb.global_position = player.global_position + Vector2(FRONT_RADIUS, 0.0).rotated(player.aim_angle)
 	orb.launch(Vector2.from_angle(player.aim_angle), speed)
+
+
+func launch_all(speed: float) -> void:
+	var launched := orbs.duplicate()
+	orbs.clear()
+	if not is_instance_valid(player): return queue_free()
+	var target := player.aim_sprite.global_position
+	var direction := Vector2.from_angle(player.aim_angle)
+	var tween := create_tween().set_parallel().set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	for orb: SpellProjectile in launched:
+		if not is_instance_valid(orb): continue
+		orb.launch(orb.global_position.direction_to(target), speed)
+		var delay := orb.global_position.distance_to(target) / speed
+		tween.tween_callback(_turn.bind(orb, target, direction, speed)).set_delay(delay)
+	tween.chain().tween_callback(queue_free)
+
+
+func _turn(orb: SpellProjectile, target: Vector2, direction: Vector2, speed: float) -> void:
+	if not is_instance_valid(orb) or orb.state != SpellProjectile.State.FLYING: return
+	orb.global_position = target + direction * orb.global_position.distance_to(target)
+	orb.velocity = direction * speed
+	orb.rotation = direction.angle()
 
 
 func dismiss() -> void:

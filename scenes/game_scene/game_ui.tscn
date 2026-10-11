@@ -40,6 +40,9 @@ font_size = 32
 outline_size = 1
 outline_color = Color(0.12, 0.18, 0.21, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cdbar"]
+bg_color = Color(0.5, 0.72, 0.78, 0.45)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_w7uo7"]
 atlas = ExtResource("16_20j2n")
 region = Rect2(192, 256, 16, 16)
@@ -229,6 +232,21 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Sacred Flame"
 label_settings = SubResource("LabelSettings_p0l08")
+
+[node name="SpellCooldownBar" type="ProgressBar" parent="MarginContainer/EquippedSpellContainer/GridContainer/SpellLabel" unique_id=1873406215]
+unique_name_in_owner = true
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_k6yn7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_cdbar")
+max_value = 1.0
+show_percentage = false
 
 [node name="PromptsPanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1698209032]
 visible = false

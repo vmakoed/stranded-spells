@@ -55,6 +55,7 @@ func _ready() -> void:
 
 	_initialize_markers()
 	_position_player()
+	GameUIBridge.level_ready.emit()
 
 
 func _process(_delta: float) -> void:
@@ -138,7 +139,7 @@ func _setup_magic_missiles() -> MagicMissileOrbit:
 	var orbit := MagicMissileOrbit.new()
 	orbit.player = player
 	add_child(orbit)
-	for i in CastInputPanel.SPELL_CHARGES[CastInputPanel.Spell.MAGIC_MISSILE]:
+	for i in MagicMissileOrbit.ORB_COUNT:
 		var orb := basic_projectile_scene.instantiate() as SpellProjectile
 		add_child(orb)
 		orbit.add_orb(orb)
@@ -250,8 +251,9 @@ func _on_spell_casted(spell: CastInputPanel.Spell) -> void:
 		step.release(origin, destination)
 		return
 	if spell == CastInputPanel.Spell.MAGIC_MISSILE:
-		if not is_instance_valid(_preview_spell) or _preview_spell is not MagicMissileOrbit: return
-		_preview_spell.launch_front(MAGIC_MISSILE_SPEED)
+		var orbit := _take_preview_spell() as MagicMissileOrbit
+		if orbit == null: return
+		orbit.launch_all(MAGIC_MISSILE_SPEED)
 		return
 
 
