@@ -15,6 +15,7 @@ var _timer: Timer
 
 func _ready() -> void:
 	super()
+	if is_queued_for_deletion(): return
 	_timer = Timer.new()
 	_timer.one_shot = true
 	_timer.timeout.connect(_reset)
@@ -22,8 +23,9 @@ func _ready() -> void:
 
 
 func _start() -> void:
-	for door in doors:
-		if is_instance_valid(door): door.close()
+	if not _starts_on_load():
+		for door in doors:
+			if is_instance_valid(door): door.close()
 	_spawn_box(0)
 	started.emit()
 

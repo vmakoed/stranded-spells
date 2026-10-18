@@ -184,7 +184,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 script = ExtResource("1_qxi4f")
 exit_up_path = "uid://c5kwfki08frrm"
 exit_left_path = "uid://c0fa5i707h6ig"
-exit_down_path = "uid://dp0kan0e3enyi"
+exit_down_path = "uid://b432qnijacnyb"
 exit_right_path = "uid://gdvwdquh0utp"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
@@ -301,22 +301,22 @@ wire = NodePath("../WireUp")
 position = Vector2(72, 120)
 wire = NodePath("../WireDown")
 
-[node name="DoorLockChest" type="Node2D" parent="Items" unique_id=1138770624 node_paths=PackedStringArray("plates", "door")]
+[node name="DoorLockChest" type="Node2D" parent="Items" unique_id=1138770624 node_paths=PackedStringArray("plates", "doors")]
 script = ExtResource("14_doorlk")
 plates = [NodePath("../PressurePlateUp"), NodePath("../PressurePlateDown")]
-door = NodePath("../../Doors/DoorChest")
+doors = [NodePath("../../Doors/DoorChest")]
 save_id = "DoorLockChest"
 
-[node name="DoorLockUp" type="Node2D" parent="Items" unique_id=359848214 node_paths=PackedStringArray("plates", "door")]
+[node name="DoorLockUp" type="Node2D" parent="Items" unique_id=359848214 node_paths=PackedStringArray("plates", "doors")]
 script = ExtResource("14_doorlk")
 plates = [NodePath("../PressurePlateUp")]
-door = NodePath("../../Doors/DoorChestUp")
+doors = [NodePath("../../Doors/DoorChestUp")]
 save_id = "DoorLockUp"
 
-[node name="DoorLockDown" type="Node2D" parent="Items" unique_id=1142733709 node_paths=PackedStringArray("plates", "door")]
+[node name="DoorLockDown" type="Node2D" parent="Items" unique_id=1142733709 node_paths=PackedStringArray("plates", "doors")]
 script = ExtResource("14_doorlk")
 plates = [NodePath("../PressurePlateDown")]
-door = NodePath("../../Doors/DoorChestDown")
+doors = [NodePath("../../Doors/DoorChestDown")]
 save_id = "DoorLockDown"
 
 [node name="BreakableBox" parent="Items" unique_id=1098040619 instance=ExtResource("11_vlb5s")]

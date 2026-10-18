@@ -6,7 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="4_b4dyo"]
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="5_y3egw"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="6_6xb5x"]
+[ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="6_b4dyo"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="7_1aoww"]
+[ext_resource type="PackedScene" uid="uid://ci403rwthdvbj" path="res://scenes/switch.tscn" id="7_y3egw"]
+[ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="8_6xb5x"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="8_ldabs"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="9_o61qd"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="10_rn3b7"]
@@ -171,8 +174,9 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 
 [node name="RoomPlateDownConnection" type="Node" unique_id=1049756891]
 script = ExtResource("1_lrkm5")
-exit_up_path = "uid://rbwloykhueab"
-exit_right_path = "uid://b432qnijacnyb"
+exit_up_path = "uid://gdvwdquh0utp"
+exit_left_path = "uid://b432qnijacnyb"
+exit_right_path = "uid://dw7hml05x01u7"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
@@ -191,7 +195,7 @@ rendering_quadrant_size = 1
 
 [node name="BackgroundTileMapLayer" type="TileMapLayer" parent="." unique_id=1494177456]
 position = Vector2(128, 80)
-tile_map_data = PackedByteArray("AAD//wAAAAAJAAAAAAAAAAAAAAAGAAAAAAAAAP7/AAAIAAAAAAAAAP//AAAGAAIAAAD///7/AAAHAAAAAAD/////AAAJAAIAAAD+//n/AAAAAAIAAAD+//r/AAAAAAEAAAD+//v/AAAAAAEAAAD+//z/AAAAAAEAAAD+//3/AAAAAAEAAAD///n/AAACAAAAAAD///r/AAAJAAIAAAD///v/AAACAAIAAAD///z/AAACAAIAAAD///3/AAAHAAEAAAAAAPn/AAADAAAAAAAAAPr/AAAGAAIAAAAAAPv/AAADAAIAAAAAAPz/AAADAAIAAAAAAP3/AAAIAAEAAAABAPn/AAAFAAEAAAABAPr/AAAFAAEAAAABAPv/AAAFAAMAAAABAPz/AAAFAAIAAAABAP3/AAAFAAIAAAD//wEAAAACAAQAAAAAAAEAAAABAAQAAAACAP7/AAABAAAAAAACAP//AAAIAAAAAAACAAAAAAAIAAEAAAACAAEAAAADAAQAAAADAP7/AAACAAAAAAADAP//AAAGAAEAAAADAAAAAAAGAAIAAAADAAEAAAAEAAQAAAAEAP7/AAADAAAAAAAEAP//AAAHAAEAAAAEAAAAAAAHAAIAAAAEAAEAAAADAAQAAAAFAP7/AAACAAAAAAAFAP//AAAGAAIAAAAFAAAAAAAGAAIAAAAFAAEAAAACAAQAAAAGAP7/AAADAAAAAAAGAP//AAAIAAIAAAAGAAAAAAAIAAAAAAAGAAEAAAABAAQAAAAHAP7/AAADAAAAAAAHAP//AAAJAAIAAAAHAAAAAAAJAAAAAAAHAAEAAAACAAQAAAAIAP7/AAABAAAAAAAIAP//AAAGAAIAAAAIAAAAAAAGAAAAAAAIAAEAAAABAAQAAAAJAP7/AAACAAAAAAAJAP//AAAHAAIAAAAJAAAAAAAHAAAAAAAJAAEAAAACAAQAAAAKAP7/AAAFAAAAAAAKAP//AAAFAAEAAAAKAAAAAAAFAAIAAAAKAAEAAAAFAAQAAAD+//7/AAAAAAEAAAD+////AAAAAAIAAAD+/wAAAAAAAAMAAAD+/wEAAAAAAAQAAAABAP//AAAIAAAAAAABAAAAAAAIAAEAAAABAP7/AAADAAAAAAABAAEAAAABAAQAAAA=")
+tile_map_data = PackedByteArray("AAD//wAAAAAJAAAAAAAAAAAAAAAGAAAAAAAAAP7/AAAIAAAAAAAAAP//AAAGAAIAAAD///7/AAAHAAAAAAD/////AAAJAAIAAAD+//n/AAAAAAIAAAD+//r/AAAAAAEAAAD+//v/AAAAAAEAAAD+//z/AAAAAAEAAAD+//3/AAAAAAEAAAD///n/AAACAAAAAAD///r/AAAJAAIAAAD///v/AAACAAIAAAD///z/AAACAAIAAAD///3/AAAHAAEAAAAAAPn/AAADAAAAAAAAAPr/AAAGAAIAAAAAAPv/AAADAAIAAAAAAPz/AAADAAIAAAAAAP3/AAAIAAEAAAABAPn/AAAFAAEAAAABAPr/AAAFAAEAAAABAPv/AAAFAAMAAAABAPz/AAAFAAIAAAABAP3/AAAFAAIAAAD//wEAAAACAAIAAAAAAAEAAAADAAIAAAD+//7/AAADAAAAAAD+////AAAGAAIAAAD+/wAAAAAGAAAAAAD+/wEAAAAFAAUAAAD1//7/AAADAAAAAAD1////AAAIAAAAAAD1/wAAAAAIAAEAAAD1/wEAAAABAAQAAAD2//7/AAABAAAAAAD2////AAAIAAAAAAD2/wAAAAAIAAEAAAD2/wEAAAADAAQAAAD3//7/AAACAAAAAAD3////AAAGAAEAAAD3/wAAAAAGAAIAAAD3/wEAAAAEAAQAAAD4//7/AAADAAAAAAD4////AAAHAAEAAAD4/wAAAAAHAAIAAAD4/wEAAAADAAQAAAD5//7/AAACAAAAAAD5////AAAGAAIAAAD5/wAAAAAGAAIAAAD5/wEAAAACAAQAAAD6//7/AAADAAAAAAD6////AAAIAAIAAAD6/wAAAAAIAAAAAAD6/wEAAAABAAQAAAD7//7/AAADAAAAAAD7////AAAJAAIAAAD7/wAAAAAJAAAAAAD7/wEAAAACAAQAAAD8//7/AAABAAAAAAD8////AAAGAAIAAAD8/wAAAAAGAAAAAAD8/wEAAAABAAQAAAD9//7/AAACAAAAAAD9////AAAHAAIAAAD9/wAAAAAHAAAAAAD9/wEAAAACAAQAAAABAP7/AAADAAAAAAABAP//AAAIAAAAAAABAAAAAAAIAAEAAAABAAEAAAAEAAUAAAD0/wAAAAAAAAMAAAD0/wEAAAAAAAQAAAD0//7/AAAAAAAAAAD0////AAAAAAEAAAACAP7/AAABAAAAAAADAP7/AAACAAAAAAAEAP7/AAACAAAAAAAFAP7/AAACAAIAAAAGAP7/AAADAAIAAAAHAP7/AAAEAAAAAAAIAP7/AAABAAAAAAAJAP7/AAACAAAAAAAKAP7/AAADAAAAAAACAAEAAAADAAQAAAADAAEAAAAEAAQAAAAEAAEAAAADAAQAAAAFAAEAAAACAAQAAAAGAAEAAAABAAQAAAAHAAEAAAACAAQAAAAIAAEAAAABAAQAAAAJAAEAAAACAAQAAAAKAAEAAAAEAAQAAAACAP//AAAIAAAAAAACAAAAAAAIAAEAAAADAP//AAAGAAEAAAADAAAAAAAGAAIAAAAEAP//AAAHAAEAAAAEAAAAAAAHAAIAAAAFAP//AAAGAAIAAAAFAAAAAAAGAAIAAAAGAP//AAAIAAIAAAAGAAAAAAAIAAAAAAAHAP//AAAJAAIAAAAHAAAAAAAJAAAAAAAIAP//AAAGAAIAAAAIAAAAAAAGAAAAAAAJAP//AAAHAAIAAAAJAAAAAAAHAAAAAAAKAP//AAAGAAIAAAAKAAAAAAAGAAAAAAALAP7/AAAFAAAAAAALAP//AAAFAAEAAAALAAAAAAAFAAIAAAALAAEAAAAFAAQAAAD+/wIAAAAAAAEAAAD+/wMAAAAAAAEAAAD+/wQAAAAAAAEAAAD+/wUAAAAAAAEAAAD//wIAAAAJAAIAAAD//wMAAAACAAIAAAD//wQAAAACAAIAAAD//wUAAAAHAAEAAAAAAAIAAAAGAAIAAAAAAAMAAAADAAIAAAAAAAQAAAADAAIAAAAAAAUAAAAIAAEAAAABAAIAAAAFAAEAAAABAAMAAAAFAAMAAAABAAQAAAAFAAIAAAABAAUAAAAFAAIAAAAAAAYAAAAEAAQAAAABAAYAAAAFAAQAAAD+/wYAAAAAAAQAAAD//wYAAAABAAQAAAAHAPv/AAAFAAAAAAAHAPz/AAAFAAEAAAAHAP3/AAAFAAEAAAAEAPv/AAAAAAAAAAAEAPz/AAAAAAEAAAAEAP3/AAAAAAEAAAAFAPv/AAACAAAAAAAFAPz/AAACAAIAAAAFAP3/AAAHAAIAAAAGAPv/AAADAAAAAAAGAPz/AAADAAIAAAAGAP3/AAAIAAIAAAA=")
 tile_set = SubResource("TileSet_1onhq")
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
@@ -200,17 +204,17 @@ tile_set = SubResource("TileSet_1onhq")
 position = Vector2(128, 24)
 
 [node name="DoorDown" parent="Doors" unique_id=96958022 instance=ExtResource("4_b4dyo")]
-visible = false
 position = Vector2(128, 132)
+closed = true
 
 [node name="DoorLeft" parent="Doors" unique_id=959593896 instance=ExtResource("4_b4dyo")]
-visible = false
 position = Vector2(28, 80)
 facing = 1
 
 [node name="DoorRight" parent="Doors" unique_id=90353559 instance=ExtResource("4_b4dyo")]
-position = Vector2(228, 80)
+position = Vector2(148, 80)
 facing = 1
+closed = true
 
 [node name="Exits" type="Node2D" parent="." unique_id=1063234220]
 
@@ -268,20 +272,40 @@ position = Vector2(248, 80)
 [node name="Lights" type="Node2D" parent="." unique_id=1527614214]
 
 [node name="Torch2" parent="Lights" unique_id=1895984912 instance=ExtResource("5_y3egw")]
-position = Vector2(152, 56)
+position = Vector2(136, 120)
+facing = 3
 
 [node name="Torch5" parent="Lights" unique_id=330751375 instance=ExtResource("5_y3egw")]
-position = Vector2(120, 88)
-facing = 2
+position = Vector2(104, 56)
 
 [node name="Torch7" parent="Lights" unique_id=5426948 instance=ExtResource("5_y3egw")]
+position = Vector2(52, 56)
+
+[node name="Torch6" parent="Lights" unique_id=1134264119 instance=ExtResource("5_y3egw")]
 position = Vector2(200, 56)
 
+[node name="Torch15" parent="Lights" unique_id=148077587 instance=ExtResource("5_y3egw")]
+position = Vector2(224, 8)
+
+[node name="Torch14" parent="Lights" unique_id=89253969 instance=ExtResource("5_y3egw")]
+position = Vector2(252, 56)
+
+[node name="Torch11" parent="Lights" unique_id=2142007854 instance=ExtResource("5_y3egw")]
+position = Vector2(152, 56)
+
 [node name="Torch8" parent="Lights" unique_id=1314829248 instance=ExtResource("5_y3egw")]
-position = Vector2(232, 104)
+position = Vector2(88, 104)
 facing = 1
 
-[node name="Torch9" parent="Lights" unique_id=1134264119 instance=ExtResource("5_y3egw")]
+[node name="Torch9" parent="Lights" unique_id=971855461 instance=ExtResource("5_y3egw")]
+position = Vector2(16, 104)
+facing = 1
+
+[node name="Torch12" parent="Lights" unique_id=2140966930 instance=ExtResource("5_y3egw")]
+position = Vector2(248, 104)
+facing = 1
+
+[node name="Torch13" parent="Lights" unique_id=1172244231 instance=ExtResource("5_y3egw")]
 position = Vector2(176, 104)
 facing = 1
 
@@ -290,6 +314,24 @@ position = Vector2(120, 8)
 facing = 2
 
 [node name="Items" type="Node2D" parent="." unique_id=1616782477]
+
+[node name="DoorLock" type="Node2D" parent="Items" unique_id=2088491854 node_paths=PackedStringArray("switches", "doors")]
+script = ExtResource("6_b4dyo")
+switches = [NodePath("../DoorSwitch/Switch")]
+doors = [NodePath("../../Doors/DoorDown"), NodePath("../../Doors/DoorRight")]
+save_id = "SkeletonFightDoor"
+metadata/_custom_type_script = "uid://dd2g374y7248h"
+
+[node name="DoorSwitch" type="Node2D" parent="Items" unique_id=1997021723]
+position = Vector2(228, 80)
+
+[node name="Switch" parent="Items/DoorSwitch" unique_id=804133087 instance=ExtResource("7_y3egw")]
+position = Vector2(-4, -56)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Items/DoorSwitch" unique_id=2021748294]
+position = Vector2(-92, 0)
+tile_map_data = PackedByteArray("AAD//wIAAQAAAAMAAAD//wEAAQAAAAMAAAD/////AQAAAAEAAAAAAP//AQAAAAMAAFABAP//AQAAAAMAAFACAP//AQAAAAMAAFD//wAAAQAAAAMAAAAFAP3/AQAAAAMAAAAFAP7/AQAAAAMAAAADAP//AQAAAAMAAFAEAP//AQAAAAMAAFAFAP//AQABAAIAAAA=")
+tile_set = ExtResource("8_6xb5x")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("6_6xb5x")]
 unique_name_in_owner = true

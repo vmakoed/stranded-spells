@@ -28,8 +28,8 @@ func _ready() -> void:
 	if Engine.is_editor_hint(): return
 	if GameState.get_flag(self, false):
 		on = true
-		for door in doors:
-			if is_instance_valid(door): door.closed = false
+	for door in doors:
+		if is_instance_valid(door): door.closed = not on
 
 
 func activate() -> void:

@@ -9,11 +9,11 @@ const RING_FADE_DURATION := 0.3
 
 @export var switches: Array[Switch] = []
 @export var plates: Array[PressurePlate] = []
-@export var door: ChallengeDoor
+@export var doors: Array[ChallengeDoor] = []
 @export var save_id := ""
 
 
-var _ring: ProgressRing
+var _rings: Array[ProgressRing] = []
 var _pending := 0
 var _busy := false
 var _filled := 0
@@ -21,7 +21,8 @@ var _total := 0
 
 
 func _ready() -> void:
-	if door == null: return
+	doors.assign(doors.filter(is_instance_valid))
+	if doors.is_empty(): return
 	var solved: Array = GameState.get_flag(self, [])
 	var sources: Array = []
 	sources.append_array(switches)
@@ -37,16 +38,18 @@ func _ready() -> void:
 		var done: Signal = source.activated if source is Switch else source.pressed
 		done.connect(_on_activated.bind(i), CONNECT_ONE_SHOT)
 	if _filled >= _total:
-		door.closed = false
+		for door in doors: door.closed = false
 		queue_free()
 		return
 
-	door.closed = true
-	_ring = ProgressRing.new()
-	_ring.radius = RING_RADIUS
-	add_child(_ring)
-	_ring.global_position = door.global_position
-	_ring.value = float(_filled) / _total
+	for door in doors:
+		door.closed = true
+		var ring := ProgressRing.new()
+		ring.radius = RING_RADIUS
+		add_child(ring)
+		ring.global_position = door.global_position
+		ring.value = float(_filled) / _total
+		_rings.append(ring)
 
 
 func _on_activated(index: int) -> void:
@@ -61,8 +64,9 @@ func _pump() -> void:
 	if _busy or _pending == 0: return
 	_busy = true
 	_pending -= 1
-	var tween := create_tween()
-	tween.tween_property(_ring, "value", float(_filled + 1) / _total, FILL_DURATION)
+	var tween := create_tween().set_parallel()
+	for ring in _rings:
+		tween.tween_property(ring, "value", float(_filled + 1) / _total, FILL_DURATION)
 	await tween.finished
 	_filled += 1
 	_busy = false
@@ -74,8 +78,9 @@ func _pump() -> void:
 
 
 func _unlock() -> void:
-	door.open()
-	var tween := create_tween()
-	tween.tween_property(_ring, "modulate:a", 0.0, RING_FADE_DURATION)
+	for door in doors: door.open()
+	var tween := create_tween().set_parallel()
+	for ring in _rings:
+		tween.tween_property(ring, "modulate:a", 0.0, RING_FADE_DURATION)
 	await tween.finished
 	queue_free()

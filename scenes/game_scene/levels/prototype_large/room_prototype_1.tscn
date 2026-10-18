@@ -657,6 +657,7 @@ shape = SubResource("RectangleShape2D_sd08o")
 [node name="GroupChallenge" type="Area2D" parent="TriggerAreas" unique_id=1695093852 node_paths=PackedStringArray("spawn_points", "doors", "respawn_point")]
 position = Vector2(448, 172)
 script = ExtResource("20_nmib0")
+on_load = false
 spawn_points = [NodePath("Spawn"), NodePath("Spawn2"), NodePath("Spawn3")]
 doors = [NodePath("../../Doors/ChallengeDoor4"), NodePath("../../Doors/ChallengeDoor3")]
 respawn_point = NodePath("../DarknessReturn")
@@ -678,6 +679,7 @@ position = Vector2(-94, -68)
 [node name="EnemyChallenge" type="Area2D" parent="TriggerAreas" unique_id=1086907808 node_paths=PackedStringArray("spawn_points", "doors")]
 position = Vector2(240, 544)
 script = ExtResource("20_nmib0")
+on_load = false
 spawn_points = [NodePath("Spawn")]
 doors = [NodePath("../../Doors/DoorTop"), NodePath("../../Doors/DoorLeft")]
 shielded = false
@@ -693,6 +695,7 @@ position = Vector2(91, 62)
 [node name="ShieldChallenge" type="Area2D" parent="TriggerAreas" unique_id=507612370 node_paths=PackedStringArray("spawn_points", "doors", "respawn_point")]
 position = Vector2(116, 464)
 script = ExtResource("20_nmib0")
+on_load = false
 spawn_points = [NodePath("Spawn")]
 doors = [NodePath("../../Doors/ChallengeDoor"), NodePath("../../Doors/ChallengeDoor2")]
 respawn_point = NodePath("../ShieldChallengeReturn")

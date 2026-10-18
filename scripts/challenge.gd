@@ -19,6 +19,7 @@ const FAIL_FADE_OUT := 0.2
 @export var shielded := true
 @export var enemy_scene: PackedScene = ENEMY_SCENE
 @export var save_id := ""
+@export var on_load := true
 
 
 var _player: Player
@@ -32,11 +33,18 @@ var _fade: ScreenFade
 func _ready() -> void:
 	collision_layer = 0
 	collision_mask = 1
-	if GameState.get_flag(self, false):
-		for door in doors:
-			if is_instance_valid(door): door.closed = false
+	var solved: bool = GameState.get_flag(self, false)
+	for door in doors:
+		if is_instance_valid(door): door.closed = not solved and _starts_on_load()
+	if solved:
 		monitoring = false
 		queue_free()
+		return
+	if _starts_on_load():
+		monitoring = false
+		_triggered = true
+		_player = owner.get_node_or_null("%PlayerCharacter") as Player
+		_start.call_deferred()
 		return
 	body_entered.connect(_on_body_entered)
 	_fade = ScreenFade.new()
@@ -65,6 +73,10 @@ func _start() -> void:
 	for point in spawn_points:
 		if is_instance_valid(point): _spawn(point)
 
+	if _starts_on_load():
+		started.emit()
+		return
+
 	for door in doors:
 		if is_instance_valid(door): door.close()
 
@@ -83,7 +95,7 @@ func _spawn(point: Marker2D) -> void:
 	enemy.died.connect(_release.bind(enemy))
 	_spawned.append(enemy)
 	_pending.append(enemy)
-	enemy.start_chase()
+	if not _starts_on_load(): enemy.start_chase()
 
 
 func _release(enemy: EnemyNew) -> void:
@@ -116,6 +128,10 @@ func _fail() -> void:
 func _open_doors() -> void:
 	for door in doors:
 		if is_instance_valid(door): door.open()
+
+
+func _starts_on_load() -> bool:
+	return on_load
 
 
 func _clear_respawn() -> void:

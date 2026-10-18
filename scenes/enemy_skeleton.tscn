@@ -225,7 +225,7 @@ radius = 7.0
 [node name="EnemySkeleton" type="CharacterBody2D" unique_id=297279986 groups=["enemies"]]
 z_index = 2
 collision_layer = 8
-collision_mask = 36
+collision_mask = 100
 motion_mode = 1
 script = ExtResource("1_skel")
 recharge_time_min = 0.6

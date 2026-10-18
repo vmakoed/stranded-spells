@@ -935,6 +935,7 @@ doors = [NodePath("../../Doors/SwitchDoor3")]
 [node name="Challenge1" type="Area2D" parent="Challenges" unique_id=1125468282 node_paths=PackedStringArray("spawn_points", "doors", "respawn_point")]
 position = Vector2(298, 240)
 script = ExtResource("10_rdiqp")
+on_load = false
 spawn_points = [NodePath("Challenge1Spawn")]
 doors = [NodePath("../../Doors/ChallengeDoor"), NodePath("../../Doors/ChallengeDoor2")]
 respawn_point = NodePath("Challenge1Respawn")
@@ -954,6 +955,7 @@ position = Vector2(-58, 32)
 [node name="Challenge2" type="Area2D" parent="Challenges" unique_id=256567556 node_paths=PackedStringArray("spawn_points", "doors", "respawn_point")]
 position = Vector2(240, 574)
 script = ExtResource("10_rdiqp")
+on_load = false
 spawn_points = [NodePath("Marker2D2"), NodePath("Marker2D3"), NodePath("Marker2D4")]
 doors = [NodePath("../../Doors/ChallengeDoor3"), NodePath("../../Doors/ChallengeDoor4")]
 respawn_point = NodePath("Marker2D")
@@ -982,6 +984,7 @@ script = ExtResource("10_boxch")
 spawn_points = [NodePath("BoxMarker7"), NodePath("BoxMarker8"), NodePath("BoxMarker1"), NodePath("BoxMarker2"), NodePath("BoxMarker3"), NodePath("BoxMarker4"), NodePath("BoxMarker6")]
 doors = [NodePath("../../Doors/ChallengeDoor6"), NodePath("../../Doors/ChallengeDoor7")]
 shielded = false
+save_id = "ChallengeBoxes"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Challenges/ChallengeBoxes" unique_id=1167934278]
 position = Vector2(0, 2)
