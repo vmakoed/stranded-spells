@@ -268,9 +268,12 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 		step.release(origin, destination)
 		return
 	if spell == CastInputPanel.Spell.MAGIC_MISSILE:
-		var orbit := _take_preview_spell(slot) as MagicMissileOrbit
-		if orbit == null: return
-		orbit.launch_all(MAGIC_MISSILE_SPEED)
+		var orbit := _preview_spells[slot] as MagicMissileOrbit
+		if orbit == null or not is_instance_valid(orbit): return
+		orbit.launch_front(MAGIC_MISSILE_SPEED)
+		if orbit.orbs.is_empty():
+			_preview_spells[slot] = null
+			orbit.queue_free()
 		return
 
 

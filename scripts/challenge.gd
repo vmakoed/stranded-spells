@@ -27,6 +27,7 @@ var _spawned: Array[EnemyNew] = []
 var _pending: Array[EnemyNew] = []
 var _triggered := false
 var _completed := false
+var _awake := false
 var _fade: ScreenFade
 
 
@@ -41,9 +42,9 @@ func _ready() -> void:
 		queue_free()
 		return
 	if _starts_on_load():
-		monitoring = false
 		_triggered = true
 		_player = owner.get_node_or_null("%PlayerCharacter") as Player
+		body_entered.connect(_on_body_entered_awake)
 		_start.call_deferred()
 		return
 	body_entered.connect(_on_body_entered)
@@ -67,6 +68,14 @@ func _on_body_entered(body: Node2D) -> void:
 	_player = body
 	set_deferred("monitoring", false)
 	_start.call_deferred()
+
+
+func _on_body_entered_awake(body: Node2D) -> void:
+	if body is not Player or _awake: return
+	_awake = true
+	set_deferred("monitoring", false)
+	for enemy in _spawned:
+		if is_instance_valid(enemy): enemy.start_chase()
 
 
 func _start() -> void:
@@ -95,7 +104,7 @@ func _spawn(point: Marker2D) -> void:
 	enemy.died.connect(_release.bind(enemy))
 	_spawned.append(enemy)
 	_pending.append(enemy)
-	if not _starts_on_load(): enemy.start_chase()
+	if _awake or not _starts_on_load(): enemy.start_chase()
 
 
 func _release(enemy: EnemyNew) -> void:

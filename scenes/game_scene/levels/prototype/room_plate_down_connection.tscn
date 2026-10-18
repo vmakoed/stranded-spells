@@ -176,6 +176,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 script = ExtResource("1_lrkm5")
 exit_up_path = "uid://gdvwdquh0utp"
 exit_left_path = "uid://b432qnijacnyb"
+exit_down_path = "uid://do13i2tbw4l0s"
 exit_right_path = "uid://dw7hml05x01u7"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
@@ -325,8 +326,9 @@ metadata/_custom_type_script = "uid://dd2g374y7248h"
 [node name="DoorSwitch" type="Node2D" parent="Items" unique_id=1997021723]
 position = Vector2(228, 80)
 
-[node name="Switch" parent="Items/DoorSwitch" unique_id=804133087 instance=ExtResource("7_y3egw")]
+[node name="Switch" parent="Items/DoorSwitch" unique_id=804133087 node_paths=PackedStringArray("wire") instance=ExtResource("7_y3egw")]
 position = Vector2(-4, -56)
+wire = NodePath("../TileMapLayer")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Items/DoorSwitch" unique_id=2021748294]
 position = Vector2(-92, 0)

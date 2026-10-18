@@ -69,6 +69,10 @@ const SPELL_COOLDOWNS: Dictionary[Spell, float] = {
 	Spell.MAGIC_MISSILE: 1.0,
 	Spell.MISTY_STEP: 0.5
 }
+const SHOT_COOLDOWN = 0.15
+const SPELL_CHARGES: Dictionary[Spell, int] = {
+	Spell.MAGIC_MISSILE: MagicMissileOrbit.ORB_COUNT,
+}
 
 const SLOT_COUNT = 2
 const HOLD_ACTIONS: Array[StringName] = [&"cast_hold", &"cast_hold_secondary"]
@@ -86,6 +90,7 @@ var _drawn_this_hold := false
 var _has_wand := false
 var _alive := true
 var _cast_timers: Array[Timer] = []
+var _charges: Array[int] = [0, 0]
 
 
 @onready var button_container: HBoxContainer = %ButtonContainer
@@ -194,12 +199,15 @@ func _cast_slot(slot: int) -> void:
 	if spell == null: return
 	if not _cast_timers[slot].is_stopped(): return
 	GameUIBridge.spell_casted.emit(slot, spell)
+	_charges[slot] -= 1
+	if _charges[slot] > 0: return _cast_timers[slot].start(SHOT_COOLDOWN)
 	var cooldown: float = SPELL_COOLDOWNS.get(spell, CAST_COOLDOWN)
 	_cast_timers[slot].start(cooldown)
 	GameUIBridge.cast_cooldown_started.emit(slot, cooldown)
 
 
 func _on_cast_timer_timeout(slot: int) -> void:
+	if _charges[slot] > 0: return
 	_equip(slot)
 
 
@@ -279,11 +287,13 @@ func _check_complete_spell() -> void:
 	_drawn_this_hold = true
 	if complete_spell == _slot_spells[_active_slot]: return
 	_slot_spells[_active_slot] = complete_spell
+	_charges[_active_slot] = 0
 	if _cast_timers[_active_slot].is_stopped(): _equip(_active_slot)
 
 
 func _equip(slot: int) -> void:
 	if _slot_spells[slot] == null: return
+	_charges[slot] = SPELL_CHARGES.get(_slot_spells[slot], 1)
 	GameUIBridge.spell_equipped.emit(slot, _slot_spells[slot])
 
 

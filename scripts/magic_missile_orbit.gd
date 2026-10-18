@@ -6,7 +6,7 @@ const FRONT_RADIUS = 16.0
 const BACK_RADIUS = 16.0
 const BACK_ANGLE = deg_to_rad(120.0)
 const ORB_COUNT = 3
-const SLIDE_DURATION = 0.1
+const SLIDE_DURATION = 0.3
 
 
 var player: Player
