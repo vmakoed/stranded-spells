@@ -18,17 +18,17 @@ const GLYPHS: Dictionary[String, Texture2D] = {
 }
 
 
-@export var player: Player
 @export_multiline var prepare_text := "Hold {LT} {LB}: prepare spell":
 	set(value):
 		prepare_text = value
 		if is_node_ready(): _refresh()
 @export_multiline var equipped_text := "{RS}: aim {RT} {RB}: cast"
+@export_multiline var prepare_text_single := "Hold {LT}: prepare spell"
+@export_multiline var equipped_text_single := "{RS}: aim {RT}: cast"
 @export_multiline var draw_text := "{FACE_BOTTOM} {FACE_TOP}: draw glyph"
 @export_multiline var release_text := "Release {HOLD}"
 
 
-var _has_wand := false
 var _casting := false
 var _equipped_slots: Array[bool] = [false, false]
 var _active_slot := 0
@@ -45,8 +45,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		_refresh()
 		return
-	_has_wand = is_instance_valid(player) and player.has_item(Player.Item.WAND)
-	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+	GameUIBridge.spells_changed.connect(_on_spells_changed)
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
@@ -54,8 +53,7 @@ func _ready() -> void:
 	_refresh()
 
 
-func _on_inventory_changed(items: Array[Player.Item]) -> void:
-	_has_wand = Player.Item.WAND in items
+func _on_spells_changed(_spells: Array[CastInputPanel.Spell]) -> void:
 	_refresh()
 
 
@@ -81,13 +79,16 @@ func _on_spell_reset() -> void:
 
 
 func _refresh() -> void:
-	visible = _has_wand or Engine.is_editor_hint()
+	var known_count := CastInputPanel.known_spells.size()
+	var single := known_count == 1
+	visible = known_count > 0 or Engine.is_editor_hint()
 	var text: String
 	if _casting:
 		text = release_text if _sequence_complete else draw_text
 		text = text.replace("{HOLD}", "{%s}" % CastInputPanel.HOLD_LABELS[_active_slot])
 	else:
-		text = equipped_text if true in _equipped_slots else prepare_text
+		if true in _equipped_slots: text = equipped_text_single if single else equipped_text
+		else: text = prepare_text_single if single else prepare_text
 	if text == _shown_text: return
 	_shown_text = text
 	_build(text)

@@ -9,7 +9,7 @@
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="5_ununi"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="6_rdiqp"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="7_6l8lh"]
-[ext_resource type="Script" uid="uid://dejvrxhmkssta" path="res://scripts/item_pickup.gd" id="9_5m8i2"]
+[ext_resource type="PackedScene" path="res://scenes/spell_scroll.tscn" id="9_scroll"]
 [ext_resource type="PackedScene" uid="uid://bma7joqsr7g43" path="res://scenes/breakable_box.tscn" id="10_6l8lh"]
 [ext_resource type="Script" uid="uid://bcr7md08sav4a" path="res://scripts/box_challenge.gd" id="10_boxch"]
 [ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="10_ccd8a"]
@@ -585,12 +585,6 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 shader = ExtResource("5_ununi")
 shader_parameter/tint = Color(1, 1, 1, 0.35)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ccd8a"]
-load_path = "res://.godot/imported/wand.png-d336daa5c1ef226c2f0c96760c158edd.ctex"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ununi"]
-radius = 8.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sd08o"]
 size = Vector2(20, 60)
 
@@ -801,7 +795,7 @@ position = Vector2(524, 728)
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(636, 224)
-debug_items = 1
+debug_spells = 49
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=361838150]
 
@@ -841,16 +835,8 @@ texture = ExtResource("7_6l8lh")
 
 [node name="Items" type="Node" parent="." unique_id=296962834]
 
-[node name="Wand" type="Area2D" parent="Items" unique_id=863647862]
+[node name="SacredFlameScroll" parent="Items" instance=ExtResource("9_scroll")]
 position = Vector2(447, 368)
-script = ExtResource("9_5m8i2")
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Items/Wand" unique_id=2066518090]
-texture = SubResource("CompressedTexture2D_ccd8a")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/Wand" unique_id=56368150]
-shape = SubResource("CircleShape2D_ununi")
 
 [node name="BreakableBox" parent="Items" unique_id=1098040619 instance=ExtResource("10_6l8lh")]
 position = Vector2(376, 204)
@@ -1016,10 +1002,9 @@ position = Vector2(-40, 2)
 [node name="BoxMarker8" type="Marker2D" parent="Challenges/ChallengeBoxes" unique_id=1976316248]
 position = Vector2(40, 2)
 
-[node name="CastGuide" parent="." unique_id=1897414652 node_paths=PackedStringArray("player") instance=ExtResource("10_ccd8a")]
+[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("10_ccd8a")]
 material = SubResource("CanvasItemMaterial_ccd8a")
 position = Vector2(448, 421)
-player = NodePath("../PlayerCharacter")
 
 [node name="Doors" type="Node" parent="." unique_id=1384490296]
 

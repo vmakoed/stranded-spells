@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/spell_scroll.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://v3um8taosuxj" path="res://assets/textures/inventory icon 193.png" id="2_scroll"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_scroll"]
+radius = 8.0
+
+[node name="SpellScroll" type="Area2D"]
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_scroll")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_scroll")

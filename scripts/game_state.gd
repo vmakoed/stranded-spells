@@ -17,7 +17,7 @@ const FILE_PATH = "res://scripts/game_state.gd"
 @export var checkpoint_level_entry_direction : EntryDirection = EntryDirection.NONE
 @export var spell_unlocks : Dictionary[SpellDefinitions.Spell, bool]
 @export var room_flags : Dictionary = {}
-@export var inventory : Array[String] = []
+@export var spells : Array[String] = []
 
 static var _flag_writers := {}
 
@@ -127,15 +127,15 @@ static func level_path_to_room_number(level_path: String) -> String:
 		.trim_suffix(".tscn") \
 		.trim_prefix("room_")
 
-static func get_inventory() -> Array[String]:
+static func get_spells() -> Array[String]:
 	if not has_game_state():
 		return []
-	return get_or_create_state().inventory
+	return get_or_create_state().spells
 
-static func add_item(item_name : String) -> void:
+static func add_spell(spell_name : String) -> void:
 	var game_state := get_or_create_state()
-	if item_name in game_state.inventory: return
-	game_state.inventory.append(item_name)
+	if spell_name in game_state.spells: return
+	game_state.spells.append(spell_name)
 	GlobalState.save()
 
 static func get_flag(node : Node, default : Variant = null) -> Variant:
@@ -203,5 +203,5 @@ static func reset() -> void:
 	game_state.checkpoint_level_entry_direction = EntryDirection.NONE
 	game_state.spell_unlocks = SpellSystem.DEFAULT_UNLOCKS
 	game_state.room_flags = {}
-	game_state.inventory = []
+	game_state.spells = []
 	GlobalState.save()

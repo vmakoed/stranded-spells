@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_ssqrm"]
 [ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="14_doorlk"]
 [ext_resource type="Script" uid="uid://b17ac08wn6jyt" path="res://scripts/treasure_chest.gd" id="15_chest"]
-[ext_resource type="Texture2D" uid="uid://bi2lanlxsi3pt" path="res://assets/textures/wand.png" id="16_wand"]
+[ext_resource type="Texture2D" uid="uid://v3um8taosuxj" path="res://assets/textures/inventory icon 193.png" id="16_scroll"]
 [ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="18_emf3u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
@@ -275,7 +275,8 @@ position = Vector2(168, 56)
 [node name="TreasureChest" type="Area2D" parent="Items" unique_id=359544345]
 position = Vector2(200, 120)
 script = ExtResource("15_chest")
-icon = ExtResource("16_wand")
+spell = 4
+icon = ExtResource("16_scroll")
 save_id = "TreasureChest"
 metadata/_edit_group_ = true
 
@@ -431,9 +432,8 @@ material = SubResource("ShaderMaterial_pghxy")
 position = Vector2(-15, 0)
 texture = ExtResource("13_ssqrm")
 
-[node name="CastGuide" parent="." unique_id=1897414652 node_paths=PackedStringArray("player") instance=ExtResource("18_emf3u")]
-position = Vector2(200, 148)
-player = NodePath("../PlayerCharacter")
+[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("18_emf3u")]
+position = Vector2(164, 80)
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]

@@ -2,7 +2,7 @@ class_name TreasureChest
 extends Area2D
 
 
-@export var item: Player.Item
+@export var spell: CastInputPanel.Spell
 @export var icon: Texture2D
 @export var open_texture: Texture2D = preload("res://assets/textures/chest_open_4.png")
 @export var save_id := ""
@@ -21,7 +21,7 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is not Player: return
-	body.collect(item)
+	body.learn_spell(spell)
 	GameState.set_flag(self, true)
 	body.play_pickup_sound()
 	_set_open()

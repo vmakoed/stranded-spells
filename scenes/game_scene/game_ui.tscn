@@ -161,7 +161,7 @@ layout_mode = 2
 
 [node name="EquippedSpells" type="VBoxContainer" parent="MarginContainer" unique_id=1921206400]
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="EquippedSpellPrimary" parent="MarginContainer/EquippedSpells" unique_id=1921206401 instance=ExtResource("23_equip")]

@@ -13,7 +13,7 @@ const REVEAL_FADE_DURATION = 1.0
 
 const ROWS: Array[Dictionary] = [
 	{ "button": "LS:", "text": "Move", "icon": preload("res://resources/prompt_ls.tres") },
-	{ "button": "RS:", "text": "Aim", "requires": Player.Item.WAND, "icon": preload("res://resources/prompt_rs.tres") },
+	{ "button": "RS:", "text": "Aim", "requires_spell": true, "icon": preload("res://resources/prompt_rs.tres") },
 ]
 
 
@@ -27,15 +27,15 @@ func _ready() -> void:
 		for index in ROWS.size(): _add_row(index)
 	else:
 		for index in ROWS.size():
-			if not ROWS[index].has("requires"): _add_row(index)
-		GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+			if not ROWS[index].has("requires_spell"): _add_row(index)
+		GameUIBridge.spells_changed.connect(_on_spells_changed)
 
 
-func _on_inventory_changed(items: Array[Player.Item]) -> void:
+func _on_spells_changed(spells: Array[CastInputPanel.Spell]) -> void:
 	for index in ROWS.size():
 		var row := ROWS[index]
-		if not row.has("requires"): continue
-		var should_show: bool = row["requires"] in items
+		if not row.has("requires_spell"): continue
+		var should_show := not spells.is_empty()
 		if should_show == _shown.has(index): continue
 		if should_show:
 			_add_row(index)

@@ -81,13 +81,15 @@ const HOLD_LABELS: Array[String] = ["LT", "LB"]
 const FIRE_LABELS: Array[String] = ["RT", "RB"]
 
 
+static var known_spells: Array[Spell] = []
+
+
 var spell_sequence: Array[StringName] = []
 var casting := false
 var spells_unlocked := false: set = _set_spells_unlocked
 var _slot_spells: Array = [null, null]
 var _active_slot := 0
 var _drawn_this_hold := false
-var _has_wand := false
 var _alive := true
 var _cast_timers: Array[Timer] = []
 var _charges: Array[int] = [0, 0]
@@ -110,9 +112,9 @@ func _ready() -> void:
 		timer.timeout.connect(_on_cast_timer_timeout.bind(slot))
 		add_child(timer)
 		_cast_timers.append(timer)
-	set_process_input(false)	# locked until the wand is collected
+	set_process_input(false)	# locked until a spell is learned
 	set_physics_process(false)
-	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+	GameUIBridge.spells_changed.connect(_on_spells_changed)
 	GameUIBridge.player_alive_changed.connect(_on_player_alive_changed)
 	GameUIBridge.level_ready.connect(_on_level_ready)
 
@@ -129,7 +131,7 @@ func _set_spells_unlocked(new_value: bool) -> void:
 	set_physics_process(spells_unlocked)
 	if spells_unlocked:
 		for slot in SLOT_COUNT:
-			if Input.is_action_pressed(HOLD_ACTIONS[slot]): return _begin_casting(slot)
+			if _slot_available(slot) and Input.is_action_pressed(HOLD_ACTIONS[slot]): return _begin_casting(slot)
 		return
 	var was_casting := casting
 	casting = false
@@ -138,8 +140,13 @@ func _set_spells_unlocked(new_value: bool) -> void:
 	if was_casting: GameUIBridge.cast_mode_changed.emit(false, _active_slot)
 
 
-func _on_inventory_changed(items: Array[Player.Item]) -> void:
-	_has_wand = Player.Item.WAND in items
+func _on_spells_changed(spells: Array[Spell]) -> void:
+	known_spells = spells.duplicate()
+	for spell in _slot_spells:
+		if spell != null and not is_known(spell):
+			_unequip_all()
+			break
+	if not casting: _clear_spell_sequence()
 	_refresh_unlock()
 
 
@@ -154,12 +161,21 @@ func _on_level_ready() -> void:
 
 
 func _refresh_unlock() -> void:
-	spells_unlocked = _has_wand and _alive
+	spells_unlocked = not known_spells.is_empty() and _alive
+
+
+static func is_known(spell: Spell) -> bool:
+	return Engine.is_editor_hint() or spell in known_spells
+
+
+func _slot_available(slot: int) -> bool:
+	return slot < known_spells.size()
 
 
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint(): return
 	for slot in SLOT_COUNT:
+		if not _slot_available(slot): continue
 		if Input.is_action_just_pressed(HOLD_ACTIONS[slot]):
 			_begin_casting(slot)
 		elif casting and slot == _active_slot and Input.is_action_just_released(HOLD_ACTIONS[slot]):
@@ -189,7 +205,7 @@ func _begin_casting(slot: int) -> void:
 
 func _end_casting() -> void:
 	var other := (_active_slot + 1) % SLOT_COUNT
-	if Input.is_action_pressed(HOLD_ACTIONS[other]): return _begin_casting(other)
+	if _slot_available(other) and Input.is_action_pressed(HOLD_ACTIONS[other]): return _begin_casting(other)
 	casting = false
 	GameUIBridge.cast_mode_changed.emit(false, _active_slot)
 
@@ -213,14 +229,10 @@ func _on_cast_timer_timeout(slot: int) -> void:
 
 func _clear_spell_sequence() -> void:
 	spell_sequence.clear()
-	_update_prompt([
-		Spell.ATTACK_TARGET,
-		# Spell.ATTACK_AREA,
-		# Spell.SHIELD,
-		# Spell.HEAL
-		Spell.MAGIC_MISSILE,
-		Spell.MISTY_STEP,
-	])
+	var spells: Array[Spell] = []
+	for spell in SPELL_SEQUENCES:
+		if is_known(spell): spells.append(spell)
+	_update_prompt(spells)
 	_update_button_box()
 	if not Engine.is_editor_hint(): GameUIBridge.spell_sequence_changed.emit(spell_sequence)
 
@@ -244,6 +256,7 @@ func _append_to_spell_sequence(action: StringName) -> void:
 func _find_matching_spells() -> Array[Spell]:
 	var matching_spells: Array[Spell]
 	for spell in SPELL_SEQUENCES:
+		if not is_known(spell): continue
 		var sequence_definition = SPELL_SEQUENCES[spell]
 		if _is_spell_matching(sequence_definition): matching_spells.append(spell)
 	return matching_spells
@@ -257,6 +270,7 @@ static func spells_for_next_action(sequence: Array[StringName], action: StringNa
 	var result: Array[Spell] = []
 	var sequence_size := sequence.size()
 	for spell in SPELL_SEQUENCES:
+		if not is_known(spell): continue
 		var definition: Array = SPELL_SEQUENCES[spell]
 		if definition.size() <= sequence_size: continue
 		if definition.slice(0, sequence_size) != sequence: continue
@@ -266,7 +280,7 @@ static func spells_for_next_action(sequence: Array[StringName], action: StringNa
 
 static func find_complete_spell(sequence: Array[StringName]) -> Variant:
 	for spell in SPELL_SEQUENCES:
-		if SPELL_SEQUENCES[spell] == sequence: return spell
+		if SPELL_SEQUENCES[spell] == sequence and is_known(spell): return spell
 	return null
 
 

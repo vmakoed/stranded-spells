@@ -6,9 +6,6 @@ signal destroyed
 signal fainted
 
 
-enum Item { WAND, BOOK, KEY_SILVER, KEY_GOLD }
-
-
 const AIM_TEXTURE_DISTANCE = 64.0
 const MAX_HEALTH = 3.0
 const SPEED = 75.0
@@ -31,7 +28,7 @@ const BLINK_BACKOFF_STEP = 4.0
 @export var heart_hollow: Texture2D
 @export var shield_solid: Texture2D
 @export var shield_hollow: Texture2D
-@export_flags("Wand", "Book") var debug_items := 0
+@export_flags("Sacred Flame", "Word of Radiance", "Shield of Faith", "Healing Word", "Magic Missile", "Misty Step") var debug_spells := 0
 
 
 var health: float: set = _set_health
@@ -43,7 +40,7 @@ var initial_sprite_modulate: Color
 var initial_aim_modulate: Color
 var aim_angle: float: set = _set_aim_angle
 var aim_active: bool: set = _set_aim_active
-var inventory: Array[Item] = []
+var spells: Array[CastInputPanel.Spell] = []
 
 
 @onready var spell_area: Area2D = %SpellArea
@@ -67,22 +64,22 @@ func _ready() -> void:
 	aim_active = false
 	GameUIBridge.shield_changed.emit(shield_component.active)
 	GameUIBridge.player_alive_changed.emit(true)
-	_load_inventory()
-	_apply_debug_items()
-	_emit_inventory()
+	_load_spells()
+	_apply_debug_spells()
+	_emit_spells()
 
 
-func _load_inventory() -> void:
-	for item_name in GameState.get_inventory():
-		if Item.has(item_name) and not has_item(Item[item_name]):
-			inventory.append(Item[item_name])
+func _load_spells() -> void:
+	for spell_name in GameState.get_spells():
+		if CastInputPanel.Spell.has(spell_name) and not knows_spell(CastInputPanel.Spell[spell_name]):
+			spells.append(CastInputPanel.Spell[spell_name])
 
 
-func _apply_debug_items() -> void:
+func _apply_debug_spells() -> void:
 	if not OS.is_debug_build(): return
-	for item: Item in [Item.WAND, Item.BOOK]:
-		if debug_items & (1 << item) and not has_item(item):
-			inventory.append(item)
+	for spell: CastInputPanel.Spell in CastInputPanel.Spell.values():
+		if debug_spells & (1 << spell) and not knows_spell(spell):
+			spells.append(spell)
 
 
 func _physics_process(_delta: float) -> void:
@@ -171,24 +168,24 @@ func grant_shield() -> void:
 	hint.show_icon(shield_solid)
 
 
-func collect(item: Item) -> void:
-	if has_item(item): return
-	inventory.append(item)
-	GameState.add_item(Item.find_key(item))
-	_emit_inventory()
+func learn_spell(spell: CastInputPanel.Spell) -> void:
+	if knows_spell(spell): return
+	spells.append(spell)
+	GameState.add_spell(CastInputPanel.Spell.find_key(spell))
+	_emit_spells()
 
 
-func has_item(item: Item) -> bool:
-	return item in inventory
+func knows_spell(spell: CastInputPanel.Spell) -> bool:
+	return spell in spells
 
 
 func show_hint(texture: Texture2D) -> void:
 	hint.show_icon(texture)
 
 
-func _emit_inventory() -> void:
-	aim_sprite.visible = has_item(Item.WAND)	# reticle only once there is something to aim
-	GameUIBridge.inventory_changed.emit(inventory.duplicate())
+func _emit_spells() -> void:
+	aim_sprite.visible = not spells.is_empty()	# reticle only once there is something to aim
+	GameUIBridge.spells_changed.emit(spells.duplicate())
 
 
 func save_health() -> void:

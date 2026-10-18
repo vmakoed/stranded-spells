@@ -8,16 +8,8 @@
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="6_21b54"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="7_6gdts"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="8_a3rn3"]
-[ext_resource type="Script" uid="uid://dejvrxhmkssta" path="res://scripts/item_pickup.gd" id="9_h7b0q"]
-[ext_resource type="Texture2D" uid="uid://bi2lanlxsi3pt" path="res://assets/textures/wand.png" id="10_8cywn"]
+[ext_resource type="PackedScene" path="res://scenes/spell_scroll.tscn" id="10_scroll"]
 [ext_resource type="PackedScene" uid="uid://bma7joqsr7g43" path="res://scenes/breakable_box.tscn" id="11_o8byr"]
-[ext_resource type="Texture2D" uid="uid://b1dt117qmv6ow" path="res://assets/textures/inventory icon 189.png" id="12_epwgm"]
-[ext_resource type="PackedScene" path="res://scenes/locked_door.tscn" id="13_3a74i"]
-[ext_resource type="Texture2D" uid="uid://b688u2lowypit" path="res://assets/textures/xtra icons 190.png" id="14_b1cvu"]
-[ext_resource type="Texture2D" uid="uid://dpxjeq4biekud" path="res://assets/textures/inventory icon 195.png" id="15_o0nhg"]
-[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="16_tuiof"]
-[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="17_e056n"]
-[ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="18_q8y7k"]
 [ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="19_epc7k"]
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="20_nmib0"]
 [ext_resource type="Script" uid="uid://hkp6m3fni1pg" path="res://scripts/darkness_zone.gd" id="21_5xv58"]
@@ -43,18 +35,6 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mkleft"]
 shader = ExtResource("6_21b54")
 shader_parameter/tint = Color(1, 1, 1, 0.35)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_w7uo7"]
-radius = 8.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qctea"]
-radius = 8.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_g5140"]
-radius = 8.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_nx0vs"]
-radius = 8.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
 atlas = ExtResource("19_epc7k")
@@ -504,28 +484,8 @@ texture = ExtResource("8_a3rn3")
 
 [node name="Items" type="Node" parent="." unique_id=1440820633]
 
-[node name="Wand" type="Area2D" parent="Items" unique_id=480616936]
+[node name="SacredFlameScroll" parent="Items" instance=ExtResource("10_scroll")]
 position = Vector2(367, 420)
-script = ExtResource("9_h7b0q")
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Items/Wand" unique_id=1823085893]
-texture = ExtResource("10_8cywn")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/Wand" unique_id=1448755416]
-shape = SubResource("CircleShape2D_w7uo7")
-
-[node name="Book" type="Area2D" parent="Items" unique_id=149927781]
-position = Vector2(119, 572)
-script = ExtResource("9_h7b0q")
-item = 1
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Items/Book" unique_id=1572304394]
-texture = ExtResource("12_epwgm")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/Book" unique_id=1446754402]
-shape = SubResource("CircleShape2D_qctea")
 
 [node name="BreakableBox9" parent="Items" unique_id=1411625572 instance=ExtResource("11_o8byr")]
 position = Vector2(185, 568)
@@ -590,57 +550,6 @@ shielded = true
 [node name="ShieldedBox5" parent="Items" unique_id=1381259768 instance=ExtResource("11_o8byr")]
 position = Vector2(153, 328)
 shielded = true
-
-[node name="SilverDoor" parent="Items" unique_id=874322157 instance=ExtResource("13_3a74i")]
-position = Vector2(656, -12)
-key = 2
-key_icon = ExtResource("14_b1cvu")
-tint = Color(0.8, 0.85, 0.95, 1)
-
-[node name="GoldDoor" parent="Items" unique_id=1521376628 instance=ExtResource("13_3a74i")]
-position = Vector2(525, -21)
-key = 3
-key_icon = ExtResource("15_o0nhg")
-tint = Color(1, 0.85, 0.4, 1)
-
-[node name="KeySilver" type="Area2D" parent="Items" unique_id=855302636]
-position = Vector2(607, -20)
-script = ExtResource("9_h7b0q")
-item = 2
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Items/KeySilver" unique_id=1880167725]
-texture = ExtResource("14_b1cvu")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/KeySilver" unique_id=469194908]
-shape = SubResource("CircleShape2D_g5140")
-
-[node name="KeyGold" type="Area2D" parent="Items" unique_id=1551467573 node_paths=PackedStringArray("shield_component", "hurtbox")]
-position = Vector2(485, -23)
-script = ExtResource("9_h7b0q")
-item = 3
-shield_component = NodePath("ShieldComponent")
-hurtbox = NodePath("HurtboxComponent")
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Items/KeyGold" unique_id=867441054]
-texture = ExtResource("15_o0nhg")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/KeyGold" unique_id=1306600627]
-shape = SubResource("CircleShape2D_nx0vs")
-
-[node name="ShieldComponent" parent="Items/KeyGold" unique_id=1906266033 instance=ExtResource("16_tuiof")]
-
-[node name="HurtboxComponent" parent="Items/KeyGold" unique_id=1068378945 node_paths=PackedStringArray("shield_component") instance=ExtResource("17_e056n")]
-collision_layer = 8
-collision_mask = 0
-shield_component = NodePath("../ShieldComponent")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/KeyGold/HurtboxComponent" unique_id=746550845]
-shape = SubResource("CircleShape2D_nx0vs")
-
-[node name="ShieldBubble" parent="Items/KeyGold" unique_id=854369263 node_paths=PackedStringArray("shield") instance=ExtResource("18_q8y7k")]
-shield = NodePath("../ShieldComponent")
 
 [node name="WinChest" type="Area2D" parent="Items" unique_id=330359362]
 position = Vector2(140, 144)
@@ -763,8 +672,7 @@ position = Vector2(432, 200)
 position = Vector2(328, 144)
 facing = 1
 
-[node name="CastGuide" parent="." unique_id=1450978606 node_paths=PackedStringArray("player") instance=ExtResource("23_nx74p")]
+[node name="CastGuide" parent="." unique_id=1450978606 instance=ExtResource("23_nx74p")]
 position = Vector2(400, 468)
-player = NodePath("../PlayerCharacter")
 
 [connection signal="body_entered" from="Items/WinChest" to="." method="_on_win_chest_body_entered"]

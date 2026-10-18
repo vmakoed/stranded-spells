@@ -23,7 +23,7 @@ func _ready() -> void:
 	if prepare_icon: prepare_icon_rect.texture = prepare_icon
 	if cast_icon: cast_icon_rect.texture = cast_icon
 	_show_equipped(null)
-	GameUIBridge.inventory_changed.connect(_on_inventory_changed)
+	GameUIBridge.spells_changed.connect(_on_spells_changed)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_show_equipped.bind(null))
 	GameUIBridge.cast_cooldown_started.connect(_on_cast_cooldown_started)
@@ -41,8 +41,8 @@ func _on_cast_cooldown_started(cooldown_slot: int, duration: float) -> void:
 	_cooldown_tween.tween_property(cooldown_bar, "value", 0.0, duration)
 
 
-func _on_inventory_changed(items: Array[Player.Item]) -> void:
-	visible = Player.Item.WAND in items
+func _on_spells_changed(spells: Array[CastInputPanel.Spell]) -> void:
+	visible = slot < spells.size()
 
 
 func _show_equipped(spell: Variant) -> void:
