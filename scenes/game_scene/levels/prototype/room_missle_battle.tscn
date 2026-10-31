@@ -178,6 +178,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomMissleBattle" type="Node" unique_id=1049756891]
 script = ExtResource("1_5vf75")
 exit_up_path = "uid://dp0kan0e3enyi"
+exit_down_path = "uid://ltmku1trlmep"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)

@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_7lao4"]
 [ext_resource type="PackedScene" uid="uid://ci403rwthdvbj" path="res://scenes/switch.tscn" id="12_tgnn3"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_yh74f"]
-[ext_resource type="PackedScene" path="res://scenes/spell_scroll.tscn" id="16_scroll"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
 size = Vector2(32, 3.2000003)
@@ -271,11 +270,6 @@ position = Vector2(40, 100)
 
 [node name="BreakableBox4" parent="Items" unique_id=480863680 instance=ExtResource("6_tgnn3")]
 position = Vector2(156, 56)
-
-[node name="MagicMissileScroll" parent="Items" instance=ExtResource("16_scroll")]
-position = Vector2(128, 108)
-spell = 4
-save_id = "MagicMissileScroll"
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_g0dj2")]
 unique_name_in_owner = true
