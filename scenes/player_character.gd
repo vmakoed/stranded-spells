@@ -16,7 +16,7 @@ const CAST_FRAME_FREEZE_DURATION = 0.15
 const BLINK_SOLID_MASK = 36
 const BLINK_LANDING_MASK = 100
 const BLINK_BACKOFF_STEP = 4.0
-const KNOCKBACK_DURATION = 0.25
+const KNOCKBACK_DURATION = 0.5
 
 
 @export var push_sound: AudioStream
