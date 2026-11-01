@@ -16,11 +16,19 @@ const LINK_COLOR := Color(1, 0.4, 0.3, 0.6)
 @export var wire: TileMapLayer
 
 
+var latched := false:
+	set(value):
+		latched = value
+		_update_tint()
+
 var _count := 0
+
+@onready var _sprite := %Sprite2D
 
 
 func _ready() -> void:
 	if Engine.is_editor_hint(): return
+	_update_tint()
 	set_process(false)
 	collision_layer = 0
 	collision_mask = triggered_by
@@ -47,7 +55,7 @@ func _on_body_entered(_body: Node2D) -> void:
 		if is_instance_valid(s): s.raise()
 	for t in arrow_traps:
 		if is_instance_valid(t): t.start()
-	_light_wire(true)
+	_update_tint()
 	pressed.emit()
 
 
@@ -58,9 +66,11 @@ func _on_body_exited(_body: Node2D) -> void:
 		if is_instance_valid(s): s.lower()
 	for t in arrow_traps:
 		if is_instance_valid(t): t.stop()
-	_light_wire(false)
+	_update_tint()
 	released.emit()
 
 
-func _light_wire(lit: bool) -> void:
-	if is_instance_valid(wire): wire.modulate = ProgressRing.FILL_COLOR if lit else Color.WHITE
+func _update_tint() -> void:
+	var tint := ProgressRing.FILL_COLOR if latched or _count > 0 else Color.WHITE
+	if _sprite: _sprite.modulate = tint
+	if is_instance_valid(wire): wire.modulate = tint

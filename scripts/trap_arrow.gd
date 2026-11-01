@@ -5,7 +5,11 @@ extends Area2D
 const WORLD_LAYER = 3
 
 
+@export var damage := 1.0
+
+
 var velocity := Vector2.ZERO
+var _push := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -17,8 +21,9 @@ func _physics_process(delta: float) -> void:
 	position += velocity * delta
 
 
-func launch(direction: Vector2, speed: float) -> void:
+func launch(direction: Vector2, speed: float, push: float) -> void:
 	velocity = direction.normalized() * speed
+	_push = direction.normalized() * push
 	rotation = direction.angle() - PI / 2.0
 
 
@@ -35,7 +40,12 @@ func _is_world(body: Node2D) -> bool:
 
 
 func _on_area_entered(area: Area2D) -> void:
-	if area is HurtboxComponent: _hit()
+	if not area is HurtboxComponent: return
+	var player := area.get_parent() as Player
+	if player:
+		(area as HurtboxComponent).damage(damage)
+		player.knock_back(_push)
+	_hit()
 
 
 func _on_body_entered(body: Node2D) -> void:

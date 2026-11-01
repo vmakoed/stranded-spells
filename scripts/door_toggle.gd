@@ -35,6 +35,8 @@ func _on_pressed(index: int) -> void:
 
 
 func _light_wires() -> void:
+	for i in plates.size():
+		if is_instance_valid(plates[i]): plates[i].latched = i == _latched
 	for i in wires.size():
 		if is_instance_valid(wires[i]):
 			wires[i].modulate = ProgressRing.FILL_COLOR if i == _latched else Color.WHITE

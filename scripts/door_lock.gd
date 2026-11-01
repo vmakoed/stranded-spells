@@ -34,9 +34,10 @@ func _ready() -> void:
 		if i in solved:
 			_filled += 1
 			if source is Switch: source.on = true
+			else: source.latched = true
 			continue
 		var done: Signal = source.activated if source is Switch else source.pressed
-		done.connect(_on_activated.bind(i), CONNECT_ONE_SHOT)
+		done.connect(_on_activated.bind(i, source), CONNECT_ONE_SHOT)
 	if _filled >= _total:
 		for door in doors: door.closed = false
 		queue_free()
@@ -52,7 +53,8 @@ func _ready() -> void:
 		_rings.append(ring)
 
 
-func _on_activated(index: int) -> void:
+func _on_activated(index: int, source: Node) -> void:
+	if source is PressurePlate: source.latched = true
 	var solved: Array = GameState.get_flag(self, []).duplicate()
 	solved.append(index)
 	GameState.set_flag(self, solved)

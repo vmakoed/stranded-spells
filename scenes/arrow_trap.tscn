@@ -23,6 +23,7 @@ animations = [{
 
 [node name="ArrowTrap" type="Node2D" unique_id=1491370832]
 script = ExtResource("1_script")
+push_distance = 64.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=66304125]
 unique_name_in_owner = true

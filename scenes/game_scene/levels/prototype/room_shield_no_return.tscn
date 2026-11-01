@@ -8,12 +8,12 @@
 [ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="6_usqsj"]
 [ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="7_ma4ts"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_ajl7w"]
+[ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="10_0n3av"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_mes1j"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_u40br"]
 [ext_resource type="PackedScene" uid="uid://bfaay4i0iy7av" path="res://scenes/arrow_trap.tscn" id="11_vfq23"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_ajxel"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_008wq"]
-[ext_resource type="Script" uid="uid://dq3v68ou4gfpa" path="res://scripts/door_toggle.gd" id="14_dtgl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("3_vuet4")
@@ -190,12 +190,10 @@ script = ExtResource("1_we8x8")
 exit_up_path = "uid://ltmku1trlmep"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
-visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="VoidCanvasLayer" type="CanvasLayer" parent="." unique_id=482607754]
 layer = -1
-visible = false
 
 [node name="VoidDarknessModulate" type="CanvasModulate" parent="VoidCanvasLayer" unique_id=1091885943]
 color = Color(0, 0, 0, 1)
@@ -285,19 +283,20 @@ unique_name_in_owner = true
 position = Vector2(248, 80)
 
 [node name="Lights" type="Node2D" parent="." unique_id=1527614214]
-visible = false
 
 [node name="Torch" parent="Lights" unique_id=1134264119 instance=ExtResource("5_6t8l5")]
-position = Vector2(104, 24)
+position = Vector2(120, 24)
+facing = 2
 
 [node name="Torch2" parent="Lights" unique_id=1895984912 instance=ExtResource("5_6t8l5")]
-position = Vector2(56, 24)
+position = Vector2(72, 24)
 
 [node name="Torch3" parent="Lights" unique_id=2051964530 instance=ExtResource("5_6t8l5")]
-position = Vector2(152, 24)
+position = Vector2(136, 24)
+facing = 3
 
 [node name="Torch4" parent="Lights" unique_id=186212970 instance=ExtResource("5_6t8l5")]
-position = Vector2(200, 24)
+position = Vector2(184, 24)
 
 [node name="Torch5" parent="Lights" unique_id=330751375 instance=ExtResource("5_6t8l5")]
 position = Vector2(216, 56)
@@ -332,52 +331,12 @@ position = Vector2(200, 136)
 facing = 1
 
 [node name="Torch13" parent="Lights" unique_id=994516951 instance=ExtResource("5_6t8l5")]
-position = Vector2(104, 80)
-facing = 4
+position = Vector2(104, 88)
 
 [node name="Torch14" parent="Lights" unique_id=2071679717 instance=ExtResource("5_6t8l5")]
-position = Vector2(156, 80)
-facing = 4
+position = Vector2(152, 88)
 
 [node name="Items" type="Node2D" parent="." unique_id=1616782477]
-
-[node name="PlatePair" type="Node2D" parent="Items" unique_id=397736211 node_paths=PackedStringArray("plates", "doors", "wires")]
-script = ExtResource("14_dtgl")
-plates = [NodePath("PressurePlateTop"), NodePath("PressurePlateBottom")]
-doors = [NodePath("ChallengeDoor")]
-wires = [NodePath("WireTop"), NodePath("WireBottom")]
-save_id = "plate_pair"
-
-[node name="WireTop" type="TileMapLayer" parent="Items/PlatePair" unique_id=247010798]
-position = Vector2(0, -8)
-tile_map_data = PackedByteArray("AAAMAAQAAQAAAAMAAAAMAAMAAQABAAEAAAA=")
-tile_set = ExtResource("6_usqsj")
-
-[node name="GroupWire" type="TileMapLayer" parent="Items/PlatePair" unique_id=1898996038]
-visible = false
-position = Vector2(0, 8)
-tile_map_data = PackedByteArray("AAALAAMAAQABAAMAAAALAAQAAQABAAMAAAALAAUAAQABAAMAAAAOAAUAAQABAAMAADAOAAQAAQABAAMAADAOAAMAAQABAAMAADALAAEAAQACAAEAAAAMAAEAAQABAAMAAFANAAEAAQABAAMAAFAOAAEAAQADAAEAAAALAAIAAQABAAMAAAAOAAIAAQABAAMAAAALAAcAAQACAAIAAAAMAAcAAQABAAMAAFANAAcAAQABAAMAAFAOAAcAAQADAAIAAAALAAYAAQABAAMAAAAOAAYAAQABAAMAAAA=")
-tile_set = ExtResource("6_usqsj")
-
-[node name="WireBottom" type="TileMapLayer" parent="Items/PlatePair" unique_id=1205397394]
-position = Vector2(0, -8)
-tile_map_data = PackedByteArray("AAAMAAYAAQAAAAMAAAAMAAcAAQABAAIAAAA=")
-tile_set = ExtResource("6_usqsj")
-
-[node name="PressurePlateTop" parent="Items/PlatePair" unique_id=24332738 instance=ExtResource("7_ma4ts")]
-position = Vector2(184, 48)
-
-[node name="PressurePlateBottom" parent="Items/PlatePair" unique_id=903715292 instance=ExtResource("7_ma4ts")]
-position = Vector2(184, 112)
-
-[node name="ChallengeDoor" parent="Items/PlatePair" unique_id=1075169853 instance=ExtResource("4_vfq23")]
-position = Vector2(208, 80)
-closed = true
-
-[node name="ChallengeDoor2" parent="Items/PlatePair" unique_id=177496606 instance=ExtResource("4_vfq23")]
-position = Vector2(68, 48)
-facing = 1
-closed = true
 
 [node name="TriggerableArrowTrap" type="Node2D" parent="Items" unique_id=699490122]
 position = Vector2(48, 24)
@@ -389,13 +348,54 @@ position = Vector2(-8, 8)
 position = Vector2(8, 8)
 
 [node name="ArrowTrapPlate" parent="Items/TriggerableArrowTrap" unique_id=1149950640 node_paths=PackedStringArray("arrow_traps", "wire") instance=ExtResource("7_ma4ts")]
-position = Vector2(0, 88)
+position = Vector2(0, 56)
 arrow_traps = [NodePath("../ArrowTrap"), NodePath("../ArrowTrap2")]
 wire = NodePath("../Wire")
 
 [node name="Wire" type="TileMapLayer" parent="Items/TriggerableArrowTrap" unique_id=402545017]
-position = Vector2(-48, -24)
-tile_map_data = PackedByteArray("AAABAAIAAQAAAAMAAAABAAMAAQAAAAMAAAABAAQAAQAAAAMAAAABAAUAAQAAAAMAAAAEAAIAAQAAAAMAAAAEAAMAAQAAAAMAAAAEAAQAAQAAAAMAAAAEAAUAAQAAAAMAAAABAAEAAQAAAAEAAAAEAAEAAQABAAEAAAADAAYAAQAAAAEAAAAEAAYAAQABAAIAAAACAAYAAQABAAEAAAABAAYAAQAAAAIAAAA=")
+position = Vector2(-40, -16)
+tile_map_data = PackedByteArray("AAABAAIAAQAAAAMAAAABAAMAAQAAAAMAAAABAAQAAQAAAAMAAAACAAUAAQAAAAMAAFADAAUAAQABAAIAAAABAAAAAQAAAAEAAAABAAEAAQAAAAMAAAACAAAAAQAAAAMAAFADAAAAAQABAAEAAAABAAUAAQAAAAIAAAADAAQAAQAAAAMAAAADAAMAAQAAAAMAAAADAAIAAQAAAAMAAAADAAEAAQAAAAMAAAA=")
+tile_set = ExtResource("6_usqsj")
+
+[node name="TriggerableArrowTrap2" type="Node2D" parent="Items" unique_id=380960864]
+position = Vector2(208, 24)
+
+[node name="ArrowTrap" parent="Items/TriggerableArrowTrap2" unique_id=1966718854 instance=ExtResource("11_vfq23")]
+position = Vector2(-8, 8)
+
+[node name="ArrowTrap2" parent="Items/TriggerableArrowTrap2" unique_id=1119728164 instance=ExtResource("11_vfq23")]
+position = Vector2(8, 8)
+
+[node name="ArrowTrapPlate" parent="Items/TriggerableArrowTrap2" unique_id=1677958708 node_paths=PackedStringArray("arrow_traps", "wire") instance=ExtResource("7_ma4ts")]
+position = Vector2(0, 56)
+arrow_traps = [NodePath("../ArrowTrap"), NodePath("../ArrowTrap2")]
+wire = NodePath("../Wire")
+
+[node name="Wire" type="TileMapLayer" parent="Items/TriggerableArrowTrap2" unique_id=163533927]
+position = Vector2(-40, -16)
+tile_map_data = PackedByteArray("AAABAAIAAQAAAAMAAAABAAMAAQAAAAMAAAABAAQAAQAAAAMAAAACAAUAAQAAAAMAAFADAAUAAQABAAIAAAABAAAAAQAAAAEAAAABAAEAAQAAAAMAAAACAAAAAQAAAAMAAFADAAAAAQABAAEAAAABAAUAAQAAAAIAAAADAAQAAQAAAAMAAAADAAMAAQAAAAMAAAADAAIAAQAAAAMAAAADAAEAAQAAAAMAAAA=")
+tile_set = ExtResource("6_usqsj")
+
+[node name="NoReturnDoor" type="Node2D" parent="Items" unique_id=883318230]
+
+[node name="DoorLock" type="Node2D" parent="Items/NoReturnDoor" unique_id=921052304 node_paths=PackedStringArray("plates", "doors")]
+script = ExtResource("10_0n3av")
+plates = [NodePath("../PressurePlate")]
+doors = [NodePath("../ChallengeDoor")]
+save_id = "shield_no_return_door"
+
+[node name="PressurePlate" parent="Items/NoReturnDoor" unique_id=378155289 node_paths=PackedStringArray("wire") instance=ExtResource("7_ma4ts")]
+position = Vector2(88, 48)
+wire = NodePath("../Wire")
+
+[node name="ChallengeDoor" parent="Items/NoReturnDoor" unique_id=177496606 instance=ExtResource("4_vfq23")]
+position = Vector2(108, 48)
+facing = 1
+closed = true
+
+[node name="Wire" type="TileMapLayer" parent="Items/NoReturnDoor" unique_id=517742318]
+position = Vector2(0, -8)
+tile_map_data = PackedByteArray("AAAGAAMAAQAAAAMAAFA=")
 tile_set = ExtResource("6_usqsj")
 
 [node name="DetectionAreas" type="Node2D" parent="." unique_id=1135695816]

@@ -16,6 +16,7 @@ const CAST_FRAME_FREEZE_DURATION = 0.15
 const BLINK_SOLID_MASK = 36
 const BLINK_LANDING_MASK = 100
 const BLINK_BACKOFF_STEP = 4.0
+const KNOCKBACK_DURATION = 0.25
 
 
 @export var push_sound: AudioStream
@@ -41,6 +42,8 @@ var initial_aim_modulate: Color
 var aim_angle: float: set = _set_aim_angle
 var aim_active: bool: set = _set_aim_active
 var spells: Array[CastInputPanel.Spell] = []
+var _knockback := Vector2.ZERO
+var _knockback_time := 0.0
 
 
 @onready var spell_area: Area2D = %SpellArea
@@ -82,9 +85,13 @@ func _apply_debug_spells() -> void:
 			spells.append(spell)
 
 
-func _physics_process(_delta: float) -> void:
-	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	velocity = direction * SPEED
+func _physics_process(delta: float) -> void:
+	if _knockback_time > 0.0:
+		_knockback_time = maxf(_knockback_time - delta, 0.0)
+		velocity = _knockback * (_knockback_time / KNOCKBACK_DURATION)
+	else:
+		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		velocity = direction * SPEED
 	move_and_slide()
 
 	var aim_direction := Input.get_vector(&"aim_left", &"aim_right", &"aim_up", &"aim_down")
@@ -156,6 +163,11 @@ func blink_destination(distance: float) -> Vector2:
 		if space.intersect_shape(query, 1).is_empty(): break
 		travel = maxf(travel - BLINK_BACKOFF_STEP, 0.0)
 	return global_position + direction * travel
+
+
+func knock_back(offset: Vector2) -> void:
+	_knockback = offset * 2.0 / KNOCKBACK_DURATION
+	_knockback_time = KNOCKBACK_DURATION
 
 
 func teleport(destination: Vector2) -> void:

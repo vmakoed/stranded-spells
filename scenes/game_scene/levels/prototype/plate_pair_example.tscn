@@ -1,0 +1,38 @@
+[gd_scene format=4 uid="uid://dblc7hosbys3d"]
+
+[ext_resource type="Script" uid="uid://dq3v68ou4gfpa" path="res://scripts/door_toggle.gd" id="1_0h67k"]
+[ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="2_82gu0"]
+[ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="3_7l37h"]
+[ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="4_fv8eo"]
+
+[node name="PlatePairExample" type="Node2D" unique_id=440183308 node_paths=PackedStringArray("plates", "doors", "wires")]
+script = ExtResource("1_0h67k")
+plates = [NodePath("PressurePlateTop"), NodePath("PressurePlateBottom")]
+doors = [NodePath("ChallengeDoor")]
+wires = [NodePath("WireTop"), NodePath("WireBottom")]
+
+[node name="WireTop" type="TileMapLayer" parent="." unique_id=598360650]
+position = Vector2(0, -8)
+tile_map_data = PackedByteArray("AAAMAAQAAQAAAAMAAAAMAAMAAQABAAEAAAA=")
+tile_set = ExtResource("2_82gu0")
+
+[node name="GroupWire" type="TileMapLayer" parent="." unique_id=931442163]
+visible = false
+position = Vector2(0, 8)
+tile_map_data = PackedByteArray("AAALAAMAAQABAAMAAAALAAQAAQABAAMAAAALAAUAAQABAAMAAAAOAAUAAQABAAMAADAOAAQAAQABAAMAADAOAAMAAQABAAMAADALAAEAAQACAAEAAAAMAAEAAQABAAMAAFANAAEAAQABAAMAAFAOAAEAAQADAAEAAAALAAIAAQABAAMAAAAOAAIAAQABAAMAAAALAAcAAQACAAIAAAAMAAcAAQABAAMAAFANAAcAAQABAAMAAFAOAAcAAQADAAIAAAALAAYAAQABAAMAAAAOAAYAAQABAAMAAAA=")
+tile_set = ExtResource("2_82gu0")
+
+[node name="WireBottom" type="TileMapLayer" parent="." unique_id=984080963]
+position = Vector2(0, -8)
+tile_map_data = PackedByteArray("AAAMAAYAAQAAAAMAAAAMAAcAAQABAAIAAAA=")
+tile_set = ExtResource("2_82gu0")
+
+[node name="PressurePlateTop" parent="." unique_id=1445335304 instance=ExtResource("3_7l37h")]
+position = Vector2(184, 48)
+
+[node name="PressurePlateBottom" parent="." unique_id=1688385441 instance=ExtResource("3_7l37h")]
+position = Vector2(184, 112)
+
+[node name="ChallengeDoor" parent="." unique_id=68105329 instance=ExtResource("4_fv8eo")]
+position = Vector2(208, 80)
+closed = true
