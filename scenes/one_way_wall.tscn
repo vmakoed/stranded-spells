@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b77o77vij836"]
+
+[ext_resource type="Texture2D" uid="uid://nbrfwy0vdhwt" path="res://assets/textures/Dungeon_Tileset.png" id="1_pioj8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd08o"]
+atlas = ExtResource("1_pioj8")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sd08o"]
+size = Vector2(16, 16)
+
+[node name="OneWayWall" type="StaticBody2D" unique_id=295150432]
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1294941173]
+texture = SubResource("AtlasTexture_sd08o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=75144528]
+shape = SubResource("RectangleShape2D_sd08o")
+one_way_collision = true
+one_way_collision_direction = Vector2(0, -1)

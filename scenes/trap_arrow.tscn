@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/trap_arrow.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c0togplt48tm" path="res://assets/textures/arrow/Just_arrow.png" id="2_arrow"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_arrow"]
+size = Vector2(2, 8)
+
+[node name="TrapArrow" type="Area2D"]
+z_index = 3
+z_as_relative = false
+collision_layer = 0
+collision_mask = 28
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_arrow")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_arrow")

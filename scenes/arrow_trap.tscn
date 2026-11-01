@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bfaay4i0iy7av"]
+
+[ext_resource type="Script" uid="uid://crohxkayoixii" path="res://scripts/arrow_trap.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c5cbb1avt8htu" path="res://assets/textures/arrow/arrow_2.png" id="2_frame"]
+[ext_resource type="Texture2D" uid="uid://dfwuej8o5w4b5" path="res://assets/textures/arrow/arrow_3.png" id="3_frame"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fire"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_frame")
+}],
+"loop": 0,
+"name": &"fire",
+"speed": 15.0
+}]
+
+[node name="ArrowTrap" type="Node2D" unique_id=1491370832]
+script = ExtResource("1_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=66304125]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_fire")
+animation = &"fire"
+frame = 1
+frame_progress = 1.0
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1719198533]
+unique_name_in_owner = true
+position = Vector2(0, 12)
+
+[node name="Timer" type="Timer" parent="." unique_id=2098343298]
+unique_name_in_owner = true
+wait_time = 0.1
+one_shot = true

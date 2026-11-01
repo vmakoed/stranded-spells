@@ -8,11 +8,9 @@
 [ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="6_usqsj"]
 [ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="7_ma4ts"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_ajl7w"]
-[ext_resource type="Texture2D" uid="uid://c5cbb1avt8htu" path="res://assets/textures/arrow/arrow_2.png" id="9_we8x8"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_mes1j"]
-[ext_resource type="Texture2D" uid="uid://dfwuej8o5w4b5" path="res://assets/textures/arrow/arrow_3.png" id="10_vuet4"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_u40br"]
-[ext_resource type="Texture2D" uid="uid://c0togplt48tm" path="res://assets/textures/arrow/Just_arrow.png" id="11_vfq23"]
+[ext_resource type="PackedScene" uid="uid://bfaay4i0iy7av" path="res://scenes/arrow_trap.tscn" id="11_vfq23"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_ajxel"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_008wq"]
 [ext_resource type="Script" uid="uid://dq3v68ou4gfpa" path="res://scripts/door_toggle.gd" id="14_dtgl"]
@@ -155,20 +153,6 @@ size = Vector2(32, 3.2000003)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_0n3av"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("9_we8x8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_vuet4")
-}],
-"loop": 1,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6oa77"]
 size = Vector2(192, 16)
 
@@ -240,6 +224,7 @@ closed = true
 [node name="DoorLeft" parent="Doors" unique_id=959593896 instance=ExtResource("4_vfq23")]
 position = Vector2(28, 80)
 facing = 1
+closed = true
 
 [node name="DoorRight" parent="Doors" unique_id=90353559 instance=ExtResource("4_vfq23")]
 position = Vector2(228, 80)
@@ -389,17 +374,29 @@ position = Vector2(184, 112)
 position = Vector2(208, 80)
 closed = true
 
-[node name="ArrowTrap" type="Node2D" parent="Items" unique_id=1828354124]
+[node name="ChallengeDoor2" parent="Items/PlatePair" unique_id=177496606 instance=ExtResource("4_vfq23")]
+position = Vector2(68, 48)
+facing = 1
+closed = true
 
-[node name="TurretAnimatedSprite" type="AnimatedSprite2D" parent="Items/ArrowTrap" unique_id=95898944]
-position = Vector2(40, 32)
-sprite_frames = SubResource("SpriteFrames_0n3av")
-frame = 1
-frame_progress = 0.96155155
+[node name="TriggerableArrowTrap" type="Node2D" parent="Items" unique_id=699490122]
+position = Vector2(48, 24)
 
-[node name="ArrowSprite" type="Sprite2D" parent="Items/ArrowTrap" unique_id=1130447590]
-position = Vector2(40, 36)
-texture = ExtResource("11_vfq23")
+[node name="ArrowTrap" parent="Items/TriggerableArrowTrap" unique_id=1828354124 instance=ExtResource("11_vfq23")]
+position = Vector2(-8, 8)
+
+[node name="ArrowTrap2" parent="Items/TriggerableArrowTrap" unique_id=1491370832 instance=ExtResource("11_vfq23")]
+position = Vector2(8, 8)
+
+[node name="ArrowTrapPlate" parent="Items/TriggerableArrowTrap" unique_id=1149950640 node_paths=PackedStringArray("arrow_traps", "wire") instance=ExtResource("7_ma4ts")]
+position = Vector2(0, 88)
+arrow_traps = [NodePath("../ArrowTrap"), NodePath("../ArrowTrap2")]
+wire = NodePath("../Wire")
+
+[node name="Wire" type="TileMapLayer" parent="Items/TriggerableArrowTrap" unique_id=402545017]
+position = Vector2(-48, -24)
+tile_map_data = PackedByteArray("AAABAAIAAQAAAAMAAAABAAMAAQAAAAMAAAABAAQAAQAAAAMAAAABAAUAAQAAAAMAAAAEAAIAAQAAAAMAAAAEAAMAAQAAAAMAAAAEAAQAAQAAAAMAAAAEAAUAAQAAAAMAAAABAAEAAQAAAAEAAAAEAAEAAQABAAEAAAADAAYAAQAAAAEAAAAEAAYAAQABAAIAAAACAAYAAQABAAEAAAABAAYAAQAAAAIAAAA=")
+tile_set = ExtResource("6_usqsj")
 
 [node name="DetectionAreas" type="Node2D" parent="." unique_id=1135695816]
 visible = false
