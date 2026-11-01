@@ -20,7 +20,6 @@ const WORLD_LAYER = 3
 
 
 @export var damage := 50.0
-@export var breaks_shield := false
 @export var ignites_torches := false
 @export var toggles_switches := false
 
@@ -142,7 +141,7 @@ func _try_hit(area: Area2D) -> bool:
 		if ignites_torches: area.ignite()
 		return false
 	if area is not HurtboxComponent: return false
-	if area.damage(damage, breaks_shield):
+	if area.damage(damage):
 		_splash(area)
 	else:
 		_spend()

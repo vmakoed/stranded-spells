@@ -51,4 +51,4 @@ func _snap() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is HurtboxComponent and area.get_parent() is EnemyNew:
-		area.damage(damage, true)
+		area.damage(damage)

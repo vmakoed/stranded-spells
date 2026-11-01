@@ -18,6 +18,10 @@ const WARNING_HOLD = 0.12
 @export var shield: ShieldComponent
 
 
+var radius: float:
+	set(value):
+		radius = value
+		scale = Vector2.ONE * radius / ($Sprite2D.texture.get_width() / 2.0)
 var _tween: Tween
 var _rest_wobble: float
 

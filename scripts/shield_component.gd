@@ -30,15 +30,15 @@ func disable() -> void:
 	active = false
 
 
-func try_absorb(_value: float, breaks_shield: bool) -> bool:
+func try_absorb(_value: float) -> bool:
 	if not active: return false
 
-	if breaks_shield or mode == Mode.WARD:
+	if mode == Mode.WARD:
 		active = false
 		broken.emit()
 		if regen_time > 0.0:
 			_regen_timer.start(regen_time)
-		return mode == Mode.WARD
+		return true
 
 	blocked.emit()
 	return true

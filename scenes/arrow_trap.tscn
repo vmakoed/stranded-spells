@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://crohxkayoixii" path="res://scripts/arrow_trap.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://c5cbb1avt8htu" path="res://assets/textures/arrow/arrow_2.png" id="2_frame"]
 [ext_resource type="Texture2D" uid="uid://dfwuej8o5w4b5" path="res://assets/textures/arrow/arrow_3.png" id="3_frame"]
+[ext_resource type="Script" uid="uid://dwqs2ydg3obwf" path="res://scripts/timer_ring.gd" id="4_ring"]
+[ext_resource type="Texture2D" uid="uid://c0togplt48tm" path="res://assets/textures/arrow/Just_arrow.png" id="5_arrow"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fire"]
 animations = [{
@@ -40,3 +42,20 @@ position = Vector2(0, 12)
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
+
+[node name="JamTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="JammedArrow" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 3
+z_as_relative = false
+position = Vector2(0, -3)
+rotation = 3.1415927
+texture = ExtResource("5_arrow")
+
+[node name="JamRing" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_ring")

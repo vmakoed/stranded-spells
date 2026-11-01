@@ -41,6 +41,7 @@ var _state: State: set = _set_state
 
 func _ready() -> void:
 	_state = State.IDLE
+	%ShieldBubble.radius = ($HurtboxComponent/CollisionShape2D.shape as CircleShape2D).radius
 	if shielded:
 		%ShieldComponent.activate()
 
