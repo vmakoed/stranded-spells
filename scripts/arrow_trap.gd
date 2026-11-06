@@ -1,5 +1,5 @@
 class_name ArrowTrap
-extends Node2D
+extends Area2D
 
 
 @export var cooldown := 1.0
@@ -9,9 +9,11 @@ extends Node2D
 @export var spawn_frame := 2
 @export var jam_time := 4.0
 @export var arrow_scene: PackedScene = preload("res://scenes/trap_arrow.tscn")
+@export var wire: TileMapLayer
 
 
 var _active := false
+var _count := 0
 var _spawned := true
 
 
@@ -30,15 +32,19 @@ func _ready() -> void:
 	_jam_timer.timeout.connect(_on_jam_timer_timeout)
 	%JamRing.timer = _jam_timer
 	_jammed_arrow.hide()
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+	_update_tint()
 
 
-func start() -> void:
+func _start() -> void:
 	_active = true
 	if not _is_jammed() and not _sprite.is_playing() and _timer.is_stopped(): _fire()
 
 
-func stop() -> void:
+func _stop() -> void:
 	_active = false
+	_timer.stop()
 
 
 func spawn_position() -> Vector2:
@@ -84,7 +90,7 @@ func _on_frame_changed() -> void:
 
 func _on_animation_finished() -> void:
 	_rest()
-	_timer.start(cooldown)
+	if _active: _timer.start(cooldown)
 
 
 func _on_timer_timeout() -> void:
@@ -94,3 +100,21 @@ func _on_timer_timeout() -> void:
 func _on_jam_timer_timeout() -> void:
 	_jammed_arrow.hide()
 	if _active and not _sprite.is_playing() and _timer.is_stopped(): _fire()
+
+
+func _on_body_entered(_body: Node2D) -> void:
+	_count += 1
+	if _count != 1: return
+	_start()
+	_update_tint()
+
+
+func _on_body_exited(_body: Node2D) -> void:
+	_count = maxi(_count - 1, 0)
+	if _count != 0: return
+	_stop()
+	_update_tint()
+
+
+func _update_tint() -> void:
+	if is_instance_valid(wire): wire.modulate = ProgressRing.FILL_COLOR if _count > 0 else Color.WHITE

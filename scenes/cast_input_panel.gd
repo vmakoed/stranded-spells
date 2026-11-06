@@ -47,7 +47,6 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	Spell.SHIELD: [
 		SPELL_ACTIONS[SpellDirection.RIGHT],
 		SPELL_ACTIONS[SpellDirection.UP],
-		SPELL_ACTIONS[SpellDirection.LEFT]
 	],
 	# Spell.HEAL: [
 	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
@@ -55,8 +54,8 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	# 	SPELL_ACTIONS[SpellDirection.LEFT]
 	# ]
 	Spell.MAGIC_MISSILE: [
-		SPELL_ACTIONS[SpellDirection.DOWN],
-		SPELL_ACTIONS[SpellDirection.UP]
+		SPELL_ACTIONS[SpellDirection.LEFT],
+		SPELL_ACTIONS[SpellDirection.DOWN]
 	],
 	Spell.MISTY_STEP: [
 		SPELL_ACTIONS[SpellDirection.UP],

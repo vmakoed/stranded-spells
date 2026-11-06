@@ -11,7 +11,6 @@ const LINK_COLOR := Color(1, 0.4, 0.3, 0.6)
 
 
 @export var spikes: Array[Spikes] = []
-@export var arrow_traps: Array[ArrowTrap] = []
 @export_flags_2d_physics var triggered_by := 1 | 8
 @export var wire: TileMapLayer
 
@@ -44,8 +43,6 @@ func _draw() -> void:
 	if not Engine.is_editor_hint(): return
 	for s in spikes:
 		if is_instance_valid(s): draw_line(Vector2.ZERO, to_local(s.global_position), LINK_COLOR)
-	for t in arrow_traps:
-		if is_instance_valid(t): draw_line(Vector2.ZERO, to_local(t.global_position), LINK_COLOR)
 
 
 func _on_body_entered(_body: Node2D) -> void:
@@ -53,8 +50,6 @@ func _on_body_entered(_body: Node2D) -> void:
 	if _count != 1: return
 	for s in spikes:
 		if is_instance_valid(s): s.raise()
-	for t in arrow_traps:
-		if is_instance_valid(t): t.start()
 	_update_tint()
 	pressed.emit()
 
@@ -64,8 +59,6 @@ func _on_body_exited(_body: Node2D) -> void:
 	if _count != 0: return
 	for s in spikes:
 		if is_instance_valid(s): s.lower()
-	for t in arrow_traps:
-		if is_instance_valid(t): t.stop()
 	_update_tint()
 	released.emit()
 

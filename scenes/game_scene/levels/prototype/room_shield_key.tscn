@@ -211,12 +211,8 @@ facing = 1
 [node name="TriggerableArrowTrap" type="Node2D" parent="Items" unique_id=1013151095]
 position = Vector2(96, 24)
 
-[node name="ArrowTrap" parent="Items/TriggerableArrowTrap" unique_id=1491370832 instance=ExtResource("11_jcewu")]
+[node name="ArrowTrap" parent="Items/TriggerableArrowTrap" unique_id=1491370832 node_paths=PackedStringArray("wire") instance=ExtResource("11_jcewu")]
 position = Vector2(-8, 8)
-
-[node name="ArrowTrapPlate" parent="Items/TriggerableArrowTrap" unique_id=39924548 node_paths=PackedStringArray("arrow_traps", "wire") instance=ExtResource("7_7ddyi")]
-position = Vector2(-8, 56)
-arrow_traps = [NodePath("../ArrowTrap")]
 wire = NodePath("../Wire")
 
 [node name="Wire" type="TileMapLayer" parent="Items/TriggerableArrowTrap" unique_id=604767795]
@@ -227,16 +223,12 @@ tile_set = ExtResource("6_im35j")
 [node name="TriggerableArrowTrap2" type="Node2D" parent="Items" unique_id=417080187]
 position = Vector2(160, 24)
 
-[node name="ArrowTrap" parent="Items/TriggerableArrowTrap2" unique_id=1837711202 instance=ExtResource("11_jcewu")]
+[node name="ArrowTrap" parent="Items/TriggerableArrowTrap2" unique_id=1837711202 node_paths=PackedStringArray("wire") instance=ExtResource("11_jcewu")]
 position = Vector2(-8, 8)
+wire = NodePath("../Wire")
 
 [node name="ArrowTrap2" parent="Items/TriggerableArrowTrap2" unique_id=1643076453 instance=ExtResource("11_jcewu")]
 position = Vector2(8, 8)
-
-[node name="ArrowTrapPlate" parent="Items/TriggerableArrowTrap2" unique_id=896837296 node_paths=PackedStringArray("arrow_traps", "wire") instance=ExtResource("7_7ddyi")]
-position = Vector2(8, 56)
-arrow_traps = [NodePath("../ArrowTrap"), NodePath("../ArrowTrap2")]
-wire = NodePath("../Wire")
 
 [node name="Wire" type="TileMapLayer" parent="Items/TriggerableArrowTrap2" unique_id=1334999419]
 position = Vector2(-40, -16)

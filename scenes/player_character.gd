@@ -397,4 +397,5 @@ func _on_health_component_health_below_minimum() -> void:
 	velocity = Vector2.ZERO
 	aim_active = false
 	set_physics_process(false)
+	collision_shape.set_deferred(&"disabled", true)
 	destroyed.emit()
