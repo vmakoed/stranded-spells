@@ -27,8 +27,6 @@ const KNOCKBACK_DURATION = 0.5
 @export var pickup_sound: AudioStream
 @export var heart_solid: Texture2D
 @export var heart_hollow: Texture2D
-@export var shield_solid: Texture2D
-@export var shield_hollow: Texture2D
 @export_flags("Sacred Flame", "Word of Radiance", "Shield of Faith", "Healing Word", "Magic Missile", "Misty Step") var debug_spells := 0
 
 
@@ -65,7 +63,7 @@ func _ready() -> void:
 	initial_aim_modulate = aim_sprite.modulate
 	aim_angle = 0.0
 	aim_active = false
-	GameUIBridge.shield_changed.emit(shield_component.active)
+	%ShieldBubble.radius = shield_radius()
 	GameUIBridge.player_alive_changed.emit(true)
 	_load_spells()
 	_apply_debug_spells()
@@ -174,10 +172,14 @@ func teleport(destination: Vector2) -> void:
 	global_position = destination
 
 
-func grant_shield() -> void:
+func shield_radius() -> float:
+	return (%ShieldCollisionShape.shape as CircleShape2D).radius
+
+
+func parry(duration: float) -> void:
 	if dead: return
 	shield_component.activate()
-	hint.show_icon(shield_solid)
+	%ParryTimer.start(duration)
 
 
 func learn_spell(spell: CastInputPanel.Spell) -> void:
@@ -368,14 +370,12 @@ func _on_health_component_damaged(_value: float) -> void:
 	hint.show_transition(heart_solid, heart_hollow)
 
 
-func _on_shield_broken() -> void:
-	if dead: return
-	_start_invincibility()
-	hint.show_transition(shield_solid, shield_hollow)
+func _on_parry_timer_timeout() -> void:
+	shield_component.disable()
 
 
 func _on_shield_changed(active: bool) -> void:
-	GameUIBridge.shield_changed.emit(active)
+	%ShieldHurtbox.set_deferred(&"monitorable", active)
 
 
 func _start_invincibility() -> void:

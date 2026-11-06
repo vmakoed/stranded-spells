@@ -44,11 +44,11 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	# 	SPELL_ACTIONS[SpellDirection.LEFT],
 	# 	SPELL_ACTIONS[SpellDirection.UP]
 	# ],
-	# Spell.SHIELD: [
-	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
-	# 	SPELL_ACTIONS[SpellDirection.UP],
-	# 	SPELL_ACTIONS[SpellDirection.LEFT]
-	# ],
+	Spell.SHIELD: [
+		SPELL_ACTIONS[SpellDirection.RIGHT],
+		SPELL_ACTIONS[SpellDirection.UP],
+		SPELL_ACTIONS[SpellDirection.LEFT]
+	],
 	# Spell.HEAL: [
 	# 	SPELL_ACTIONS[SpellDirection.RIGHT],
 	# 	SPELL_ACTIONS[SpellDirection.DOWN],
@@ -67,7 +67,8 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 const CAST_COOLDOWN = 0.3
 const SPELL_COOLDOWNS: Dictionary[Spell, float] = {
 	Spell.MAGIC_MISSILE: 1.0,
-	Spell.MISTY_STEP: 0.5
+	Spell.MISTY_STEP: 0.5,
+	Spell.SHIELD: 1.0
 }
 const SHOT_COOLDOWN = 0.15
 const SPELL_CHARGES: Dictionary[Spell, int] = {

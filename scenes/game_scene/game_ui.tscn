@@ -13,7 +13,6 @@
 [ext_resource type="Script" uid="uid://bnhmjy582mlax" path="res://scenes/game_scene/configurable_sub_viewport.gd" id="11_ulq3g"]
 [ext_resource type="Script" uid="uid://bmcttnpvsi36l" path="res://scenes/game_scene/game_timer.gd" id="12_gpor5"]
 [ext_resource type="Texture2D" uid="uid://dr3xk7rcnsiw4" path="res://assets/textures/keyboard-&-mouse_sheet_default.png" id="13_i7m4m"]
-[ext_resource type="PackedScene" uid="uid://duh0ge21sxgld" path="res://scenes/player_shield_icon.tscn" id="13_shield"]
 [ext_resource type="PackedScene" uid="uid://bgwyyjwh5712r" path="res://scenes/player_heart.tscn" id="13_ulq3g"]
 [ext_resource type="Texture2D" uid="uid://co6dms25h23so" path="res://resources/input_down_texture.tres" id="14_3re04"]
 [ext_resource type="PackedScene" uid="uid://cdokmnrix3fw8" path="res://scenes/prompt_container.tscn" id="14_rkfhe"]
@@ -153,10 +152,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="PlayerHeart4" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow/PlayerHeartsContainer" unique_id=1093625772 instance=ExtResource("13_ulq3g")]
-layout_mode = 2
-
-[node name="PlayerShieldIcon" parent="MarginContainer/PlayerHealthPanel/PlayerStatusRow" unique_id=1677927113 instance=ExtResource("13_shield")]
-unique_name_in_owner = true
 layout_mode = 2
 
 [node name="EquippedSpells" type="VBoxContainer" parent="MarginContainer" unique_id=1921206400]

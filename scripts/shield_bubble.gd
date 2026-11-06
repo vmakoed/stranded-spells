@@ -8,11 +8,6 @@ const HIT_WOBBLE_AMOUNT = 0.14
 const HIT_KICK_SCALE = 1.08
 const BREAK_DURATION = 0.15
 const BREAK_SCALE = 1.35
-const REGEN_WARNING = 1.2
-const WARNING_BLINKS = 3
-const WARNING_STEP = 0.4
-const WARNING_ALPHA = 0.4
-const WARNING_HOLD = 0.12
 
 
 @export var shield: ShieldComponent
@@ -35,7 +30,6 @@ func _ready() -> void:
 	_sprite.hide()
 	_rest_wobble = _material.get_shader_parameter(&"wobble")
 	shield.blocked.connect(pulse)
-	shield.broken.connect(pop)
 	shield.shield_changed.connect(_on_shield_changed)
 	if shield.active: fade_in()
 
@@ -84,23 +78,6 @@ func pop() -> void:
 	_tween.tween_property(_sprite, "modulate:a", 0.0, BREAK_DURATION)
 	_tween.set_parallel(false).tween_callback(_sprite.hide)
 
-	var warning_delay := shield.regen_time - REGEN_WARNING
-	if shield.regen_time <= 0.0 or warning_delay <= 0.0: return
-	_tween.tween_interval(warning_delay)
-	for i in WARNING_BLINKS:
-		_tween.tween_callback(_warning_blink)
-		_tween.tween_interval(WARNING_STEP)
-
-
-func _warning_blink() -> void:
-	_material.set_shader_parameter(&"flash", 0.0)
-	_sprite.scale = Vector2.ONE
-	_sprite.modulate.a = WARNING_ALPHA
-	_sprite.show()
-	var blink := create_tween()
-	blink.tween_interval(WARNING_HOLD)
-	blink.tween_callback(_sprite.hide)
-
 
 func _kill_tween() -> void:
 	if _tween: _tween.kill()
@@ -109,3 +86,4 @@ func _kill_tween() -> void:
 
 func _on_shield_changed(active: bool) -> void:
 	if active: fade_in()
+	elif _sprite.visible: pop()

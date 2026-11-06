@@ -22,6 +22,10 @@ const CONVERGE_DURATION = 0.3
 
 var state := State.IDLE
 var target: Node2D
+var radius := RADIUS:
+	set(value):
+		radius = value
+		scale = Vector2.ONE * radius / RADIUS
 var _tween: Tween
 
 
@@ -95,8 +99,8 @@ func _start_pulse() -> void:
 		.set_ease(Tween.EASE_IN_OUT)
 
 
-func _set_wave_radius(radius: float) -> void:
-	wave.scale = Vector2.ONE * (radius / RING_TEXTURE_RADIUS)
+func _set_wave_radius(wave_radius: float) -> void:
+	wave.scale = Vector2.ONE * (wave_radius / RING_TEXTURE_RADIUS)
 
 
 func _arrive() -> void:

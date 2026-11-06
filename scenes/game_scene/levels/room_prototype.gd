@@ -18,6 +18,7 @@ const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 const MAGIC_MISSILE_SPEED = 220.0
 const SPELL_MISTY_STEP_DISTANCE = 48.0
+const PARRY_DURATION = 0.4
 const AIMED_SPELLS: Array[CastInputPanel.Spell] = [
 	CastInputPanel.Spell.ATTACK_TARGET,
 	CastInputPanel.Spell.MAGIC_MISSILE,
@@ -140,8 +141,8 @@ func _setup_shield() -> SpellHeal:
 	var shield := shield_scene.instantiate() as SpellHeal
 	add_child(shield)
 	shield.target = player
+	shield.radius = player.shield_radius()
 	shield.global_position = player.global_position
-	shield.arrived.connect(_on_shield_arrived)
 	return shield
 
 
@@ -254,9 +255,8 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 		return
 	if spell == CastInputPanel.Spell.SHIELD:
 		var shield := _take_preview_spell(slot) as SpellHeal
-		if shield == null:
-			shield = _setup_shield()
-		shield.release()
+		if shield: shield.dismiss()
+		player.parry(PARRY_DURATION)
 		return
 	if spell == CastInputPanel.Spell.MISTY_STEP:
 		var step := _take_preview_spell(slot) as SpellMistyStep
@@ -280,11 +280,6 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 func _on_heal_arrived() -> void:
 	if not is_instance_valid(player): return
 	player.heal(SPELL_HEAL_AMOUNT)
-
-
-func _on_shield_arrived() -> void:
-	if not is_instance_valid(player): return
-	player.grant_shield()
 
 
 func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:

@@ -108,7 +108,6 @@ max_health = 100.0
 
 [node name="ShieldComponent" parent="." unique_id=353061940 instance=ExtResource("7_shield")]
 unique_name_in_owner = true
-regen_time = 5.0
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1143431730]
 unique_name_in_owner = true

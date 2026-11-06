@@ -11,6 +11,7 @@ const WORLD_LAYER = 3
 var velocity := Vector2.ZERO
 var trap: ArrowTrap
 var _push := Vector2.ZERO
+var _launch_direction := Vector2.ZERO
 var _deflected := false
 
 
@@ -28,20 +29,23 @@ func _physics_process(delta: float) -> void:
 
 
 func launch(direction: Vector2, speed: float, push: float) -> void:
-	velocity = direction.normalized() * speed
-	_push = direction.normalized() * push
+	_launch_direction = direction.normalized()
+	velocity = _launch_direction * speed
+	_push = _launch_direction * push
 	rotation = direction.angle() - PI / 2.0
 
 
-func _deflect() -> void:
+func _deflect(area: Area2D) -> void:
 	_deflected = true
-	velocity = -velocity
-	_push = -_push
-	rotation += PI
+	var direction := ShieldComponent.deflect_direction(global_position, area.global_position)
+	velocity = direction * velocity.length()
+	_push = direction * _push.length()
+	rotation = direction.angle() - PI / 2.0
 
 
 func _returned() -> bool:
 	if not is_instance_valid(trap): return false
+	if velocity.normalized().dot(_launch_direction) > -0.99: return false
 	return (global_position - trap.spawn_position()).dot(velocity) >= 0.0
 
 
@@ -62,13 +66,13 @@ func _on_area_entered(area: Area2D) -> void:
 	var hurtbox := area as HurtboxComponent
 	var player := area.get_parent() as Player
 	if _deflected and not player: return
+	if hurtbox.shield_component and hurtbox.shield_component.active:
+		hurtbox.damage(0.0)
+		_deflect(area)
+		return
 	if player:
 		hurtbox.damage(damage)
 		player.knock_back(_push)
-	elif hurtbox.shield_component and hurtbox.shield_component.active:
-		hurtbox.damage(0.0)
-		_deflect()
-		return
 	_hit()
 
 

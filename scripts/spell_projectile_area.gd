@@ -2,21 +2,16 @@ class_name SpellProjectile
 extends Area2D
 
 
-enum State { IDLE, PREVIEW, FLYING, SPLASHING, SPENT }
+enum State { IDLE, PREVIEW, FLYING, SPENT }
 
 
 const MANIFEST_DURATION = 0.2
 const DISMISS_DURATION = 0.15
 const PULSE_PERIOD = 1.0
 const PULSE_SCALE = 1.12
-const SPLASH_DURATION = 0.2
-const SPLASH_SQUASH = Vector2(0.4, 1.6)
-const SPLASH_END_SCALE = Vector2(0.15, 2.4)
-const SPLASH_DROPLETS = 10
-const SPLASH_SPREAD = 80.0
-const SPLASH_SPEED_MIN = 40.0
-const SPLASH_SPEED_MAX = 80.0
 const WORLD_LAYER = 3
+const ENEMY_LAYER = 4
+const PLAYER_HURTBOX_LAYER = 5
 
 
 @export var damage := 50.0
@@ -99,29 +94,11 @@ func _spend() -> void:
 	_finish()
 
 
-func _splash(area: Area2D) -> void:
-	state = State.SPLASHING
-	var normal := global_position - area.global_position
-	if normal.is_zero_approx(): normal = -velocity
-	velocity = Vector2.ZERO
-	set_deferred(&"monitoring", false)
-	rotation = (-normal).angle()
-
-	trail.emitting = false
-	trail.one_shot = true
-	trail.explosiveness = 0.9
-	trail.amount = SPLASH_DROPLETS
-	trail.spread = SPLASH_SPREAD
-	trail.initial_velocity_min = SPLASH_SPEED_MIN
-	trail.initial_velocity_max = SPLASH_SPEED_MAX
-	trail.restart()
-
-	_kill_tween()
-	visual.scale = SPLASH_SQUASH
-	_tween = create_tween().set_parallel(true)
-	_tween.tween_property(visual, "scale", SPLASH_END_SCALE, SPLASH_DURATION)
-	_tween.tween_property(visual, "modulate:a", 0.0, SPLASH_DURATION)
-	_tween.finished.connect(_finish)
+func _deflect(area: Area2D) -> void:
+	velocity = ShieldComponent.deflect_direction(global_position, area.global_position) * velocity.length()
+	rotation = velocity.angle()
+	var mask := collision_mask | 1 << (ENEMY_LAYER - 1) | 1 << (PLAYER_HURTBOX_LAYER - 1)
+	set_deferred(&"collision_mask", mask)
 
 
 func _finish() -> void:
@@ -142,7 +119,7 @@ func _try_hit(area: Area2D) -> bool:
 		return false
 	if area is not HurtboxComponent: return false
 	if area.damage(damage):
-		_splash(area)
+		_deflect(area)
 	else:
 		_spend()
 	return true
