@@ -68,6 +68,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomSlimeIntro" type="Node" unique_id=1049756891]
 script = ExtResource("1_4krme")
 exit_left_path = "uid://xcufu37ew8j0"
+exit_down_path = "uid://2u173n5drg1f"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
@@ -151,6 +152,14 @@ save_id = "room_slime_puzzle_switch"
 position = Vector2(8, -24)
 tile_map_data = PackedByteArray("AAABAAEAAQABAAEAAAABAAIAAQAAAAMAAAABAAMAAQAAAAMAAAABAAQAAQAAAAMAAAABAAUAAQAAAAMAAAABAAYAAQAAAAMAAAABAAcAAQABAAIAAAAAAAcAAQAAAAMAAFD//wcAAQAAAAMAAFD+/wcAAQAAAAMAAFD9/wcAAQAAAAMAAFD8/wcAAQAAAAMAAFAAAAEAAQAAAAMAAFD7/wcAAQAAAAMAAFA=")
 tile_set = ExtResource("5_haghf")
+
+[node name="Slime" parent="." unique_id=97420422 instance=ExtResource("9_ta0e3")]
+position = Vector2(76, 48)
+axis = 1
+
+[node name="Slime2" parent="." unique_id=1805675840 instance=ExtResource("9_ta0e3")]
+position = Vector2(208, 116)
+axis = 1
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
 
@@ -303,14 +312,6 @@ position = Vector2(88, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaRight" unique_id=619460715]
 shape = SubResource("RectangleShape2D_ss5wd")
-
-[node name="Slime" parent="." unique_id=97420422 instance=ExtResource("9_ta0e3")]
-position = Vector2(76, 48)
-axis = 1
-
-[node name="Slime2" parent="." unique_id=1805675840 instance=ExtResource("9_ta0e3")]
-position = Vector2(208, 116)
-axis = 1
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("10_fibum")]
 unique_name_in_owner = true
