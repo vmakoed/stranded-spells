@@ -52,6 +52,7 @@ func _ready() -> void:
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
+	GameUIBridge.spell_unequipped.connect(_on_spell_unequipped)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	if chest: chest.opened.connect(_refresh)
 	_refresh()
@@ -69,6 +70,11 @@ func _on_cast_mode_changed(active: bool, slot: int) -> void:
 
 func _on_spell_equipped(slot: int, _spell: CastInputPanel.Spell) -> void:
 	_equipped_slots[slot] = true
+	_refresh()
+
+
+func _on_spell_unequipped(slot: int) -> void:
+	_equipped_slots[slot] = false
 	_refresh()
 
 

@@ -300,9 +300,28 @@ func _check_complete_spell() -> void:
 	if complete_spell == null or _drawn_this_hold: return
 	_drawn_this_hold = true
 	if complete_spell == _slot_spells[_active_slot]: return
+	var wait := _take_from_other_slot(complete_spell)
 	_slot_spells[_active_slot] = complete_spell
 	_charges[_active_slot] = 0
-	if _cast_timers[_active_slot].is_stopped(): _equip(_active_slot)
+	var timer := _cast_timers[_active_slot]
+	if wait > timer.time_left:
+		timer.start(wait)
+		GameUIBridge.cast_cooldown_started.emit(_active_slot, wait)
+	if timer.is_stopped(): _equip(_active_slot)
+
+
+func _take_from_other_slot(spell: Spell) -> float:
+	var other := (_active_slot + 1) % SLOT_COUNT
+	if _slot_spells[other] != spell: return 0.0
+	var timer := _cast_timers[other]
+	var wait := 0.0
+	if not timer.is_stopped(): wait = timer.time_left
+	elif _charges[other] < SPELL_CHARGES.get(spell, 1): wait = SPELL_COOLDOWNS.get(spell, CAST_COOLDOWN)
+	_slot_spells[other] = null
+	_charges[other] = 0
+	timer.stop()
+	GameUIBridge.spell_unequipped.emit(other)
+	return wait
 
 
 func _equip(slot: int) -> void:

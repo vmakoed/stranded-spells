@@ -56,6 +56,7 @@ func _ready() -> void:
 	player.fainted.connect(_dismiss_preview_spells)
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
+	GameUIBridge.spell_unequipped.connect(_on_spell_unequipped)
 	GameUIBridge.spell_casted.connect(_on_spell_casted)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
 	GameUIBridge.cast_mode_changed.connect(_on_cast_mode_changed)
@@ -224,6 +225,12 @@ func _on_spell_equipped(slot: int, spell: CastInputPanel.Spell) -> void:
 		var step := _setup_misty_step()
 		step.manifest()
 		_preview_spells[slot] = step
+
+
+func _on_spell_unequipped(slot: int) -> void:
+	_dismiss_preview_spell(slot)
+	_slot_spells[slot] = null
+	_refresh_aim()
 
 
 func _on_spell_reset() -> void:

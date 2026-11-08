@@ -9,6 +9,8 @@ signal spell_unlocked
 @warning_ignore("unused_signal")
 signal spell_reset()
 @warning_ignore("unused_signal")
+signal spell_unequipped(slot: int)
+@warning_ignore("unused_signal")
 signal spell_equipped(slot: int, spell: CastInputPanel.Spell)
 @warning_ignore("unused_signal")
 signal spell_casted(slot: int, spell: CastInputPanel.Spell)

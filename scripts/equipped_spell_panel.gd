@@ -27,10 +27,18 @@ func _ready() -> void:
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_show_equipped.bind(null))
 	GameUIBridge.cast_cooldown_started.connect(_on_cast_cooldown_started)
+	GameUIBridge.spell_unequipped.connect(_on_spell_unequipped)
 
 
 func _on_spell_equipped(equipped_slot: int, spell: CastInputPanel.Spell) -> void:
 	if equipped_slot == slot: _show_equipped(spell)
+
+
+func _on_spell_unequipped(unequipped_slot: int) -> void:
+	if unequipped_slot != slot: return
+	if _cooldown_tween: _cooldown_tween.kill()
+	cooldown_bar.value = 0.0
+	_show_equipped(null)
 
 
 func _on_cast_cooldown_started(cooldown_slot: int, duration: float) -> void:

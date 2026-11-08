@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="6_rgjo0"]
 [ext_resource type="Texture2D" uid="uid://cpswe6khnsclc" path="res://assets/textures/enemies-skeleton1_attack.png" id="6_skel"]
 [ext_resource type="Texture2D" uid="uid://bw7ltyudap006" path="res://assets/textures/enemies-skeleton1_idle.png" id="7_idle"]
-[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="7_shield"]
+[ext_resource type="PackedScene" uid="uid://dqhakbkowsv5c" path="res://scenes/shield_component.tscn" id="7_shield"]
 [ext_resource type="Texture2D" uid="uid://p5mrnegiqy7q" path="res://assets/textures/enemies-skeleton1_movement.png" id="8_move"]
 [ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
 
