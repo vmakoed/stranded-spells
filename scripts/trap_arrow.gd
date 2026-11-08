@@ -35,11 +35,15 @@ func launch(direction: Vector2, speed: float, push: float) -> void:
 	rotation = direction.angle() - PI / 2.0
 
 
-func _deflect(_area: Area2D) -> void:
+func _deflect(area: Area2D) -> void:
 	_deflected = true
-	velocity = -velocity
-	_push = -_push
-	rotation += PI
+	var shield := (area as HurtboxComponent).shield_component
+	velocity = shield.deflect(velocity)
+	_push = velocity.normalized() * _push.length()
+	rotation = velocity.angle() - PI / 2.0
+	if shield.direction != Vector2.ZERO:
+		var offset := (global_position - area.global_position).length()
+		global_position = area.global_position + velocity.normalized() * offset
 
 
 func _returned() -> bool:

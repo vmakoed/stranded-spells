@@ -2,8 +2,6 @@ class_name SpellHeal
 extends Node2D
 
 
-## Inverse of SpellAreaBurst: ring appears around the target, shrinks inward, and emits
-## `arrived` when it reaches the centre. The owner decides what "arrived" does (heal).
 signal arrived
 
 
@@ -22,6 +20,7 @@ const CONVERGE_DURATION = 0.3
 
 var state := State.IDLE
 var target: Node2D
+var direction := Vector2.RIGHT
 var radius := RADIUS:
 	set(value):
 		radius = value
@@ -32,10 +31,12 @@ var _tween: Tween
 @onready var visual: Node2D = %Visual
 @onready var wave: Sprite2D = %Wave
 @onready var sparkle: CPUParticles2D = %Sparkle
+@onready var arrow: Sprite2D = %DirectionArrow
 
 
 func _process(_delta: float) -> void:
 	if state == State.SPENT: return
+	arrow.rotation = direction.angle()
 	if not is_instance_valid(target): return
 	global_position = target.global_position
 

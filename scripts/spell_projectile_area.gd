@@ -94,8 +94,12 @@ func _spend() -> void:
 	_finish()
 
 
-func _deflect(_area: Area2D) -> void:
-	velocity = -velocity
+func _deflect(area: Area2D) -> void:
+	var shield := (area as HurtboxComponent).shield_component
+	velocity = shield.deflect(velocity)
+	if shield.direction != Vector2.ZERO:
+		var offset := (global_position - area.global_position).length()
+		global_position = area.global_position + velocity.normalized() * offset
 	rotation = velocity.angle()
 	var mask := collision_mask | 1 << (ENEMY_LAYER - 1) | 1 << (PLAYER_HURTBOX_LAYER - 1)
 	set_deferred(&"collision_mask", mask)

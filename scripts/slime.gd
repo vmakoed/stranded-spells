@@ -7,6 +7,7 @@ enum Axis { HORIZONTAL, VERTICAL, NONE }
 @export var speed := 20.0
 @export var direction := 1
 @export var axis := Axis.HORIZONTAL
+@export_range(0, 270, 90) var deflect_angle := 0
 
 
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	%ShieldComponent.direction = Vector2.from_angle(global_rotation + deg_to_rad(deflect_angle))
 	if axis == Axis.NONE:
 		return
 	var move_axis := Vector2.DOWN if axis == Axis.VERTICAL else Vector2.RIGHT

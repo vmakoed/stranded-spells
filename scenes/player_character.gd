@@ -97,6 +97,7 @@ func _physics_process(delta: float) -> void:
 
 	var aim_direction := Input.get_vector(&"aim_left", &"aim_right", &"aim_up", &"aim_down")
 	if aim_direction.length_squared() > 0.0: aim_angle = aim_direction.angle()
+	shield_component.direction = Vector2.from_angle(aim_angle)
 
 
 func _input(event: InputEvent) -> void:

@@ -24,6 +24,7 @@ var _tween: Tween
 @onready var _sprite: Sprite2D = $Sprite2D
 @onready var _burst: CPUParticles2D = $Burst
 @onready var _material: ShaderMaterial = _sprite.material
+@onready var _arrow: Sprite2D = %DirectionArrow
 
 
 func _ready() -> void:
@@ -31,6 +32,11 @@ func _ready() -> void:
 	shield.blocked.connect(pulse)
 	shield.shield_changed.connect(_on_shield_changed)
 	if shield.active: fade_in()
+
+
+func _process(_delta: float) -> void:
+	_arrow.visible = shield.direction != Vector2.ZERO
+	if _arrow.visible: _arrow.global_rotation = shield.direction.angle()
 
 
 func disable() -> void:

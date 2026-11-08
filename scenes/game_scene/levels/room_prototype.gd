@@ -113,6 +113,7 @@ func _place_preview(preview: Node2D) -> void:
 		return
 	else:
 		preview.global_position = player.global_position
+		if preview is SpellHeal: preview.direction = Vector2.from_angle(player.aim_angle)
 
 
 func _setup_projectile() -> SpellProjectile:

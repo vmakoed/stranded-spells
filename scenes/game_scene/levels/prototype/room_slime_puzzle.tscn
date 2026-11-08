@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://dn7dpux0rh5gk" path="res://assets/textures/input_prompts_pixel.png" id="11_m18av"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_imycc"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_xtgm4"]
+[ext_resource type="Script" uid="uid://d3o388x23i1fp" path="res://scripts/rotating_platform.gd" id="14_rotplat"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
 size = Vector2(32, 3.2000003)
@@ -33,6 +34,9 @@ region = Rect2(496, 272, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_w7uo7"]
 atlas = ExtResource("10_nif3y")
 region = Rect2(144, 112, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a58b8"]
+size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6oa77"]
 size = Vector2(192, 16)
@@ -71,7 +75,6 @@ script = ExtResource("1_x5nmt")
 exit_up_path = "uid://d3hk2orael841"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
-visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="VoidCanvasLayer" type="CanvasLayer" parent="." unique_id=482607754]
@@ -88,7 +91,7 @@ rendering_quadrant_size = 1
 
 [node name="BackgroundTileMapLayer" type="TileMapLayer" parent="." unique_id=1494177456]
 position = Vector2(128, 80)
-tile_map_data = PackedByteArray("AAD8/wAAAAAGAAAAAAD9/wAAAAAHAAAAAAD+/wAAAAAIAAAAAAD//wAAAAAJAAAAAAD//wEAAAACAAQAAAAAAAAAAAAGAAAAAAAAAAEAAAADAAQAAAABAAAAAAAHAAIAAAABAAIAAAAAAAIAAAACAAAAAAAJAAcAAAACAAIAAAAJAAcAAAADAAAAAAAJAAAAAAADAAIAAAAFAAIAAAAAAP3/AAAGAAAAAAAAAP7/AAAGAAEAAAAAAP//AAAGAAIAAAABAP3/AAAIAAcAAAABAP//AAAHAAEAAAACAP//AAAJAAcAAAADAP//AAAJAAIAAAD8//3/AAAIAAcAAAD8//7/AAACAAAAAAD8////AAAGAAIAAAD9//3/AAAHAAAAAAD9//7/AAAIAAcAAAD9////AAAHAAIAAAD+//3/AAAIAAcAAAD+//7/AAADAAAAAAD+////AAAIAAIAAAD///3/AAAJAAAAAAD///7/AAAJAAEAAAD/////AAAJAAIAAAD4/wAAAAAHAAIAAAD4/wEAAAADAAQAAAD5/wEAAAAFAAUAAAD4//7/AAADAAAAAAD4////AAAHAAEAAAD5//7/AAAEAAAAAAD8/wMAAAAAAAQAAAD9/wMAAAACAAQAAAD+/wMAAAAFAAQAAAD8//z/AAABAAAAAAD9//z/AAACAAAAAAD+//r/AAAAAAMAAAD+//z/AAADAAAAAAD///r/AAAHAAEAAAD///z/AAAHAAEAAAAAAPr/AAAIAAEAAAAAAPz/AAAIAAEAAAABAPr/AAAFAAMAAAD2/wEAAAADAAQAAAD2/wAAAAAIAAEAAAD2////AAAIAAAAAAD2//7/AAABAAAAAAD3/wAAAAAGAAIAAAD3/wEAAAAEAAQAAAD3////AAAGAAEAAAD3//7/AAACAAAAAAD///n/AAACAAAAAAAAAPn/AAADAAAAAAD+//n/AAAAAAAAAAABAPn/AAAFAAAAAAD5////AAAGAAIAAAD5/wAAAAAGAAIAAAD1//7/AAAAAAEAAAD1////AAAAAAIAAAD1/wAAAAAAAAMAAAD1/wEAAAAAAAQAAAD7/wMAAAAFAAQAAAD7//z/AAADAAAAAAD7//7/AAADAAAAAAD7////AAAJAAIAAAD7/wAAAAAJAAAAAAD7/wEAAAAEAAUAAAD7/wIAAAAFAAIAAAAEAP//AAAGAAIAAAAEAAAAAAAGAAAAAAAEAAIAAAAAAAIAAAD+//v/AAAAAAAAAAABAPv/AAAFAAEAAAD///v/AAACAAIAAAAAAPv/AAADAAIAAAD5//z/AAAAAAAAAAD5//3/AAAAAAIAAAD5/wIAAAAAAAIAAAD5/wMAAAAAAAQAAAD6//z/AAADAAAAAAD6/wMAAAABAAQAAAD6//3/AAAJAAAAAAD6//7/AAAIAAcAAAD6////AAAIAAIAAAD6/wAAAAAIAAAAAAD6/wEAAAAIAAcAAAD6/wIAAAAIAAIAAAAFAP//AAAIAAIAAAAFAAAAAAAIAAAAAAAFAAIAAAAIAAIAAAAGAP//AAAFAAIAAAAGAAAAAAAFAAMAAAAGAAIAAAAFAAEAAAD9/wEAAAAIAAcAAAD9/wIAAAAIAAEAAAD7//3/AAAIAAcAAAD8/wEAAAAFAAUAAAD8/wIAAAAAAAIAAAD+/wEAAAAEAAUAAAD+/wIAAAAFAAMAAAABAAEAAAAFAAUAAAACAAEAAAAIAAcAAAADAAEAAAAEAAUAAAAEAAEAAAAFAAUAAAAFAAEAAAAIAAcAAAAGAAEAAAAFAAIAAAABAAMAAAAAAAQAAAACAAMAAAADAAQAAAADAAMAAAAFAAQAAAAEAAMAAAAAAAQAAAAFAAMAAAADAAQAAAAGAAMAAAAFAAQAAAABAPz/AAACAAAAAAACAPz/AAADAAAAAAADAPz/AAAEAAAAAAAEAPz/AAADAAAAAAAFAPz/AAADAAAAAAAGAPz/AAAFAAEAAAABAP7/AAADAAAAAAACAP7/AAAIAAcAAAADAP7/AAADAAAAAAAEAP7/AAAEAAAAAAAGAP3/AAAFAAAAAAAGAP7/AAAFAAEAAAAFAP3/AAAJAAcAAAACAP3/AAAJAAcAAAADAP3/AAAIAAcAAAAEAP3/AAAIAAcAAAAFAP7/AAAIAAcAAAA=")
+tile_map_data = PackedByteArray("AAD8/wAAAAAGAAAAAAD9/wAAAAAHAAAAAAD+/wAAAAAIAAAAAAD//wAAAAAJAAAAAAD//wEAAAACAAQAAAAAAAAAAAAGAAAAAAAAAAEAAAADAAQAAAABAAAAAAAHAAIAAAABAAIAAAAAAAIAAAACAAAAAAAJAAcAAAACAAIAAAAJAAcAAAADAAAAAAAJAAAAAAADAAIAAAAFAAIAAAAAAP3/AAAGAAAAAAAAAP7/AAAGAAEAAAAAAP//AAAGAAIAAAABAP3/AAAIAAcAAAABAP//AAAHAAEAAAACAP//AAAJAAcAAAADAP//AAAJAAIAAAD8//3/AAAIAAcAAAD8//7/AAACAAAAAAD8////AAAGAAIAAAD9//3/AAAIAAcAAAD9//7/AAAIAAcAAAD9////AAAHAAIAAAD+//3/AAAIAAcAAAD+//7/AAADAAAAAAD+////AAAIAAIAAAD///3/AAAJAAAAAAD///7/AAAJAAEAAAD/////AAAJAAIAAAD4/wAAAAAHAAIAAAD4/wEAAAADAAQAAAD5/wEAAAAFAAUAAAD4//7/AAADAAAAAAD4////AAAHAAEAAAD5//7/AAAEAAAAAAD8/wMAAAAAAAQAAAD9/wMAAAACAAQAAAD+/wMAAAAFAAQAAAD8//z/AAABAAAAAAD9//z/AAACAAAAAAD+//r/AAAAAAMAAAD+//z/AAADAAAAAAD///r/AAAHAAEAAAD///z/AAAHAAEAAAAAAPr/AAAIAAEAAAAAAPz/AAAIAAEAAAABAPr/AAAFAAMAAAD2/wEAAAADAAQAAAD2/wAAAAAIAAEAAAD2////AAAIAAAAAAD2//7/AAABAAAAAAD3/wAAAAAGAAIAAAD3/wEAAAAEAAQAAAD3////AAAGAAEAAAD3//7/AAACAAAAAAD///n/AAACAAAAAAAAAPn/AAADAAAAAAD+//n/AAAAAAAAAAABAPn/AAAFAAAAAAD5////AAAGAAIAAAD5/wAAAAAGAAIAAAD1//7/AAAAAAEAAAD1////AAAAAAIAAAD1/wAAAAAAAAMAAAD1/wEAAAAAAAQAAAD7/wMAAAAFAAQAAAD7//z/AAADAAAAAAD7//7/AAADAAAAAAD7////AAAJAAIAAAD7/wAAAAAJAAAAAAD7/wEAAAAEAAUAAAD7/wIAAAAFAAIAAAAEAP//AAAGAAIAAAAEAAAAAAAGAAAAAAAEAAIAAAAAAAIAAAD+//v/AAAAAAAAAAABAPv/AAAFAAEAAAD///v/AAACAAIAAAAAAPv/AAADAAIAAAD5//z/AAAAAAAAAAD5//3/AAAAAAIAAAD5/wIAAAAAAAIAAAD5/wMAAAAAAAQAAAD6//z/AAADAAAAAAD6/wMAAAABAAQAAAD6//3/AAAIAAcAAAD6//7/AAAIAAcAAAD6////AAAIAAIAAAD6/wAAAAAIAAAAAAD6/wEAAAAIAAcAAAD6/wIAAAAIAAIAAAAFAP//AAAIAAIAAAAFAAAAAAAIAAAAAAAFAAIAAAAIAAIAAAAGAP//AAAFAAIAAAAGAAAAAAAFAAMAAAAGAAIAAAAFAAEAAAD9/wEAAAAIAAcAAAD9/wIAAAAIAAEAAAD7//3/AAAIAAcAAAD8/wEAAAAFAAUAAAD8/wIAAAAAAAIAAAD+/wEAAAAEAAUAAAD+/wIAAAAFAAMAAAABAAEAAAAFAAUAAAACAAEAAAAIAAcAAAADAAEAAAAEAAUAAAAEAAEAAAAFAAUAAAAFAAEAAAAIAAcAAAAGAAEAAAAFAAIAAAABAAMAAAAAAAQAAAACAAMAAAADAAQAAAADAAMAAAAFAAQAAAAEAAMAAAAAAAQAAAAFAAMAAAADAAQAAAAGAAMAAAAFAAQAAAABAPz/AAACAAAAAAACAPz/AAADAAAAAAADAPz/AAAEAAAAAAAEAPz/AAADAAAAAAAFAPz/AAADAAAAAAAGAPz/AAAFAAEAAAABAP7/AAADAAAAAAACAP7/AAAIAAcAAAADAP7/AAADAAAAAAAEAP7/AAAEAAAAAAAGAP3/AAAFAAAAAAAGAP7/AAAFAAEAAAAFAP3/AAAJAAcAAAACAP3/AAAJAAcAAAADAP3/AAAIAAcAAAAEAP3/AAAIAAcAAAAFAP7/AAAIAAcAAAA=")
 tile_set = ExtResource("3_nif3y")
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
@@ -165,59 +168,52 @@ unique_name_in_owner = true
 position = Vector2(248, 80)
 
 [node name="Lights" type="Node2D" parent="." unique_id=1527614214]
-visible = false
-
-[node name="Torch" parent="Lights" unique_id=1134264119 instance=ExtResource("5_a58b8")]
-position = Vector2(104, 24)
 
 [node name="Torch2" parent="Lights" unique_id=1895984912 instance=ExtResource("5_a58b8")]
-position = Vector2(56, 24)
+position = Vector2(72, 24)
 
 [node name="Torch3" parent="Lights" unique_id=2051964530 instance=ExtResource("5_a58b8")]
-position = Vector2(152, 24)
-
-[node name="Torch4" parent="Lights" unique_id=186212970 instance=ExtResource("5_a58b8")]
-position = Vector2(200, 24)
+position = Vector2(184, 24)
 
 [node name="Torch5" parent="Lights" unique_id=330751375 instance=ExtResource("5_a58b8")]
-position = Vector2(216, 56)
-facing = 3
+position = Vector2(200, 56)
 
 [node name="Torch6" parent="Lights" unique_id=1781154456 instance=ExtResource("5_a58b8")]
-position = Vector2(216, 104)
-facing = 3
+position = Vector2(192, 104)
+facing = 1
 
 [node name="Torch7" parent="Lights" unique_id=5426948 instance=ExtResource("5_a58b8")]
-position = Vector2(40, 56)
-facing = 2
+position = Vector2(56, 56)
 
 [node name="Torch8" parent="Lights" unique_id=1314829248 instance=ExtResource("5_a58b8")]
-position = Vector2(40, 104)
-facing = 2
+position = Vector2(64, 104)
+facing = 1
+
+[node name="Torch15" parent="Lights" unique_id=948535361 instance=ExtResource("5_a58b8")]
+position = Vector2(128, 104)
+facing = 1
 
 [node name="Torch9" parent="Lights" unique_id=898369597 instance=ExtResource("5_a58b8")]
-position = Vector2(56, 136)
+position = Vector2(40, 136)
 facing = 1
 
 [node name="Torch10" parent="Lights" unique_id=57853210 instance=ExtResource("5_a58b8")]
-position = Vector2(104, 136)
+position = Vector2(88, 136)
 facing = 1
 
 [node name="Torch11" parent="Lights" unique_id=509137604 instance=ExtResource("5_a58b8")]
-position = Vector2(152, 136)
+position = Vector2(168, 136)
 facing = 1
 
 [node name="Torch12" parent="Lights" unique_id=14297942 instance=ExtResource("5_a58b8")]
-position = Vector2(200, 136)
+position = Vector2(216, 136)
 facing = 1
 
 [node name="Torch13" parent="Lights" unique_id=994516951 instance=ExtResource("5_a58b8")]
-position = Vector2(104, 80)
-facing = 4
+position = Vector2(104, 56)
 
 [node name="Torch14" parent="Lights" unique_id=2071679717 instance=ExtResource("5_a58b8")]
-position = Vector2(156, 80)
-facing = 4
+position = Vector2(152, 56)
 
 [node name="Items" type="Node2D" parent="." unique_id=1616782477]
 
@@ -225,7 +221,7 @@ facing = 4
 
 [node name="Wire" type="TileMapLayer" parent="Items/TopDoorLock" unique_id=1321118021]
 position = Vector2(12, -28)
-tile_map_data = PackedByteArray("AAAFAAgAAQAAAAMAAAAFAAcAAQAAAAMAAAAFAAYAAQAAAAMAAAAFAAUAAQAAAAEAAAAFAAkAAQABAAIAAAAGAAUAAQAAAAMAAFA=")
+tile_map_data = PackedByteArray("AAAFAAgAAQAAAAMAAAAFAAcAAQAAAAEAAAAFAAkAAQABAAIAAAAGAAUAAQAAAAMAAAAGAAcAAQABAAIAAAAGAAYAAQAAAAMAAAA=")
 tile_set = ExtResource("7_g7r1t")
 
 [node name="Switch" parent="Items/TopDoorLock" unique_id=804133087 node_paths=PackedStringArray("wire") instance=ExtResource("8_p8sfg")]
@@ -238,7 +234,7 @@ closed = true
 
 [node name="DoorLock" parent="Items/TopDoorLock" unique_id=1759547504 node_paths=PackedStringArray("switches", "doors") instance=ExtResource("8_nif3y")]
 switches = [NodePath("../Switch")]
-doors = [null, NodePath("../ChallengeDoor")]
+doors = [NodePath("../ChallengeDoor")]
 
 [node name="LeftDoorLock" type="Node2D" parent="Items" unique_id=1887297833]
 
@@ -247,8 +243,9 @@ position = Vector2(-36, -28)
 tile_map_data = PackedByteArray("AAAFAAgAAQAAAAMAAAAFAAkAAQABAAIAAAAFAAcAAQAAAAEAAAAGAAcAAQAAAAMAAFA=")
 tile_set = ExtResource("7_g7r1t")
 
-[node name="Switch" parent="Items/LeftDoorLock" unique_id=439423805 instance=ExtResource("8_p8sfg")]
+[node name="Switch" parent="Items/LeftDoorLock" unique_id=439423805 node_paths=PackedStringArray("wire") instance=ExtResource("8_p8sfg")]
 position = Vector2(40, 120)
+wire = NodePath("../Wire")
 
 [node name="ChallengeDoor" parent="Items/LeftDoorLock" unique_id=389725977 instance=ExtResource("4_m18av")]
 position = Vector2(76, 80)
@@ -259,39 +256,64 @@ closed = true
 switches = [NodePath("../Switch")]
 doors = [null, NodePath("../ChallengeDoor")]
 
-[node name="RotatingPlatformSwitch" type="Node2D" parent="Items" unique_id=1001160294]
+[node name="RotatingPlatformSwitchRight" type="Node2D" parent="Items" unique_id=1001160294]
 position = Vector2(88, 40)
 
-[node name="Wire" type="TileMapLayer" parent="Items/RotatingPlatformSwitch" unique_id=1940067566]
+[node name="Wire" type="TileMapLayer" parent="Items/RotatingPlatformSwitchRight" unique_id=1940067566]
 position = Vector2(56, -72)
 tile_map_data = PackedByteArray("AAAFAAgAAQAAAAMAAAAFAAkAAQABAAIAAAAFAAcAAQAAAAMAAAAFAAYAAQAAAAMAAAAFAAUAAQAAAAMAAAAFAAQAAQAAAAMAAAAFAAMAAQABAAEAAAAEAAMAAQAAAAMAAFADAAMAAQAAAAMAAFACAAMAAQAAAAMAAFABAAMAAQAAAAMAAFAAAAMAAQAAAAMAAFD//wMAAQAAAAMAAFD+/wMAAQAAAAMAAFD9/wMAAQAAAAMAAFD8/wMAAQAAAAEAAAA=")
 tile_set = ExtResource("7_g7r1t")
 
-[node name="Slime" parent="Items/RotatingPlatformSwitch" unique_id=1924784948 instance=ExtResource("8_06sxf")]
-axis = 2
-
-[node name="Switch" parent="Items/RotatingPlatformSwitch" unique_id=533805811 node_paths=PackedStringArray("wire") instance=ExtResource("8_p8sfg")]
+[node name="Switch" parent="Items/RotatingPlatformSwitchRight" unique_id=533805811 node_paths=PackedStringArray("wire") instance=ExtResource("8_p8sfg")]
 position = Vector2(128, 80)
 wire = NodePath("../Wire")
 
-[node name="Platform" type="StaticBody2D" parent="Items/RotatingPlatformSwitch" unique_id=2138628842]
+[node name="RotatingPlatform" type="StaticBody2D" parent="Items/RotatingPlatformSwitchRight" unique_id=2138628842 node_paths=PackedStringArray("switch")]
+script = ExtResource("14_rotplat")
+switch = NodePath("../Switch")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/RotatingPlatformSwitch/Platform" unique_id=1947071496]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/RotatingPlatformSwitchRight/RotatingPlatform" unique_id=1947071496]
 shape = SubResource("RectangleShape2D_sd08o")
 
-[node name="Icon" type="Sprite2D" parent="Items/RotatingPlatformSwitch/Platform" unique_id=671860535]
-position = Vector2(12, -12)
+[node name="Icon" type="Sprite2D" parent="Items/RotatingPlatformSwitchRight/RotatingPlatform" unique_id=633097810]
+position = Vector2(8, -8)
 texture = SubResource("AtlasTexture_qctea")
 
-[node name="Background" type="Sprite2D" parent="Items/RotatingPlatformSwitch/Platform" unique_id=906871206]
+[node name="Background" type="Sprite2D" parent="Items/RotatingPlatformSwitchRight/RotatingPlatform" unique_id=1835789160]
 texture = SubResource("AtlasTexture_w7uo7")
 
-[node name="Slime2" parent="." unique_id=1805675840 instance=ExtResource("8_06sxf")]
-position = Vector2(40, 40)
+[node name="Slime" parent="Items/RotatingPlatformSwitchRight/RotatingPlatform" unique_id=1924784948 instance=ExtResource("8_06sxf")]
 axis = 2
+deflect_angle = 90
 
-[node name="Switch" parent="." unique_id=845833119 instance=ExtResource("8_p8sfg")]
-position = Vector2(168, 120)
+[node name="RotatingPlatformSwitchLeft" type="Node2D" parent="Items" unique_id=413526706]
+position = Vector2(40, 40)
+
+[node name="Wire" type="TileMapLayer" parent="Items/RotatingPlatformSwitchLeft" unique_id=193176856]
+position = Vector2(56, -72)
+tile_map_data = PackedByteArray("AAAFAAkAAQABAAEAAAAFAAoAAQABAAIAAAAEAAoAAQAAAAMAAFADAAoAAQAAAAMAAFACAAoAAQAAAAMAAFABAAoAAQAAAAMAAFAAAAoAAQAAAAMAAFD//woAAQAAAAMAAFD+/woAAQAAAAMAAFD9/woAAQAAAAMAAFD8/woAAQAAAAMAAFD7/woAAQAAAAIAAAD7/wkAAQAAAAMAAAD7/wgAAQAAAAMAAAD7/wcAAQAAAAMAAAD7/wYAAQAAAAMAAAD7/wUAAQAAAAMAAAD7/wQAAQAAAAEAAAA=")
+tile_set = ExtResource("7_g7r1t")
+
+[node name="Switch" parent="Items/RotatingPlatformSwitchLeft" unique_id=845833119 node_paths=PackedStringArray("wire") instance=ExtResource("8_p8sfg")]
+position = Vector2(128, 80)
+wire = NodePath("../Wire")
+
+[node name="RotatingPlatform" type="StaticBody2D" parent="Items/RotatingPlatformSwitchLeft" unique_id=179751075 node_paths=PackedStringArray("switch")]
+script = ExtResource("14_rotplat")
+switch = NodePath("../Switch")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/RotatingPlatformSwitchLeft/RotatingPlatform" unique_id=943001394]
+shape = SubResource("RectangleShape2D_a58b8")
+
+[node name="Icon" type="Sprite2D" parent="Items/RotatingPlatformSwitchLeft/RotatingPlatform" unique_id=671860535]
+position = Vector2(8, -8)
+texture = SubResource("AtlasTexture_qctea")
+
+[node name="Background" type="Sprite2D" parent="Items/RotatingPlatformSwitchLeft/RotatingPlatform" unique_id=906871206]
+texture = SubResource("AtlasTexture_w7uo7")
+
+[node name="Slime" parent="Items/RotatingPlatformSwitchLeft/RotatingPlatform" unique_id=1805675840 instance=ExtResource("8_06sxf")]
+axis = 2
 
 [node name="DetectionAreas" type="Node2D" parent="." unique_id=1135695816]
 visible = false
@@ -324,6 +346,7 @@ shape = SubResource("RectangleShape2D_ss5wd")
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_781ia")]
 unique_name_in_owner = true
 position = Vector2(128, 80)
+debug_spells = 20
 
 [node name="MagicCircleNode" type="Node2D" parent="PlayerCharacter" unique_id=927420782]
 unique_name_in_owner = true

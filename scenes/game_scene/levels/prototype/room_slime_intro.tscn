@@ -153,13 +153,14 @@ position = Vector2(8, -24)
 tile_map_data = PackedByteArray("AAABAAEAAQABAAEAAAABAAIAAQAAAAMAAAABAAMAAQAAAAMAAAABAAQAAQAAAAMAAAABAAUAAQAAAAMAAAABAAYAAQAAAAMAAAABAAcAAQABAAIAAAAAAAcAAQAAAAMAAFD//wcAAQAAAAMAAFD+/wcAAQAAAAMAAFD9/wcAAQAAAAMAAFD8/wcAAQAAAAMAAFAAAAEAAQAAAAMAAFD7/wcAAQAAAAMAAFA=")
 tile_set = ExtResource("5_haghf")
 
-[node name="Slime" parent="." unique_id=97420422 instance=ExtResource("9_ta0e3")]
+[node name="SlimeTop" parent="." unique_id=97420422 instance=ExtResource("9_ta0e3")]
 position = Vector2(76, 48)
 axis = 1
 
-[node name="Slime2" parent="." unique_id=1805675840 instance=ExtResource("9_ta0e3")]
+[node name="SlimeRight" parent="." unique_id=1805675840 instance=ExtResource("9_ta0e3")]
 position = Vector2(208, 116)
 axis = 1
+deflect_angle = 180
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
 

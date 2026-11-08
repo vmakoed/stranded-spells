@@ -19,7 +19,7 @@ fill_to = Vector2(0.5, 0)
 radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
-radius = 14.103074
+radius = 12.0
 
 [node name="Slime" type="CharacterBody2D" unique_id=1805675840]
 z_index = 2
