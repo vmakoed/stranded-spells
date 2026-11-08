@@ -3,9 +3,10 @@ extends Node2D
 
 
 const APPEAR_DURATION = 0.2
-const HIT_WOBBLE_DURATION = 0.45
-const HIT_WOBBLE_AMOUNT = 0.14
-const HIT_KICK_SCALE = 1.08
+const HIT_KICK_DURATION = 0.3
+const HIT_KICK_SCALE = 1.2
+const HIT_FLASH = 0.8
+const HIT_FLASH_DURATION = 0.12
 const BREAK_DURATION = 0.15
 const BREAK_SCALE = 1.35
 
@@ -18,7 +19,6 @@ var radius: float:
 		radius = value
 		scale = Vector2.ONE * radius / ($Sprite2D.texture.get_width() / 2.0)
 var _tween: Tween
-var _rest_wobble: float
 
 
 @onready var _sprite: Sprite2D = $Sprite2D
@@ -28,7 +28,6 @@ var _rest_wobble: float
 
 func _ready() -> void:
 	_sprite.hide()
-	_rest_wobble = _material.get_shader_parameter(&"wobble")
 	shield.blocked.connect(pulse)
 	shield.shield_changed.connect(_on_shield_changed)
 	if shield.active: fade_in()
@@ -55,15 +54,14 @@ func fade_in() -> void:
 
 func pulse() -> void:
 	_kill_tween()
-	_material.set_shader_parameter(&"wobble", HIT_WOBBLE_AMOUNT)
+	_material.set_shader_parameter(&"flash", HIT_FLASH)
 	_sprite.scale = Vector2.ONE * HIT_KICK_SCALE
 	_tween = create_tween().set_parallel(true)
 	_tween \
-		.tween_property(_material, "shader_parameter/wobble", _rest_wobble, HIT_WOBBLE_DURATION) \
-		.set_trans(Tween.TRANS_SINE) \
+		.tween_property(_material, "shader_parameter/flash", 0.0, HIT_FLASH_DURATION) \
 		.set_ease(Tween.EASE_OUT)
 	_tween \
-		.tween_property(_sprite, "scale", Vector2.ONE, HIT_WOBBLE_DURATION) \
+		.tween_property(_sprite, "scale", Vector2.ONE, HIT_KICK_DURATION) \
 		.set_trans(Tween.TRANS_ELASTIC) \
 		.set_ease(Tween.EASE_OUT)
 

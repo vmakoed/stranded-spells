@@ -13,6 +13,8 @@ const CAST_FADEOUT_DURATION = 0.25
 const INVINCIBILITY_BLINK_FREQUENCY = 0.1
 const CAST_FRAME_FREEZE_TIME_SCALE = 0.01
 const CAST_FRAME_FREEZE_DURATION = 0.15
+const BLOCK_HIT_STOP_TIME_SCALE = 0.01
+const BLOCK_HIT_STOP_DURATION = 0.05
 const BLINK_SOLID_MASK = 36
 const BLINK_LANDING_MASK = 100
 const BLINK_BACKOFF_STEP = 4.0
@@ -64,6 +66,7 @@ func _ready() -> void:
 	aim_angle = 0.0
 	aim_active = false
 	%ShieldBubble.radius = shield_radius()
+	shield_component.blocked.connect(_hit_stop)
 	GameUIBridge.player_alive_changed.emit(true)
 	_load_spells()
 	_apply_debug_spells()
@@ -180,6 +183,13 @@ func parry(duration: float) -> void:
 	if dead: return
 	shield_component.activate()
 	%ParryTimer.start(duration)
+
+
+func _hit_stop() -> void:
+	Engine.time_scale = BLOCK_HIT_STOP_TIME_SCALE
+	get_tree().create_timer(BLOCK_HIT_STOP_DURATION, true, false, true).timeout.connect(
+		func(): Engine.time_scale = 1.0
+	)
 
 
 func learn_spell(spell: CastInputPanel.Spell) -> void:
