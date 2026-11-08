@@ -35,12 +35,11 @@ func launch(direction: Vector2, speed: float, push: float) -> void:
 	rotation = direction.angle() - PI / 2.0
 
 
-func _deflect(area: Area2D) -> void:
+func _deflect(_area: Area2D) -> void:
 	_deflected = true
-	var direction := ShieldComponent.deflect_direction(global_position, area.global_position)
-	velocity = direction * velocity.length()
-	_push = direction * _push.length()
-	rotation = direction.angle() - PI / 2.0
+	velocity = -velocity
+	_push = -_push
+	rotation += PI
 
 
 func _returned() -> bool:
