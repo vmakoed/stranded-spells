@@ -44,7 +44,7 @@ var _blink_phase := 0.0
 
 func _ready() -> void:
 	_state = State.IDLE
-	%ShieldBubble.radius = ($HurtboxComponent/CollisionShape2D.shape as CircleShape2D).radius
+	%ShieldBubble.radius = hurtbox_radius()
 	if shielded:
 		%ShieldComponent.activate()
 
@@ -52,6 +52,27 @@ func _ready() -> void:
 func start_chase() -> void:
 	if _state != State.IDLE: return
 	_state = State.CHASING
+
+
+func is_stunned() -> bool:
+	return _state == State.STUNNED
+
+
+func hurtbox() -> HurtboxComponent:
+	return $HurtboxComponent
+
+
+func hurtbox_radius() -> float:
+	return ($HurtboxComponent/CollisionShape2D.shape as CircleShape2D).radius
+
+
+func stun_color() -> Color:
+	var material := %Sprite2D.material as ShaderMaterial
+	var value: Variant = material.get_shader_parameter("stun_color")
+	if value == null:
+		value = RenderingServer.shader_get_parameter_default(material.shader.get_rid(), "stun_color")
+	if value is Vector3: return Color(value.x, value.y, value.z)
+	return value
 
 
 func _physics_process(delta: float) -> void:

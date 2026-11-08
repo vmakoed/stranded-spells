@@ -19,6 +19,9 @@ const SPELL_PROJECTILE_OFFSET = 16.0
 const MAGIC_MISSILE_SPEED = 220.0
 const SPELL_MISTY_STEP_DISTANCE = 48.0
 const PARRY_DURATION = 0.4
+const TAKEDOWN_DAMAGE = 125.0
+const TAKEDOWN_SPLASH_DAMAGE = 50.0
+const TAKEDOWN_SPLASH_STUN = 15.0
 const AIMED_SPELLS: Array[CastInputPanel.Spell] = [
 	CastInputPanel.Spell.ATTACK_TARGET,
 	CastInputPanel.Spell.MAGIC_MISSILE,
@@ -40,6 +43,7 @@ const AIMED_SPELLS: Array[CastInputPanel.Spell] = [
 
 var _preview_spells: Array[Node2D] = [null, null]
 var _slot_spells: Array = [null, null]
+var _takedown_marks: Dictionary = {}
 var level_state: LevelState
 
 var player_spawn_up_marker: Marker2D
@@ -105,6 +109,10 @@ func _physics_process(_delta: float) -> void:
 	for preview in _preview_spells:
 		if preview is SpellMistyStep and is_instance_valid(preview):
 			preview.global_position = player.blink_destination(SPELL_MISTY_STEP_DISTANCE)
+	if CastInputPanel.Spell.TAKEDOWN in _slot_spells:
+		_update_takedown_marks()
+	elif not _takedown_marks.is_empty():
+		_clear_takedown_marks()
 
 
 func _place_preview(preview: Node2D) -> void:
@@ -179,6 +187,32 @@ func _place_projectile(projectile: SpellProjectile) -> void:
 
 func _dismiss_preview_spells() -> void:
 	for slot in _preview_spells.size(): _dismiss_preview_spell(slot)
+	_clear_takedown_marks()
+
+
+func _update_takedown_marks() -> void:
+	for enemy in _takedown_marks.keys():
+		var mark: SpellAreaBurst = _takedown_marks[enemy]
+		if not is_instance_valid(mark):
+			_takedown_marks.erase(enemy)
+		elif not is_instance_valid(enemy) or not enemy.is_stunned():
+			mark.dismiss()
+			_takedown_marks.erase(enemy)
+		else:
+			mark.global_position = enemy.hurtbox().global_position
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if node is not EnemyNew or not node.is_stunned() or _takedown_marks.has(node): continue
+		var mark := _setup_area_burst()
+		mark.global_position = node.hurtbox().global_position
+		mark.tint(node.stun_color())
+		mark.manifest()
+		_takedown_marks[node] = mark
+
+
+func _clear_takedown_marks() -> void:
+	for mark in _takedown_marks.values():
+		if is_instance_valid(mark): mark.dismiss()
+	_takedown_marks.clear()
 
 
 func _dismiss_preview_spell(slot: int) -> void:
@@ -215,7 +249,7 @@ func _on_spell_equipped(slot: int, spell: CastInputPanel.Spell) -> void:
 		var heal := _setup_heal()
 		heal.manifest()
 		_preview_spells[slot] = heal
-	elif spell == CastInputPanel.Spell.SHIELD:
+	elif spell == CastInputPanel.Spell.SHIELD or spell == CastInputPanel.Spell.TAKEDOWN:
 		var shield := _setup_shield()
 		shield.manifest()
 		_preview_spells[slot] = shield
@@ -266,6 +300,11 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 		if shield: shield.dismiss()
 		player.parry(PARRY_DURATION)
 		return
+	if spell == CastInputPanel.Spell.TAKEDOWN:
+		var ring := _take_preview_spell(slot) as SpellHeal
+		if ring: ring.dismiss()
+		_takedown()
+		return
 	if spell == CastInputPanel.Spell.MISTY_STEP:
 		var step := _take_preview_spell(slot) as SpellMistyStep
 		if step == null:
@@ -283,6 +322,26 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 			_preview_spells[slot] = null
 			orbit.queue_free()
 		return
+
+
+func _takedown() -> void:
+	var radius := player.shield_radius()
+	var targets: Array[EnemyNew] = []
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if node is not EnemyNew or not node.is_stunned(): continue
+		var reach: float = radius + node.hurtbox_radius()
+		if node.hurtbox().global_position.distance_to(player.global_position) <= reach:
+			targets.append(node)
+	for enemy in targets:
+		var hurtbox := enemy.hurtbox()
+		var origin := hurtbox.global_position
+		hurtbox.damage(TAKEDOWN_DAMAGE)
+		var burst: SpellAreaBurst = _takedown_marks.get(enemy)
+		_takedown_marks.erase(enemy)
+		if burst == null or not is_instance_valid(burst):
+			burst = _setup_area_burst()
+		burst.global_position = origin
+		burst.release(TAKEDOWN_SPLASH_DAMAGE, TAKEDOWN_SPLASH_STUN, [hurtbox])
 
 
 func _on_heal_arrived() -> void:

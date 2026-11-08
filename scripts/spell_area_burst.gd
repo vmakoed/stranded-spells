@@ -5,8 +5,8 @@ extends Area2D
 enum State { IDLE, PREVIEW, BURSTING, SPENT }
 
 
-const RADIUS = 32.0
 const RING_TEXTURE_RADIUS = 61.0
+const FILL_TEXTURE_RADIUS = 64.0
 const MANIFEST_DURATION = 0.2
 const DISMISS_DURATION = 0.15
 const PULSE_PERIOD = 1.0
@@ -20,6 +20,8 @@ const HIT_PAD = 8.0
 
 var state := State.IDLE
 var damage := 0.0
+var stun := 0.0
+var radius := 0.0
 var _wave_radius := 0.0
 var _hit: Array[int] = []
 var _tween: Tween
@@ -28,6 +30,17 @@ var _tween: Tween
 @onready var visual: Node2D = %Visual
 @onready var wave: Sprite2D = %Wave
 @onready var burst: CPUParticles2D = %Burst
+
+
+func _ready() -> void:
+	radius = (%CollisionShape2D.shape as CircleShape2D).radius
+	$Visual/Fill.scale = Vector2.ONE * (radius / FILL_TEXTURE_RADIUS)
+	$Visual/Ring.scale = Vector2.ONE * (radius / RING_TEXTURE_RADIUS)
+
+
+func tint(color: Color) -> void:
+	for sprite: Sprite2D in [$Visual/Fill, $Visual/Ring]:
+		sprite.modulate = Color(color, sprite.modulate.a)
 
 
 func _physics_process(_delta: float) -> void:
@@ -53,12 +66,14 @@ func manifest() -> void:
 	_tween.tween_callback(_start_pulse)
 
 
-func release(damage_value: float) -> void:
+func release(damage_value: float, stun_value := 0.0, ignore: Array[Area2D] = []) -> void:
 	if state != State.PREVIEW and state != State.IDLE: return
 	state = State.BURSTING
 	_kill_tween()
 	damage = damage_value
+	stun = stun_value
 	_hit.clear()
+	for area in ignore: _hit.append(area.get_instance_id())
 	_wave_radius = 0.0
 
 	wave.scale = Vector2.ZERO
@@ -72,7 +87,7 @@ func release(damage_value: float) -> void:
 	_tween.tween_property(visual, "scale", Vector2.ONE * RELEASE_FLASH_SCALE, RELEASE_FLASH_DURATION)
 	_tween.tween_property(visual, "modulate:a", 0.0, RELEASE_FLASH_DURATION)
 	_tween \
-		.tween_method(_set_wave_radius, 0.0, RADIUS, WAVE_DURATION) \
+		.tween_method(_set_wave_radius, 0.0, radius, WAVE_DURATION) \
 		.set_trans(Tween.TRANS_CUBIC) \
 		.set_ease(Tween.EASE_OUT)
 	_tween \
@@ -106,9 +121,9 @@ func _start_pulse() -> void:
 		.set_ease(Tween.EASE_IN_OUT)
 
 
-func _set_wave_radius(radius: float) -> void:
-	_wave_radius = radius
-	wave.scale = Vector2.ONE * (radius / RING_TEXTURE_RADIUS)
+func _set_wave_radius(value: float) -> void:
+	_wave_radius = value
+	wave.scale = Vector2.ONE * (value / RING_TEXTURE_RADIUS)
 
 
 func _sweep() -> void:
@@ -117,13 +132,13 @@ func _sweep() -> void:
 		var id := area.get_instance_id()
 		if id in _hit: continue
 		if global_position.distance_to(area.global_position) > _wave_radius + HIT_PAD: continue
-		area.damage(damage)
+		area.damage(damage, stun)
 		_hit.append(id)
 
 
 func _finish() -> void:
 	if state != State.BURSTING: return
-	_wave_radius = RADIUS
+	_wave_radius = radius
 	_sweep()
 	state = State.SPENT
 	set_deferred(&"monitoring", false)

@@ -314,7 +314,6 @@ shape = SubResource("RectangleShape2D_ss5wd")
 position = Vector2(128, 48)
 prepare_text = "Hold {LB}: equip second spell"
 equipped_text = "{RS}: aim {RB}: cast"
-draw_text = "{FACE_RIGHT} {FACE_TOP}: draw glyph"
 min_known_spells = 2
 max_known_spells = 2
 chest = NodePath("../Items/TreasureChest")

@@ -29,7 +29,7 @@ const KNOCKBACK_DURATION = 0.5
 @export var pickup_sound: AudioStream
 @export var heart_solid: Texture2D
 @export var heart_hollow: Texture2D
-@export_flags("Sacred Flame", "Word of Radiance", "Shield of Faith", "Healing Word", "Magic Missile", "Misty Step") var debug_spells := 0
+@export_flags("Sacred Flame", "Word of Radiance", "Shield of Faith", "Healing Word", "Magic Missile", "Misty Step", "Toll the Dead") var debug_spells := 0
 
 
 var health: float: set = _set_health

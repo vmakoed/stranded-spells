@@ -3,7 +3,15 @@ class_name CastInputPanel
 extends Control
 
 
-enum Spell { ATTACK_TARGET, ATTACK_AREA, SHIELD, HEAL, MAGIC_MISSILE, MISTY_STEP }
+enum Spell { 
+	ATTACK_TARGET, 
+	ATTACK_AREA,
+	SHIELD, 
+	HEAL, 
+	MAGIC_MISSILE,
+	MISTY_STEP,
+	TAKEDOWN
+}
 enum SpellDirection { UP, DOWN, LEFT, RIGHT }
 
 
@@ -13,7 +21,8 @@ const SPELL_LABELS: Dictionary[Spell, String] = {
 	Spell.SHIELD: "Shield of Faith",
 	Spell.HEAL: "Healing Word",
 	Spell.MAGIC_MISSILE: "Magic Missile",
-	Spell.MISTY_STEP: "Misty Step"
+	Spell.MISTY_STEP: "Misty Step",
+	Spell.TAKEDOWN: "Toll the Dead"
 }
 
 
@@ -45,7 +54,7 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 	# 	SPELL_ACTIONS[SpellDirection.UP]
 	# ],
 	Spell.SHIELD: [
-		SPELL_ACTIONS[SpellDirection.RIGHT],
+		SPELL_ACTIONS[SpellDirection.DOWN],
 		SPELL_ACTIONS[SpellDirection.UP],
 	],
 	# Spell.HEAL: [
@@ -58,16 +67,22 @@ const SPELL_SEQUENCES: Dictionary[Spell, Array] = {
 		SPELL_ACTIONS[SpellDirection.DOWN]
 	],
 	Spell.MISTY_STEP: [
-		SPELL_ACTIONS[SpellDirection.UP],
-		SPELL_ACTIONS[SpellDirection.DOWN]
+		SPELL_ACTIONS[SpellDirection.RIGHT],
+		SPELL_ACTIONS[SpellDirection.UP]
 	],
+	Spell.TAKEDOWN: [
+		SPELL_ACTIONS[SpellDirection.UP],
+		SPELL_ACTIONS[SpellDirection.DOWN],
+		SPELL_ACTIONS[SpellDirection.RIGHT],
+	]
 }
 
 const CAST_COOLDOWN = 0.3
 const SPELL_COOLDOWNS: Dictionary[Spell, float] = {
 	Spell.MAGIC_MISSILE: 1.0,
 	Spell.MISTY_STEP: 0.5,
-	Spell.SHIELD: 1.0
+	Spell.SHIELD: 1.0,
+	Spell.TAKEDOWN: 1.0
 }
 const SHOT_COOLDOWN = 0.15
 const SPELL_CHARGES: Dictionary[Spell, int] = {
