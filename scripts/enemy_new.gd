@@ -5,7 +5,7 @@ extends CharacterBody2D
 signal died
 
 
-enum State { IDLE, CHASING, CHARGING, ATTACKING, RECHARGING, DEAD }
+enum State { IDLE, CHASING, CHARGING, ATTACKING, RECHARGING, DEAD, STUNNED }
 
 
 const CHASE_ACCELERATION = 40.0
@@ -23,6 +23,8 @@ const DEATH_FLASH_HOLD = 0.1
 const DEATH_SHATTER_SCENE = preload("res://scenes/game_scene/death_shatter.tscn")
 const IDLE_ANIMATION := &"idle"
 const MOVE_ANIMATION := &"move"
+const STUN_BLINK_PERIOD_START = 0.25
+const STUN_BLINK_PERIOD_END = 0.05
 
 
 @export var player: Player
@@ -37,6 +39,7 @@ var _charge_tween: Tween
 var _damage_tween: Tween
 var _death_tween: Tween
 var _state: State: set = _set_state
+var _blink_phase := 0.0
 
 
 func _ready() -> void:
@@ -59,6 +62,7 @@ func _physics_process(delta: float) -> void:
 		State.ATTACKING: _attack(delta)
 		State.RECHARGING: _recharge(delta)
 		State.DEAD: pass
+		State.STUNNED: _update_stun_tint(delta)
 
 	_update_facing()
 	move_and_slide()
@@ -90,9 +94,18 @@ func _set_state(new_value: State) -> void:
 			velocity = Vector2.ZERO
 			%RechargeTimer.start(randf_range(recharge_time_min, recharge_time_max))
 			_play_animation(IDLE_ANIMATION)
+		State.STUNNED:
+			velocity = Vector2.ZERO
+			_stop_charge_shake()
+			%RechargeTimer.stop()
+			_blink_phase = 0.0
+			_set_stun_tint(1.0)
+			_play_animation(IDLE_ANIMATION)
 		State.DEAD:
 			velocity = Vector2.ZERO
 			%RechargeTimer.stop()
+			%StunComponent.stop()
+			_set_stun_tint(0.0)
 			%ShieldComponent.disable()
 			%ShieldBubble.disable()
 			%AttackArea.set_deferred("monitoring", false)
@@ -180,6 +193,27 @@ func _start_charge_shake() -> void:
 	)
 
 
+func _stop_charge_shake() -> void:
+	if _charge_tween:
+		_charge_tween.kill()
+	%Sprite2D.position = Vector2.ZERO
+
+
+func _update_stun_tint(delta: float) -> void:
+	var stun: StunComponent = %StunComponent
+	var remaining := stun.stun_remaining()
+	if remaining > stun.warning_time:
+		_set_stun_tint(1.0)
+		return
+	var t := 1.0 - remaining / maxf(stun.warning_time, 0.001)
+	_blink_phase += delta / lerpf(STUN_BLINK_PERIOD_START, STUN_BLINK_PERIOD_END, t)
+	_set_stun_tint(1.0 if fmod(_blink_phase, 1.0) < 0.5 else 0.0)
+
+
+func _set_stun_tint(amount: float) -> void:
+	(%Sprite2D.material as ShaderMaterial).set_shader_parameter("stun_amount", amount)
+
+
 func _on_charge_finished() -> void:
 	_state = State.ATTACKING
 
@@ -250,3 +284,14 @@ func _on_health_component_damaged(_value: float) -> void:
 
 func _on_health_component_health_below_minimum() -> void:
 	_state = State.DEAD
+
+
+func _on_stun_component_stunned() -> void:
+	if _state == State.DEAD: return
+	_state = State.STUNNED
+
+
+func _on_stun_component_recovered() -> void:
+	if _state != State.STUNNED: return
+	_set_stun_tint(0.0)
+	_state = State.CHASING

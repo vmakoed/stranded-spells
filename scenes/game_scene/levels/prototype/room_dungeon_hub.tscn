@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="5_d0qpg"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_xybcs"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_eh17k"]
+[ext_resource type="PackedScene" uid="uid://dskel7swng2a4" path="res://scenes/enemy_skeleton.tscn" id="11_7pk2n"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_h7top"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_ljrho"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_1f1hj"]
@@ -399,6 +400,10 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_pghxy")
 position = Vector2(-15, 0)
 texture = ExtResource("13_1f1hj")
+
+[node name="EnemySkeleton" parent="." unique_id=297279986 instance=ExtResource("11_7pk2n")]
+position = Vector2(69, 78)
+shielded = false
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]

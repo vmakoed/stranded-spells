@@ -15,6 +15,7 @@ const PLAYER_HURTBOX_LAYER = 5
 
 
 @export var damage := 50.0
+@export var stun_damage := 0.0
 @export var ignites_torches := false
 @export var toggles_switches := false
 
@@ -122,7 +123,7 @@ func _try_hit(area: Area2D) -> bool:
 		if ignites_torches: area.ignite()
 		return false
 	if area is not HurtboxComponent: return false
-	if area.damage(damage):
+	if area.damage(damage, stun_damage):
 		_deflect(area)
 	else:
 		_spend()

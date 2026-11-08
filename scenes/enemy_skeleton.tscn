@@ -10,12 +10,16 @@
 [ext_resource type="PackedScene" uid="uid://dqhakbkowsv5c" path="res://scenes/shield_component.tscn" id="7_shield"]
 [ext_resource type="Texture2D" uid="uid://p5mrnegiqy7q" path="res://assets/textures/enemies-skeleton1_movement.png" id="8_move"]
 [ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="9_bubble"]
+[ext_resource type="Script" uid="uid://bv1m14bkeql0x" path="res://scripts/stun_component.gd" id="20_stun"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_flash"]
 resource_local_to_scene = true
 shader = ExtResource("5_flash")
 shader_parameter/flash_amount = 0.0
 shader_parameter/greyscale_amount = 0.0
+shader_parameter/stun_amount = 0.0
+shader_parameter/stun_color = Color(0.35, 0.6, 1, 1)
+shader_parameter/stun_strength = 0.6
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_skel0"]
 atlas = ExtResource("6_skel")
@@ -246,17 +250,23 @@ shape = SubResource("CircleShape2D_body")
 unique_name_in_owner = true
 shield = NodePath("../ShieldComponent")
 
-[node name="HurtboxComponent" parent="." unique_id=1506842863 node_paths=PackedStringArray("health_component", "shield_component") instance=ExtResource("3_yopix")]
+[node name="HurtboxComponent" parent="." unique_id=1506842863 node_paths=PackedStringArray("health_component", "shield_component", "stun_component") instance=ExtResource("3_yopix")]
 collision_layer = 8
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
 shield_component = NodePath("../ShieldComponent")
+stun_component = NodePath("../StunComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=421396614]
 shape = SubResource("CircleShape2D_hurt")
 
 [node name="HealthComponent" parent="." unique_id=149027597 instance=ExtResource("4_rgjo0")]
-max_health = 125.0
+max_health = 75.0
+
+[node name="StunComponent" type="Node" parent="." unique_id=53184169]
+unique_name_in_owner = true
+script = ExtResource("20_stun")
+max_poise = 50.0
 
 [node name="ShieldComponent" parent="." unique_id=1427020064 instance=ExtResource("7_shield")]
 unique_name_in_owner = true
@@ -285,5 +295,7 @@ shape = SubResource("CircleShape2D_slash")
 [connection signal="frame_changed" from="Sprite2D" to="." method="_on_sprite_frame_changed"]
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
 [connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
+[connection signal="recovered" from="StunComponent" to="." method="_on_stun_component_recovered"]
+[connection signal="stunned" from="StunComponent" to="." method="_on_stun_component_stunned"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="timeout" from="RechargeTimer" to="." method="_on_recharge_timer_timeout"]
