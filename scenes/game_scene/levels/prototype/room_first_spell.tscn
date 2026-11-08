@@ -382,10 +382,10 @@ collision_layer = 0
 position = Vector2(-2.2737368e-13, 0)
 shape = SubResource("RectangleShape2D_iphhf")
 
-[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("18_emf3u")]
+[node name="CastGuide" parent="." unique_id=1897414652 node_paths=PackedStringArray("chest") instance=ExtResource("18_emf3u")]
 position = Vector2(164, 80)
 draw_text = "{FACE_LEFT} {FACE_BOTTOM}: draw glyph"
-min_known_spells = null
+chest = NodePath("../Items/TreasureChest")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_xa1vf")]
 unique_name_in_owner = true

@@ -2,10 +2,15 @@ class_name TreasureChest
 extends Area2D
 
 
+signal opened
+
+
 @export var spell: CastInputPanel.Spell
 @export var icon: Texture2D
 @export var open_texture: Texture2D = preload("res://assets/textures/chest_open_4.png")
 @export var save_id := ""
+
+var is_open := false
 
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -26,9 +31,11 @@ func _on_body_entered(body: Node2D) -> void:
 	body.play_pickup_sound()
 	_set_open()
 	_show_icon()
+	opened.emit()
 
 
 func _set_open() -> void:
+	is_open = true
 	sprite.texture = open_texture
 	set_deferred("monitoring", false)
 

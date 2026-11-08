@@ -235,6 +235,7 @@ save_id = "room_shield_spell_left_door_lock"
 [node name="TreasureChest" parent="Items" unique_id=7503043 instance=ExtResource("9_t648o")]
 position = Vector2(128, 96)
 spell = 2
+save_id = "room_shield_spell_chest"
 
 [node name="TreasureChestDoorLock" type="Node2D" parent="Items" unique_id=1692069727]
 
@@ -309,12 +310,14 @@ position = Vector2(88, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaRight" unique_id=619460715]
 shape = SubResource("RectangleShape2D_ss5wd")
 
-[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("17_fv3aq")]
+[node name="CastGuide" parent="." unique_id=1897414652 node_paths=PackedStringArray("chest") instance=ExtResource("17_fv3aq")]
 position = Vector2(128, 48)
 prepare_text = "Hold {LB}: equip second spell"
 equipped_text = "{RS}: aim {RB}: cast"
 draw_text = "{FACE_RIGHT} {FACE_TOP}: draw glyph"
 min_known_spells = 2
+max_known_spells = 2
+chest = NodePath("../Items/TreasureChest")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_5lqom")]
 unique_name_in_owner = true

@@ -28,6 +28,8 @@ const GLYPHS: Dictionary[String, Texture2D] = {
 @export_multiline var draw_text := "{FACE_BOTTOM} {FACE_TOP}: draw glyph"
 @export_multiline var release_text := "Release {HOLD}"
 @export var min_known_spells := 1
+@export var max_known_spells := 0
+@export var chest: TreasureChest
 
 
 var _casting := false
@@ -51,6 +53,7 @@ func _ready() -> void:
 	GameUIBridge.spell_equipped.connect(_on_spell_equipped)
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
+	if chest: chest.opened.connect(_refresh)
 	_refresh()
 
 
@@ -82,7 +85,9 @@ func _on_spell_reset() -> void:
 func _refresh() -> void:
 	var known_count := CastInputPanel.known_spells.size()
 	var single := known_count == 1
-	visible = known_count >= min_known_spells or Engine.is_editor_hint()
+	var in_range := known_count >= min_known_spells and (max_known_spells <= 0 or known_count <= max_known_spells)
+	var chest_open := chest == null or Engine.is_editor_hint() or chest.is_open
+	visible = (in_range and chest_open) or Engine.is_editor_hint()
 	var text: String
 	if _casting:
 		text = release_text if _sequence_complete else draw_text
