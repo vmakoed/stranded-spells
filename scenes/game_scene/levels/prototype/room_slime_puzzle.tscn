@@ -73,6 +73,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomSlimePuzzle" type="Node" unique_id=1049756891]
 script = ExtResource("1_x5nmt")
 exit_up_path = "uid://d3hk2orael841"
+exit_left_path = "uid://b4o1c0c8kbjcg"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
@@ -235,6 +236,7 @@ closed = true
 [node name="DoorLock" parent="Items/TopDoorLock" unique_id=1759547504 node_paths=PackedStringArray("switches", "doors") instance=ExtResource("8_nif3y")]
 switches = [NodePath("../Switch")]
 doors = [NodePath("../ChallengeDoor")]
+save_id = "slime_puzzle_top_door_switch"
 
 [node name="LeftDoorLock" type="Node2D" parent="Items" unique_id=1887297833]
 
@@ -255,6 +257,7 @@ closed = true
 [node name="DoorLock" parent="Items/LeftDoorLock" unique_id=1019247663 node_paths=PackedStringArray("switches", "doors") instance=ExtResource("8_nif3y")]
 switches = [NodePath("../Switch")]
 doors = [null, NodePath("../ChallengeDoor")]
+save_id = "slime_puzzle_left_door_switch"
 
 [node name="RotatingPlatformSwitchRight" type="Node2D" parent="Items" unique_id=1001160294]
 position = Vector2(88, 40)
@@ -271,6 +274,7 @@ wire = NodePath("../Wire")
 [node name="RotatingPlatform" type="StaticBody2D" parent="Items/RotatingPlatformSwitchRight" unique_id=2138628842 node_paths=PackedStringArray("switch")]
 script = ExtResource("14_rotplat")
 switch = NodePath("../Switch")
+save_id = "platform_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/RotatingPlatformSwitchRight/RotatingPlatform" unique_id=1947071496]
 shape = SubResource("RectangleShape2D_sd08o")
@@ -301,6 +305,7 @@ wire = NodePath("../Wire")
 [node name="RotatingPlatform" type="StaticBody2D" parent="Items/RotatingPlatformSwitchLeft" unique_id=179751075 node_paths=PackedStringArray("switch")]
 script = ExtResource("14_rotplat")
 switch = NodePath("../Switch")
+save_id = "platform_left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/RotatingPlatformSwitchLeft/RotatingPlatform" unique_id=943001394]
 shape = SubResource("RectangleShape2D_a58b8")
@@ -346,7 +351,6 @@ shape = SubResource("RectangleShape2D_ss5wd")
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_781ia")]
 unique_name_in_owner = true
 position = Vector2(128, 80)
-debug_spells = 20
 
 [node name="MagicCircleNode" type="Node2D" parent="PlayerCharacter" unique_id=927420782]
 unique_name_in_owner = true

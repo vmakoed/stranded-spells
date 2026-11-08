@@ -382,6 +382,11 @@ collision_layer = 0
 position = Vector2(-2.2737368e-13, 0)
 shape = SubResource("RectangleShape2D_iphhf")
 
+[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("18_emf3u")]
+position = Vector2(164, 80)
+draw_text = "{FACE_LEFT} {FACE_BOTTOM}: draw glyph"
+min_known_spells = null
+
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_xa1vf")]
 unique_name_in_owner = true
 position = Vector2(52, 80)
@@ -419,9 +424,6 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_pghxy")
 position = Vector2(-15, 0)
 texture = ExtResource("13_ssqrm")
-
-[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("18_emf3u")]
-position = Vector2(164, 80)
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]

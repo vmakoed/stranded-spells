@@ -16,6 +16,7 @@
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_132po"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_lefpd"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_gpqo5"]
+[ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="17_fv3aq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
 size = Vector2(32, 3.2000003)
@@ -64,6 +65,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomShieldSpell" type="Node" unique_id=1049756891]
 script = ExtResource("1_t648o")
 exit_up_path = "uid://ddl2hr75x6d7h"
+exit_down_path = "uid://b4o1c0c8kbjcg"
 exit_right_path = "uid://d3hk2orael841"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
@@ -307,10 +309,16 @@ position = Vector2(88, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaRight" unique_id=619460715]
 shape = SubResource("RectangleShape2D_ss5wd")
 
+[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("17_fv3aq")]
+position = Vector2(128, 48)
+prepare_text = "Hold {LB}: equip second spell"
+equipped_text = "{RS}: aim {RB}: cast"
+draw_text = "{FACE_RIGHT} {FACE_TOP}: draw glyph"
+min_known_spells = 2
+
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_5lqom")]
 unique_name_in_owner = true
 position = Vector2(128, 45)
-debug_spells = 4
 
 [node name="MagicCircleNode" type="Node2D" parent="PlayerCharacter" unique_id=927420782]
 unique_name_in_owner = true

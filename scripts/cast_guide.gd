@@ -27,6 +27,7 @@ const GLYPHS: Dictionary[String, Texture2D] = {
 @export_multiline var equipped_text_single := "{RS}: aim {RT}: cast"
 @export_multiline var draw_text := "{FACE_BOTTOM} {FACE_TOP}: draw glyph"
 @export_multiline var release_text := "Release {HOLD}"
+@export var min_known_spells := 1
 
 
 var _casting := false
@@ -81,7 +82,7 @@ func _on_spell_reset() -> void:
 func _refresh() -> void:
 	var known_count := CastInputPanel.known_spells.size()
 	var single := known_count == 1
-	visible = known_count > 0 or Engine.is_editor_hint()
+	visible = known_count >= min_known_spells or Engine.is_editor_hint()
 	var text: String
 	if _casting:
 		text = release_text if _sequence_complete else draw_text
