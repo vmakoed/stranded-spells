@@ -154,10 +154,10 @@ size = Vector2(32, 3.2000003)
 size = Vector2(32, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sd08o"]
-size = Vector2(32, 80)
+size = Vector2(32, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kexwx"]
-size = Vector2(32, 80)
+size = Vector2(32, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6oa77"]
 size = Vector2(192, 16)
@@ -194,7 +194,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomArrowTrap" type="Node" unique_id=1049756891]
 script = ExtResource("1_kexwx")
 exit_up_path = "uid://ltmku1trlmep"
-exit_down_path = "uid://d3hk2orael841"
+exit_down_path = "uid://xcufu37ew8j0"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
@@ -352,7 +352,7 @@ position = Vector2(-8, 8)
 wire = NodePath("../Wire")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/TriggerableArrowTrap/ArrowTrap" unique_id=1274756872]
-position = Vector2(8, 40)
+position = Vector2(8, 48)
 shape = SubResource("RectangleShape2D_sd08o")
 
 [node name="ArrowTrap2" parent="Items/TriggerableArrowTrap" unique_id=1491370832 node_paths=PackedStringArray("wire") instance=ExtResource("6_bdq4f")]
@@ -360,12 +360,12 @@ position = Vector2(8, 8)
 wire = NodePath("../Wire")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/TriggerableArrowTrap/ArrowTrap2" unique_id=34590995]
-position = Vector2(-8, 40)
+position = Vector2(-8, 48)
 shape = SubResource("RectangleShape2D_kexwx")
 
 [node name="Wire" type="TileMapLayer" parent="Items/TriggerableArrowTrap" unique_id=402545017]
 position = Vector2(-40, -16)
-tile_map_data = PackedByteArray("AAABAAIAAQAAAAMAAAABAAMAAQAAAAMAAAABAAQAAQAAAAMAAAABAAAAAQAAAAEAAAABAAEAAQAAAAMAAAACAAAAAQAAAAMAAFADAAAAAQABAAEAAAADAAQAAQAAAAMAAAADAAMAAQAAAAMAAAADAAIAAQAAAAMAAAADAAEAAQAAAAMAAAABAAYAAQAAAAIAAAACAAYAAQAAAAMAAFADAAYAAQABAAIAAAADAAUAAQAAAAMAAAABAAUAAQAAAAMAAAA=")
+tile_map_data = PackedByteArray("AAABAAIAAQABAAMAAAABAAMAAQABAAMAAAABAAQAAQABAAMAAAABAAAAAQACAAEAAAABAAEAAQABAAMAAAACAAAAAQACAAMAAFADAAAAAQADAAEAAAADAAQAAQABAAMAAAADAAMAAQABAAMAAAADAAIAAQABAAMAAAADAAEAAQABAAMAAAADAAUAAQABAAMAAAABAAUAAQABAAMAAAABAAcAAQACAAIAAAACAAcAAQACAAMAAFADAAcAAQADAAIAAAADAAYAAQABAAMAAAABAAYAAQABAAMAAAA=")
 tile_set = ExtResource("8_ay6b7")
 
 [node name="CenterDoorLock" type="Node2D" parent="Items" unique_id=2127128285]
@@ -399,6 +399,7 @@ position = Vector2(208, 48)
 script = ExtResource("9_i7lqs")
 plates = [NodePath("../PressurePlate")]
 doors = [NodePath("../ChallengeDoor")]
+save_id = "arrow_trap_intro_door"
 
 [node name="ChallengeDoor" parent="Items/RightPathDoorLock" unique_id=512952293 instance=ExtResource("4_apohd")]
 position = Vector2(208, 88)
@@ -417,7 +418,7 @@ wire = NodePath("../Wire")
 
 [node name="PressurePlate" parent="Items/LeftDoorLock" unique_id=1183771867 node_paths=PackedStringArray("wire") instance=ExtResource("7_l602w")]
 position = Vector2(48, 80)
-wire = NodePath("../../RightPathDoorLock/Wire")
+wire = NodePath("../Wire")
 
 [node name="Wire" type="TileMapLayer" parent="Items/LeftDoorLock" unique_id=2038177714]
 position = Vector2(-184, 24)

@@ -5,7 +5,6 @@ extends Area2D
 @export var cooldown := 1.0
 @export var arrow_speed := 120.0
 @export var push_distance := 48.0
-@export var direction := Vector2.DOWN
 @export var spawn_frame := 2
 @export var jam_time := 4.0
 @export var arrow_scene: PackedScene = preload("res://scenes/trap_arrow.tscn")
@@ -78,9 +77,10 @@ func _spawn_arrow() -> void:
 	if _is_jammed(): return
 	var arrow: TrapArrow = arrow_scene.instantiate()
 	arrow.trap = self
+	arrow.top_level = true
 	add_child(arrow)
 	arrow.global_position = _spawn_point.global_position
-	arrow.launch(direction, arrow_speed, push_distance)
+	arrow.launch(global_transform.y.normalized(), arrow_speed, push_distance)
 
 
 func _on_frame_changed() -> void:

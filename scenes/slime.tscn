@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bn0vb7rbvs3ra" path="res://scripts/slime.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bbwcgggsvyirn" path="res://assets/textures/tiny-dungeon/Tiles/tile_0108.png" id="2_tex"]
 [ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="3_hurtbox"]
-[ext_resource type="PackedScene" path="res://scenes/shield_component.tscn" id="4_shield"]
+[ext_resource type="PackedScene" uid="uid://dqhakbkowsv5c" path="res://scenes/shield_component.tscn" id="4_shield"]
 [ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="5_bubble"]
 
 [sub_resource type="Gradient" id="Gradient_light"]
@@ -19,7 +19,7 @@ fill_to = Vector2(0.5, 0)
 radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
-radius = 12.0
+radius = 16.0
 
 [node name="Slime" type="CharacterBody2D" unique_id=1805675840]
 z_index = 2

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dhlp7djjxd6av"]
+
+[ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="1_6hpth"]
+
+[node name="DoorLock" type="Node2D" unique_id=1759547504 node_paths=PackedStringArray("plates", "doors")]
+script = ExtResource("1_6hpth")
+plates = [NodePath("")]
+doors = [NodePath("")]
