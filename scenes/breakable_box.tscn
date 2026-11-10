@@ -21,7 +21,7 @@ region = Rect2(48, 128, 16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
 size = Vector2(12, 12)
 
-[node name="BreakableBox" type="StaticBody2D" unique_id=1098040619]
+[node name="BreakableBox" type="StaticBody2D" unique_id=1098040619 groups=["aim_targets"]]
 collision_layer = 32
 collision_mask = 0
 script = ExtResource("1_script")

@@ -18,10 +18,12 @@ const PLAYER_HURTBOX_LAYER = 5
 @export var stun_damage := 0.0
 @export var ignites_torches := false
 @export var toggles_switches := false
+@export var homing_turn_rate := 0.0
 
 
 var state := State.IDLE
 var velocity := Vector2.ZERO
+var homing_target: Node2D
 var _tween: Tween
 var _hit := false
 
@@ -32,7 +34,20 @@ var _hit := false
 
 func _physics_process(delta: float) -> void:
 	if state != State.FLYING: return
+	if homing_target != null: _home(delta)
 	position += velocity * delta
+
+
+func _home(delta: float) -> void:
+	if not AimAssist.is_valid(homing_target):
+		homing_target = null
+		return
+	var angle := velocity.angle_to(homing_target.global_position - global_position)
+	if absf(angle) > PI / 2.0:
+		homing_target = null
+		return
+	velocity = velocity.rotated(clampf(angle, -homing_turn_rate * delta, homing_turn_rate * delta))
+	rotation = velocity.angle()
 
 
 func manifest() -> void:
@@ -103,6 +118,7 @@ func _spend() -> void:
 
 
 func _deflect(area: Area2D) -> void:
+	homing_target = null
 	var shield := (area as HurtboxComponent).shield_component
 	velocity = shield.deflect(velocity)
 	if shield.direction != Vector2.ZERO:

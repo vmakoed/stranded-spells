@@ -6,6 +6,7 @@ const RADIUS = 12.0
 const BACK_SPREAD = deg_to_rad(60.0)
 const ORB_COUNT = 3
 const SLIDE_DURATION = 0.3
+const LAUNCH_BIAS = 0.5
 
 
 var player: Player
@@ -36,7 +37,14 @@ func launch_front(speed: float) -> void:
 	_slide_elapsed = 0.0
 	if not is_instance_valid(orb): return
 	_put(orb, player.aim_angle)
-	orb.launch(Vector2.from_angle(player.aim_angle), speed)
+	var direction := Vector2.from_angle(player.aim_angle)
+	var space := player.get_world_2d().direct_space_state
+	var target := AimAssist.find_target(player.global_position, direction, space)
+	if target != null:
+		var to_target := orb.global_position.direction_to(target.global_position)
+		direction = direction.rotated(direction.angle_to(to_target) * LAUNCH_BIAS)
+	orb.launch(direction, speed)
+	orb.homing_target = target
 
 
 func launch_all(speed: float) -> void:

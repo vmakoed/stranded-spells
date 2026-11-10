@@ -47,6 +47,7 @@ script = ExtResource("1_script")
 damage = 25.0
 stun_damage = 25.0
 toggles_switches = true
+homing_turn_rate = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=489511994]
 shape = SubResource("CircleShape2D_hit")

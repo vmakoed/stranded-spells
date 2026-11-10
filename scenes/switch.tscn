@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_switch"]
 size = Vector2(16, 16)
 
-[node name="Switch" type="StaticBody2D" unique_id=804133087]
+[node name="Switch" type="StaticBody2D" unique_id=804133087 groups=["aim_targets"]]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_script")

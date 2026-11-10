@@ -109,16 +109,18 @@ func _input(event: InputEvent) -> void:
 
 func _set_aim_active(new_value: bool) -> void:
 	aim_active = new_value
-	if aim_active:
-		aim_sprite.modulate = Color(1, 1, 1, 0.8)
-	else:
-		aim_sprite.modulate = initial_aim_modulate
+	# if aim_active:
+	# 	aim_sprite.modulate = Color(1, 1, 1, 0.8)
+	# else:
+	# 	aim_sprite.modulate = initial_aim_modulate
 
 
 func _set_aim_angle(new_value: float) -> void:
 	aim_angle = new_value
 	aim_sprite.position = Vector2(64, 0).rotated(aim_angle)
 	direction_arrow.rotation = aim_angle
+	var facing_x := cos(aim_angle)
+	if absf(facing_x) > 0.1: character_sprite.flip_h = facing_x < 0.0
 
 
 func take_damage(damage: float) -> void:
@@ -211,7 +213,7 @@ func show_hint(texture: Texture2D) -> void:
 
 
 func _emit_spells() -> void:
-	aim_sprite.visible = not spells.is_empty()	# reticle only once there is something to aim
+	# aim_sprite.visible = not spells.is_empty()	# reticle only once there is something to aim
 	GameUIBridge.spells_changed.emit(spells.duplicate())
 
 

@@ -27,6 +27,10 @@ func _ready() -> void:
 		shield.activate()
 
 
+func is_broken() -> bool:
+	return _broken
+
+
 func _on_health_component_health_below_minimum() -> void:
 	if _broken: return
 	_broken = true

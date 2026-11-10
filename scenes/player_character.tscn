@@ -96,6 +96,7 @@ bus = &"SFX"
 
 [node name="AimSprite" type="Sprite2D" parent="." unique_id=934696125]
 unique_name_in_owner = true
+visible = false
 modulate = Color(1, 1, 1, 0.5)
 material = SubResource("CanvasItemMaterial_c4hvp")
 position = Vector2(64, 0)

@@ -67,7 +67,7 @@ radius = 96.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_separation"]
 radius = 20.0
 
-[node name="EnemyRanged" type="CharacterBody2D" unique_id=1495657810 groups=["enemies"]]
+[node name="EnemyRanged" type="CharacterBody2D" unique_id=1495657810 groups=["enemies", "aim_targets"]]
 z_index = 2
 collision_layer = 8
 collision_mask = 36
