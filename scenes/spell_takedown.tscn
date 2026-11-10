@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://coucyqk1idvjp"]
+
+[ext_resource type="Texture2D" uid="uid://b0hwyth1ma2s4" path="res://assets/textures/bell-sprite.png" id="1_fknty"]
+[ext_resource type="Script" uid="uid://dyvgukn26t8k6" path="res://scripts/spell_takedown.gd" id="1_script"]
+
+[node name="SpellTakedown" type="Node2D" unique_id=743305873]
+z_index = 3
+script = ExtResource("1_script")
+
+[node name="Bell" type="Sprite2D" parent="." unique_id=1839075261]
+unique_name_in_owner = true
+position = Vector2(0, -20)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_fknty")

@@ -22,6 +22,7 @@ const PARRY_DURATION = 0.2
 const TAKEDOWN_DAMAGE = 125.0
 const TAKEDOWN_SPLASH_DAMAGE = 50.0
 const TAKEDOWN_SPLASH_STUN = 15.0
+const TAKEDOWN_RADIUS = 45.0
 const AIMED_SPELLS: Array[CastInputPanel.Spell] = [
 	CastInputPanel.Spell.ATTACK_TARGET,
 	CastInputPanel.Spell.MAGIC_MISSILE,
@@ -35,6 +36,7 @@ const AIMED_SPELLS: Array[CastInputPanel.Spell] = [
 @export var shield_scene := preload("res://scenes/spell_shield.tscn")
 @export var basic_projectile_scene := preload("res://scenes/basic_attack_projectile.tscn")
 @export var misty_step_scene := preload("res://scenes/spell_misty_step.tscn")
+@export var takedown_scene := preload("res://scenes/spell_takedown.tscn")
 
 
 @onready var player: Player = %PlayerCharacter
@@ -111,6 +113,10 @@ func _physics_process(_delta: float) -> void:
 			preview.global_position = player.blink_destination(SPELL_MISTY_STEP_DISTANCE)
 	if CastInputPanel.Spell.TAKEDOWN in _slot_spells:
 		_update_takedown_marks()
+		var targets := _takedown_targets()
+		for preview in _preview_spells:
+			if preview is SpellTakedown and is_instance_valid(preview):
+				preview.set_targets(targets)
 	elif not _takedown_marks.is_empty():
 		_clear_takedown_marks()
 
@@ -172,6 +178,13 @@ func _setup_misty_step() -> SpellMistyStep:
 	add_child(step)
 	step.global_position = player.global_position
 	return step
+
+
+func _setup_takedown() -> SpellTakedown:
+	var bell := takedown_scene.instantiate() as SpellTakedown
+	add_child(bell)
+	bell.global_position = player.global_position
+	return bell
 
 
 func _spawn_origin() -> Vector2:
@@ -249,9 +262,9 @@ func _on_spell_equipped(slot: int, spell: CastInputPanel.Spell) -> void:
 		heal.manifest()
 		_preview_spells[slot] = heal
 	elif spell == CastInputPanel.Spell.TAKEDOWN:
-		var ring := _setup_shield()
-		ring.manifest()
-		_preview_spells[slot] = ring
+		var bell := _setup_takedown()
+		bell.manifest()
+		_preview_spells[slot] = bell
 	elif spell == CastInputPanel.Spell.MAGIC_MISSILE:
 		_preview_spells[slot] = _setup_magic_missiles()
 	elif spell == CastInputPanel.Spell.MISTY_STEP:
@@ -298,8 +311,8 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 		player.parry(PARRY_DURATION)
 		return
 	if spell == CastInputPanel.Spell.TAKEDOWN:
-		var ring := _take_preview_spell(slot) as SpellHeal
-		if ring: ring.dismiss()
+		var bell := _take_preview_spell(slot) as SpellTakedown
+		if bell: bell.ring()
 		_takedown()
 		return
 	if spell == CastInputPanel.Spell.MISTY_STEP:
@@ -321,15 +334,18 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 		return
 
 
-func _takedown() -> void:
-	var radius := player.shield_radius()
+func _takedown_targets() -> Array[EnemyNew]:
 	var targets: Array[EnemyNew] = []
 	for node in get_tree().get_nodes_in_group("enemies"):
 		if node is not EnemyNew or not node.is_stunned(): continue
-		var reach: float = radius + node.hurtbox_radius()
+		var reach: float = TAKEDOWN_RADIUS + node.hurtbox_radius()
 		if node.hurtbox().global_position.distance_to(player.global_position) <= reach:
 			targets.append(node)
-	for enemy in targets:
+	return targets
+
+
+func _takedown() -> void:
+	for enemy in _takedown_targets():
 		var hurtbox := enemy.hurtbox()
 		var origin := hurtbox.global_position
 		hurtbox.damage(TAKEDOWN_DAMAGE)
