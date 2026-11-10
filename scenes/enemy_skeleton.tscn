@@ -125,6 +125,20 @@ region = Rect2(288, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_skel6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skel8")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_skel0")
 }, {
 "duration": 1.0,
@@ -141,18 +155,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_skel5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_skel6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_skel7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_skel8")
 }],
 "loop": 0,
-"name": &"attack",
+"name": &"charge",
 "speed": 10.0
 }, {
 "frames": [{
@@ -239,7 +244,7 @@ recharge_time_max = 1.0
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_flash")
 sprite_frames = SubResource("SpriteFrames_skel")
-animation = &"move"
+animation = &"attack"
 autoplay = "idle"
 offset = Vector2(0, -4)
 
@@ -261,7 +266,7 @@ stun_component = NodePath("../StunComponent")
 shape = SubResource("CircleShape2D_hurt")
 
 [node name="HealthComponent" parent="." unique_id=149027597 instance=ExtResource("4_rgjo0")]
-max_health = 75.0
+max_health = 125.0
 
 [node name="StunComponent" type="Node" parent="." unique_id=53184169]
 unique_name_in_owner = true

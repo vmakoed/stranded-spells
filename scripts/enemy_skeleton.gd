@@ -2,9 +2,15 @@ class_name EnemySkeleton
 extends EnemyNew
 
 
+const CHARGE_ANIMATION := &"charge"
 const ATTACK_ANIMATION := &"attack"
-const SLASH_FRAMES: Array[int] = [7]
+const SLASH_FRAMES: Array[int] = [1]
 const HITBOX_OFFSET := 9.0
+const LUNGE_SPEED := 120.0
+const LUNGE_DECEL := 600.0
+
+
+var _lunge_direction: Vector2
 
 
 func _begin_attack() -> void:
@@ -22,13 +28,20 @@ func _set_state(new_value: State) -> void:
 	_swing()
 
 
-func _attack(_delta: float) -> void:
-	pass
+func _attack(delta: float) -> void:
+	velocity = velocity.move_toward(Vector2.ZERO, LUNGE_DECEL * delta)
 
 
 func _swing() -> void:
 	_face_player()
 	%Sprite2D.stop()
+	%Sprite2D.play(CHARGE_ANIMATION)
+
+
+func _strike() -> void:
+	_face_player()
+	_lunge_direction = global_position.direction_to(player.global_position) if is_instance_valid(player) else Vector2.ZERO
+	velocity = _lunge_direction * LUNGE_SPEED
 	%Sprite2D.play(ATTACK_ANIMATION)
 
 
@@ -47,10 +60,14 @@ func _face_player() -> void:
 func _on_sprite_frame_changed() -> void:
 	if _state != State.ATTACKING:
 		return
-	%HitboxComponent.set_deferred("monitoring", %Sprite2D.frame in SLASH_FRAMES)
+	var sprite: AnimatedSprite2D = %Sprite2D
+	%HitboxComponent.set_deferred("monitoring", sprite.animation == ATTACK_ANIMATION and sprite.frame in SLASH_FRAMES)
 
 
 func _on_sprite_animation_finished() -> void:
 	if _state != State.ATTACKING:
 		return
-	_state = State.RECHARGING
+	if %Sprite2D.animation == CHARGE_ANIMATION:
+		_strike()
+	else:
+		_state = State.RECHARGING
