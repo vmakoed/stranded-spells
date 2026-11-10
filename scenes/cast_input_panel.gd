@@ -81,7 +81,7 @@ const CAST_COOLDOWN = 0.3
 const SPELL_COOLDOWNS: Dictionary[Spell, float] = {
 	Spell.MAGIC_MISSILE: 1.0,
 	Spell.MISTY_STEP: 0.5,
-	Spell.SHIELD: 1.0,
+	Spell.SHIELD: 0.5,
 	Spell.TAKEDOWN: 1.0
 }
 const SHOT_COOLDOWN = 0.15

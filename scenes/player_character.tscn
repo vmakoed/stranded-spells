@@ -103,10 +103,10 @@ texture = ExtResource("10_herhr")
 
 [node name="DirectionArrow" type="Sprite2D" parent="." unique_id=1903582214]
 unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.47058824)
 texture_filter = 2
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("18_arrow")
-offset = Vector2(12, 0)
 
 [node name="Hint" type="Node2D" parent="." unique_id=1140582465]
 unique_name_in_owner = true
