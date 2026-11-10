@@ -18,6 +18,7 @@ const FILE_PATH = "res://scripts/game_state.gd"
 @export var spell_unlocks : Dictionary[SpellDefinitions.Spell, bool]
 @export var room_flags : Dictionary = {}
 @export var spells : Array[String] = []
+@export var equipped_spells : Array[String] = []
 
 static var _flag_writers := {}
 
@@ -138,6 +139,16 @@ static func add_spell(spell_name : String) -> void:
 	game_state.spells.append(spell_name)
 	GlobalState.save()
 
+static func get_equipped_spells() -> Array[String]:
+	if not has_game_state():
+		return []
+	return get_or_create_state().equipped_spells
+
+static func set_equipped_spells(names : Array[String]) -> void:
+	var game_state := get_or_create_state()
+	game_state.equipped_spells = names
+	GlobalState.save()
+
 static func get_flag(node : Node, default : Variant = null) -> Variant:
 	var id : String = node.save_id
 	if id.is_empty() or not has_game_state():
@@ -204,4 +215,5 @@ static func reset() -> void:
 	game_state.spell_unlocks = SpellSystem.DEFAULT_UNLOCKS
 	game_state.room_flags = {}
 	game_state.spells = []
+	game_state.equipped_spells = []
 	GlobalState.save()

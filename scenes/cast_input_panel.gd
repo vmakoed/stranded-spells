@@ -145,6 +145,9 @@ func _set_spells_unlocked(new_value: bool) -> void:
 	set_process_input(spells_unlocked)
 	set_physics_process(spells_unlocked)
 	if spells_unlocked:
+		_restore_slots()
+		for slot in SLOT_COUNT:
+			if _cast_timers[slot].is_stopped(): _equip(slot)
 		for slot in SLOT_COUNT:
 			if _slot_available(slot) and Input.is_action_pressed(HOLD_ACTIONS[slot]): return _begin_casting(slot)
 		return
@@ -201,7 +204,8 @@ func _physics_process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"reset_cast"):
 		_clear_spell_sequence()
-		return _unequip_all()
+		_unequip_all()
+		return _save_slots()
 
 	if not casting: return
 
@@ -323,6 +327,24 @@ func _check_complete_spell() -> void:
 		timer.start(wait)
 		GameUIBridge.cast_cooldown_started.emit(_active_slot, wait)
 	if timer.is_stopped(): _equip(_active_slot)
+	_save_slots()
+
+
+func _save_slots() -> void:
+	if Engine.is_editor_hint(): return
+	var names: Array[String] = []
+	for spell in _slot_spells:
+		names.append("" if spell == null else Spell.find_key(spell))
+	GameState.set_equipped_spells(names)
+
+
+func _restore_slots() -> void:
+	var names := GameState.get_equipped_spells()
+	_slot_spells = [null, null]
+	for slot in mini(names.size(), SLOT_COUNT):
+		if not Spell.has(names[slot]) or not _slot_available(slot): continue
+		var spell: Spell = Spell[names[slot]]
+		if is_known(spell) and not spell in _slot_spells: _slot_spells[slot] = spell
 
 
 func _take_from_other_slot(spell: Spell) -> float:
