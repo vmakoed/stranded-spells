@@ -23,6 +23,7 @@ const PLAYER_HURTBOX_LAYER = 5
 var state := State.IDLE
 var velocity := Vector2.ZERO
 var _tween: Tween
+var _hit := false
 
 
 @onready var visual: Node2D = %Visual
@@ -61,6 +62,12 @@ func launch(direction: Vector2, speed: float) -> void:
 	velocity = direction * speed
 	rotation = direction.angle()
 	trail.emitting = true
+	_sweep_after_launch()
+
+
+func _sweep_after_launch() -> void:
+	await get_tree().physics_frame
+	if state != State.FLYING or _hit: return
 	for area in get_overlapping_areas():
 		if _try_hit(area): return
 	for body in get_overlapping_bodies():
@@ -123,6 +130,7 @@ func _try_hit(area: Area2D) -> bool:
 		if ignites_torches: area.ignite()
 		return false
 	if area is not HurtboxComponent: return false
+	_hit = true
 	if area.damage(damage, stun_damage):
 		_deflect(area)
 	else:
@@ -132,6 +140,7 @@ func _try_hit(area: Area2D) -> bool:
 
 func _try_hit_wall(body: Node2D) -> bool:
 	if not _is_world(body): return false
+	_hit = true
 	if body is Switch and toggles_switches: body.activate()
 	if ignites_torches:
 		for area in get_overlapping_areas():
