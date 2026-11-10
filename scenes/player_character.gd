@@ -52,6 +52,7 @@ var _knockback_time := 0.0
 @onready var character_sprite: Sprite2D = %CharacterSprite
 @onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 @onready var aim_sprite: Sprite2D = %AimSprite
+@onready var direction_arrow: Sprite2D = %DirectionArrow
 @onready var hint: PlayerHint = %Hint
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var shield_component: ShieldComponent = %ShieldComponent
@@ -117,6 +118,7 @@ func _set_aim_active(new_value: bool) -> void:
 func _set_aim_angle(new_value: float) -> void:
 	aim_angle = new_value
 	aim_sprite.position = Vector2(64, 0).rotated(aim_angle)
+	direction_arrow.rotation = aim_angle
 
 
 func take_damage(damage: float) -> void:

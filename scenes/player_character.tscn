@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://ckgqsg2v1rula" path="res://assets/textures/colored-transparent.png" id="14_icons"]
 [ext_resource type="LabelSettings" uid="uid://thhrnwxa66cc" path="res://resources/hint_label_settings.tres" id="16_labels"]
 [ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="17_bubble"]
+[ext_resource type="Texture2D" uid="uid://cx8yf5ud7ky6" path="res://assets/textures/flair_arrows_right.png" id="18_arrow"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_heart_solid"]
 atlas = ExtResource("14_icons")
@@ -39,6 +40,7 @@ radius = 15.0
 light_mode = 1
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=745586083]
+texture_filter = 1
 collision_mask = 102
 script = ExtResource("1_1t15j")
 push_sound = ExtResource("2_2vmgx")
@@ -99,6 +101,13 @@ material = SubResource("CanvasItemMaterial_c4hvp")
 position = Vector2(64, 0)
 texture = ExtResource("10_herhr")
 
+[node name="DirectionArrow" type="Sprite2D" parent="." unique_id=1903582214]
+unique_name_in_owner = true
+texture_filter = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("18_arrow")
+offset = Vector2(12, 0)
+
 [node name="Hint" type="Node2D" parent="." unique_id=1140582465]
 unique_name_in_owner = true
 z_index = 1
@@ -136,6 +145,7 @@ unique_name_in_owner = true
 [node name="ShieldBubble" parent="." unique_id=357909667 node_paths=PackedStringArray("shield") instance=ExtResource("17_bubble")]
 unique_name_in_owner = true
 shield = NodePath("../ShieldComponent")
+show_direction = false
 
 [node name="ParryTimer" type="Timer" parent="." unique_id=689841017]
 unique_name_in_owner = true

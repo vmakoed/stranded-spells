@@ -42,6 +42,7 @@ texture = SubResource("GradientTexture2D_canvas")
 
 [node name="DirectionArrow" type="Sprite2D" parent="Sprite2D" unique_id=1694437554]
 unique_name_in_owner = true
+visible = false
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("3_h3dbb")
 offset = Vector2(16, 0)

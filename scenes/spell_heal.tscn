@@ -56,9 +56,6 @@ material = SubResource("CanvasItemMaterial_add")
 scale = Vector2(0.5246, 0.5246)
 texture = ExtResource("2_ring")
 
-[node name="DirectionArrow" type="Sprite2D" parent="Visual"]
-unique_name_in_owner = true
-
 [node name="Wave" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 visible = false

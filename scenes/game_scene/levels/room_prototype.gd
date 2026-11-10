@@ -18,7 +18,7 @@ const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 const MAGIC_MISSILE_SPEED = 220.0
 const SPELL_MISTY_STEP_DISTANCE = 48.0
-const PARRY_DURATION = 0.4
+const PARRY_DURATION = 0.2
 const TAKEDOWN_DAMAGE = 125.0
 const TAKEDOWN_SPLASH_DAMAGE = 50.0
 const TAKEDOWN_SPLASH_STUN = 15.0
@@ -122,7 +122,6 @@ func _place_preview(preview: Node2D) -> void:
 		return
 	else:
 		preview.global_position = player.global_position
-		if preview is SpellHeal: preview.direction = Vector2.from_angle(player.aim_angle)
 
 
 func _setup_projectile() -> SpellProjectile:
@@ -249,10 +248,10 @@ func _on_spell_equipped(slot: int, spell: CastInputPanel.Spell) -> void:
 		var heal := _setup_heal()
 		heal.manifest()
 		_preview_spells[slot] = heal
-	elif spell == CastInputPanel.Spell.SHIELD or spell == CastInputPanel.Spell.TAKEDOWN:
-		var shield := _setup_shield()
-		shield.manifest()
-		_preview_spells[slot] = shield
+	elif spell == CastInputPanel.Spell.TAKEDOWN:
+		var ring := _setup_shield()
+		ring.manifest()
+		_preview_spells[slot] = ring
 	elif spell == CastInputPanel.Spell.MAGIC_MISSILE:
 		_preview_spells[slot] = _setup_magic_missiles()
 	elif spell == CastInputPanel.Spell.MISTY_STEP:
@@ -296,8 +295,6 @@ func _on_spell_casted(slot: int, spell: CastInputPanel.Spell) -> void:
 		heal.release()
 		return
 	if spell == CastInputPanel.Spell.SHIELD:
-		var shield := _take_preview_spell(slot) as SpellHeal
-		if shield: shield.dismiss()
 		player.parry(PARRY_DURATION)
 		return
 	if spell == CastInputPanel.Spell.TAKEDOWN:

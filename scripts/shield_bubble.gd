@@ -12,6 +12,7 @@ const BREAK_SCALE = 1.35
 
 
 @export var shield: ShieldComponent
+@export var show_direction := true
 
 
 var radius: float:
@@ -35,7 +36,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	_arrow.visible = shield.direction != Vector2.ZERO
+	_arrow.visible = show_direction and shield.direction != Vector2.ZERO
 	if _arrow.visible: _arrow.global_rotation = shield.direction.angle()
 
 

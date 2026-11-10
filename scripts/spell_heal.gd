@@ -14,13 +14,13 @@ const MANIFEST_DURATION = 0.2
 const DISMISS_DURATION = 0.15
 const PULSE_PERIOD = 1.0
 const PULSE_SCALE = 1.06
+
 const RELEASE_FADE_DURATION = 0.12
 const CONVERGE_DURATION = 0.3
 
 
 var state := State.IDLE
 var target: Node2D
-var direction := Vector2.RIGHT
 var radius := RADIUS:
 	set(value):
 		radius = value
@@ -31,12 +31,10 @@ var _tween: Tween
 @onready var visual: Node2D = %Visual
 @onready var wave: Sprite2D = %Wave
 @onready var sparkle: CPUParticles2D = %Sparkle
-@onready var arrow: Sprite2D = %DirectionArrow
 
 
 func _process(_delta: float) -> void:
 	if state == State.SPENT: return
-	arrow.rotation = direction.angle()
 	if not is_instance_valid(target): return
 	global_position = target.global_position
 
