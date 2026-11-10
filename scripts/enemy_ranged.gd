@@ -62,6 +62,7 @@ func _reposition(delta: float) -> void:
 		target = -to_player.normalized() * SPEED
 	elif distance > keep_distance_max:
 		target = to_player.normalized() * SPEED
+	target = (target + _separation(to_player.normalized()) * SPEED).limit_length(SPEED)
 	velocity = lerp(velocity, target, delta * CHASE_ACCELERATION)
 
 

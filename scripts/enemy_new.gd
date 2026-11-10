@@ -25,6 +25,9 @@ const IDLE_ANIMATION := &"idle"
 const MOVE_ANIMATION := &"move"
 const STUN_BLINK_PERIOD_START = 0.25
 const STUN_BLINK_PERIOD_END = 0.05
+const SEPARATION_STRENGTH = 1.0
+const SEPARATION_FLANK = 0.6
+const SEPARATION_FLANK_DOT = 0.7
 
 
 @export var player: Player
@@ -56,6 +59,10 @@ func start_chase() -> void:
 
 func is_stunned() -> bool:
 	return _state == State.STUNNED
+
+
+func is_dead() -> bool:
+	return _state == State.DEAD
 
 
 func hurtbox() -> HurtboxComponent:
@@ -146,14 +153,30 @@ func _chase(delta: float) -> void:
 	if not is_instance_valid(player):
 		return
 
-	velocity = lerp(
-		velocity,
-		global_position.direction_to(player.global_position) * SPEED,
-		delta * CHASE_ACCELERATION
-	)
+	var direction := global_position.direction_to(player.global_position)
+	var desired := (direction * SPEED + _separation(direction) * SPEED).limit_length(SPEED)
+	velocity = lerp(velocity, desired, delta * CHASE_ACCELERATION)
 
 	if _can_start_attack():
 		_begin_attack()
+
+
+func _separation(heading: Vector2) -> Vector2:
+	var area: Area2D = %SeparationArea
+	var radius := (area.get_node("CollisionShape2D").shape as CircleShape2D).radius
+	var push := Vector2.ZERO
+	for body in area.get_overlapping_bodies():
+		if body == self or not body is EnemyNew or body.is_dead():
+			continue
+		var offset: Vector2 = global_position - body.global_position
+		var distance := offset.length()
+		var away := offset / distance if distance > 0.01 else Vector2.RIGHT.rotated(get_instance_id() % 628 / 100.0)
+		var weight := 1.0 - minf(distance / radius, 1.0)
+		push += away * weight
+		if heading != Vector2.ZERO and away.dot(-heading) > SEPARATION_FLANK_DOT:
+			var side := 1.0 if get_instance_id() > body.get_instance_id() else -1.0
+			push += heading.orthogonal() * side * weight * SEPARATION_FLANK
+	return push * SEPARATION_STRENGTH
 
 
 func _attack(_delta: float) -> void:

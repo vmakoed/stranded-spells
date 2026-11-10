@@ -13,11 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://bsx85wxyn5vxu" path="res://assets/textures/crosshair-alt.png" id="10_herhr"]
 [ext_resource type="Script" uid="uid://bmr2uhrmavf4a" path="res://scripts/health_component.gd" id="11_xb3ya"]
 [ext_resource type="PackedScene" uid="uid://dqhakbkowsv5c" path="res://scenes/shield_component.tscn" id="12_shield"]
+[ext_resource type="Texture2D" uid="uid://cyuonrnulvr7m" path="res://assets/textures/navigation_e.png" id="13_2w5w8"]
 [ext_resource type="Script" uid="uid://csi1su7bj77oj" path="res://scripts/player_hint.gd" id="13_hint"]
 [ext_resource type="Texture2D" uid="uid://ckgqsg2v1rula" path="res://assets/textures/colored-transparent.png" id="14_icons"]
 [ext_resource type="LabelSettings" uid="uid://thhrnwxa66cc" path="res://resources/hint_label_settings.tres" id="16_labels"]
 [ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="17_bubble"]
-[ext_resource type="Texture2D" uid="uid://cx8yf5ud7ky6" path="res://assets/textures/flair_arrows_right.png" id="18_arrow"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_heart_solid"]
 atlas = ExtResource("14_icons")
@@ -106,7 +106,8 @@ unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.47058824)
 texture_filter = 2
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("18_arrow")
+texture = ExtResource("13_2w5w8")
+offset = Vector2(32, 0)
 
 [node name="Hint" type="Node2D" parent="." unique_id=1140582465]
 unique_name_in_owner = true
