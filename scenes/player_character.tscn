@@ -146,6 +146,7 @@ unique_name_in_owner = true
 
 [node name="ShieldBubble" parent="." unique_id=357909667 node_paths=PackedStringArray("shield") instance=ExtResource("17_bubble")]
 unique_name_in_owner = true
+visible = false
 shield = NodePath("../ShieldComponent")
 show_direction = false
 

@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="5_d0qpg"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_xybcs"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_eh17k"]
-[ext_resource type="PackedScene" uid="uid://dskel7swng2a4" path="res://scenes/enemy_skeleton.tscn" id="11_7pk2n"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_h7top"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_ljrho"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_1f1hj"]
@@ -186,6 +185,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 script = ExtResource("1_a8kea")
 exit_up_path = "uid://do13i2tbw4l0s"
 exit_down_path = "uid://ddl2hr75x6d7h"
+exit_right_path = "uid://ddsed5lm5s3nx"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
 color = Color(0, 0, 0, 1)
@@ -225,7 +225,6 @@ closed = true
 [node name="DoorRight" parent="Doors" unique_id=90353559 instance=ExtResource("4_y28d1")]
 position = Vector2(228, 80)
 facing = 1
-closed = true
 
 [node name="Exits" type="Node2D" parent="." unique_id=1063234220]
 
@@ -400,18 +399,6 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_pghxy")
 position = Vector2(-15, 0)
 texture = ExtResource("13_1f1hj")
-
-[node name="EnemySkeleton" parent="." unique_id=297279986 instance=ExtResource("11_7pk2n")]
-position = Vector2(64, 78)
-shielded = false
-
-[node name="EnemySkeleton2" parent="." unique_id=2069073380 instance=ExtResource("11_7pk2n")]
-position = Vector2(85, 102)
-shielded = false
-
-[node name="EnemySkeleton3" parent="." unique_id=1847142466 instance=ExtResource("11_7pk2n")]
-position = Vector2(101, 56)
-shielded = false
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
