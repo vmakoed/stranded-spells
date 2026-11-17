@@ -194,6 +194,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomArrowTrap" type="Node" unique_id=1049756891]
 script = ExtResource("1_kexwx")
 exit_up_path = "uid://ltmku1trlmep"
+exit_left_path = "uid://bhnicb5utpgs7"
 exit_down_path = "uid://xcufu37ew8j0"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]

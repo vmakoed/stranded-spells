@@ -608,6 +608,7 @@ on_load = false
 spawn_points = [NodePath("Spawn")]
 doors = [NodePath("../../Doors/ChallengeDoor"), NodePath("../../Doors/ChallengeDoor2")]
 respawn_point = NodePath("../ShieldChallengeReturn")
+shielded = true
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerAreas/ShieldChallenge" unique_id=1516058708]

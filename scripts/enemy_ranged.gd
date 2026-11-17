@@ -128,4 +128,4 @@ func _fire() -> SpellProjectile:
 
 
 func _on_attack_area_body_entered(_body: Node2D) -> void:
-	start_chase()
+	pass

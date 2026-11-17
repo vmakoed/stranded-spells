@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 
 signal died
+signal woken
 
 
 enum State { IDLE, CHASING, CHARGING, ATTACKING, RECHARGING, DEAD, STUNNED }
@@ -55,6 +56,7 @@ func _ready() -> void:
 func start_chase() -> void:
 	if _state != State.IDLE: return
 	_state = State.CHASING
+	woken.emit()
 
 
 func is_stunned() -> bool:
@@ -310,7 +312,6 @@ func _shatter() -> void:
 
 
 func _on_attack_area_body_entered(_body: Node2D) -> void:
-	start_chase()
 	if not _state == State.CHASING:
 		return
 

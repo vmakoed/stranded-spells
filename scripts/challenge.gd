@@ -16,7 +16,7 @@ const FAIL_FADE_OUT := 0.2
 @export var spawn_points: Array[Marker2D] = []
 @export var doors: Array[ChallengeDoor] = []
 @export var respawn_point: Marker2D
-@export var shielded := true
+@export var shielded := false
 @export var enemy_scene: PackedScene = ENEMY_SCENE
 @export var save_id := ""
 @export var on_load := true
@@ -71,7 +71,12 @@ func _on_body_entered(body: Node2D) -> void:
 
 
 func _on_body_entered_awake(body: Node2D) -> void:
-	if body is not Player or _awake: return
+	if body is not Player: return
+	_wake()
+
+
+func _wake() -> void:
+	if _awake: return
 	_awake = true
 	set_deferred("monitoring", false)
 	for enemy in _spawned:
@@ -102,6 +107,7 @@ func _spawn(point: Marker2D) -> void:
 	owner.add_child(enemy)
 	enemy.global_position = point.global_position
 	enemy.died.connect(_release.bind(enemy))
+	enemy.woken.connect(_wake)
 	_spawned.append(enemy)
 	_pending.append(enemy)
 	if _awake or not _starts_on_load(): enemy.start_chase()

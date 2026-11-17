@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_tne1g"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_dqwfw"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_3xog1"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_phantom.tscn" id="11_auw4t"]
+[ext_resource type="PackedScene" uid="uid://buy7lttmjn1ys" path="res://scenes/enemy_phantom.tscn" id="11_auw4t"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_fpxfg"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_1t14h"]
 
@@ -52,6 +52,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 
 [node name="RoomArena" type="Node" unique_id=1049756891]
 script = ExtResource("1_x2yaa")
+exit_down_path = "uid://bhnicb5utpgs7"
 exit_right_path = "uid://ltmku1trlmep"
 
 [node name="BackgroundDarknessModulate" type="CanvasModulate" parent="." unique_id=2118819926]
@@ -269,11 +270,6 @@ texture = ExtResource("13_1t14h")
 
 [node name="EnemyPhantom" parent="." unique_id=985712247 instance=ExtResource("11_auw4t")]
 position = Vector2(64, 64)
-hidden_time_min = 0.8
-hidden_time_max = 1.6
-visible_time = 2.5
-appear_distance_min = 56.0
-appear_distance_max = 96.0
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
