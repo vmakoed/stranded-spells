@@ -27,8 +27,6 @@ const KNOCKBACK_DURATION = 0.5
 @export var fire_sound: AudioStream
 @export var hit_sound: AudioStream
 @export var pickup_sound: AudioStream
-@export var heart_solid: Texture2D
-@export var heart_hollow: Texture2D
 @export_flags("Sacred Flame", "Word of Radiance", "Shield of Faith", "Healing Word", "Magic Missile", "Misty Step", "Toll the Dead") var debug_spells := 0
 
 
@@ -69,6 +67,7 @@ func _ready() -> void:
 	%ShieldBubble.radius = shield_radius()
 	shield_component.blocked.connect(_hit_stop)
 	GameUIBridge.player_alive_changed.emit(true)
+	GameUIBridge.health_changed.emit(health_component.health, health_component.max_health)
 	_load_spells()
 	_apply_debug_spells()
 	_emit_spells()
@@ -257,7 +256,6 @@ func get_spell_area_areas() -> Array[Area2D]:
 
 func _set_health(new_value: float) -> void:
 	health = new_value
-	GameUIBridge.health_changed.emit(health, MAX_HEALTH)
 
 
 func _blink_sprite() -> void:
@@ -376,13 +374,13 @@ func _on_invincibility_timer_timeout() -> void:
 
 
 func _on_health_component_health_changed(new_value: float) -> void:
-	GameUIBridge.health_changed.emit(new_value, MAX_HEALTH)
+	if not is_node_ready(): return
+	GameUIBridge.health_changed.emit(new_value, health_component.max_health)
 
 
 func _on_health_component_damaged(_value: float) -> void:
 	if dead: return
 	_start_invincibility()
-	hint.show_transition(heart_solid, heart_hollow)
 
 
 func _on_parry_timer_timeout() -> void:

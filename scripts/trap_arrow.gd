@@ -5,7 +5,7 @@ extends Area2D
 const WORLD_LAYER = 3
 
 
-@export var damage := 1.0
+@export var damage := 25.0
 
 
 var velocity := Vector2.ZERO

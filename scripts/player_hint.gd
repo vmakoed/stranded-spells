@@ -5,9 +5,6 @@ extends Node2D
 const FADE_IN_DURATION = 0.15
 const ICON_HOLD_DURATION = 1.0
 const ICON_FADE_OUT_DURATION = 0.3
-const TRANSITION_DELAY = 0.1
-const TRANSITION_DURATION = 0.2
-const TRANSITION_HOLD_DURATION = 0.3
 const PROMPTS_HOLD_DURATION = 3.0
 const PROMPTS_FADE_OUT_DURATION = 0.5
 const RISE = 4.0
@@ -24,7 +21,6 @@ var _sticky_entries: Array[Dictionary] = []
 
 
 @onready var icon_sprite: Sprite2D = %IconSprite
-@onready var icon_overlay: Sprite2D = %IconOverlay
 @onready var rows: VBoxContainer = %Rows
 
 
@@ -41,23 +37,6 @@ func show_icon(texture: Texture2D) -> void:
 	_tween = _begin(icon_sprite)
 	_tween.tween_interval(ICON_HOLD_DURATION)
 	_tween.tween_property(icon_sprite, "modulate:a", 0.0, ICON_FADE_OUT_DURATION)
-	_tween.tween_callback(_end_transient)
-
-
-func show_transition(from: Texture2D, to: Texture2D) -> void:
-	_reset()
-	icon_sprite.texture = from
-	icon_overlay.texture = to
-	icon_sprite.modulate.a = 0.0
-	icon_overlay.modulate.a = 0.0
-	icon_sprite.show()
-	icon_overlay.show()
-	_tween = _begin(icon_sprite)
-	_tween.tween_interval(TRANSITION_DELAY)
-	_tween.tween_property(icon_sprite, "modulate:a", 0.0, TRANSITION_DURATION)
-	_tween.parallel().tween_property(icon_overlay, "modulate:a", 1.0, TRANSITION_DURATION)
-	_tween.tween_interval(TRANSITION_HOLD_DURATION)
-	_tween.tween_property(icon_overlay, "modulate:a", 0.0, ICON_FADE_OUT_DURATION)
 	_tween.tween_callback(_end_transient)
 
 
@@ -140,7 +119,6 @@ func _reset() -> void:
 	if _tween: _tween.kill()
 	_tween = null
 	icon_sprite.hide()
-	icon_overlay.hide()
 	for row in rows.get_children():
 		rows.remove_child(row)
 		row.queue_free()

@@ -13,7 +13,7 @@ signal level_won(level_path: String)
 
 
 const SPELL_AREA_DAMAGE = 50.0
-const SPELL_HEAL_AMOUNT = 1.0
+const SPELL_HEAL_AMOUNT = 50.0
 const SPELL_PROJECTILE_SPEED = 160.0
 const SPELL_PROJECTILE_OFFSET = 16.0
 const MAGIC_MISSILE_SPEED = 220.0

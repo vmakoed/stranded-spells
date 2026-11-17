@@ -5,7 +5,7 @@
 [node name="PhantomProjectile" instance=ExtResource("1_base")]
 z_as_relative = false
 collision_mask = 20
-damage = 1.0
+damage = 25.0
 stun_damage = 1000.0
 ignites_torches = false
 toggles_switches = true
