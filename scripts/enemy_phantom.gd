@@ -4,7 +4,7 @@ extends EnemyRanged
 
 const FADE_TIME = 0.15
 const APPEAR_TRIES = 12
-const APPEAR_MASK = 1 << 2 | 1 << 6
+const APPEAR_MASK = 1 << 2
 const HOLD_OFFSET = 18.0
 
 

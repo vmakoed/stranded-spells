@@ -67,6 +67,9 @@ func _ready() -> void:
 	%ShieldBubble.radius = shield_radius()
 	shield_component.blocked.connect(_hit_stop)
 	GameUIBridge.player_alive_changed.emit(true)
+	var saved_health := GameState.get_player_health()
+	if saved_health > 0.0:
+		health_component.health = saved_health
 	GameUIBridge.health_changed.emit(health_component.health, health_component.max_health)
 	_load_spells()
 	_apply_debug_spells()
@@ -375,6 +378,7 @@ func _on_invincibility_timer_timeout() -> void:
 
 func _on_health_component_health_changed(new_value: float) -> void:
 	if not is_node_ready(): return
+	GameState.set_player_health(new_value)
 	GameUIBridge.health_changed.emit(new_value, health_component.max_health)
 
 

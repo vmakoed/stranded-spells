@@ -65,6 +65,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomShieldSpell" type="Node" unique_id=1049756891]
 script = ExtResource("1_t648o")
 exit_up_path = "uid://ddl2hr75x6d7h"
+exit_left_path = "uid://7sxd2hhv8jp1"
 exit_down_path = "uid://b4o1c0c8kbjcg"
 exit_right_path = "uid://d3hk2orael841"
 

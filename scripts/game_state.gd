@@ -19,6 +19,7 @@ const FILE_PATH = "res://scripts/game_state.gd"
 @export var room_flags : Dictionary = {}
 @export var spells : Array[String] = []
 @export var equipped_spells : Array[String] = []
+@export var player_health : float = -1.0
 
 static var _flag_writers := {}
 
@@ -149,6 +150,16 @@ static func set_equipped_spells(names : Array[String]) -> void:
 	game_state.equipped_spells = names
 	GlobalState.save()
 
+static func get_player_health() -> float:
+	if not has_game_state():
+		return -1.0
+	return get_or_create_state().player_health
+
+static func set_player_health(value : float) -> void:
+	var game_state := get_or_create_state()
+	game_state.player_health = value
+	GlobalState.save()
+
 static func get_flag(node : Node, default : Variant = null) -> Variant:
 	var id : String = node.save_id
 	if id.is_empty() or not has_game_state():
@@ -216,4 +227,5 @@ static func reset() -> void:
 	game_state.room_flags = {}
 	game_state.spells = []
 	game_state.equipped_spells = []
+	game_state.player_health = -1.0
 	GlobalState.save()
