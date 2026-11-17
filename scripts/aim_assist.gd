@@ -32,7 +32,7 @@ static func is_valid(target: Node2D) -> bool:
 	if not is_instance_valid(target): return false
 	if target is Switch: return not (target as Switch).on
 	var parent := target.get_parent()
-	if parent is EnemyNew: return not (parent as EnemyNew).is_dead()
+	if parent is EnemyNew: return not (parent as EnemyNew).is_dead() and (parent as EnemyNew).aim_node() == target
 	if parent is BreakableBox: return not (parent as BreakableBox).is_broken()
 	return false
 
@@ -44,7 +44,7 @@ static func _candidates() -> Array[Node]:
 static func _aim_node(node: Node) -> Node2D:
 	if node is EnemyNew:
 		var enemy := node as EnemyNew
-		return null if enemy.is_dead() else enemy.hurtbox()
+		return null if enemy.is_dead() else enemy.aim_node()
 	if node is BreakableBox:
 		var box := node as BreakableBox
 		return null if box.is_broken() else box.hurtbox

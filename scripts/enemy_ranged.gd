@@ -118,12 +118,13 @@ func _update_aim() -> void:
 	%AimLine.points = PackedVector2Array([Vector2.ZERO, to_local(end)])
 
 
-func _fire() -> void:
+func _fire() -> SpellProjectile:
 	var projectile: SpellProjectile = projectile_scene.instantiate()
 	projectile.top_level = true
 	add_child(projectile)
 	projectile.global_position = global_position + _attack_direction * SPAWN_OFFSET
 	projectile.launch(_attack_direction, projectile_speed)
+	return projectile
 
 
 func _on_attack_area_body_entered(_body: Node2D) -> void:

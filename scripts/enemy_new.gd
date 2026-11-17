@@ -65,6 +65,10 @@ func is_dead() -> bool:
 	return _state == State.DEAD
 
 
+func aim_node() -> Node2D:
+	return hurtbox()
+
+
 func hurtbox() -> HurtboxComponent:
 	return $HurtboxComponent
 

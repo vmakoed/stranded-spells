@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://d0o14nl3oxw0n" path="res://scenes/spell_projectile_area.tscn" id="1_base"]
+
+[node name="PhantomProjectile" instance=ExtResource("1_base")]
+z_as_relative = false
+collision_mask = 20
+damage = 1.0
+stun_damage = 1000.0
+ignites_torches = false
+toggles_switches = true
+homing_turn_rate = 2.0
+blocks_spells = true

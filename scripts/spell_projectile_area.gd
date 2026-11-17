@@ -2,6 +2,9 @@ class_name SpellProjectile
 extends Area2D
 
 
+signal spent
+
+
 enum State { IDLE, PREVIEW, FLYING, SPENT }
 
 
@@ -19,11 +22,13 @@ const PLAYER_HURTBOX_LAYER = 5
 @export var ignites_torches := false
 @export var toggles_switches := false
 @export var homing_turn_rate := 0.0
+@export var blocks_spells := false
 
 
 var state := State.IDLE
 var velocity := Vector2.ZERO
 var homing_target: Node2D
+var return_target: Node2D
 var _tween: Tween
 var _hit := false
 
@@ -53,6 +58,7 @@ func _home(delta: float) -> void:
 func manifest() -> void:
 	if state != State.IDLE: return
 	state = State.PREVIEW
+	if blocks_spells: set_deferred(&"collision_layer", 1 << (ENEMY_LAYER - 1))
 	_kill_tween()
 	visual.scale = Vector2.ZERO
 	visual.modulate.a = 0.0
@@ -71,6 +77,7 @@ func manifest() -> void:
 func launch(direction: Vector2, speed: float) -> void:
 	if state != State.PREVIEW and state != State.IDLE: return
 	state = State.FLYING
+	if blocks_spells: set_deferred(&"collision_layer", 0)
 	_kill_tween()
 	visual.scale = Vector2.ONE
 	visual.modulate.a = 1.0
@@ -92,6 +99,7 @@ func _sweep_after_launch() -> void:
 func dismiss() -> void:
 	if state != State.PREVIEW: return
 	state = State.SPENT
+	if blocks_spells: set_deferred(&"collision_layer", 0)
 	_kill_tween()
 	_tween = create_tween()
 	_tween.tween_property(visual, "scale", Vector2.ZERO, DISMISS_DURATION)
@@ -125,6 +133,11 @@ func _deflect(area: Area2D) -> void:
 		var offset := (global_position - area.global_position).length()
 		global_position = area.global_position + velocity.normalized() * offset
 	rotation = velocity.angle()
+	if AimAssist.is_valid(return_target):
+		var to_target := return_target.global_position - global_position
+		if absf(velocity.angle_to(to_target)) <= AimAssist.CONE:
+			homing_target = return_target
+	return_target = null
 	var mask := collision_mask | 1 << (ENEMY_LAYER - 1) | 1 << (PLAYER_HURTBOX_LAYER - 1)
 	set_deferred(&"collision_mask", mask)
 
@@ -137,6 +150,7 @@ func _finish() -> void:
 	set_deferred(&"monitoring", false)
 	visual.hide()
 	trail.emitting = false
+	spent.emit()
 	await get_tree().create_timer(trail.lifetime + 0.1).timeout
 	if is_inside_tree(): queue_free()
 
@@ -145,6 +159,11 @@ func _try_hit(area: Area2D) -> bool:
 	if area is Torch:
 		if ignites_torches: area.ignite()
 		return false
+	if area is SpellProjectile:
+		if not area.blocks_spells or area.state != State.PREVIEW: return false
+		_hit = true
+		_spend()
+		return true
 	if area is not HurtboxComponent: return false
 	_hit = true
 	if area.damage(damage, stun_damage):

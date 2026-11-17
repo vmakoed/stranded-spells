@@ -1,0 +1,159 @@
+[gd_scene format=3 uid="uid://buy7lttmjn1ys"]
+
+[ext_resource type="Script" uid="uid://opd67gj8nf73" path="res://scripts/enemy_phantom.gd" id="2_phantom"]
+[ext_resource type="Shader" uid="uid://dcuwu475ty4ng" path="res://assets/shaders/flash.gdshader" id="3_k8n18"]
+[ext_resource type="Texture2D" uid="uid://dg25y2slc42i8" path="res://assets/textures/enemies-skull_idle.png" id="4_2ap6v"]
+[ext_resource type="PackedScene" path="res://scenes/phantom_projectile.tscn" id="4_shot"]
+[ext_resource type="PackedScene" uid="uid://cxu2wwd3la0wq" path="res://scenes/shield_bubble.tscn" id="5_57uyy"]
+[ext_resource type="PackedScene" uid="uid://dbg2lsv3h78on" path="res://scenes/hurtbox_component.tscn" id="6_ioyfe"]
+[ext_resource type="PackedScene" uid="uid://4ivoueqgilt3" path="res://scenes/game_scene/health_component.tscn" id="7_8vhl7"]
+[ext_resource type="Script" uid="uid://bv1m14bkeql0x" path="res://scripts/stun_component.gd" id="8_4js22"]
+[ext_resource type="PackedScene" uid="uid://dqhakbkowsv5c" path="res://scenes/shield_component.tscn" id="9_c1vk6"]
+[ext_resource type="PackedScene" uid="uid://bobj5erx7p6pg" path="res://scenes/game_scene/hitbox_component.tscn" id="10_y6ujq"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vt6su"]
+resource_local_to_scene = true
+shader = ExtResource("3_k8n18")
+shader_parameter/flash_amount = 0.0
+shader_parameter/greyscale_amount = 0.0
+shader_parameter/stun_amount = 0.0
+shader_parameter/stun_color = Color(0.35, 0.6, 1, 1)
+shader_parameter/stun_strength = 0.6
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjd1u"]
+atlas = ExtResource("4_2ap6v")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlrfl"]
+atlas = ExtResource("4_2ap6v")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2cjy"]
+atlas = ExtResource("4_2ap6v")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrsqn"]
+atlas = ExtResource("4_2ap6v")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mxgkx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjd1u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlrfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2cjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrsqn")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sense"]
+radius = 96.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_separation"]
+radius = 20.0
+
+[node name="EnemyPhantom" type="CharacterBody2D" unique_id=1305259711 groups=["aim_targets", "enemies"]]
+z_index = 2
+collision_layer = 8
+collision_mask = 36
+motion_mode = 1
+script = ExtResource("2_phantom")
+projectile_scene = ExtResource("4_shot")
+shielded = false
+recharge_time_min = 1.2
+recharge_time_max = 2.0
+
+[node name="AimLine" type="Line2D" parent="." unique_id=1291445608]
+unique_name_in_owner = true
+visible = false
+material = SubResource("CanvasItemMaterial_unshaded")
+points = PackedVector2Array(0, 0, 0, 0)
+width = 1.0
+default_color = Color(0.75, 0.6, 0.95, 0.7)
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=979051312]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_vt6su")
+sprite_frames = SubResource("SpriteFrames_mxgkx")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1637290887]
+shape = SubResource("CircleShape2D_body")
+
+[node name="ShieldBubble" parent="." unique_id=2099119776 node_paths=PackedStringArray("shield") instance=ExtResource("5_57uyy")]
+unique_name_in_owner = true
+shield = NodePath("../ShieldComponent")
+
+[node name="HurtboxComponent" parent="." unique_id=1978984167 node_paths=PackedStringArray("health_component", "shield_component", "stun_component") instance=ExtResource("6_ioyfe")]
+collision_layer = 8
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+shield_component = NodePath("../ShieldComponent")
+stun_component = NodePath("../StunComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1674861795]
+shape = SubResource("CircleShape2D_hurt")
+
+[node name="HealthComponent" parent="." unique_id=723387272 instance=ExtResource("7_8vhl7")]
+max_health = 250.0
+
+[node name="StunComponent" type="Node" parent="." unique_id=1578334087]
+unique_name_in_owner = true
+script = ExtResource("8_4js22")
+max_poise = 75.0
+regen_delay = 0.2
+regen_rate = 60.0
+
+[node name="ShieldComponent" parent="." unique_id=353061940 instance=ExtResource("9_c1vk6")]
+unique_name_in_owner = true
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=1143431730]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=594852248]
+shape = SubResource("CircleShape2D_sense")
+
+[node name="SeparationArea" type="Area2D" parent="." unique_id=75047602]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SeparationArea" unique_id=1621805011]
+shape = SubResource("CircleShape2D_separation")
+
+[node name="RechargeTimer" type="Timer" parent="." unique_id=904393321]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="HitboxComponent" parent="." unique_id=590586093 instance=ExtResource("10_y6ujq")]
+monitoring = false
+
+[connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
+[connection signal="health_below_minimum" from="HealthComponent" to="." method="_on_health_component_health_below_minimum"]
+[connection signal="recovered" from="StunComponent" to="." method="_on_stun_component_recovered"]
+[connection signal="stunned" from="StunComponent" to="." method="_on_stun_component_stunned"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="timeout" from="RechargeTimer" to="." method="_on_recharge_timer_timeout"]
