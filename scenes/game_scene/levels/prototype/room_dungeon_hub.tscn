@@ -184,7 +184,7 @@ shader_parameter/tint = Color(1, 1, 1, 0.35)
 [node name="RoomDungeonHub" type="Node" unique_id=1049756891]
 script = ExtResource("1_a8kea")
 exit_up_path = "uid://do13i2tbw4l0s"
-exit_left_path = "uid://b6ivhlg6eifu7"
+exit_left_path = "uid://bykopbvigwmx2"
 exit_down_path = "uid://ddl2hr75x6d7h"
 exit_right_path = "uid://ddsed5lm5s3nx"
 
@@ -225,6 +225,7 @@ facing = 1
 [node name="DoorRight" parent="Doors" unique_id=90353559 instance=ExtResource("4_y28d1")]
 position = Vector2(228, 80)
 facing = 1
+closed = true
 
 [node name="Exits" type="Node2D" parent="." unique_id=1063234220]
 

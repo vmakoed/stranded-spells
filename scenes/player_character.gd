@@ -19,6 +19,7 @@ const BLINK_SOLID_MASK = 36
 const BLINK_LANDING_MASK = 100
 const BLINK_BACKOFF_STEP = 4.0
 const KNOCKBACK_DURATION = 0.5
+const KNOCKBACK_STUN_MULTIPLIER = 1.5
 
 
 @export var push_sound: AudioStream
@@ -175,7 +176,7 @@ func blink_destination(distance: float) -> Vector2:
 
 func knock_back(offset: Vector2) -> void:
 	_knockback = offset * 2.0 / KNOCKBACK_DURATION
-	_knockback_time = KNOCKBACK_DURATION
+	_knockback_time = KNOCKBACK_DURATION * KNOCKBACK_STUN_MULTIPLIER
 
 
 func teleport(destination: Vector2) -> void:

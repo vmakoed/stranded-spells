@@ -227,9 +227,9 @@ position = Vector2(128, 24)
 position = Vector2(128, 132)
 
 [node name="DoorLeft" parent="Doors" unique_id=959593896 instance=ExtResource("4_apohd")]
+visible = false
 position = Vector2(28, 80)
 facing = 1
-closed = true
 
 [node name="DoorRight" parent="Doors" unique_id=90353559 instance=ExtResource("4_apohd")]
 visible = false
@@ -414,22 +414,6 @@ tile_set = ExtResource("8_ay6b7")
 [node name="PressurePlate" parent="Items/RightPathDoorLock" unique_id=1605416110 node_paths=PackedStringArray("wire") instance=ExtResource("7_l602w")]
 position = Vector2(184, 48)
 wire = NodePath("../Wire")
-
-[node name="LeftDoorLock" type="Node2D" parent="Items" unique_id=1520097897]
-
-[node name="PressurePlate" parent="Items/LeftDoorLock" unique_id=1183771867 node_paths=PackedStringArray("wire") instance=ExtResource("7_l602w")]
-position = Vector2(48, 80)
-wire = NodePath("../Wire")
-
-[node name="Wire" type="TileMapLayer" parent="Items/LeftDoorLock" unique_id=2038177714]
-position = Vector2(-184, 24)
-tile_map_data = PackedByteArray("AAANAAMAAQAAAAMAAFA=")
-tile_set = ExtResource("8_ay6b7")
-
-[node name="DoorLock" type="Node2D" parent="Items/LeftDoorLock" unique_id=556242610 node_paths=PackedStringArray("plates", "doors")]
-script = ExtResource("9_i7lqs")
-plates = [NodePath("../PressurePlate")]
-doors = [NodePath("../../../Doors/DoorLeft")]
 
 [node name="DetectionAreas" type="Node2D" parent="." unique_id=1135695816]
 visible = false

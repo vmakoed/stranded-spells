@@ -1,0 +1,36 @@
+[gd_scene format=4 uid="uid://duwilyhw3fbe5"]
+
+[ext_resource type="Script" uid="uid://d3o388x23i1fp" path="res://scripts/rotating_platform.gd" id="1_ep63w"]
+[ext_resource type="TileSet" uid="uid://cqpxtj0a2etkf" path="res://resources/dungeon_tile_set.tres" id="2_d58yf"]
+[ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="3_ugohy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sd08o"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f51bq"]
+size = Vector2(32, 32)
+
+[node name="RotatingPlatformAngled" type="StaticBody2D" unique_id=906429630]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_ep63w")
+save_id = "PlatformLeft"
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1564004791]
+tile_map_data = PackedByteArray("AAD//wAAAAAJAAcAAAAAAP//AAAJAAcAAAAAAAAAAAAJAAcAAAD/////AAAIAAcAAAA=")
+tile_set = ExtResource("2_d58yf")
+
+[node name="Wire" type="TileMapLayer" parent="." unique_id=2129810290]
+position = Vector2(-8, 8)
+tile_map_data = PackedByteArray("AAD///7/AQACAAEAAAD/////AQABAAMAADD//wAAAQACAAIAAAAAAP7/AQACAAMAAFAAAAAAAQACAAMAAFABAP7/AQADAAEAAAABAP//AQABAAMAAAABAAAAAQADAAIAAAA=")
+tile_set = ExtResource("3_ugohy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=141507290]
+shape = SubResource("RectangleShape2D_sd08o")
+
+[node name="CarryArea" type="Area2D" parent="." unique_id=1703301547]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CarryArea" unique_id=1117560408]
+shape = SubResource("RectangleShape2D_f51bq")

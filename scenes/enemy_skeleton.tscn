@@ -21,6 +21,18 @@ shader_parameter/stun_amount = 0.0
 shader_parameter/stun_color = Color(0.35, 0.6, 1, 1)
 shader_parameter/stun_strength = 0.6
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel6"]
+atlas = ExtResource("6_skel")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel7"]
+atlas = ExtResource("6_skel")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skel8"]
+atlas = ExtResource("6_skel")
+region = Rect2(256, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_skel0"]
 atlas = ExtResource("6_skel")
 region = Rect2(0, 0, 32, 32)
@@ -44,18 +56,6 @@ region = Rect2(128, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_skel5"]
 atlas = ExtResource("6_skel")
 region = Rect2(160, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_skel6"]
-atlas = ExtResource("6_skel")
-region = Rect2(192, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_skel7"]
-atlas = ExtResource("6_skel")
-region = Rect2(224, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_skel8"]
-atlas = ExtResource("6_skel")
-region = Rect2(256, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_idle0"]
 atlas = ExtResource("7_idle")
@@ -228,20 +228,20 @@ radius = 12.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_reach"]
 radius = 14.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_slash"]
-radius = 7.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_separation"]
 radius = 20.0
 
-[node name="EnemySkeleton" type="CharacterBody2D" unique_id=297279986 groups=["enemies", "aim_targets"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_slash"]
+radius = 7.0
+
+[node name="EnemySkeleton" type="CharacterBody2D" unique_id=297279986 groups=["aim_targets", "enemies"]]
 z_index = 2
 collision_layer = 8
 collision_mask = 100
 motion_mode = 1
 script = ExtResource("1_skel")
-recharge_time_min = 0.6
-recharge_time_max = 1.0
+recharge_time_min = 1.0
+recharge_time_max = 1.6
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=643113679]
 unique_name_in_owner = true
@@ -286,13 +286,13 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1273253847]
 shape = SubResource("CircleShape2D_reach")
 
-[node name="SeparationArea" type="Area2D" parent="."]
+[node name="SeparationArea" type="Area2D" parent="." unique_id=772722470]
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 8
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SeparationArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SeparationArea" unique_id=547676596]
 shape = SubResource("CircleShape2D_separation")
 
 [node name="RechargeTimer" type="Timer" parent="." unique_id=2051991929]
