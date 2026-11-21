@@ -210,7 +210,7 @@ position = Vector2(104, 72)
 position = Vector2(152, 72)
 
 [node name="Torch15" parent="Lights" unique_id=2012979740 instance=ExtResource("5_3qt26")]
-position = Vector2(128, 96)
+position = Vector2(128, 104)
 facing = 1
 
 [node name="Items" type="Node2D" parent="." unique_id=1616782477]
@@ -233,7 +233,7 @@ doors = [NodePath("../../../Doors/DoorLeft")]
 save_id = "room_shield_spell_left_door_lock"
 
 [node name="TreasureChest" parent="Items" unique_id=7503043 instance=ExtResource("9_t648o")]
-position = Vector2(128, 96)
+position = Vector2(128, 104)
 spell = 2
 spell_room_path = "uid://dffndtgab6w7i"
 

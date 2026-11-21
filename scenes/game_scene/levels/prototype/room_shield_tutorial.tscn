@@ -5,19 +5,26 @@
 [ext_resource type="TileSet" uid="uid://cqpxtj0a2etkf" path="res://resources/dungeon_tile_set.tres" id="3_t3ajf"]
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="4_mayb2"]
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="5_1jrip"]
+[ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="6_2muq1"]
+[ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="7_81duo"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_dbr1x"]
 [ext_resource type="Script" uid="uid://cuy2vwva0x2jx" path="res://scripts/magic_circle.gd" id="10_a85b7"]
+[ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="10_t3ajf"]
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_3kcy5"]
 [ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="12_xkebu"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_ys2rl"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_1bslh"]
-[ext_resource type="Script" path="res://scripts/spell_equip_gate.gd" id="14_eqgate"]
+[ext_resource type="PackedScene" uid="uid://bfaay4i0iy7av" path="res://scenes/arrow_trap.tscn" id="13_rqnjk"]
+[ext_resource type="Script" uid="uid://ccv8n4of0fl76" path="res://scripts/spell_equip_gate.gd" id="14_eqgate"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
 size = Vector2(32, 3.2000003)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jmuv"]
+size = Vector2(15.999999, 192)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6oa77"]
 size = Vector2(192, 16)
@@ -72,7 +79,7 @@ rendering_quadrant_size = 1
 
 [node name="BackgroundTileMapLayer" type="TileMapLayer" parent="." unique_id=1494177456]
 position = Vector2(128, 80)
-tile_map_data = PackedByteArray("AAD8/wAAAAAGAAAAAAD8/wEAAAAGAAEAAAD8/wIAAAAGAAIAAAD9/wAAAAAHAAAAAAD9/wEAAAAHAAEAAAD9/wIAAAAHAAIAAAD+/wAAAAAIAAAAAAD+/wEAAAAIAAEAAAD+/wIAAAAIAAIAAAD//wAAAAAJAAAAAAD//wEAAAAJAAEAAAD//wIAAAAJAAIAAAAAAAAAAAAGAAAAAAAAAAEAAAAGAAEAAAAAAAIAAAAGAAIAAAABAAAAAAAHAAAAAAABAAEAAAAHAAEAAAABAAIAAAAHAAIAAAACAAAAAAAIAAAAAAACAAEAAAAIAAEAAAACAAIAAAAIAAIAAAADAAAAAAAJAAAAAAADAAEAAAAJAAEAAAADAAIAAAAJAAIAAAAAAP3/AAAGAAAAAAAAAP7/AAAGAAEAAAAAAP//AAAGAAIAAAABAP3/AAAHAAAAAAABAP7/AAAHAAEAAAABAP//AAAHAAIAAAACAP3/AAAIAAAAAAACAP7/AAAIAAEAAAACAP//AAAIAAIAAAADAP3/AAAJAAAAAAADAP7/AAAJAAEAAAADAP//AAAJAAIAAAD8//3/AAAGAAAAAAD8//7/AAAGAAEAAAD8////AAAGAAIAAAD9//3/AAAHAAAAAAD9//7/AAAHAAEAAAD9////AAAHAAIAAAD+//3/AAAIAAAAAAD+//7/AAAIAAEAAAD+////AAAIAAIAAAD///3/AAAJAAAAAAD///7/AAAJAAEAAAD/////AAAJAAIAAAD5/wEAAAAAAAMAAAD5//7/AAAAAAAAAAAAAAMAAAADAAQAAAABAAMAAAAEAAQAAAACAAMAAAADAAQAAAADAAMAAAAEAAQAAAD8/wMAAAABAAQAAAD9/wMAAAACAAQAAAD+/wMAAAABAAQAAAD//wMAAAACAAQAAAD8//z/AAABAAAAAAD9//z/AAACAAAAAAD+//r/AAAAAAMAAAD+//z/AAADAAAAAAD///r/AAAHAAEAAAD///z/AAAHAAEAAAAAAPr/AAAIAAEAAAAAAPz/AAAIAAEAAAABAPr/AAAFAAMAAAABAPz/AAACAAAAAAACAPz/AAADAAAAAAADAPz/AAAEAAAAAAD///n/AAACAAAAAAAAAPn/AAADAAAAAAD+//n/AAAAAAAAAAABAPn/AAAFAAAAAAD5////AAAAAAEAAAD5/wAAAAAAAAIAAAD7/wMAAAACAAQAAAAEAAMAAAAEAAQAAAAEAPz/AAADAAAAAAD7//z/AAADAAAAAAD7//3/AAAJAAAAAAD7//7/AAAJAAEAAAD7////AAAJAAIAAAD7/wAAAAAJAAAAAAD7/wEAAAAJAAEAAAD7/wIAAAAJAAIAAAAEAP3/AAAGAAAAAAAEAP7/AAAGAAEAAAAEAP//AAAGAAIAAAAEAAAAAAAGAAAAAAAEAAEAAAAGAAEAAAAEAAIAAAAGAAIAAAD+//v/AAAAAAAAAAABAPv/AAAFAAMAAAD///v/AAACAAIAAAAAAPv/AAADAAIAAAD5//z/AAAAAAAAAAD5//3/AAAAAAIAAAD5/wIAAAAAAAIAAAD5/wMAAAAAAAQAAAD6//z/AAADAAAAAAD6/wMAAAABAAQAAAAFAAMAAAADAAQAAAAFAPz/AAADAAAAAAD6//3/AAAIAAAAAAD6//7/AAAIAAEAAAD6////AAAIAAIAAAD6/wAAAAAIAAAAAAD6/wEAAAAIAAEAAAD6/wIAAAAIAAIAAAAFAP3/AAAIAAAAAAAFAP7/AAAIAAEAAAAFAP//AAAIAAIAAAAFAAAAAAAIAAAAAAAFAAEAAAAIAAEAAAAFAAIAAAAIAAIAAAAGAPz/AAAFAAAAAAAGAP3/AAAFAAIAAAAGAP7/AAAFAAAAAAAGAP//AAAFAAEAAAAGAAAAAAAFAAIAAAAGAAEAAAAFAAMAAAAGAAIAAAAFAAEAAAAGAAMAAAAFAAQAAAA=")
+tile_map_data = PackedByteArray("AAD8/wAAAAAGAAAAAAD8/wEAAAAGAAEAAAD8/wIAAAAGAAIAAAD9/wAAAAAHAAAAAAD9/wEAAAAHAAEAAAD9/wIAAAAHAAIAAAD+/wAAAAAIAAAAAAD+/wEAAAAIAAEAAAD+/wIAAAAIAAIAAAD//wAAAAAJAAAAAAD//wEAAAAJAAEAAAD//wIAAAAJAAIAAAAAAAAAAAAGAAAAAAAAAAEAAAAGAAEAAAAAAAIAAAAGAAIAAAABAAAAAAAHAAAAAAABAAEAAAAHAAEAAAABAAIAAAAHAAIAAAACAAAAAAAIAAAAAAACAAEAAAAIAAEAAAACAAIAAAAIAAIAAAADAAAAAAAJAAAAAAADAAEAAAAJAAEAAAADAAIAAAAJAAIAAAAAAP3/AAAGAAAAAAAAAP7/AAAGAAEAAAAAAP//AAAGAAIAAAABAP3/AAAIAAcAAAABAP7/AAAHAAEAAAABAP//AAAIAAcAAAACAP3/AAAIAAcAAAACAP7/AAAIAAEAAAACAP//AAAIAAcAAAADAP3/AAAIAAcAAAADAP7/AAAJAAEAAAADAP//AAAIAAcAAAD8//3/AAAIAAcAAAD8//7/AAAGAAEAAAD8////AAAIAAcAAAD9//3/AAAIAAcAAAD9//7/AAAHAAEAAAD9////AAAIAAcAAAD+//3/AAAIAAcAAAD+//7/AAAIAAEAAAD+////AAAIAAcAAAD///3/AAAJAAAAAAD///7/AAAJAAEAAAD/////AAAJAAIAAAD5/wEAAAAAAAMAAAD5//7/AAAAAAAAAAAAAAMAAAADAAQAAAABAAMAAAAEAAQAAAACAAMAAAADAAQAAAADAAMAAAAEAAQAAAD8/wMAAAABAAQAAAD9/wMAAAACAAQAAAD+/wMAAAABAAQAAAD//wMAAAACAAQAAAD8//z/AAABAAAAAAD9//z/AAACAAAAAAD+//r/AAAAAAMAAAD+//z/AAADAAAAAAD///r/AAAHAAEAAAD///z/AAAHAAEAAAAAAPr/AAAIAAEAAAAAAPz/AAAIAAEAAAABAPr/AAAFAAMAAAABAPz/AAACAAAAAAACAPz/AAADAAAAAAADAPz/AAAEAAAAAAD///n/AAACAAAAAAAAAPn/AAADAAAAAAD+//n/AAAAAAAAAAABAPn/AAAFAAAAAAD5////AAAAAAEAAAD5/wAAAAAAAAIAAAD7/wMAAAACAAQAAAAEAAMAAAAEAAQAAAAEAPz/AAADAAAAAAD7//z/AAADAAAAAAD7//3/AAAIAAcAAAD7//7/AAAJAAEAAAD7////AAAIAAcAAAD7/wAAAAAJAAAAAAD7/wEAAAAJAAEAAAD7/wIAAAAJAAIAAAAEAP3/AAAJAAcAAAAEAP7/AAAGAAEAAAAEAP//AAAJAAcAAAAEAAAAAAAGAAAAAAAEAAEAAAAGAAEAAAAEAAIAAAAGAAIAAAD+//v/AAAAAAAAAAABAPv/AAAFAAMAAAD///v/AAACAAIAAAAAAPv/AAADAAIAAAD5//z/AAAAAAAAAAD5//3/AAAAAAIAAAD5/wIAAAAAAAIAAAD5/wMAAAAAAAQAAAD6//z/AAADAAAAAAD6/wMAAAABAAQAAAAFAAMAAAADAAQAAAAFAPz/AAADAAAAAAD6//3/AAAIAAcAAAD6//7/AAAIAAEAAAD6////AAAIAAcAAAD6/wAAAAAIAAAAAAD6/wEAAAAIAAEAAAD6/wIAAAAIAAIAAAAFAP3/AAAJAAcAAAAFAP7/AAAIAAEAAAAFAP//AAAJAAcAAAAFAAAAAAAIAAAAAAAFAAEAAAAIAAEAAAAFAAIAAAAIAAIAAAAGAPz/AAAFAAAAAAAGAP3/AAAFAAIAAAAGAP7/AAAFAAAAAAAGAP//AAAFAAEAAAAGAAAAAAAFAAIAAAAGAAEAAAAFAAMAAAAGAAIAAAAFAAEAAAAGAAMAAAAFAAQAAAA=")
 tile_set = ExtResource("3_t3ajf")
 
 [node name="Doors" type="Node2D" parent="." unique_id=2026921580]
@@ -207,7 +214,50 @@ facing = 4
 
 [node name="Items" type="Node2D" parent="." unique_id=1616782477]
 
+[node name="ArrowTrap" type="Node2D" parent="Items" unique_id=1757004677]
+position = Vector2(32, 56)
+rotation = 3.1415925
+
+[node name="ArrowTrap" parent="Items/ArrowTrap" unique_id=1491370832 node_paths=PackedStringArray("wire") instance=ExtResource("13_rqnjk")]
+rotation = 1.5707964
+wire = NodePath("../Wire")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/ArrowTrap/ArrowTrap" unique_id=1231642644]
+position = Vector2(-3.0517578e-05, 96)
+shape = SubResource("RectangleShape2D_7jmuv")
+
+[node name="Wire" type="TileMapLayer" parent="Items/ArrowTrap" unique_id=1924104619]
+position = Vector2(-44, -16)
+tile_map_data = PackedByteArray("AAACAAAAAQABAAMAAFADAAAAAQACAAEAAFADAAEAAQADAAEAAFABAAAAAQABAAMAAFAAAAAAAQABAAMAAFD//wAAAQABAAMAAFD+/wAAAQABAAMAAFD9/wAAAQABAAMAAFACAAEAAQABAAMAAFABAAEAAQABAAMAAFAAAAEAAQABAAMAAFD//wEAAQABAAMAAFD+/wEAAQABAAMAAFD9/wEAAQABAAMAAFD8/wEAAQABAAMAAFD7/wEAAQABAAMAAFD7/wAAAQABAAMAAFD8/wAAAQABAAMAAFD2/wAAAQACAAIAAFD2/wEAAQADAAIAAFD6/wEAAQABAAMAAFD4/wEAAQABAAMAAFD5/wEAAQABAAMAAFD3/wEAAQABAAMAAFD6/wAAAQABAAMAAFD5/wAAAQABAAMAAFD4/wAAAQABAAMAAFD3/wAAAQABAAMAAFA=")
+tile_set = ExtResource("6_2muq1")
+
+[node name="SpellEquipGate" type="Node" parent="Items" unique_id=1944570941 node_paths=PackedStringArray("player")]
+script = ExtResource("14_eqgate")
+spell = 2
+player = NodePath("../../PlayerCharacter")
+save_id = "SpellEquipGate"
+
+[node name="TopDoorLock" type="Node2D" parent="Items" unique_id=158883368]
+position = Vector2(48, 24)
+
+[node name="Wire" type="TileMapLayer" parent="Items/TopDoorLock" unique_id=422822479]
+position = Vector2(0, 24)
+tile_map_data = PackedByteArray("AAAAAP//AQAAAAMAAAAAAP7/AQAAAAEAAAABAP7/AQAAAAMAAFACAP7/AQAAAAMAAFADAP7/AQAAAAMAAFA=")
+tile_set = ExtResource("6_2muq1")
+
+[node name="PressurePlate" parent="Items/TopDoorLock" unique_id=727494178 node_paths=PackedStringArray("wire") instance=ExtResource("7_81duo")]
+position = Vector2(8, 32)
+wire = NodePath("../Wire")
+
+[node name="DoorLock" type="Node2D" parent="Items/TopDoorLock" unique_id=1706062004 node_paths=PackedStringArray("plates", "doors")]
+position = Vector2(-48, -24)
+script = ExtResource("10_t3ajf")
+plates = [NodePath("../PressurePlate")]
+doors = [NodePath("../../../Doors/DoorUp")]
+save_id = "shield_no_return_door"
+
 [node name="DetectionAreas" type="Node2D" parent="." unique_id=1135695816]
+visible = false
 position = Vector2(128, 80)
 
 [node name="EnemyDetectionAreaDown" type="Area2D" parent="DetectionAreas" unique_id=526092949]
@@ -233,12 +283,6 @@ position = Vector2(88, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaRight" unique_id=619460715]
 shape = SubResource("RectangleShape2D_ss5wd")
-
-[node name="SpellEquipGate" type="Node" parent="Items" node_paths=PackedStringArray("player")]
-script = ExtResource("14_eqgate")
-spell = 2
-player = NodePath("../../PlayerCharacter")
-save_id = "SpellEquipGate"
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_dbr1x")]
 unique_name_in_owner = true
@@ -279,7 +323,7 @@ position = Vector2(-15, 0)
 texture = ExtResource("13_1bslh")
 
 [node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("12_xkebu")]
-position = Vector2(128, 44)
+position = Vector2(128, 112)
 spell = 2
 
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
