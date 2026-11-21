@@ -25,7 +25,7 @@ var sequence: Array[StringName] = []
 
 func _ready() -> void:
 	add_to_group(GROUP_NAME)
-	hide()	# shown only while cast mode is held, see GameUIBridge.cast_mode_changed
+	hide()
 	var unshaded := CanvasItemMaterial.new()
 	unshaded.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
 	material = unshaded

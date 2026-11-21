@@ -1,7 +1,7 @@
 class_name GameState
 extends Resource
 
-enum EntryDirection {UP, DOWN, LEFT, RIGHT, NONE}
+enum EntryDirection {UP, DOWN, LEFT, RIGHT, NONE, CENTER}
 
 const STATE_NAME : String = "GameState"
 const FILE_PATH = "res://scripts/game_state.gd"

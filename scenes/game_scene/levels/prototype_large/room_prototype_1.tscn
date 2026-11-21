@@ -14,7 +14,6 @@
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="20_nmib0"]
 [ext_resource type="Script" uid="uid://hkp6m3fni1pg" path="res://scripts/darkness_zone.gd" id="21_5xv58"]
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="22_qka61"]
-[ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="23_nx74p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ring"]
 shader = ExtResource("6_21b54")
@@ -672,8 +671,5 @@ position = Vector2(432, 200)
 [node name="ChallengeDoor4" parent="Doors" unique_id=671498573 instance=ExtResource("22_qka61")]
 position = Vector2(328, 144)
 facing = 1
-
-[node name="CastGuide" parent="." unique_id=1450978606 instance=ExtResource("23_nx74p")]
-position = Vector2(400, 468)
 
 [connection signal="body_entered" from="Items/WinChest" to="." method="_on_win_chest_body_entered"]

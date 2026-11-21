@@ -8,7 +8,7 @@ extends Control
 const HIGHLIGHT_COLOR = Color(0.5, 0.72, 0.78, 1.0)	# MagicCircle.ACTIVE_TINT
 const OUTLINE_COLOR = Color(0.0, 0.0, 0.0, 0.8)
 const FONT_SIZE = 28
-const OUTLINE_SIZE = 4
+const OUTLINE_SIZE = 24
 const GAP_WORLD_PX = 10.0	# marker centre -> list edge, in SubViewport pixels (marker half-extent is 8)
 
 const LABEL_ALIGNMENTS: Dictionary[CastInputPanel.SpellDirection, HorizontalAlignment] = {

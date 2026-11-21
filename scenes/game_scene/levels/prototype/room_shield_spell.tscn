@@ -16,7 +16,6 @@
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_132po"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_lefpd"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_gpqo5"]
-[ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="17_fv3aq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
 size = Vector2(32, 3.2000003)
@@ -236,7 +235,7 @@ save_id = "room_shield_spell_left_door_lock"
 [node name="TreasureChest" parent="Items" unique_id=7503043 instance=ExtResource("9_t648o")]
 position = Vector2(128, 96)
 spell = 2
-save_id = "room_shield_spell_chest"
+spell_room_path = "uid://dffndtgab6w7i"
 
 [node name="TreasureChestDoorLock" type="Node2D" parent="Items" unique_id=1692069727]
 
@@ -311,14 +310,6 @@ position = Vector2(88, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaRight" unique_id=619460715]
 shape = SubResource("RectangleShape2D_ss5wd")
 
-[node name="CastGuide" parent="." unique_id=1897414652 node_paths=PackedStringArray("chest") instance=ExtResource("17_fv3aq")]
-position = Vector2(128, 48)
-prepare_text = "Hold {LB}: equip second spell"
-equipped_text = "{RS}: aim {RB}: cast"
-min_known_spells = 2
-max_known_spells = 2
-chest = NodePath("../Items/TreasureChest")
-
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_5lqom")]
 unique_name_in_owner = true
 position = Vector2(128, 45)
@@ -361,6 +352,7 @@ texture = ExtResource("13_gpqo5")
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitRightArea" to="." method="_on_exit_right_area_body_entered"]
+[connection signal="travel_requested" from="Items/TreasureChest" to="." method="_on_travel_requested"]
 [connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaDown" to="." method="_on_enemy_detection_area_body_entered"]
 [connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaTop" to="." method="_on_enemy_detection_area_body_entered"]
 [connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaLeft" to="." method="_on_enemy_detection_area_body_entered"]

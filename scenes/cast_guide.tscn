@@ -10,7 +10,7 @@ light_mode = 1
 modulate = Color(1, 1, 1, 0.5882353)
 material = SubResource("CanvasItemMaterial_unshaded")
 script = ExtResource("1_script")
-prepare_text = "Hold {LT} {LB}"
+prepare_text = "Hold {HOLD}"
 
 [node name="Text" type="RichTextLabel" parent="." unique_id=1102294959]
 unique_name_in_owner = true

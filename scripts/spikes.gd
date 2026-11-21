@@ -18,7 +18,7 @@ func _ready() -> void:
 	_snap()
 	if Engine.is_editor_hint(): return
 	collision_layer = 0
-	collision_mask = 8
+	collision_mask = 24
 	monitoring = raised
 	area_entered.connect(_on_area_entered)
 
@@ -50,5 +50,7 @@ func _snap() -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
-	if area is HurtboxComponent and area.get_parent() is EnemyNew:
+	if not area is HurtboxComponent: return
+	var owner_node := area.get_parent()
+	if owner_node is EnemyNew or owner_node is Player:
 		area.damage(damage)

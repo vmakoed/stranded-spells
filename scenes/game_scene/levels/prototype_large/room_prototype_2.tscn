@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" path="res://scenes/spell_scroll.tscn" id="9_scroll"]
 [ext_resource type="PackedScene" uid="uid://bma7joqsr7g43" path="res://scenes/breakable_box.tscn" id="10_6l8lh"]
 [ext_resource type="Script" uid="uid://bcr7md08sav4a" path="res://scripts/box_challenge.gd" id="10_boxch"]
-[ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="10_ccd8a"]
 [ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="10_rdiqp"]
 [ext_resource type="PackedScene" uid="uid://c7ntfygwixk8k" path="res://scenes/challenge_door.tscn" id="11_ununi"]
 [ext_resource type="PackedScene" uid="uid://ci403rwthdvbj" path="res://scenes/switch.tscn" id="12_switch"]
@@ -598,9 +597,6 @@ size = Vector2(30, 32)
 atlas = ExtResource("15_csjk5")
 region = Rect2(0, 80, 16, 16)
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ccd8a"]
-light_mode = 1
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l3f3c"]
 size = Vector2(32, 16)
 
@@ -1001,10 +997,6 @@ position = Vector2(-40, 2)
 
 [node name="BoxMarker8" type="Marker2D" parent="Challenges/ChallengeBoxes" unique_id=1976316248]
 position = Vector2(40, 2)
-
-[node name="CastGuide" parent="." unique_id=1897414652 instance=ExtResource("10_ccd8a")]
-material = SubResource("CanvasItemMaterial_ccd8a")
-position = Vector2(448, 421)
 
 [node name="Doors" type="Node" parent="." unique_id=1384490296]
 

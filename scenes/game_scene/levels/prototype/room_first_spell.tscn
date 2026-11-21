@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://rbwloykhueab"]
+[gd_scene format=4 uid="uid://TreasureChest"]
 
 [ext_resource type="Script" uid="uid://cho8hqa06olvr" path="res://scenes/game_scene/levels/room_prototype.gd" id="1_qxi4f"]
 [ext_resource type="TileSet" uid="uid://clwm1phke85pj" path="res://resources/void_tile_set.tres" id="2_void"]
@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_xul5i"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_ssqrm"]
 [ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="14_doorlk"]
-[ext_resource type="PackedScene" uid="uid://bpcbdivgajl3a" path="res://scenes/cast_guide.tscn" id="18_emf3u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_crmjo"]
 texture = ExtResource("3_dsto2")
@@ -273,6 +272,7 @@ facing = 1
 
 [node name="TreasureChest" parent="Items" unique_id=7503043 instance=ExtResource("5_l84h7")]
 position = Vector2(200, 120)
+spell_room_path = "uid://ckl5e3olc1r6p"
 
 [node name="WireUp" type="TileMapLayer" parent="Items" unique_id=955193991]
 tile_map_data = PackedByteArray("AAAHAAQAAQAAAAMAAFAGAAQAAQAAAAMAAFAFAAQAAQAAAAMAAFAEAAQAAQAAAAMAAFADAAQAAQAAAAIAAAADAAMAAQAAAAMAAAADAAIAAQAAAAEAAAAIAAQAAQAAAAMAAFAJAAQAAQAAAAMAAFAKAAQAAQAAAAMAAFALAAQAAQAAAAMAAFANAAQAAQABAAEAAAANAAUAAQAAAAMAAAAMAAQAAQAAAAMAAFA=")
@@ -382,11 +382,6 @@ collision_layer = 0
 position = Vector2(-2.2737368e-13, 0)
 shape = SubResource("RectangleShape2D_iphhf")
 
-[node name="CastGuide" parent="." unique_id=1897414652 node_paths=PackedStringArray("chest") instance=ExtResource("18_emf3u")]
-position = Vector2(164, 80)
-draw_text = "{FACE_LEFT} {FACE_BOTTOM}: draw glyph"
-chest = NodePath("../Items/TreasureChest")
-
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_xa1vf")]
 unique_name_in_owner = true
 position = Vector2(52, 80)
@@ -425,6 +420,7 @@ material = SubResource("ShaderMaterial_pghxy")
 position = Vector2(-15, 0)
 texture = ExtResource("13_ssqrm")
 
+[connection signal="travel_requested" from="Items/TreasureChest" to="." method="_on_travel_requested"]
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]

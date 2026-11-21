@@ -5,7 +5,6 @@ signal level_lost
 signal level_won(level_path: String)
 
 
-
 @export_file("*.tscn") var exit_up_path: String
 @export_file("*.tscn") var exit_left_path: String
 @export_file("*.tscn") var exit_down_path: String
@@ -23,6 +22,7 @@ const TAKEDOWN_DAMAGE = 125.0
 const TAKEDOWN_SPLASH_DAMAGE = 50.0
 const TAKEDOWN_SPLASH_STUN = 15.0
 const TAKEDOWN_RADIUS = 45.0
+const ARRIVAL_FADE_TIME = 0.5
 const AIMED_SPELLS: Array[CastInputPanel.Spell] = [
 	CastInputPanel.Spell.ATTACK_TARGET,
 	CastInputPanel.Spell.MAGIC_MISSILE,
@@ -52,6 +52,7 @@ var player_spawn_up_marker: Marker2D
 var player_spawn_right_marker: Marker2D
 var player_spawn_down_marker: Marker2D
 var player_spawn_left_marker: Marker2D
+var player_spawn_center_marker: Marker2D
 
 
 func _ready() -> void:
@@ -87,6 +88,7 @@ func _initialize_markers() -> void:
 	player_spawn_right_marker = get_node_or_null("%PlayerSpawnRightMarker")
 	player_spawn_down_marker = get_node_or_null("%PlayerSpawnDownMarker")
 	player_spawn_left_marker = get_node_or_null("%PlayerSpawnLeftMarker")
+	player_spawn_center_marker = get_node_or_null("%PlayerSpawnCenterMarker")
 
 
 func _position_player() -> void:
@@ -104,6 +106,18 @@ func _position_player() -> void:
 
 	if player_spawn_left_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.LEFT):
 		player.global_position = player_spawn_left_marker.global_position
+
+	if player_spawn_center_marker and (GameState.get_checkpoint_level_entry_direction() == GameState.EntryDirection.CENTER):
+		player.global_position = player_spawn_center_marker.global_position
+		_fade_in_from_white()
+
+
+func _fade_in_from_white() -> void:
+	var fade := ScreenFade.new()
+	fade.color = Color.WHITE
+	fade.alpha = 1.0
+	add_child(fade)
+	fade.fade_to(0.0, ARRIVAL_FADE_TIME).finished.connect(fade.queue_free)
 
 
 func _physics_process(_delta: float) -> void:
@@ -381,6 +395,10 @@ func _on_enemy_detection_area_body_entered(body: Node2D) -> void:
 func _on_win_chest_body_entered(body: Node2D) -> void:
 	if body is Player: 
 		level_won.emit("res://scenes/game_scene/levels/room_prototype_1.tscn")
+
+
+func _on_travel_requested(path: String) -> void:
+	level_won.emit(path)
 
 
 func _on_exit_up_area_body_entered(body: Node2D) -> void:

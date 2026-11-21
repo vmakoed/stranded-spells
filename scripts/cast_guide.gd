@@ -18,23 +18,28 @@ const GLYPHS: Dictionary[String, Texture2D] = {
 }
 
 
-@export_multiline var prepare_text := "Hold {LT} {LB}: prepare spell":
+const ACTION_GLYPHS: Dictionary[StringName, String] = {
+	&"cast_up": "FACE_TOP",
+	&"cast_down": "FACE_BOTTOM",
+	&"cast_left": "FACE_LEFT",
+	&"cast_right": "FACE_RIGHT",
+}
+
+
+@export var spell: CastInputPanel.Spell:
 	set(value):
-		prepare_text = value
+		spell = value
 		if is_node_ready(): _refresh()
-@export_multiline var equipped_text := "{RS}: aim {RT} {RB}: cast"
-@export_multiline var prepare_text_single := "Hold {LT}: prepare spell"
-@export_multiline var equipped_text_single := "{RS}: aim {RT}: cast"
-@export_multiline var draw_text := "{FACE_BOTTOM} {FACE_TOP}: draw glyph"
+@export_multiline var prepare_text := "Hold {HOLD}"
+@export_multiline var draw_text := "{GLYPHS}: draw glyph"
 @export_multiline var release_text := "Release {HOLD}"
-@export var min_known_spells := 1
-@export var max_known_spells := 0
-@export var chest: TreasureChest
+@export_multiline var equipped_text := "{RS}: aim {FIRE}: cast"
+@export_multiline var slots_text := "Up to 2 spells can be equipped"
 
 
 var _casting := false
-var _equipped_slots: Array[bool] = [false, false]
 var _active_slot := 0
+var _spell_slot := -1
 var _sequence_complete := false
 var _shown_text := ""
 var _token_regex := RegEx.create_from_string("\\{(\\w+)\\}")
@@ -54,7 +59,6 @@ func _ready() -> void:
 	GameUIBridge.spell_reset.connect(_on_spell_reset)
 	GameUIBridge.spell_unequipped.connect(_on_spell_unequipped)
 	GameUIBridge.spell_sequence_changed.connect(_on_spell_sequence_changed)
-	if chest: chest.opened.connect(_refresh)
 	_refresh()
 
 
@@ -68,42 +72,59 @@ func _on_cast_mode_changed(active: bool, slot: int) -> void:
 	_refresh()
 
 
-func _on_spell_equipped(slot: int, _spell: CastInputPanel.Spell) -> void:
-	_equipped_slots[slot] = true
+func _on_spell_equipped(slot: int, equipped: CastInputPanel.Spell) -> void:
+	if equipped == spell: _spell_slot = slot
+	elif slot == _spell_slot: _spell_slot = -1
 	_refresh()
 
 
 func _on_spell_unequipped(slot: int) -> void:
-	_equipped_slots[slot] = false
+	if slot == _spell_slot: _spell_slot = -1
 	_refresh()
 
 
 func _on_spell_sequence_changed(sequence: Array[StringName]) -> void:
-	_sequence_complete = CastInputPanel.find_complete_spell(sequence) != null
+	_sequence_complete = CastInputPanel.find_complete_spell(sequence) == spell
 	_refresh()
 
 
 func _on_spell_reset() -> void:
-	_equipped_slots = [false, false]
+	_spell_slot = -1
 	_refresh()
 
 
 func _refresh() -> void:
-	var known_count := CastInputPanel.known_spells.size()
-	var single := known_count == 1
-	var in_range := known_count >= min_known_spells and (max_known_spells <= 0 or known_count <= max_known_spells)
-	var chest_open := chest == null or Engine.is_editor_hint() or chest.is_open
-	visible = (in_range and chest_open) or Engine.is_editor_hint()
+	visible = Engine.is_editor_hint() or CastInputPanel.is_known(spell)
 	var text: String
 	if _casting:
 		text = release_text if _sequence_complete else draw_text
 		text = text.replace("{HOLD}", "{%s}" % CastInputPanel.HOLD_LABELS[_active_slot])
+	elif _spell_slot >= 0:
+		text = equipped_text.replace("{FIRE}", "{%s}" % CastInputPanel.FIRE_LABELS[_spell_slot])
 	else:
-		if true in _equipped_slots: text = equipped_text_single if single else equipped_text
-		else: text = prepare_text_single if single else prepare_text
+		text = prepare_text.replace("{HOLD}", _prepare_holds())
+		if _prior_spells() > 0: text += "\n" + slots_text
+	text = text.replace("{GLYPHS}", _glyphs())
 	if text == _shown_text: return
 	_shown_text = text
 	_build(text)
+
+
+func _prior_spells() -> int:
+	if Engine.is_editor_hint(): return 0
+	return CastInputPanel.known_spells.size() - 1
+
+
+func _prepare_holds() -> String:
+	if _prior_spells() <= 0: return "{%s}" % CastInputPanel.HOLD_LABELS[0]
+	return "{%s} or {%s}" % CastInputPanel.HOLD_LABELS
+
+
+func _glyphs() -> String:
+	var tokens: PackedStringArray = []
+	for action in CastInputPanel.SPELL_SEQUENCES.get(spell, []):
+		tokens.append("{%s}" % ACTION_GLYPHS[action])
+	return " ".join(tokens)
 
 
 func _build(template: String) -> void:

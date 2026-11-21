@@ -337,9 +337,8 @@ position = Vector2(128, 80)
 
 [node name="EnemyChallenge" type="Area2D" parent="DetectionAreas" unique_id=206246964 node_paths=PackedStringArray("spawn_points", "doors")]
 script = ExtResource("6_yrhti")
-spawn_points = [NodePath("Spawn"), NodePath("Spawn"), NodePath("Spawn2"), NodePath("Spawn3")]
+spawn_points = [NodePath("Spawn"), NodePath("Spawn2"), NodePath("Spawn3")]
 doors = [NodePath("../../Doors/DoorDown")]
-shielded = false
 enemy_scene = ExtResource("14_ugnq6")
 save_id = "MissileBattle"
 metadata/_edit_group_ = true

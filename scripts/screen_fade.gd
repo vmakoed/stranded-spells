@@ -6,6 +6,10 @@ var alpha: float:
 	get: return _rect.color.a
 	set(value): _rect.color.a = value
 
+var color: Color:
+	get: return Color(_rect.color, 1.0)
+	set(value): _rect.color = Color(value, _rect.color.a)
+
 
 var _rect: ColorRect
 
