@@ -369,29 +369,17 @@ position = Vector2(-40, -16)
 tile_map_data = PackedByteArray("AAABAAIAAQABAAMAAAABAAMAAQABAAMAAAABAAQAAQABAAMAAAABAAAAAQACAAEAAAABAAEAAQABAAMAAAACAAAAAQACAAMAAFADAAAAAQADAAEAAAADAAQAAQABAAMAAAADAAMAAQABAAMAAAADAAIAAQABAAMAAAADAAEAAQABAAMAAAADAAUAAQABAAMAAAABAAUAAQABAAMAAAABAAcAAQACAAIAAAACAAcAAQACAAMAAFADAAcAAQADAAIAAAADAAYAAQABAAMAAAABAAYAAQABAAMAAAA=")
 tile_set = ExtResource("8_ay6b7")
 
-[node name="CenterDoorLock" type="Node2D" parent="Items" unique_id=2127128285]
+[node name="ArrowTrapLock" type="Node2D" parent="Items" unique_id=2127128285]
 position = Vector2(48, 24)
 
-[node name="Wire" type="TileMapLayer" parent="Items/CenterDoorLock" unique_id=517742318]
-position = Vector2(-48, -32)
-tile_map_data = PackedByteArray("AAAGAAMAAQAAAAMAAFA=")
+[node name="Wire" type="TileMapLayer" parent="Items/ArrowTrapLock" unique_id=517742318]
+position = Vector2(-80, -56)
+tile_map_data = PackedByteArray("AAAGAAMAAQAAAAMAAFAHAAMAAQABAAEAAAAHAAQAAQAAAAMAAAA=")
 tile_set = ExtResource("8_ay6b7")
 
-[node name="ChallengeDoor" parent="Items/CenterDoorLock" unique_id=177496606 instance=ExtResource("4_apohd")]
-position = Vector2(60, 24)
-facing = 1
-closed = true
-
-[node name="PressurePlate" parent="Items/CenterDoorLock" unique_id=378155289 node_paths=PackedStringArray("wire") instance=ExtResource("7_l602w")]
+[node name="PressurePlate" parent="Items/ArrowTrapLock" unique_id=378155289 node_paths=PackedStringArray("wire") instance=ExtResource("7_l602w")]
 position = Vector2(40, 24)
 wire = NodePath("../Wire")
-
-[node name="DoorLock" type="Node2D" parent="Items/CenterDoorLock" unique_id=921052304 node_paths=PackedStringArray("plates", "doors")]
-position = Vector2(-48, -24)
-script = ExtResource("9_i7lqs")
-plates = [NodePath("../PressurePlate")]
-doors = [NodePath("../ChallengeDoor")]
-save_id = "shield_no_return_door"
 
 [node name="RightPathDoorLock" type="Node2D" parent="Items" unique_id=837410948]
 

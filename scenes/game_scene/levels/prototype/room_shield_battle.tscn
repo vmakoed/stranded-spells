@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://1j4d4vlt5onq" path="res://scenes/torch.tscn" id="5_hn7p6"]
 [ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="7_2l1qd"]
 [ext_resource type="PackedScene" uid="uid://buy7lttmjn1ys" path="res://scenes/enemy_phantom.tscn" id="7_3in08"]
-[ext_resource type="Script" uid="uid://dnr67vue0wc0w" path="res://scripts/challenge.gd" id="7_ce7h4"]
 [ext_resource type="TileSet" uid="uid://b2cat6j3oqwsb" path="res://resources/trap_wire_tile_set.tres" id="8_fp7gq"]
 [ext_resource type="PackedScene" uid="uid://dpcbhpp6q87hi" path="res://scenes/player_character.tscn" id="9_1y8uf"]
 [ext_resource type="Script" uid="uid://dd2g374y7248h" path="res://scripts/door_lock.gd" id="9_hn7p6"]
@@ -16,6 +15,7 @@
 [ext_resource type="Shader" uid="uid://qork5vdhnrpy" path="res://assets/shaders/recolor.gdshader" id="11_3emwp"]
 [ext_resource type="Texture2D" uid="uid://d17l3xcfuqe4q" path="res://assets/textures/magic-circl-v2.png" id="12_oeeee"]
 [ext_resource type="Texture2D" uid="uid://do3ax0uho35yx" path="res://assets/textures/magic-circle-mini-v1.png" id="13_14at6"]
+[ext_resource type="Script" uid="uid://c5c1ethef3q6c" path="res://scripts/enemy_lock.gd" id="16_2l1qd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1onhq"]
 size = Vector2(32, 3.2000003)
@@ -23,8 +23,17 @@ size = Vector2(32, 3.2000003)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iphhf"]
 size = Vector2(32, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ce7h4"]
+size = Vector2(192, 16)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_63rm5"]
-size = Vector2(176, 16)
+size = Vector2(192, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l1qd"]
+size = Vector2(16, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fp7gq"]
+size = Vector2(16, 96)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6oa77"]
 shader = ExtResource("11_3emwp")
@@ -108,6 +117,10 @@ closed = true
 z_index = 1
 position = Vector2(228, 80)
 facing = 1
+closed = true
+
+[node name="ChallengeDoor" parent="Doors" unique_id=1429006190 instance=ExtResource("4_fp7gq")]
+position = Vector2(208, 56)
 closed = true
 
 [node name="Exits" type="Node2D" parent="." unique_id=1063234220]
@@ -222,35 +235,41 @@ wire = NodePath("../Wire")
 
 [node name="Wire" type="TileMapLayer" parent="Items/RightDoorLock" unique_id=470868724]
 position = Vector2(-248, -56)
-tile_map_data = PackedByteArray("AAAPAAQAAQAAAAMAAAAPAAUAAQAAAAIAAAAQAAUAAQAAAAMAAFA=")
+tile_map_data = PackedByteArray("AAAPAAQAAQAAAAMAAAAPAAUAAQAAAAIAAAAQAAUAAQAAAAMAAFAOAAMAAQAAAAMAAFANAAMAAQAAAAMAAFAMAAMAAQAAAAMAAFALAAMAAQAAAAIAAAA=")
 tile_set = ExtResource("8_fp7gq")
 
 [node name="DoorLock" type="Node2D" parent="Items/RightDoorLock" unique_id=1287495460 node_paths=PackedStringArray("plates", "doors")]
 script = ExtResource("9_hn7p6")
 plates = [NodePath("../PressurePlate")]
-doors = [NodePath("../../../Doors/DoorRight")]
+doors = [NodePath("../../../Doors/DoorRight"), NodePath("../../../Doors/DoorUp")]
 save_id = "RightDoorLock"
-
-[node name="ChallengeDoor" parent="Items" unique_id=1429006190 instance=ExtResource("4_fp7gq")]
-position = Vector2(208, 56)
-closed = true
 
 [node name="DetectionAreas" type="Node2D" parent="." unique_id=1135695816]
 position = Vector2(128, 80)
 
-[node name="EnemyChallenge" type="Area2D" parent="DetectionAreas" unique_id=114349061 node_paths=PackedStringArray("spawn_points", "doors")]
-script = ExtResource("7_ce7h4")
-spawn_points = [NodePath("Spawn")]
-doors = [NodePath("../../Doors/DoorUp"), NodePath("../../Items/ChallengeDoor")]
-enemy_scene = ExtResource("7_3in08")
-save_id = "ShieldBattle"
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyChallenge" unique_id=155929865]
+[node name="EnemyDetectionAreaDown" type="Area2D" parent="DetectionAreas" unique_id=1253101843]
 position = Vector2(0, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaDown" unique_id=2108354306]
+shape = SubResource("RectangleShape2D_ce7h4")
+
+[node name="EnemyDetectionAreaTop" type="Area2D" parent="DetectionAreas" unique_id=1876166161]
+position = Vector2(0, -40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaTop" unique_id=55843750]
 shape = SubResource("RectangleShape2D_63rm5")
 
-[node name="Spawn" type="Marker2D" parent="DetectionAreas/EnemyChallenge" unique_id=2122934877]
+[node name="EnemyDetectionAreaLeft" type="Area2D" parent="DetectionAreas" unique_id=315125255]
+position = Vector2(-88, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaLeft" unique_id=323929055]
+shape = SubResource("RectangleShape2D_2l1qd")
+
+[node name="EnemyDetectionAreaRight" type="Area2D" parent="DetectionAreas" unique_id=1595482108]
+position = Vector2(88, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionAreas/EnemyDetectionAreaRight" unique_id=1621835305]
+shape = SubResource("RectangleShape2D_fp7gq")
 
 [node name="PlayerCharacter" parent="." unique_id=745586083 instance=ExtResource("9_1y8uf")]
 unique_name_in_owner = true
@@ -290,7 +309,23 @@ material = SubResource("ShaderMaterial_pghxy")
 position = Vector2(-15, 0)
 texture = ExtResource("13_14at6")
 
+[node name="PhantomLock" type="Node2D" parent="." unique_id=952097935]
+position = Vector2(128, 80)
+
+[node name="EnemyPhantom" parent="PhantomLock" unique_id=1305259711 instance=ExtResource("7_3in08")]
+
+[node name="EnemyLock" type="Node2D" parent="PhantomLock" unique_id=986393422 node_paths=PackedStringArray("enemies", "door")]
+position = Vector2(-128, -80)
+script = ExtResource("16_2l1qd")
+enemies = [NodePath(""), NodePath(""), NodePath("../EnemyPhantom")]
+door = NodePath("../../Doors/ChallengeDoor")
+save_id = "EnemyLock"
+
 [connection signal="body_entered" from="Exits/ExitUpArea" to="." method="_on_exit_up_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitDownArea" to="." method="_on_exit_down_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitLeftArea" to="." method="_on_exit_left_area_body_entered"]
 [connection signal="body_entered" from="Exits/ExitRightArea" to="." method="_on_exit_right_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaDown" to="." method="_on_enemy_detection_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaTop" to="." method="_on_enemy_detection_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaLeft" to="." method="_on_enemy_detection_area_body_entered"]
+[connection signal="body_entered" from="DetectionAreas/EnemyDetectionAreaRight" to="." method="_on_enemy_detection_area_body_entered"]
